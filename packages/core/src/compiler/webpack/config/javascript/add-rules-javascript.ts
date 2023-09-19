@@ -4,7 +4,7 @@ import { getPlugins, env, presets } from './babel/babelrc.config';
 import { ApplyOpts } from '../types';
 
 export async function addJavaScriptRules(applyOpts: ApplyOpts) {
-  const { rootPath } = esbootConfig.runtimeCfg;
+  const { rootPath } = esbootConfig.compileTimeCfg;
 
   const {
     config,

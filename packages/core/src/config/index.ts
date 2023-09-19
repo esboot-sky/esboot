@@ -4,11 +4,11 @@ import { Environment } from '@@webpack/config/environment';
 import { USER_CONFIG_FILE } from '@@/constants';
 
 import { defaultUserOpts } from './default-user-opts';
-import runtimeConfig from './runtime-config';
+import compileTimeCfg from './compile-time-config';
 
 export default new (class ESbootConfig {
   userOpts: any = {};
-  runtimeCfg: any = {
+  compileTimeCfg: any = {
     entry: [],
   };
 
@@ -18,7 +18,7 @@ export default new (class ESbootConfig {
     }
 
     const { default: getCustomOpts, afterHooks } = require(USER_CONFIG_FILE);
-    const customOpts = isFunction(getCustomOpts) ? getCustomOpts(this.runtimeCfg) : getCustomOpts;
+    const customOpts = isFunction(getCustomOpts) ? getCustomOpts(this.compileTimeCfg) : getCustomOpts;
 
     const isDev = process.env.NODE_ENV === Environment.dev;
     const publicPath = isDev ? '/' : './';
@@ -33,13 +33,13 @@ export default new (class ESbootConfig {
     this.userOpts = config;
   };
 
-  initRuntimeCfg = () => {
-    runtimeConfig.init();
-    this.runtimeCfg = runtimeConfig;
+  initCompileTimeCfg = () => {
+    compileTimeCfg.init();
+    this.compileTimeCfg = compileTimeCfg;
   };
 
   init = () => {
-    this.initRuntimeCfg();
+    this.initCompileTimeCfg();
     this.initUserConfig();
   };
 })();

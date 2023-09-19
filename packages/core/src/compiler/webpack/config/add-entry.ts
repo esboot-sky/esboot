@@ -14,8 +14,8 @@ interface EntryFileExportProps {
 }
 
 export const addEntry = async (applyOpts: ApplyOpts) => {
-  const { rootPath, platform, pageType, configRootPathOfPlatfrom } =
-    esbootConfig.runtimeCfg;
+  const { rootPath, platform, pageType, configRootPathOfPlatfrom, ipv4 } =
+    esbootConfig.compileTimeCfg;
 
   const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } =
     process.env;
@@ -32,7 +32,7 @@ export const addEntry = async (applyOpts: ApplyOpts) => {
     root: join(rootPath, content_path),
   });
 
-  esbootConfig.runtimeCfg.entry = [];
+  esbootConfig.compileTimeCfg.entry = [];
 
   files.forEach((file: string, index) => {
     const { title, template, name } =
@@ -47,11 +47,12 @@ export const addEntry = async (applyOpts: ApplyOpts) => {
       `template/${template || 'index'}.html`
     );
 
-    esbootConfig.runtimeCfg.entry.push({
+    esbootConfig.compileTimeCfg.entry.push({
       tpl: ensureTpl,
-      chunkName,
+      // chunkName,
       filename,
       title: ensureTitle,
+      url: `http://${ipv4}:${port}/${chunkName}.html`,
     });
 
     config.entry[chunkName] = file;
