@@ -1,8 +1,11 @@
 {
   "name": "@dz-web/esboot",
-  "version": "2.4.9",
+  "version": "2.5.1",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "webpack",
+    "react"
+  ],
   "license": "ISC",
   "author": "Roc",
   "main": "dist/index.js",

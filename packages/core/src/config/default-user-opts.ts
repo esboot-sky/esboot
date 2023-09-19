@@ -1,6 +1,6 @@
 import { DEFAULT_DEV_PORT } from '@@/constants';
 import type { UserOpts } from './types';
-import { JsMinifier, CSSMinifier } from './types';
+import { JsMinifier, CSSMinifier, CodeSplittingType } from './types';
 
 export const defaultUserOpts = {
   mfsu: true,
@@ -20,6 +20,10 @@ export const defaultUserOpts = {
   jsMinifierOptions: {},
   cssMinifier: CSSMinifier.cssnano,
   cssMinifierOptions: {},
+  codeSplitting: {
+    jsStrategy: CodeSplittingType.granularChunks,
+    jsStrategyOptions: {},
+  },
   alias: {
     '@': 'src',
     '@mobile': 'src/platforms/mobile',

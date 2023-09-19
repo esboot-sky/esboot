@@ -42,13 +42,12 @@ export const addEntry = async (applyOpts: ApplyOpts) => {
     const filename = basename(file, '.entry.tsx');
     const chunkName = name || filename;
     const ensureTitle = title || filename || 'ESboot APP';
-    const ensureTpl = join(
-      configRootPathOfPlatfrom,
-      `template/${template || 'index'}.html`
-    );
+    const tplRelativePath = `template/${template || 'index'}.html`;
+    const ensureTpl = join(configRootPathOfPlatfrom, tplRelativePath);
 
     esbootConfig.compileTimeCfg.entry.push({
-      tpl: ensureTpl,
+      tpl: tplRelativePath,
+      entry: file,
       // chunkName,
       filename,
       title: ensureTitle,

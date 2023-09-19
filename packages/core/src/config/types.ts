@@ -17,6 +17,16 @@ export enum CSSMinifier {
   none = 'none',
 }
 
+export enum CodeSplittingType {
+  bigVendors = 'bigVendors',
+  depPerChunk = 'depPerChunk',
+  granularChunks = 'granularChunks',
+}
+
+export interface jsStrategyForGranularChunksOptions {
+  frameworkBundles: string[];
+}
+
 export interface Px2rem {
   enable?: boolean;
   rootValue?: number | Record<string, number>;
@@ -53,6 +63,10 @@ export type UserOpts = {
   cssMinifierOptions?: any;
   alias?: Record<string, string>;
   define?: Record<string, string>;
+  codeSplitting?: {
+    jsStrategy: CodeSplittingType;
+    jsStrategyOptions: jsStrategyForGranularChunksOptions | Record<string, any>;
+  };
 } & Pick<
   DevServerConfiguration,
   'https' | 'http2' | 'open' | 'host' | 'proxy' | 'port'
