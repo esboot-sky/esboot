@@ -81,11 +81,18 @@ export const addOptimization = async (applyOpts: ApplyOpts) => {
     const { frameworkBundles } = jsStrategyOptions;
 
     const FRAMEWORK_BUNDLES = [
+      // React Series
       'react-dom',
       'react',
-      'history',
+      'react-intl',
       'react-router',
       'react-router-dom',
+      'classnames',
+      //
+      'lodash',
+      'dayjs',
+      'zustand',
+      '@loadable/component',
       ...frameworkBundles,
     ];
 

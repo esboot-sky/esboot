@@ -139,6 +139,37 @@ copy: [
 - file.json
 ```
 
+## codeSplitting
+
+`v2.5.0`
+
+参考[codesplitting](https://umijs.org/docs/api/config#codesplitting)，配置完全相同，除了`jsStrategyOptions`。
+
+在`granularChunks`模式下：
+
+```ts
+interface JsStrategyOptions {
+  // 加入此数组中的库，才会被打包到公共的依赖中。
+  frameworkBundles: string[];
+}
+
+// frameworkBundles的默认值为
+ const FRAMEWORK_BUNDLES = [
+      // React Series
+      'react-dom',
+      'react',
+      'react-intl',
+      'react-router',
+      'react-router-dom',
+      'classnames',
+      //
+      'lodash',
+      'dayjs',
+      'zustand',
+      '@loadable/component',
+    ];
+```
+
 ## proxy
 
 - 类型：`object`

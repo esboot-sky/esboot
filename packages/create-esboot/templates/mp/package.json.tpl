@@ -13,7 +13,7 @@
   "author": "{{{ author }}}",
   "license": "ISC",
   "dependencies": {
-    "@dz-web/bridge": "^2.1.0",
+    "@dz-web/bridge": "^2.2.8",
     "@dz-web/o-orange": "^3.7.11",
     "@dz-web/request": "^0.1.10",
     "@loadable/component": "^5.15.3",
@@ -31,7 +31,7 @@
     "zustand": "^4.3.8"
   },
   "devDependencies": {
-    "@dz-web/esboot": "^2.4.1",
+    "@dz-web/esboot": "^2.5.2",
     "@types/node": "^20.5.9",
     "@types/react": "18.2.14",
     "@types/react-dom": "^18.2.6",
