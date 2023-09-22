@@ -1,10 +1,7 @@
 # v2 RoadMap
 
-- [ ] wins上面Bridge mock 端口无效
-- [ ] 兼容多平台
 - [ ] 写文档
   - [ ] 创建完整demo
-- [ ] 支持alias
 
 - [ ] 添加错误捕捉
 - [ ] 添加启动器

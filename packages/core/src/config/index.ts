@@ -1,4 +1,4 @@
-import { merge, isFunction } from 'lodash';
+import { merge, isFunction, pick } from 'lodash';
 
 import { Environment } from '@@webpack/config/environment';
 import { USER_CONFIG_FILE } from '@@/constants';
@@ -17,14 +17,19 @@ export default new (class ESbootConfig {
       delete require.cache[require.resolve(USER_CONFIG_FILE)];
     }
 
+    const { isSP } = this.compileTimeCfg;
     const { default: getCustomOpts, afterHooks } = require(USER_CONFIG_FILE);
     const customOpts = isFunction(getCustomOpts) ? getCustomOpts(this.compileTimeCfg) : getCustomOpts;
 
     const isDev = process.env.NODE_ENV === Environment.dev;
     const publicPath = isDev ? '/' : './';
+    const _defaultUserOpts: any = defaultUserOpts;
+    if (isSP) {
+      _defaultUserOpts.alias = pick(_defaultUserOpts.alias, ['@']);
+    }
 
     const config = merge(
-      defaultUserOpts,
+      _defaultUserOpts,
       { publicPath, afterHooks },
       customOpts
     );

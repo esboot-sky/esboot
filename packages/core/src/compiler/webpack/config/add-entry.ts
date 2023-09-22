@@ -14,13 +14,13 @@ interface EntryFileExportProps {
 }
 
 export const addEntry = async (applyOpts: ApplyOpts) => {
-  const { rootPath, platform, pageType, configRootPathOfPlatfrom, ipv4 } =
+  const { rootPath, platform, pageType, configRootPathOfPlatfrom, ipv4, isSP } =
     esbootConfig.compileTimeCfg;
 
   const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } =
     process.env;
 
-  const contentRootPath = `./platforms/${platform}/_${pageType}`;
+  const contentRootPath = isSP ? './' : `./platforms/${platform}/_${pageType}`;
 
   const {
     config,

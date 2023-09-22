@@ -54,7 +54,8 @@ enum ENpmClient {
 }
 
 enum ETemplate {
-  'mp' = 'mp'
+  'mp' = 'mp',
+  'sp' = 'sp'
   // app = 'app',
   // max = 'max',
   // vueApp = 'vue-app',
