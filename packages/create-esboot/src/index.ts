@@ -112,6 +112,7 @@ export default async ({
       message: 'Pick ESBoot App Template',
       options: [
         { label: 'React Mulit Platform App', value: ETemplate.mp },
+        { label: 'React Single Platform App', value: ETemplate.sp },
       ],
       initialValue: ETemplate.mp,
     })) as ETemplate;
