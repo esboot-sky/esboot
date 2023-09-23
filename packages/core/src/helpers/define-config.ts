@@ -1,9 +1,8 @@
 import { UserOpts } from '@@/config/types';
-import compileTimeConfig from '@@/config/compile-time-config';
-import { ExcludeFunctions } from './type';
+import { CompileTimeConfig } from '@@/config/compile-time-config';
 
 type Config =
-  | ((compileTimeCfg: ExcludeFunctions<typeof compileTimeConfig>) => UserOpts)
+  | ((compileTimeConfig: CompileTimeConfig) => UserOpts)
   | UserOpts;
 
 function defineConfig(config: Config): Config {

@@ -10,7 +10,7 @@ export const addCopyPlugin = async (applyOpts: ApplyOpts) => {
     configRootPathOfPlatfrom,
     configRootPathOfPageType,
     configJSPath,
-  } = esbootConfig.compileTimeCfg;
+  } = esbootConfig.compileTimeConfig;
   const {
     config,
     userOpts: { copy = [] },

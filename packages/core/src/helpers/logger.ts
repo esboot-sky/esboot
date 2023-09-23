@@ -42,7 +42,7 @@ export function debug(...message: any[]) {
 }
 
 export function logBrand(...message: any[]) {
-  const { version } = esbootConfig.compileTimeCfg;
+  const { version } = esbootConfig.compileTimeConfig;
 
   // console.log(
   //   `🚀 ${kleur.bold().bgGreen().black('  ESBoot  ')} v${version} \n`

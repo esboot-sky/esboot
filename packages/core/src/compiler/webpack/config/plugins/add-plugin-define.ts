@@ -4,7 +4,7 @@ import esbootConfig from '@@/config';
 import { ApplyOpts } from '../types';
 
 export const addDefinePlugin = async (applyOpts: ApplyOpts) => {
-  const { version } = esbootConfig.compileTimeCfg;
+  const { version } = esbootConfig.compileTimeConfig;
 
   const { config, userOpts: { define = {} } } = applyOpts;
 

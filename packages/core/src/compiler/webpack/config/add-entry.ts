@@ -14,25 +14,22 @@ interface EntryFileExportProps {
 }
 
 export const addEntry = async (applyOpts: ApplyOpts) => {
-  const { rootPath, platform, pageType, configRootPathOfPlatfrom, ipv4, isSP } =
-    esbootConfig.compileTimeCfg;
+  const { contentRootPath, configRootPathOfPlatfrom, ipv4 } =
+    esbootConfig.compileTimeConfig;
 
   const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } =
     process.env;
-
-  const contentRootPath = isSP ? './' : `./platforms/${platform}/_${pageType}`;
 
   const {
     config,
     isDev,
     userOpts: { port },
   } = applyOpts;
-  const content_path = join(contentRootPath, ESBOOT_CONTENT_PATH);
   const files = await glob(`/**/${ESBOOT_CONTENT_PATTERN}.entry.tsx`, {
-    root: join(rootPath, content_path),
+    root: join(contentRootPath, ESBOOT_CONTENT_PATH),
   });
 
-  esbootConfig.compileTimeCfg.entry = [];
+  esbootConfig.compileTimeConfig.entry = [];
 
   files.forEach((file: string, index) => {
     const { title, template, name } =
@@ -45,7 +42,7 @@ export const addEntry = async (applyOpts: ApplyOpts) => {
     const tplRelativePath = `template/${template || 'index'}.html`;
     const ensureTpl = join(configRootPathOfPlatfrom, tplRelativePath);
 
-    esbootConfig.compileTimeCfg.entry.push({
+    esbootConfig.compileTimeConfig.entry.push({
       tpl: tplRelativePath,
       entry: file,
       // chunkName,

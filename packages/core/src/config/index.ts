@@ -4,28 +4,27 @@ import { Environment } from '@@webpack/config/environment';
 import { USER_CONFIG_FILE } from '@@/constants';
 
 import { defaultUserOpts } from './default-user-opts';
-import compileTimeCfg from './compile-time-config';
+import { UserOpts } from './types';
+import compileTimeConfig, { CompileTimeConfig } from './compile-time-config';
 
 export default new (class ESbootConfig {
-  userOpts: any = {};
-  compileTimeCfg: any = {
-    entry: [],
-  };
+  userOpts: any = defaultUserOpts;
+  compileTimeConfig: CompileTimeConfig = compileTimeConfig.config;
 
   initUserConfig = (reload = false) => {
     if (reload) {
       delete require.cache[require.resolve(USER_CONFIG_FILE)];
     }
 
-    const { isSP } = this.compileTimeCfg;
+    const { isSP } = this.compileTimeConfig;
     const { default: getCustomOpts, afterHooks } = require(USER_CONFIG_FILE);
-    const customOpts = isFunction(getCustomOpts) ? getCustomOpts(this.compileTimeCfg) : getCustomOpts;
+    const customOpts = isFunction(getCustomOpts) ? getCustomOpts(this.compileTimeConfig) : getCustomOpts;
 
     const isDev = process.env.NODE_ENV === Environment.dev;
     const publicPath = isDev ? '/' : './';
-    const _defaultUserOpts: any = defaultUserOpts;
+    const _defaultUserOpts: UserOpts = defaultUserOpts;
     if (isSP) {
-      _defaultUserOpts.alias = pick(_defaultUserOpts.alias, ['@']);
+      _defaultUserOpts.alias = pick(_defaultUserOpts.alias, ['@']) as Record<string, string>;
     }
 
     const config = merge(
@@ -39,8 +38,8 @@ export default new (class ESbootConfig {
   };
 
   initCompileTimeCfg = () => {
-    compileTimeCfg.init();
-    this.compileTimeCfg = compileTimeCfg;
+    compileTimeConfig.init();
+    this.compileTimeConfig = compileTimeConfig.config;
   };
 
   init = () => {

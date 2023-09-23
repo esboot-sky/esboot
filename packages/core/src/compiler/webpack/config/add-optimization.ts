@@ -78,7 +78,7 @@ export const addOptimization = async (applyOpts: ApplyOpts) => {
   let splitChunks = {};
 
   if (jsStrategy === CodeSplittingType.granularChunks) {
-    const { frameworkBundles } = jsStrategyOptions;
+    const { frameworkBundles = [] } = jsStrategyOptions;
 
     const FRAMEWORK_BUNDLES = [
       // React Series
