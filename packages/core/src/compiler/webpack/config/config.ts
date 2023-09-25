@@ -96,7 +96,14 @@ const getWebpackConfig = async (opts: IOpts) => {
   // Fun
   await addCache(applyOpts);
 
-  const { externals = {}, devtool, customWebpack, analyze } = userOpts;
+  const {
+    externals = {},
+    devtool = DEFAULT_DEVTOOL,
+    customWebpack,
+    analyze,
+  } = userOpts;
+
+  // RestPlugins
   const restPlugins: any[] = [
     new webpackbar({
       name: 'ESBoot',
@@ -116,33 +123,17 @@ const getWebpackConfig = async (opts: IOpts) => {
       ].filter(Boolean) as any[],
     }),
     isDev && new ReactRefreshWebpackPlugin(),
-  ].filter(Boolean);
-
-  config.plugins.push(...restPlugins);
-  Object.assign(config, {
-    mode: isDev ? Environment.dev : Environment.prod,
-    performance: {
-      hints: isDev ? false : 'warning',
-    },
-    externals,
-  });
-
-  if (devtool) {
-    config.devtool = config.devtool;
-  } else if (isDev) {
-    config.devtool = DEFAULT_DEVTOOL;
-  }
-
-  // prod
-  if (!isDev) {
-    config.plugins.push(
+    !isDev &&
       new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:5].css',
         chunkFilename: 'css/[id].[contenthash:5].css',
-      })
-    );
-  } else {
-    // dev
+      }),
+  ].filter(Boolean);
+
+  config.plugins.push(...restPlugins);
+
+  // Other Config
+  if (isDev) {
     Object.assign(config, {
       stats: 'errors-only',
       infrastructureLogging: {
@@ -150,6 +141,15 @@ const getWebpackConfig = async (opts: IOpts) => {
       },
     });
   }
+
+  Object.assign(config, {
+    mode: isDev ? Environment.dev : Environment.prod,
+    performance: {
+      hints: isDev ? false : 'warning',
+    },
+    externals,
+    devtool,
+  });
 
   if (mfsu) await mfsu.setWebpackConfig({ config } as any);
   return customWebpack ? customWebpack(config, applyOpts) : config;
