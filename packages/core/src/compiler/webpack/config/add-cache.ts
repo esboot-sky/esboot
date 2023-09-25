@@ -1,9 +1,8 @@
 import { merge } from 'lodash';
-import { resolve } from 'path';
 import { USER_CONFIG_FILE, webpackCacheDir } from '@@/constants';
 
 export const addCache = async (applyOpts: any) => {
-  const { config, isDev, cwd } = applyOpts;
+  const { config, isDev } = applyOpts;
 
   if (isDev) return;
 

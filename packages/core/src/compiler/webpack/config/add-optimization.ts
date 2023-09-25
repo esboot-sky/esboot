@@ -158,8 +158,6 @@ export const addOptimization = async (applyOpts: ApplyOpts) => {
                 }, '')
               )
               .digest('base64')
-              // replace `+=/` that may be escaped in the url
-              // https://github.com/umijs/umi/issues/9845
               .replace(/\//g, '')
               .replace(/\+/g, '-')
               .replace(/=/g, '_');

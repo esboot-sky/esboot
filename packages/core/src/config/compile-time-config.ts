@@ -2,6 +2,8 @@ import { resolve, join } from 'path';
 import address from 'address';
 import { pick, merge } from 'lodash';
 
+import type { ObjectPattern } from 'copy-webpack-plugin';
+
 const pkg = require('../../package.json');
 
 export enum PROJECT_TYPE {
@@ -35,6 +37,7 @@ export interface CompileTimeConfig {
   ipv4: string;
   version: string;
   entry: Record<string, string>[];
+  staticPathList: ObjectPattern[];
 }
 
 export default new (class CCompileTimeConfig {
@@ -55,6 +58,7 @@ export default new (class CCompileTimeConfig {
     ipv4: 'localhost',
     version: '',
     entry: [],
+    staticPathList: [],
   };
 
   init = () => {
@@ -84,16 +88,34 @@ export default new (class CCompileTimeConfig {
 
     // Single Platform Config
     if (ESBOOT_PROJECT_TYPE === PROJECT_TYPE.SP) {
-      Object.assign(this.config, {
+      const configJSPath = `${configRootPath}/config.js`;
+      const staticPathList = [
+        {
+          from: configJSPath as string,
+          to: './config.js',
+        },
+        {
+          from: `${configRootPath}/static`,
+          to: './static',
+        },
+      ] satisfies ObjectPattern[];
+
+      const spConfig = {
         contentRootPath: rootPath,
         isSP: true,
         configRootPathOfPlatfrom: configRootPath,
         configRootPathOfPageType: configRootPath,
-        configJSPath: `${configRootPath}/config.js`,
+        configJSPath,
+        staticPathList,
         ...common,
-      } satisfies CompileTimeConfig);
+      } satisfies CompileTimeConfig;
 
+      Object.assign(this.config, spConfig);
       return;
+    }
+
+    if (NODE_ENV === 'production') {
+      process.env.BROWSERSLIST_ENV = `${ESBOOT_PLATFORM}-${ESBOOT_PAGE_TYPE}-production`;
     }
 
     // Multi Platform Config
@@ -103,11 +125,27 @@ export default new (class CCompileTimeConfig {
       `_${ESBOOT_PAGE_TYPE}`
     );
 
-    if (NODE_ENV === 'production') {
-      process.env.BROWSERSLIST_ENV = `${ESBOOT_PLATFORM}-${ESBOOT_PAGE_TYPE}-production`;
-    }
+    const configJSPath = `${configRootPathOfPageType}/config.js`;
+    const staticPathList = [
+      {
+        from: configJSPath,
+        to: './config.js',
+      },
+      {
+        from: `${configRootPathOfPageType}/static`,
+        to: './static',
+      },
+      {
+        from: `${configRootPathOfPlatfrom}/static`,
+        to: './static',
+      },
+      {
+        from: `${configRootPath}/static`,
+        to: './static',
+      },
+    ] satisfies ObjectPattern[];
 
-    Object.assign(this.config, {
+    const mpConfig = {
       isSP: false,
       contentRootPath: join(
         rootPath,
@@ -115,8 +153,11 @@ export default new (class CCompileTimeConfig {
       ),
       configRootPathOfPlatfrom,
       configRootPathOfPageType,
-      configJSPath: `${configRootPathOfPageType}/config.js`,
+      configJSPath,
+      staticPathList,
       ...common,
-    } satisfies CompileTimeConfig);
+    } satisfies CompileTimeConfig;
+
+    Object.assign(this.config, mpConfig);
   };
 })();

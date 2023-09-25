@@ -35,7 +35,7 @@ export function register(opts: { implementor: any; exts?: string[] }) {
       {
         ext: opts.exts || HOOK_EXTS,
         ignoreNodeModules: true,
-      },
+      }
     );
     registered = true;
   }

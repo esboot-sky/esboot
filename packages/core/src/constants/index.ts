@@ -1,9 +1,6 @@
 import { resolve, join } from 'path';
 
-export const USER_CONFIG_FILE = resolve(
-  process.cwd(),
-  './.esbootrc.ts'
-);
+export const USER_CONFIG_FILE = resolve(process.cwd(), './.esbootrc.ts');
 
 export const DEFAULT_DEVTOOL = 'cheap-module-source-map';
 export const DEFAULT_OUTPUT_PATH = 'dist';

@@ -3,7 +3,10 @@ import esbootConfig from '@@/config';
 import type { UserOpts } from '@@/config/types';
 
 export const addResolve = async (applyOpts: any) => {
-  const { config, userOpts: { alias } } = applyOpts;
+  const {
+    config,
+    userOpts: { alias },
+  } = applyOpts;
 
   const customAlias: UserOpts['alias'] = {};
 

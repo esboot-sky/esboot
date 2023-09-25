@@ -18,13 +18,18 @@ export default new (class ESbootConfig {
 
     const { isSP } = this.compileTimeConfig;
     const { default: getCustomOpts, afterHooks } = require(USER_CONFIG_FILE);
-    const customOpts = isFunction(getCustomOpts) ? getCustomOpts(this.compileTimeConfig) : getCustomOpts;
+    const customOpts = isFunction(getCustomOpts)
+      ? getCustomOpts(this.compileTimeConfig)
+      : getCustomOpts;
 
     const isDev = process.env.NODE_ENV === Environment.dev;
     const publicPath = isDev ? '/' : './';
     const _defaultUserOpts: UserOpts = defaultUserOpts;
     if (isSP) {
-      _defaultUserOpts.alias = pick(_defaultUserOpts.alias, ['@']) as Record<string, string>;
+      _defaultUserOpts.alias = pick(_defaultUserOpts.alias, ['@']) as Record<
+        string,
+        string
+      >;
     }
 
     const config = merge(

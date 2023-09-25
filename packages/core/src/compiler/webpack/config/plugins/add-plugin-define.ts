@@ -6,7 +6,10 @@ import { ApplyOpts } from '../types';
 export const addDefinePlugin = async (applyOpts: ApplyOpts) => {
   const { version } = esbootConfig.compileTimeConfig;
 
-  const { config, userOpts: { define = {} } } = applyOpts;
+  const {
+    config,
+    userOpts: { define = {} },
+  } = applyOpts;
 
   const customDefine: Record<string, string> = {};
   for (const key in define) {

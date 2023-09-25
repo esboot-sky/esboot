@@ -1,7 +1,6 @@
 import { join } from 'path';
 import InjectBodyPlugin from 'inject-body-webpack-plugin';
 
-import ip from '@@/helpers/ip';
 import esbootConfig from '@@/config';
 
 import { ApplyOpts } from '../types';
@@ -12,7 +11,7 @@ const getVersion = () => {
 };
 
 export const addInjectBodyPlugin = async (applyOpts: ApplyOpts) => {
-  const { isBrowser } = esbootConfig.compileTimeConfig;
+  const { isBrowser, ipv4 } = esbootConfig.compileTimeConfig;
   const {
     config,
     isDev,
@@ -35,7 +34,7 @@ export const addInjectBodyPlugin = async (applyOpts: ApplyOpts) => {
       ${
         isInjectBridgeMock
           ? `<script>
-        window.brigeMockHost = "http://${process.env.BRIDGE_MOCK_HOST || ip}";
+        window.brigeMockHost = "http://${process.env.BRIDGE_MOCK_HOST || ipv4}";
         window.brigeMockPort = ${process.env.BRIDGE_MOCK_PORT || 3000};
         <\/script>`
           : ''

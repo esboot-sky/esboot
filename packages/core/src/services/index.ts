@@ -1,5 +1,4 @@
 import { join } from 'path';
-import fse from 'fs-extra';
 import { fork } from 'child_process';
 import { program } from 'commander';
 
@@ -132,7 +131,7 @@ export const run = () => {
   program.parse(process.argv);
 };
 
-// dead code
+// Dead Code
 export function forkScript(scriptPath: string) {
   const child = fork(scriptPath, {
     cwd,

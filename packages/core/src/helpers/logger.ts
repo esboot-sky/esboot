@@ -47,7 +47,5 @@ export function logBrand(...message: any[]) {
   // console.log(
   //   `🚀 ${kleur.bold().bgGreen().black('  ESBoot  ')} v${version} \n`
   // );
-  console.log(
-    `🚀 ${kleur.bold().magenta(`ESBoot v${version}`)}  \n`
-  );
+  console.log(`🚀 ${kleur.bold().magenta(`ESBoot v${version}`)}  \n`);
 }

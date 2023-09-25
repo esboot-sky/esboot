@@ -1,9 +1,7 @@
 import { ApplyOpts } from './types';
 
 export async function addAssetRules(applyOpts: ApplyOpts) {
-  const {
-    config,
-  } = applyOpts;
+  const { config } = applyOpts;
 
   config.module.rules.push(
     {

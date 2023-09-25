@@ -9,7 +9,6 @@
 - [ ] 支持generate命令
 
 - [ ] splitChunks
-- [ ] 支持多平台和单平台
 - [ ] 支持svgr
 - [ ] 增加单元测试
 - [ ] 增加UI测试

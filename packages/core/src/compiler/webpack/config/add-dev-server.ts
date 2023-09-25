@@ -1,4 +1,4 @@
-import type { Configuration as DevServerConfiguration } from "webpack-dev-server";
+import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 import address from 'address';
 import kleur from 'kleur';
 import { ready } from '@@/helpers/logger';
@@ -39,14 +39,18 @@ export const addDevServer = async (applyOpts: ApplyOpts) => {
         throw new Error('webpack-dev-server is not defined');
       }
 
-      const { port } = (devServerInstance.server?.address()) as any;
-      ready(`started server on [::]:${port}, url: ${kleur.underline().green(`http://${address.ip()}:${port}`)} \n`);
+      const { port } = devServerInstance.server?.address() as any;
+      ready(
+        `started server on [::]:${port}, url: ${kleur
+          .underline()
+          .green(`http://${address.ip()}:${port}`)} \n`
+      );
     },
     onAfterSetupMiddleware(devServerInstance) {
       if (!devServerInstance) {
         throw new Error('webpack-dev-server is not defined');
       }
-    }
+    },
   };
 
   config.devServer = devServer;

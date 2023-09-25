@@ -4,7 +4,6 @@ import { MFSU } from '@umijs/mfsu';
 import { noop } from 'lodash';
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 import { Environment } from '@@webpack/config/environment';
@@ -19,14 +18,14 @@ import { addJavaScriptRules } from '@@webpack/config/javascript/add-rules-javasc
 import { addCSSRules } from '@@webpack/config/add-rules-style';
 import { addAssetRules } from '@@webpack/config/add-rules-asset';
 
-// plugins
+// Plugins
 import { addInjectBodyPlugin } from '@@webpack/config/plugins/add-plugin-inject-body';
 import { addDefinePlugin } from '@@webpack/config/plugins/add-plugin-define';
 import { addCopyPlugin } from '@@webpack/config/plugins/add-plugin-copy';
 import { addForkTsCheckerWebpackPlugin } from '@@webpack/config/plugins/add-plugin-fork-ts-checker';
 import { addBundleAnalyzerPlugin } from '@@webpack/config/plugins/add-plugin-bundle-analyzer';
 
-// fun
+// Fun
 import { addCache } from '@@webpack/config/add-cache';
 
 import esbootConfig from '@@/config';
@@ -79,12 +78,12 @@ const getWebpackConfig = async (opts: IOpts) => {
   await addOutput(applyOpts);
   await addResolve(applyOpts);
 
-  // rules
+  // Rules
   await addJavaScriptRules(applyOpts);
   await addCSSRules(applyOpts);
   await addAssetRules(applyOpts);
 
-  // plugins
+  // Plugins
   await addInjectBodyPlugin(applyOpts);
   await addDefinePlugin(applyOpts);
   await addCopyPlugin(applyOpts);
@@ -94,7 +93,7 @@ const getWebpackConfig = async (opts: IOpts) => {
   await addOptimization(applyOpts);
   await addDevServer(applyOpts);
 
-  // fun
+  // Fun
   await addCache(applyOpts);
 
   const { externals = {}, devtool, customWebpack, analyze } = userOpts;
@@ -152,10 +151,7 @@ const getWebpackConfig = async (opts: IOpts) => {
     });
   }
 
-  if (mfsu) {
-    await mfsu.setWebpackConfig({ config } as any);
-  }
-
+  if (mfsu) await mfsu.setWebpackConfig({ config } as any);
   return customWebpack ? customWebpack(config, applyOpts) : config;
 };
 
