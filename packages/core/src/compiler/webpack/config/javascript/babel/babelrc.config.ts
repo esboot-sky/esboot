@@ -50,7 +50,7 @@ export const getPlugins = (alias: UserOpts['alias']) => {
       require.resolve('babel-plugin-module-resolver'),
       {
         alias: customAlias,
-        extensions: ['.ts', '.tsx'],
+        extensions: ['.ts', '.tsx', '.json'],
       },
     ],
   ];
