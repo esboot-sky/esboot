@@ -114,13 +114,16 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
     },
     {
       test: /\.scss$/,
-      exclude: globalScssPathList,
-      use: parseScssModule({ modules: true }),
-    },
-    {
-      test: /\.scss$/,
-      include: globalScssPathList,
-      use: parseScssModule({}),
+      oneOf: [
+        {
+          exclude: globalScssPathList,
+          use: parseScssModule({ modules: true }),
+        },
+        {
+          include: globalScssPathList,
+          use: parseScssModule({}),
+        },
+      ],
     }
   );
 }

@@ -215,6 +215,41 @@ proxy: {
 
 与[devServer.port](https://webpack.js.org/configuration/dev-server/#devserverport)一致。
 
+## svgr
+
+- 类型：`boolean`
+- 默认值：`true`
+
+开启[svgr](https://react-svgr.com/docs/webpack/)之后可以写成
+
+```tsx
+import svg from './assets/file.svg?url'
+import Svg from './assets/file.svg'
+
+const App = () => {
+  return (
+    <div>
+      <img src={svg} width="200" height="200" />
+      <Svg width="200" height="200" viewBox="0 0 3500 3500" />
+    </div>
+  )
+}
+```
+
+## svgrOptions
+
+- 默认值: 
+
+```ts
+{
+  icon: true,
+  typescript: true,
+  ext: 'tsx',
+}
+```
+
+参考[svgrOptions](https://react-svgr.com/docs/options/)
+
 ## TSChecker
 
 - 类型：`boolean`

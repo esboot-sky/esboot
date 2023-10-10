@@ -67,6 +67,8 @@ export type UserOpts = {
     jsStrategy: CodeSplittingType;
     jsStrategyOptions: jsStrategyForGranularChunksOptions | Record<string, any>;
   };
+  svgr?: boolean;
+  svgrOptions?: Record<string, any>;
 } & Pick<
   DevServerConfiguration,
   'https' | 'http2' | 'open' | 'host' | 'proxy' | 'port'

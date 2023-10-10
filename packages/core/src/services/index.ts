@@ -109,7 +109,7 @@ export const run = () => {
     .allowUnknownOption(true)
     .action(async () => {
       processPrepare();
-      await esbootConfig.initUserConfig();
+      await esbootConfig.init();
 
       generateAliasFiles();
     });

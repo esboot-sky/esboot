@@ -33,4 +33,5 @@ export const defaultUserOpts = {
     '@pc-native': 'src/platforms/pc/_native',
     '@pc-browser': 'src/platforms/pc/_browser',
   },
+  svgr: true,
 } satisfies UserOpts;
