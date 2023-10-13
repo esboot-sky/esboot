@@ -1,3 +1,6 @@
 {
-  "global.mobile.platform": "移動端"
+  "global.mobile.platform": "移動端",
+  "global.mobile.apologize": "抱歉，應用程式遇到了一些問題。",
+  "global.mobile.boundaryErrorTitle": "哎呀，出錯了！",
+  "global.mobile.retry": ""
 }

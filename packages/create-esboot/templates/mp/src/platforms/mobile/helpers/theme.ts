@@ -26,6 +26,12 @@ export const updateRootClass = (() => {
       classList.add(`${themePrefix}${theme}`);
 
       prevTheme = theme;
+
+      if (nextTheme === 'dark') {
+        document.documentElement.setAttribute('data-prefers-color-scheme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-prefers-color-scheme');
+      }
     }
   };
 })();

@@ -3,7 +3,7 @@ import { globalBlocker } from '@dz-web/axios-middlewares';
 import { Language, RaiseMode, DEFAULT_RAISE_MODE, supportedLanguage, DEFAULT_LANGUAGE } from '@/constants/config';
 import { IRawAppUserConfig, IUserInfo, accessToken } from '@pc/customize';
 import { DEFAULT_THEME, SupportedThemes, ThemeValues } from '@pc/constants/config';
-import { initPageQuery } from '@/helpers/browser/init-page-query';
+import { initPageQuery } from '@/helpers/init-page-query';
 import { CacheStore } from '@dz-web/cache';
 import { isSupportedLanguage, isSupportedTheme, isValidRaiseMode } from '@/utils/capacities';
 import { CACHE_KEY_PC_USER_CONFIG, CACHE_KEY_PC_USER_INFO } from '@/constants/caches';

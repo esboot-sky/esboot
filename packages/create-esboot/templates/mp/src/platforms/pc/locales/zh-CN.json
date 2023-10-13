@@ -1,3 +1,6 @@
 {
-  "global.pc.platform": "pc端"
+  "global.pc.platform": "pc端",
+  "global.pc.boundaryErrorTitle": "哎呀，出错了！",
+  "global.pc.apologize": "抱歉，应用程序遇到了一些问题。",
+  "global.pc.retry": "重试"
 }

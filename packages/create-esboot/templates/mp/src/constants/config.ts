@@ -1,8 +1,8 @@
 /**
  * bridge mock
  */
-// let defaultUseBridgeMock = true;
-let defaultUseBridgeMock = false;
+let defaultUseBridgeMock = true;
+// let defaultUseBridgeMock = false;
 
 if (process.env.NODE_ENV === 'production') defaultUseBridgeMock = false;
 export const useBridgeMock = defaultUseBridgeMock;

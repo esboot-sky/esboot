@@ -1,3 +1,6 @@
 {
-  "global.mobile.platform": "mobile browser"
+  "global.mobile.platform": "mobile browser",
+  "global.mobile.apologize": "Sorry, the application encountered some problems.",
+  "global.mobile.boundaryErrorTitle": "Oops, something went wrong!",
+  "global.mobile.retry": "Retry"
 }
