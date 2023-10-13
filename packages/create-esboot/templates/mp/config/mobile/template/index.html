@@ -34,7 +34,7 @@
           e = (window.recalc = function () {
             var a = c.clientWidth;
             if (a) {
-              var fontsize = Math.floor(100 * (a / 375));
+              var fontsize = Math.floor(200 * (a / 750));
               c.style.fontSize = fontsize + 'px';
             }
           });
@@ -42,7 +42,7 @@
       })(document, window);
     </script>
 
-    <script>
+    <!-- <script>
       function getUrlParam(name) {
         var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
         var r = window.location.search.substr(1).match(reg);
@@ -60,7 +60,7 @@
       window.esboot_urlParams = {
         theme: theme,
       };
-    </script>
+    </script> -->
   </head>
   <body>
     <div id="root"></div>

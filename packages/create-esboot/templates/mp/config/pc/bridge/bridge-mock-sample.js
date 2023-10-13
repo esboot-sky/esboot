@@ -12,37 +12,30 @@ module.exports = {
     msg: new Proxy(
       {
         userInfo: () => ({
-          userId: 0,
-          mobile: '0',
-          orgCode: '0001',
-          sessionCode: '3d79979b-f588-40dc-9310-c4cc0cca044e',
-          isLogin: false,
-          isLoginTrade: false,
+          "areaCode": "+852",
+          "avatar": "",
+          "bcanStatus": "Y",
+          "cusNo": 61231218,
+          "isLoginTrade": true,
+          "mobile": "95738751",
+          "nickname": "小信61231218",
+          "sessionCode": "a15dfaef-13dd-4108-bccd-4b8cdcc2d6fe",
+          "stoken": "",
+          "tradeNo": "60526858",
+          "userId": 45434
         }),
-        getTradeConfig: () => {},
         sessionCodeExpire: (args) => {
           console.log(`登录超时: \n${JSON.stringify(args)}`);
         },
-        isOptional: (info) => {
-          return true;
-        },
-        addOptional: () => undefined,
-        removeOptional: () => undefined,
         getUserConfiguration: () => ({
-          env: 'dev',
-          language: 'zh-CN',
-          language: 'zh-TW',
-          raise: 'red',
-          raise: 'green',
-          theme: 'black',
-          font: {
-            additionalSize: -14,
-            weight: 'normal',
-            weight: 'bold',
+          "font": {
+            "additionalSize": -14,
+            "list": [-11, -12, -13, -14, -15, -16, -19, -21],
+            "weight": "normal"
           },
-        }),
-        getServerConfig: () => ({
-          websocketServer: 'ws://47.112.147.47:10001/socket',
+          "language": "zh-CN",
+          "raise": "red",
+          "theme": "dark"
         }),
       },
       {

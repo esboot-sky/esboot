@@ -2,14 +2,15 @@
  * 多皮肤
  *
  */
-export enum THEME {
-  WHITE = 'light',
-  BLACK = 'dark',
-}
 
-export const THEME_MAP = {
-  [THEME.WHITE]: 'white',
-  [THEME.BLACK]: 'black',
-};
+export const SupportedThemes = {
+  light: 'light',
+  dark: 'dark',
+  // 安卓端中信app会返回black与theme，临时加上
+  black: 'dark',
+  white: 'light',
+} as const;
 
-export const DEFAULT_THEME = THEME_MAP[THEME.WHITE];
+export type ThemeValues = typeof SupportedThemes[keyof typeof SupportedThemes];
+
+export const DEFAULT_THEME = SupportedThemes.light;

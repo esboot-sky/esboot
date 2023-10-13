@@ -9,8 +9,12 @@
  */
 
 html {
-  line-height: 1.15; /* 1 */
+  // line-height: 1.15; /* 1 */
   text-size-adjust: 100%; /* 2 */
+}
+
+* {
+  box-sizing: border-box;
 }
 
 /* Sections
@@ -22,6 +26,7 @@ html {
 
 body {
   margin: 0;
+  font-size: 32px;
 }
 
 ol,
@@ -369,8 +374,4 @@ template {
 
 [hidden] {
   display: none;
-}
-
-* {
-  box-sizing: border-box;
 }
