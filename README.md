@@ -1,6 +1,6 @@
 # Starter
 
-See <https://moonlit.vip/esboot>
+See <https://esboot.js.org>
 
 # Inspiration
 
