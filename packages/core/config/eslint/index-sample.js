@@ -93,6 +93,12 @@ module.exports = {
     'react-hooks/exhaustive-deps': 0,
     '@typescript-eslint/no-explicit-any': ['off'],
     'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
+    'no-restricted-syntax': [
+      'error',
+      'ForInStatement',
+      'LabeledStatement',
+      'WithStatement',
+    ],
   },
   env: {
     browser: true,
