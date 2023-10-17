@@ -14,28 +14,27 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
+        ESBoot was designed from the ground up to be easily installed and
         used to get your website up and running quickly.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Focus On Your Logic',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        ESBoot lets you focus on your login code, You don't need to care about the compile process.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Power By Webpack',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Simple configuration can provide powerful functionality, 
+        incorporating the best practices of webpack.
       </>
     ),
   },
