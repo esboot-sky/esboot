@@ -144,15 +144,15 @@ info  - File sizes after gzip:
   27.52 kB   dist/927.7ccf385d.async.js
   22.41 kB   dist/85.ca55c792.async.js
   4.12 kB    dist/umi.6cab289a.css
-  1.19 kB    dist/docs__hello__index.md.778c6473.chunk.css
-  1.19 kB    dist/docs__index.md.778c6473.chunk.css
+  1.19 kB    dist/docs/esboot__hello__index.md.778c6473.chunk.css
+  1.19 kB    dist/docs/esboot__index.md.778c6473.chunk.css
   717 B      dist/dumi__theme__ContextWrapper.5c098201.async.js
   404 B      dist/dumi__theme__ContextWrapper.92e58cdd.chunk.css
-  351 B      dist/docs__hello__index.md.8cb70dc6.async.js
+  351 B      dist/docs/esboot__hello__index.md.8cb70dc6.async.js
   339 B      dist/dumi__theme__layouts__DocLayout.00dacd40.async.js
   319 B      dist/dumi__pages__404.ef2ba46c.async.js
   276 B      dist/dumi__pages__404.8b85f2d9.chunk.css
-  266 B      dist/docs__index.md.a521bf97.async.js
+  266 B      dist/docs/esboot/esboot__index.md.a521bf97.async.js
   244 B      dist/dumi__pages__Demo.2b46b679.async.js
   147 B      dist/957.2b2e8583.async.js
   45 B       dist/dumi__pages__Demo.578aa5c0.chunk.css
@@ -161,7 +161,7 @@ event - Build 404.html
 event - Build hello/index.html
 event - Build index.html
 event - Build ~demos/:id/index.html
-event - Build ~demos/docs-hello-demo-0/index.html
+event - Build ~demos/docs/esboot/esboot-hello-demo-0/index.html
 ```
 
 ## exec
@@ -181,4 +181,4 @@ $ esboot mock:bridge
 
 ## g-alias
 
-用于改了[alias](/docs/guides/config#alias)之后从新生成`typescript`和`eslint`的配置。
+用于改了[alias](/docs/esboot/guides/config#alias)之后从新生成`typescript`和`eslint`的配置。

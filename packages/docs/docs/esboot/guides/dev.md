@@ -17,7 +17,7 @@ ESBOOT_PLATFORM=mobile
 ESBOOT_PAGE_TYPE=native
 ```
 
-此时启动`dev/build`命令下的`content`就是`src/platforms/mobile/_native`(你也可以通过设置`ESBOOT_CONTENT_PATH`和`ESBOOT_CONTENT_PATTERN`自定义规则，更多参考[env](/docs/guides/env#esboot_content_path))，然后去寻找下面所有的`*.entry.tsx`当做入口。
+此时启动`dev/build`命令下的`content`就是`src/platforms/mobile/_native`(你也可以通过设置`ESBOOT_CONTENT_PATH`和`ESBOOT_CONTENT_PATTERN`自定义规则，更多参考[env](/docs/esboot/guides/env#esboot_content_path))，然后去寻找下面所有的`*.entry.tsx`当做入口。
 
 例如你有一个`home.entry.tsx`，那么在浏览器中的地址就是`http://localhost:8001/home.html`(域名和端口是基于你的配置决定).
 

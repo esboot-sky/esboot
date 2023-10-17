@@ -94,7 +94,7 @@ declare const define: string;
 
 ## copy
 
-**大部分情况可以不用，参考[static](/docs/guides/static)**
+**大部分情况可以不用，参考[static](/docs/esboot/guides/static)**
 
 - 类型：`Array<string | { from: string; to: string; }>`
 - 默认值：`[]`
@@ -143,7 +143,7 @@ copy: [
 
 `v2.5.0`
 
-参考[codesplitting](https://umijs.org/docs/api/config#codesplitting)，配置完全相同，除了`jsStrategyOptions`。
+参考[codesplitting](https://umijs.org/docs/esboot/api/config#codesplitting)，配置完全相同，除了`jsStrategyOptions`。
 
 在`granularChunks`模式下：
 
@@ -220,7 +220,7 @@ proxy: {
 - 类型：`boolean`
 - 默认值：`true`
 
-开启[svgr](https://react-svgr.com/docs/webpack/)之后可以写成
+开启[svgr](https://react-svgr.com/docs/esboot/webpack/)之后可以写成
 
 ```tsx
 import svg from './assets/file.svg?url'
@@ -248,7 +248,7 @@ const App = () => {
 }
 ```
 
-参考[svgrOptions](https://react-svgr.com/docs/options/)
+参考[svgrOptions](https://react-svgr.com/docs/esboot/options/)
 
 ## TSChecker
 
@@ -346,8 +346,8 @@ enum JsMinifier {
 
 配置项需要和所使用的工具对应，具体参考对应文档：
 
-- [terser](https://terser.org/docs/api-reference/#minify-options)
-- [swc](https://swc.rs/docs/configuration/minification#configuration)
+- [terser](https://terser.org/docs/esboot/api-reference/#minify-options)
+- [swc](https://swc.rs/docs/esboot/configuration/minification#configuration)
 
 ## cssMinifier
 
@@ -381,5 +381,5 @@ export enum CSSMinifier {
 
 对应 CSS 压缩的配置请查看对应的文档。
 
-- [cssnano](https://cssnano.co/docs/config-file/)
+- [cssnano](https://cssnano.co/docs/esboot/config-file/)
 - [lightningcss](https://lightningcss.dev/)

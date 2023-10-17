@@ -11,7 +11,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://moonlit.vip',
+  url: 'https://esboot.js.org',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   // baseUrl: '/esboot/',
@@ -77,7 +77,13 @@ const config = {
             position: 'left',
             label: 'Tutorial',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          {
+            type: 'docSidebar',
+            position: 'left',
+            sidebarId: 'template',
+            label: 'Template',
+          },
+          { to: '/blog', label: 'Blog', position: 'left' },
           // {
           //   href: 'https://github.com/facebook/docusaurus',
           //   label: 'GitHub',
