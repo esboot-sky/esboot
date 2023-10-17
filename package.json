@@ -9,8 +9,8 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
-    "dev:react-mp": "turbo run dev --filter @dz-web/esboot --filter esboot-react-mp",
+    "dev:all": "turbo run dev --parallel",
+    "dev": "turbo run dev --filter @dz-web/esboot",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
