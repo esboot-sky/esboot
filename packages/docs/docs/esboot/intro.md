@@ -107,3 +107,7 @@ stylelint下载之后需要配置一下能支持scss规则.
 ### EditorConfig
 
 - [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+
+### i18n Ally
+
+如果使用`esboot-react-mp`模版，一定要装这个插件。
