@@ -17,9 +17,9 @@ export const addDefinePlugin = async (applyOpts: ApplyOpts) => {
   }
 
   config.plugins.push(
+    new webpack.EnvironmentPlugin(['NODE_ENV']),
     new webpack.DefinePlugin({
       'process.env.VERSION': JSON.stringify(version),
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       ...customDefine,
     })
   );
