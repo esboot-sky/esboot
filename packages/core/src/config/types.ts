@@ -1,6 +1,7 @@
 import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 import type { PluginOptions } from 'copy-webpack-plugin';
 import type { Configuration } from 'webpack';
+import type { Plugin } from './plugin';
 
 import { ApplyOpts } from '../compiler/webpack/config/types';
 
@@ -69,7 +70,7 @@ export type UserOpts = {
   };
   svgr?: boolean;
   svgrOptions?: Record<string, any>;
-  plugins?: string[];
+  plugins?: Plugin[];
 } & Pick<
   DevServerConfiguration,
   'https' | 'http2' | 'open' | 'host' | 'proxy' | 'port'

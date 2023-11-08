@@ -1,14 +1,27 @@
 {
   "name": "@dz-web/esboot-plugin-vitest",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "dev": "father dev",
+    "prepublishOnly": "father doctor && npm run build",
     "test": "vitest"
   },
   "keywords": [],
+  "files": [
+    "dist",
+    "vitest.config.ts"
+  ],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "@dz-web/esboot": "workspace:*",
+    "father": "^4.3.7"
+  },
   "dependencies": {
     "@testing-library/react": "^14.1.0",
     "@vitejs/plugin-react": "^4.1.1",

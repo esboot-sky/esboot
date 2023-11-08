@@ -7,7 +7,6 @@ import { Environment } from '@@webpack/config/environment';
 import esbootConfig from '@@/config';
 
 import { registry } from './registry';
-import { processPrepare } from './prepare';
 import { runDev } from './dev';
 import { runBuild } from './build';
 import { runPreview } from './preview';
@@ -25,7 +24,15 @@ const cwd = process.cwd();
 const pkgPath = join(__dirname, '../../package.json');
 const pkg = require(pkgPath);
 
-export const run = () => {
+export const run = async () => {
+  await registry({ root: cwd });
+
+  const { plugins = [] } = esbootConfig.userOpts;
+
+  plugins.forEach((plugin) => {
+    plugin?.registerCommands(program);
+  });
+
   program
     .command('dev')
     .description('Start development project')
@@ -33,8 +40,6 @@ export const run = () => {
     .action(async () => {
       process.env.NODE_ENV = Environment.dev;
       process.env.BABEL_ENV = Environment.dev;
-
-      await registry({ root: cwd });
 
       writeMultiPlatform();
       runDev();
@@ -48,8 +53,6 @@ export const run = () => {
       process.env.NODE_ENV = Environment.prod;
       process.env.BABEL_ENV = Environment.prod;
 
-      await registry({ root: cwd });
-
       writeMultiPlatform();
       runBuild();
     });
@@ -60,8 +63,6 @@ export const run = () => {
     .option('-p, --port <char>')
     .option('-d, --directory <char>')
     .action(async (options) => {
-      await registry({ root: cwd });
-
       runPreview(options.port || 8900, options.directory);
     });
 
@@ -70,8 +71,6 @@ export const run = () => {
     .description('Lint files')
     .allowUnknownOption(true)
     .action(async () => {
-      processPrepare();
-
       runLint(process.argv.slice(3));
     });
 
@@ -88,8 +87,6 @@ export const run = () => {
     .description('docs')
     .allowUnknownOption(true)
     .action(async () => {
-      processPrepare();
-
       runDocs(process.argv.slice(3));
     });
 
@@ -98,8 +95,6 @@ export const run = () => {
     .description('exec commands')
     .allowUnknownOption(true)
     .action(async () => {
-      processPrepare();
-
       runExec(process.argv.slice(3));
     });
 
@@ -108,9 +103,6 @@ export const run = () => {
     .description('Generate alias')
     .allowUnknownOption(true)
     .action(async () => {
-      processPrepare();
-      await esbootConfig.init();
-
       generateAliasFiles();
     });
 
@@ -120,10 +112,6 @@ export const run = () => {
     .option('-f, --file <char>')
     .option('-s, --sampleFile <char>')
     .action(async (options) => {
-      processPrepare();
-      await registry({ root: cwd });
-      await esbootConfig.initCompileTimeCfg();
-
       runMockBridge(options);
     });
 

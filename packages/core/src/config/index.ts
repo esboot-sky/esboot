@@ -8,7 +8,7 @@ import { UserOpts } from './types';
 import compileTimeConfig, { CompileTimeConfig } from './compile-time-config';
 
 export default new (class ESbootConfig {
-  userOpts: any = defaultUserOpts;
+  userOpts: UserOpts = defaultUserOpts;
   compileTimeConfig: CompileTimeConfig = compileTimeConfig.config;
 
   initUserConfig = (reload = false) => {
