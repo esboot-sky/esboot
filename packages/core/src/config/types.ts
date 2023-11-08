@@ -69,6 +69,7 @@ export type UserOpts = {
   };
   svgr?: boolean;
   svgrOptions?: Record<string, any>;
+  plugins?: string[];
 } & Pick<
   DevServerConfiguration,
   'https' | 'http2' | 'open' | 'host' | 'proxy' | 'port'
