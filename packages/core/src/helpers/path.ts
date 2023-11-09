@@ -12,5 +12,6 @@ export function joinExecPath(path: string) {
 }
 
 export function searchCommand(command: string) {
+  console.log(joinExecPath(`./node_modules/.bin/${command}`), '<-- command');
   return joinExecPath(`./node_modules/.bin/${command}`);
 };

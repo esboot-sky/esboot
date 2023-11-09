@@ -6,9 +6,10 @@ export default (): Plugin => {
     registerCommands: (program) => {
       program
         .command('vitest')
-        .description('Start development project')
+        .description('Start vitest')
         .allowUnknownOption(true)
         .action(async () => {
+          // runExec(['vitest']);
           console.log(1, '<-- vitest');
         });
     },

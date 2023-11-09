@@ -24,13 +24,13 @@ const cwd = process.cwd();
 const pkgPath = join(__dirname, '../../package.json');
 const pkg = require(pkgPath);
 
-export const run = async () => {
-  await registry({ root: cwd });
+export const run = () => {
+  registry({ root: cwd });
 
   const { plugins = [] } = esbootConfig.userOpts;
 
   plugins.forEach((plugin) => {
-    plugin?.registerCommands(program);
+    plugin?.registerCommands?.(program);
   });
 
   program
@@ -41,6 +41,8 @@ export const run = async () => {
       process.env.NODE_ENV = Environment.dev;
       process.env.BABEL_ENV = Environment.dev;
 
+      // TODO: Twice
+      esbootConfig.init();
       writeMultiPlatform();
       runDev();
     });
@@ -53,6 +55,7 @@ export const run = async () => {
       process.env.NODE_ENV = Environment.prod;
       process.env.BABEL_ENV = Environment.prod;
 
+      esbootConfig.init();
       writeMultiPlatform();
       runBuild();
     });
