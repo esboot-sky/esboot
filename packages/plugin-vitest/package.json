@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-plugin-vitest",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,12 +8,15 @@
     "build": "father build",
     "build:deps": "father prebundle",
     "dev": "father dev",
-    "prepublishOnly": "father doctor && npm run build",
+    "pub": "npm run build && sh scripts/dep.sh && cd publish && npm publish --access publish --registry http://npm.web.dz",
     "test": "vitest"
   },
   "keywords": [],
   "files": [
-    "dist",
+    "index.js",
+    "index.d.ts",
+    "vitest",
+    "testing-library-react",
     "vitest.config.ts"
   ],
   "author": "",

@@ -46,3 +46,5 @@ dist/
 **/config/eslint/index.js
 
 pnpm-lock.yaml
+
+publish
