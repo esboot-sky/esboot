@@ -1,12 +1,21 @@
-import { join } from 'path';
+import { join, isAbsolute } from 'path';
 import fs from 'fs-extra';
+import { merge } from 'lodash';
 import esbootConfig from '@@/config';
+import { invokeEachPlugin } from '@@/helpers/plugins';
 
 const eslintConfig = require('../../../config/eslint/index-sample');
 const tsconfigJson = require('../../../config/typescript/tsconfig-sample.json');
 
 export function generateAliasFiles() {
   const { alias, svgr } = esbootConfig.userOpts;
+
+  const pluginAlias = {};
+  invokeEachPlugin((plugin) => {
+    merge(pluginAlias, plugin.afterCommandOfGenerateAlias?.()?.alias);
+  });
+
+  merge(alias, pluginAlias);
 
   // Eslint
   const customEslintAlias: [string, string][] = [];
@@ -52,8 +61,11 @@ export function generateAliasFiles() {
   const customTSConfigAlias: Record<string, string[]> = {};
 
   for (let k in alias) {
-    const key = `${k}/*`;
-    const value = join(process.cwd(), `./${alias[k]}/*`);
+    const rawValue = alias[k];
+    const isAbsoluteValue = isAbsolute(rawValue);
+    // FIX: Use Options
+    const key = isAbsoluteValue ? k : `${k}/*`;
+    const value = isAbsoluteValue ? rawValue : join(process.cwd(), `./${rawValue}/*`);
 
     customTSConfigAlias[key] = [value];
   }

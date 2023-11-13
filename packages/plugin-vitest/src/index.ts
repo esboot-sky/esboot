@@ -3,6 +3,12 @@ import { resolve } from 'path';
 
 import { runExec } from './helpers';
 
+export const alias = {
+  vitest: require.resolve('vitest'),
+  '@testing-library/react': require.resolve('@testing-library/react'),
+  '@testing-library/user-event': require.resolve('@testing-library/user-event'),
+};
+
 export default (): Plugin => {
   return {
     key: 'plugin-vitest',
@@ -11,7 +17,7 @@ export default (): Plugin => {
         .command('vitest')
         .description('Start vitest')
         .allowUnknownOption(true)
-        .action(async () => {
+        .action(async (_, p) => {
           runExec([
             'vitest',
             '-r',
@@ -19,10 +25,13 @@ export default (): Plugin => {
             '--dir',
             'src',
             '-c',
-            resolve(__dirname, '../vitest.config.ts'),
+            resolve(__dirname, '../config/vitest.config.ts'),
+            ...p.args,
           ]);
-          console.log(2, '<-- vitest');
         });
     },
+    afterCommandOfGenerateAlias: () => ({
+      alias,
+    }),
   };
 };

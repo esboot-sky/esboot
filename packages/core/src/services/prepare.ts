@@ -25,7 +25,7 @@ function setNoDeprecation() {
   process.noDeprecation = '1';
 }
 
-function registerTypescript() {
+export function registerTypescript() {
   register.register({
     implementor: esbuild,
   });

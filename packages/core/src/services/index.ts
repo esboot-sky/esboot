@@ -5,6 +5,7 @@ import { program } from 'commander';
 import { Environment } from '@@webpack/config/environment';
 
 import esbootConfig from '@@/config';
+import { invokeEachPlugin } from '@@/helpers/plugins';
 
 import { registry } from './registry';
 import { runDev } from './dev';
@@ -27,11 +28,7 @@ const pkg = require(pkgPath);
 export const run = () => {
   registry({ root: cwd });
 
-  const { plugins = [] } = esbootConfig.userOpts;
-
-  plugins.forEach((plugin) => {
-    plugin?.registerCommands?.(program);
-  });
+  invokeEachPlugin((plugin) => plugin?.registerCommands?.(program));
 
   program
     .command('dev')

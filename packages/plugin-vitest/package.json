@@ -1,23 +1,20 @@
 {
   "name": "@dz-web/esboot-plugin-vitest",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "module": "dist/esm/index.js",
   "scripts": {
     "build": "father build",
     "build:deps": "father prebundle",
     "dev": "father dev",
-    "pub": "npm run build && sh scripts/dep.sh && cd publish && npm publish --access publish",
-    "test": "vitest"
+    "prepublishOnly": "father doctor && npm run build"
   },
   "keywords": [],
   "files": [
-    "index.js",
-    "index.d.ts",
-    "vitest",
-    "testing-library-react",
-    "vitest.config.ts"
+    "dist",
+    "config"
   ],
   "author": "",
   "license": "ISC",
@@ -29,6 +26,7 @@
   },
   "dependencies": {
     "@testing-library/react": "^14.1.0",
+    "@testing-library/user-event": "^14.5.1",
     "@vitejs/plugin-react": "^4.1.1",
     "@vitest/ui": "^0.34.6",
     "cross-spawn": "^7.0.3",

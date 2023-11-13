@@ -8,7 +8,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.tsx', '.ts', 'js'],
+        extensions: ['.tsx', '.ts', '.js'],
       },
       alias: {
         map: [
@@ -32,6 +32,7 @@ module.exports = {
     tsconfigRootDir: '',
   },
   rules: {
+    "import/no-extraneous-dependencies": 0,
     'no-shadow': 'off',
     'no-use-before-define': 'off',
     'import/no-unresolved': 'error',
