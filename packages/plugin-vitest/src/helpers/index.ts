@@ -4,7 +4,6 @@ import { searchCommand } from '@@/helpers/path';
 export const isWins = process.platform === 'win32';
 
 export function runExec(args: any[]) {
-  console.log(args, '<-- args');
   const command = args.slice(0, 1)[0];
   const params = args.slice(1);
   

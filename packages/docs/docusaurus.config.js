@@ -81,6 +81,12 @@ const config = {
           {
             type: 'docSidebar',
             position: 'left',
+            sidebarId: 'plugins',
+            label: 'Plugins',
+          },
+          {
+            type: 'docSidebar',
+            position: 'left',
             sidebarId: 'template',
             label: 'Template',
           },

@@ -1,13 +1,25 @@
 import type { Plugin } from '@dz-web/esboot';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
 
 import { runExec } from './helpers';
 
-export const alias = {
+const modules = {
   vitest: require.resolve('vitest'),
   '@testing-library/react': require.resolve('@testing-library/react'),
   '@testing-library/user-event': require.resolve('@testing-library/user-event'),
 };
+
+// FIXME: 优化
+const correctedModules: Record<string, string> = {};
+for (const [moduleName, modulePath] of Object.entries(modules)) {
+  let currentPath = modulePath;
+  while (!currentPath.endsWith(`/${moduleName}`)) {
+    currentPath = dirname(currentPath);
+  }
+
+  correctedModules[moduleName] = currentPath;
+}
+export const alias = correctedModules;
 
 export default (): Plugin => {
   return {

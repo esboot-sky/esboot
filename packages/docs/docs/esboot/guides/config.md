@@ -286,6 +286,12 @@ const App = () => {
 
 配置额外需要做 Babel 编译的 NPM 包或目录。常用于处理第三方库的兼容性。
 
+## plugins
+
+`since v2.8.0`
+
+使用插件添加额外功能，接收一个[plugin](/docs/category/plugin-list)。
+
 ## pxtorem
 
 - 默认值：
