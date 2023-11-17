@@ -1,6 +1,5 @@
 /// <reference types="vitest" />
-import { resolve } from 'path';
-import { defineConfig } from 'vitest/config';
+import { defineConfig, configDefaults } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { esbootConfig, registerTypescript } from '@dz-web/esboot';
 
@@ -13,6 +12,7 @@ esbootConfig.initUserConfig();
 export default defineConfig({
   plugins: [react()],
   test: {
+    forceRerunTriggers: [...configDefaults.forceRerunTriggers, '**/*.test.{ts,tsx}', '**/*.{ts,tsx}'],
     environment: 'jsdom',
     alias: {
       ...alias,
