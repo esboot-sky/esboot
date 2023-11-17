@@ -17,25 +17,26 @@ export default defineConfig({
 ## 启动插件
 
 ```sh
-yarn esboot g-alias
-yarn esboot vitest
+pnpm run esboot g-alias
+
+pnpm run esboot vitest
 ```
 
-`vitest`命令转发了[vitest](https://vitest.dev/guide/cli.html)命令，内置了`-r/-c/--dir`参数，其他参数可以正常加入，如：
+`vitest`命令转发了[vitest](https://vitest.dev/guide/cli.html)，内置了`-r/-c/--dir`参数，其他参数可以正常加入，如：
 
 ```sh
-_br vitest --open
+pnpm run vitest --open
 ```
 
 ## 插件说明
 
-插件内部转发了依赖，所以无需安装以下依赖。
+插件内部转发了以下依赖，所以无需手动安装。
 
 - [vitest](http://localhost:3000/docs/plugins/plugin-list/vitest)
 - [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)
 - [@testing-library/user-event](https://testing-library.com/docs/ecosystem-user-event/)
 
-## 使用实例
+## 使用示例
 
 ```ts
 import { test, expect } from 'vitest';
