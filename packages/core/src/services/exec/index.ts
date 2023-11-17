@@ -3,7 +3,6 @@ import { searchCommand } from '@@/helpers/path';
 import { isWins } from '@@/constants';
 
 export function runExec(args: any[]) {
-  console.log(args, '<-- args');
   const command = args.slice(0, 1)[0];
   const params = args.slice(1);
   
