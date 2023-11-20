@@ -14,9 +14,19 @@ const modules = {
 const correctedModules: Record<string, string> = {};
 for (const [moduleName, modulePath] of Object.entries(modules)) {
   let currentPath = modulePath;
+  let isRootPath = false;
   const compatibleModuleName = moduleName.replace('/', hyphen);
-  while (!currentPath.endsWith(`${hyphen}${compatibleModuleName}`)) {
-    currentPath = dirname(currentPath);
+  while (
+    !currentPath.endsWith(`${hyphen}${compatibleModuleName}`) &&
+    !isRootPath
+  ) {
+    const path = dirname(currentPath);
+
+    if (currentPath !== path) {
+      currentPath = path;
+    } else {
+      isRootPath = true;
+    }
   }
 
   correctedModules[moduleName] = currentPath;
