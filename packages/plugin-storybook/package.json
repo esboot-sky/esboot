@@ -1,0 +1,31 @@
+{
+  "name": "@dz-web/esboot-plugin-storybook",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "dev": "father dev",
+    "prepublishOnly": "father doctor && npm run build"
+  },
+  "keywords": [],
+  "files": [
+    "dist",
+    "config"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@dz-web/esboot": "workspace:*",
+    "@types/cross-spawn": "^6.0.5",
+    "@types/fs-extra": "^11.0.4",
+    "father": "^4.3.7"
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^11.1.1"
+  }
+}
