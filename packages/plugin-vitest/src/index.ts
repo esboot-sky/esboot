@@ -3,6 +3,7 @@ import { resolve, dirname } from 'path';
 
 import { runExec } from './helpers';
 
+const hyphen = process.platform === 'win32' ? '\\' : '/';
 const modules = {
   vitest: require.resolve('vitest'),
   '@testing-library/react': require.resolve('@testing-library/react'),
@@ -13,7 +14,8 @@ const modules = {
 const correctedModules: Record<string, string> = {};
 for (const [moduleName, modulePath] of Object.entries(modules)) {
   let currentPath = modulePath;
-  while (!currentPath.endsWith(`/${moduleName}`)) {
+  const compatibleModuleName = moduleName.replace('/', hyphen);
+  while (!currentPath.endsWith(`${hyphen}${compatibleModuleName}`)) {
     currentPath = dirname(currentPath);
   }
 

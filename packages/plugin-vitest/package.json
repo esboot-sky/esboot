@@ -1,10 +1,9 @@
 {
   "name": "@dz-web/esboot-plugin-vitest",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/esm/index.js",
   "scripts": {
     "build": "father build",
     "build:deps": "father prebundle",
