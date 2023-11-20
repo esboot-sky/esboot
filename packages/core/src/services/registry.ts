@@ -31,6 +31,6 @@ function loadEnv({ root }: { root: string }) {
 
 export const registry = async ({ root }: { root: string }) => {
   loadEnv({ root });
-  await processPrepare();
-  await esbootConfig.init();
+  processPrepare();
+  esbootConfig.init();
 };

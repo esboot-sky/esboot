@@ -1,8 +1,8 @@
 import { extname } from 'path';
 import { addHook } from 'pirates';
 
-const COMPILE_EXTS = ['.ts', 'tsx'];
-const HOOK_EXTS = [...COMPILE_EXTS];
+const COMPILE_EXTS = ['.ts', '.tsx', '.js', '.jsx'];
+const HOOK_EXTS = [...COMPILE_EXTS, '.mjs'];
 
 let registered = false;
 let files: string[] = [];
