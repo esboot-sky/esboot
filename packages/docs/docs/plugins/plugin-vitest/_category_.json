@@ -1,5 +1,5 @@
 {
-  "label": "plugin-list",
+  "label": "plugin-vitest",
   "position": 1,
   "link": {
     "type": "generated-index"

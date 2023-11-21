@@ -2,7 +2,7 @@
 import { defineConfig, configDefaults } from 'vitest/config';
 import { join, isAbsolute } from 'path';
 import react from '@vitejs/plugin-react';
-import { esbootConfig, registerTypescript } from '@dz-web/esboot';
+import { esbootConfig, registerTypescript, addDefine } from '@dz-web/esboot';
 
 import { alias } from '../dist';
 
@@ -17,7 +17,9 @@ for (let k in esbootAlias) {
   const isAbsoluteValue = isAbsolute(rawValue);
   // FIX: Use Options
   const key = isAbsoluteValue ? k : `${k}`;
-  const value = isAbsoluteValue ? rawValue : join(process.cwd(), `./${rawValue}`);
+  const value = isAbsoluteValue
+    ? rawValue
+    : join(process.cwd(), `./${rawValue}`);
 
   customTSConfigAlias[key] = value;
 }
@@ -25,8 +27,13 @@ for (let k in esbootAlias) {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: addDefine(),
   test: {
-    forceRerunTriggers: [...configDefaults.forceRerunTriggers, '**/*.test.{ts,tsx}', '**/*.{ts,tsx}'],
+    forceRerunTriggers: [
+      ...configDefaults.forceRerunTriggers,
+      '**/*.test.{ts,tsx}',
+      '**/*.{ts,tsx}',
+    ],
     environment: 'jsdom',
     alias: {
       ...alias,
