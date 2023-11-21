@@ -290,7 +290,7 @@ const App = () => {
 
 `since v2.8.0`
 
-使用插件添加额外功能，接收一个[plugin](/docs/category/plugin-list)。
+使用插件添加额外功能，接收一个[plugin](/docs/plugins/dev)。
 
 ## pxtorem
 
