@@ -5,7 +5,6 @@ import { join, dirname } from "path";
  * It is needed in projects that use Yarn PnP or are set up within a monorepo.
  */
 function getAbsolutePath(value) {
-  console.log(require.resolve(join(value, "package.json")), '<-- dirname(require.resolve(join(value, "package.json")))');
   return dirname(require.resolve(join(value, "package.json")));
 }
 

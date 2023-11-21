@@ -1,37 +1,14 @@
 import type { Plugin } from '@dz-web/esboot';
-import { resolve, dirname } from 'path';
+import { resolve } from 'path';
 
 import { runExec } from './helpers';
+import { getAbsolutePath } from './helpers/path';
 
-const hyphen = process.platform === 'win32' ? '\\' : '/';
-const modules = {
-  vitest: require.resolve('vitest'),
-  '@testing-library/react': require.resolve('@testing-library/react'),
-  '@testing-library/user-event': require.resolve('@testing-library/user-event'),
+export const alias = {
+  vitest: getAbsolutePath('vitest'),
+  '@testing-library/react': getAbsolutePath('@testing-library/react'),
+  '@testing-library/user-event': getAbsolutePath('@testing-library/user-event'),
 };
-
-// FIXME: 优化
-const correctedModules: Record<string, string> = {};
-for (const [moduleName, modulePath] of Object.entries(modules)) {
-  let currentPath = modulePath;
-  let isRootPath = false;
-  const compatibleModuleName = moduleName.replace('/', hyphen);
-  while (
-    !currentPath.endsWith(`${hyphen}${compatibleModuleName}`) &&
-    !isRootPath
-  ) {
-    const path = dirname(currentPath);
-
-    if (currentPath !== path) {
-      currentPath = path;
-    } else {
-      isRootPath = true;
-    }
-  }
-
-  correctedModules[moduleName] = currentPath;
-}
-export const alias = correctedModules;
 
 export default (): Plugin => {
   return {
