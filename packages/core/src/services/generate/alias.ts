@@ -1,7 +1,9 @@
 import { join, isAbsolute } from 'path';
 import fs from 'fs-extra';
 import { merge } from 'lodash';
+import { cacheDir } from '@@/constants';
 import esbootConfig from '@@/config';
+import { info } from '@@/helpers/logger';
 import { invokeEachPlugin } from '@@/helpers/plugins';
 
 const eslintConfig = require('../../../config/eslint/index-sample');
@@ -27,10 +29,13 @@ export function generateAliasFiles() {
   }
 
   eslintConfig.settings['import/resolver'].alias.map = customEslintAlias;
+  const eslintOutputPath = join(cacheDir, 'eslint/index.js');
+  fs.ensureFileSync(eslintOutputPath);
   fs.writeFileSync(
-    join(__dirname, '../../../config/eslint/index.js'),
+    eslintOutputPath,
     `module.exports = ${JSON.stringify(eslintConfig, null, 2)}`
   );
+  info(`Created File: ${eslintOutputPath}.`);
 
   // esboot.d.ts
   let svgrTypes = '';
@@ -52,10 +57,10 @@ export function generateAliasFiles() {
     }`;
   }
 
-  fs.writeFileSync(
-    join(__dirname, '../../../config/typescript/esboot.d.ts'),
-    svgrTypes
-  );
+  const typeOutputPath = join(cacheDir, 'typescript/esboot.d.ts');
+  fs.ensureFileSync(typeOutputPath);
+  fs.writeFileSync(typeOutputPath, svgrTypes);
+  info(`Created File: ${typeOutputPath}.`);
 
   // tsconfig
   const customTSConfigAlias: Record<string, string[]> = {};
@@ -65,7 +70,9 @@ export function generateAliasFiles() {
     const isAbsoluteValue = isAbsolute(rawValue);
     // FIX: Use Options
     const key = isAbsoluteValue ? k : `${k}/*`;
-    const value = isAbsoluteValue ? rawValue : join(process.cwd(), `./${rawValue}/*`);
+    const value = isAbsoluteValue
+      ? rawValue
+      : join(process.cwd(), `./${rawValue}/*`);
 
     customTSConfigAlias[key] = [value];
   }
@@ -81,10 +88,11 @@ export function generateAliasFiles() {
     return join(process.cwd(), v);
   });
 
-  fs.writeJSONSync(
-    join(__dirname, '../../../config/typescript/tsconfig.json'),
-    tsconfigJson,
-    { spaces: 2 }
-  );
+  const tsOutoutPath = join(cacheDir, 'typescript/tsconfig.json');
+  fs.writeJSONSync(tsOutoutPath, tsconfigJson, {
+    spaces: 2,
+  });
+  info(`Created File: ${tsOutoutPath}.`);
+
   console.log('Done!');
 }

@@ -7,6 +7,6 @@ export const DEFAULT_OUTPUT_PATH = 'dist';
 export const DEFAULT_DEV_PORT = 8100;
 export const isWins = process.platform === 'win32';
 
-const cacheDir = resolve(process.cwd(), 'node_modules/.cache/esboot');
+export const cacheDir = resolve(process.cwd(), 'node_modules/.cache/esboot');
 export const webpackCacheDir = join(cacheDir, 'webpack-cache');
 export const mfsuCacheDir = join(cacheDir, './mfsu');

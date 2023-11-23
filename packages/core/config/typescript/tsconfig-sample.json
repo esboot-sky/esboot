@@ -25,7 +25,7 @@
       "@pc-browser/*": ["src/platforms/pc/_browser/*"]
     }
   },
-  "files": ["node_modules/@dz-web/esboot/config/typescript/esboot.d.ts"],
+  "files": ["node_modules/.cache/esboot/typescript/esboot.d.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"],
-  "include": [".esbootrc.ts", "src/**/*", "globals.d.ts", "node_modules/@dz-web/esboot/config/typescript/esboot.d.ts"]
+  "include": [".esbootrc.ts", "src/**/*", "globals.d.ts", "node_modules/.cache/esboot/typescript/esboot.d.ts"]
 }
