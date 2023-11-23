@@ -19,7 +19,7 @@ export default (): Plugin => {
         .description('Start vitest')
         .allowUnknownOption(true)
         .action(async (_, p) => {
-          runExec(join(__dirname, '../../'), [
+          runExec(join(__dirname, '../'), [
             'vitest',
             '-r',
             process.cwd(),

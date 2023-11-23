@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-plugin-vitest",
-  "version": "0.2.5",
+  "version": "0.2.7",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,13 +20,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@dz-web/esboot": "workspace:*",
-    "@dz-web/esboot-utils": "workspace:*",
     "father": "^4.3.7"
   },
   "dependencies": {
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.1",
+    "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot-utils": "workspace:*",
     "@vitejs/plugin-react": "^4.2.0",
     "@vitest/ui": "^0.34.6",
     "jsdom": "^22.1.0",
