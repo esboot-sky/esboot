@@ -1,16 +1,6 @@
-import { pathExistsSync } from 'fs-extra';
+import { searchCommand as baseSearchCommand } from '@dz-web/esboot-utils';
 import { join } from 'path';
 
-export function joinExecPath(path: string) {
-  // pnpm
-  const pnpmPath = join(__dirname, '../../', path);
-  if (pathExistsSync(pnpmPath)) return pnpmPath;
-
-  // bun
-  const bunPath = join(process.cwd(), path);
-  return bunPath;
-}
-
 export function searchCommand(command: string) {
-  return joinExecPath(`./node_modules/.bin/${command}`);
-};
+  return baseSearchCommand(join(__dirname, '../../'), command);
+}

@@ -1,8 +1,8 @@
+import { join, resolve } from 'path';
 import type { Plugin } from '@dz-web/esboot';
-import { resolve } from 'path';
+import { runExec } from '@dz-web/esboot-utils';
 
-import { runExec } from './helpers';
-import { getAbsolutePath } from './helpers/path';
+import { getAbsolutePath } from '@@/helpers/path';
 
 export const alias = {
   vitest: getAbsolutePath('vitest'),
@@ -19,7 +19,7 @@ export default (): Plugin => {
         .description('Start vitest')
         .allowUnknownOption(true)
         .action(async (_, p) => {
-          runExec([
+          runExec(join(__dirname, '../../'), [
             'vitest',
             '-r',
             process.cwd(),

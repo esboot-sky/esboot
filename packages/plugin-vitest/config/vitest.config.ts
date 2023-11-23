@@ -9,7 +9,7 @@ import { alias } from '../dist';
 registerTypescript();
 esbootConfig.initUserConfig();
 
-const customTSConfigAlias = {};
+const customTSConfigAlias: Record<string, string> = {};
 
 const { alias: esbootAlias } = esbootConfig.userOpts;
 for (let k in esbootAlias) {
