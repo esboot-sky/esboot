@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-plugin-storybook",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,12 +20,21 @@
   "license": "ISC",
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",
-    "@types/cross-spawn": "^6.0.5",
-    "@types/fs-extra": "^11.0.4",
     "father": "^4.3.7"
   },
   "dependencies": {
-    "cross-spawn": "^7.0.3",
-    "fs-extra": "^11.1.1"
+    "@dz-web/esboot-utils": "workspace:*",
+    "@storybook/addon-essentials": "^7.5.3",
+    "@storybook/addon-interactions": "^7.5.3",
+    "@storybook/addon-links": "^7.5.3",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.5.3",
+    "@storybook/react": "^7.5.3",
+    "@storybook/react-webpack5": "^7.5.3",
+    "eslint-plugin-storybook": "^0.6.15",
+    "storybook": "^7.5.3"
+  },
+  "peerDependencies": {
+    "@dz-web/esboot": "*"
   }
 }

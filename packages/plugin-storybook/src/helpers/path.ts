@@ -1,16 +1,3 @@
-import { pathExistsSync } from 'fs-extra';
-import { join } from 'path';
+import { getAbsolutePath as baseGetAbsolutePath } from '@dz-web/esboot-utils';
 
-export function joinExecPath(path: string) {
-  // pnpm
-  const pnpmPath = join(__dirname, '../../', path);
-  if (pathExistsSync(pnpmPath)) return pnpmPath;
-
-  // bun
-  const bunPath = join(process.cwd(), path);
-  return bunPath;
-}
-
-export function searchCommand(command: string) {
-  return joinExecPath(`./node_modules/.bin/${command}`);
-};
+export const getAbsolutePath = (p: string) => baseGetAbsolutePath(p, require.resolve)
