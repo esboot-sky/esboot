@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot",
-  "version": "2.9.0",
+  "version": "2.9.2",
   "description": "",
   "keywords": [
     "webpack",
@@ -31,7 +31,7 @@
     "@babel/preset-react": "^7.22.15",
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
-    "@dz-web/babel-plugin-react-css-modules": "^6.11.3",
+    "@dz-web/babel-plugin-react-css-modules": "^6.11.4",
     "@dz-web/bridge-mock": "^1.2.8",
     "@dz-web/esboot-utils": "workspace:*",
     "@jleonardvp/babel-plugin-module-resolver": "^4.1.1",

@@ -1,6 +1,11 @@
 import path from 'path';
 import type { UserOpts } from '@@/config/types';
 
+// const cssHashRule =
+//   process.env.NODE_ENV === 'production'
+//     ? '[name]__[local]__[contenthash:base64:5]'
+//     : '[package]___[path][name]___[local]___[hash:base64:6]';
+
 export const presets = [
   [
     require('@babel/preset-env'),
@@ -30,6 +35,13 @@ export const getPlugins = (alias: UserOpts['alias']) => {
   return [
     [require('@babel/plugin-syntax-dynamic-import')],
     [
+      require.resolve('@jleonardvp/babel-plugin-module-resolver'),
+      {
+        alias: customAlias,
+        extensions: ['.ts', '.tsx', '.json', '.svg'],
+      },
+    ],
+    [
       require('@dz-web/babel-plugin-react-css-modules'),
       {
         filetypes: {
@@ -44,13 +56,6 @@ export const getPlugins = (alias: UserOpts['alias']) => {
         webpackHotModuleReloading: true,
         autoResolveMultipleImports: true,
         handleMissingStyleName: 'throw',
-      },
-    ],
-    [
-      require.resolve('@jleonardvp/babel-plugin-module-resolver'),
-      {
-        alias: customAlias,
-        extensions: ['.ts', '.tsx', '.json', '.svg'],
       },
     ],
   ];

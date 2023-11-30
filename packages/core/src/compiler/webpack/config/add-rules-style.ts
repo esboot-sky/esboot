@@ -109,8 +109,19 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
 
   config.module.rules.push(
     {
+      /* Loads CSS stylesheets. It is assumed that CSS stylesheets come only
+       * from dependencies, as we use SCSS inside our own code. */
       test: /\.css$/,
-      use: [require.resolve('style-loader'), require.resolve('css-loader')],
+      use: [
+        isDev
+          ? require.resolve('style-loader')
+          : {
+              loader: MiniCssExtractPlugin.loader,
+              // options: isRelativePublicPath ? { publicPath: '../' } : {},
+            },
+        ,
+        require.resolve('css-loader'),
+      ],
     },
     {
       test: /\.scss$/,
