@@ -54,7 +54,15 @@ import { FONT_SIZE } from '@/constants/config';
 
 配置的key，如`@`，不要写成`@/`，value如`src`，不要写成`src/`，因为解析的时候会自动加上。
 
-因为`alias`在项目中其实需要配置4个地方(`eslint`/`typescript`/`webpack`/`babel`)，4个地方的写法都有些不同，所以`esboot`内部会去兼容格式问题。其中`webpack`和`babel`的改了`alias`会立即生效。`typescript`的会在执行`esboot g-alias`后生效。但是`eslint`只会在开项目的时候读一次配置，所以改了`alias`之后最好的操作就是先执行`esboot g-alias`，然后`reload window`(`vscode`中触发快捷键`ctrl + shift + p`，然后输入`reload window`)一下。这样`alias`才会完全生效。
+因为`alias`在项目中其实需要配置4个地方(`eslint`/`typescript`/`webpack`/`babel`)，4个地方的写法都有些不同，所以`esboot`内部会去兼容格式问题。
+
+其中`webpack`和`babel`的改了`alias`会立即生效。
+
+`typescript`的会在执行`esboot g-alias`后生效。
+
+但是`eslint`只会在开项目的时候读一次配置，所以需要手动执行一次`ESLint: Restart ESLint Server`这个命令，推荐绑定这个操作为一个快捷键，这样可以快捷重启。
+
+也可以直接`reload window`(`vscode`中触发快捷键`ctrl + shift + p`，然后输入`reload window`)一下。这样`alias`也会完全生效。
 :::
 
 ## define
