@@ -13,6 +13,7 @@ import { addDevServer } from '@@webpack/config/add-dev-server';
 import { addOptimization } from '@@webpack/config/add-optimization';
 import { addResolve } from '@@webpack/config/add-resolve';
 import { addOutput } from '@@webpack/config/add-output';
+import { addDevtool } from '@@webpack/config/add-devtool';
 
 import { addJavaScriptRules } from '@@webpack/config/javascript/add-rules-javascript';
 import { addCSSRules } from '@@webpack/config/add-rules-style';
@@ -30,7 +31,7 @@ import { addCache } from '@@webpack/config/add-cache';
 
 import esbootConfig from '@@/config';
 
-import { DEFAULT_DEVTOOL, mfsuCacheDir } from '@@/constants';
+import { mfsuCacheDir } from '@@/constants';
 import { afterHooks } from '@@/helpers/hooks';
 
 import { ApplyOpts, CustomConfiguration } from './types';
@@ -95,10 +96,10 @@ const getWebpackConfig = async (opts: IOpts) => {
 
   // Fun
   await addCache(applyOpts);
+  await addDevtool(applyOpts);
 
   const {
     externals = {},
-    devtool = DEFAULT_DEVTOOL,
     customWebpack,
     analyze,
   } = userOpts;
@@ -148,7 +149,6 @@ const getWebpackConfig = async (opts: IOpts) => {
       hints: isDev ? false : 'warning',
     },
     externals,
-    devtool,
   });
 
   if (mfsu) await mfsu.setWebpackConfig({ config } as any);
