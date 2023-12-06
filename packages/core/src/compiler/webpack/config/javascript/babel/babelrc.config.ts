@@ -1,10 +1,6 @@
 import path from 'path';
 import type { UserOpts } from '@@/config/types';
-
-// const cssHashRule =
-//   process.env.NODE_ENV === 'production'
-//     ? '[name]__[local]__[contenthash:base64:5]'
-//     : '[package]___[path][name]___[local]___[hash:base64:6]';
+import { getCssHashRule } from '../../add-rules-style';
 
 export const presets = [
   [
@@ -51,7 +47,7 @@ export const getPlugins = (alias: UserOpts['alias']) => {
         },
         generateScopedName:
           require('@dz-web/babel-plugin-react-css-modules/utils').generateScopedNameFactory(
-            '[name]__[local]__[contenthash:base64:5]'
+            getCssHashRule()
           ),
         webpackHotModuleReloading: true,
         autoResolveMultipleImports: true,

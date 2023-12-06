@@ -51,7 +51,7 @@ export const run = () => {
     .action(async () => {
       process.env.NODE_ENV = Environment.prod;
       process.env.BABEL_ENV = Environment.prod;
-
+      
       esbootConfig.init();
       writeMultiPlatform();
       runBuild();

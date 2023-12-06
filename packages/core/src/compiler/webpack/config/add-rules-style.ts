@@ -17,6 +17,12 @@ interface ParseScssModuleOpts {
   modules?: boolean;
 }
 
+export const getCssHashRule = () =>
+  process.env.NODE_ENV === 'production'
+    ? '[local]__[contenthash:base64:5]'
+    : '[name]__[local]__[contenthash:base64:5]';
+// : '[package]___[path][name]___[local]___[hash:base64:6]';
+
 export async function addCSSRules(applyOpts: ApplyOpts) {
   const {
     config,
@@ -47,7 +53,7 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
           namedExport: true,
           localIdentContext: rootPath,
           getLocalIdent,
-          localIdentName: '[name]__[local]__[contenthash:base64:5]',
+          localIdentName: getCssHashRule(),
         },
       });
     }
