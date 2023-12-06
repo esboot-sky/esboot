@@ -2,6 +2,14 @@
 sidebar_position: 1
 ---
 
+## v1
+
+`2023-12-06`
+
+### v1.0.0
+
+- feat: upgrade vitest to latest(v1.0.1) 🚀
+
 ## v0
 
 ### v0.2.7
