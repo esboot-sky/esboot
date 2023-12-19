@@ -1,7 +1,7 @@
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import postcssNormalize from 'postcss-normalize';
-import LightningCSS from 'lightningcss';
+// import LightningCSS from 'lightningcss';
 import { isUndefined } from 'lodash';
 
 const pxtorem = require('@alitajs/postcss-plugin-px2rem');

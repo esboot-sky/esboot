@@ -4,8 +4,9 @@ import TerserPlugin from 'terser-webpack-plugin';
 import { merge } from 'lodash';
 
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import LightningCSS from 'lightningcss';
-import { LightningCssMinifyPlugin } from 'lightningcss-loader';
+// 不成熟，暂时禁用
+// import LightningCSS from 'lightningcss';
+// import { LightningCssMinifyPlugin } from 'lightningcss-loader';
 
 import { ApplyOpts } from './types';
 import { JsMinifier, CSSMinifier, CodeSplittingType } from '@@/config/types';
@@ -64,12 +65,12 @@ export const addOptimization = async (applyOpts: ApplyOpts) => {
       minimizer.push(new CssMinimizerPlugin(cssMinifierOptions));
       break;
     case CSSMinifier.lightningcss:
-      minimizer.push(
-        new LightningCssMinifyPlugin({
-          implementation: LightningCSS,
-          ...cssMinifierOptions,
-        })
-      );
+      // minimizer.push(
+      //   new LightningCssMinifyPlugin({
+      //     implementation: LightningCSS,
+      //     ...cssMinifierOptions,
+      //   })
+      // );
       break;
     default:
       break;
