@@ -103,3 +103,9 @@ pnpm create esboot --template electron
 ```bash
 pnpm dev
 ```
+
+## 构建项目
+
+```bash
+pnpm build
+```

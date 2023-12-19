@@ -168,17 +168,25 @@ event - Build ~demos/docs/esboot/esboot-hello-demo-0/index.html
 
 用于执行esboot内部的命令，对外可以不使用。
 
-## mock:bridge
+## Mock Series
 
-用于配合`bridge-mock`，启动mock服务。
+生成一些应用的mock数据。
 
-```bash
+### mock\:bridge
+
+配合[bridge-mock](http://asset.web.dz/ld/bridge-mock/#/)，启动mock服务。
+
+```sh
 $ esboot mock:bridge
 
 /Users/My/esboot-react-mp/config/mobile/bridge/bridge-mock.js 加载成功
 正在监听 *:3002, admin控制台访问地址： http://localhost:3002?port=3002
 ```
 
-## g-alias
+## Generate Series
+
+生成一些模版类的东西。
+
+### g-alias
 
 用于改了[alias](/docs/esboot/guides/config#alias)之后从新生成`typescript`和`eslint`的配置。
