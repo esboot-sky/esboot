@@ -196,13 +196,13 @@ export default async ({
   switch (true) {
     case useUpstreamTemplate:
       const { url } = args;
+      const { isString } = lodash;
 
-      if (!url) {
+      if (!isString(url)) {
         logger.error(`Missing URL field`);
-        return;
+        exitPrompt();
       }
 
-      const { isString } = lodash;
       const upstream = isString(args.upstream)
         ? args.upstream
         : 'http://git.web.dz/WebTeam/common-library/esboot/esboot-react-mp.git';
