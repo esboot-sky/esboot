@@ -10,6 +10,7 @@ import {
   pkgUp,
   tryPaths,
   yParser,
+  lodash,
 } from '@umijs/utils';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
@@ -55,7 +56,7 @@ enum ENpmClient {
 
 enum ETemplate {
   'mp' = 'mp',
-  'sp' = 'sp'
+  'sp' = 'sp',
   // app = 'app',
   // max = 'max',
   // vueApp = 'vue-app',
@@ -65,6 +66,17 @@ enum ETemplate {
 export interface IDefaultData extends ITemplateParams {
   appTemplate?: ETemplate;
 }
+
+const getRepoName = (url: string) => {
+  const projectNameMatch = url.match(/\/([^\/]+)\.git$/);
+
+  if (projectNameMatch && projectNameMatch.length > 1) {
+    const projectName = projectNameMatch[1];
+    return projectName;
+  } else {
+    return 'esboot-react-mp';
+  }
+};
 
 const pkg = require('../package');
 const DEFAULT_DATA = {
@@ -178,8 +190,52 @@ export default async ({
   const useDefaultData = !!args.default;
   // --template
   const useExternalTemplate = !!args.template;
+  // --upstream
+  const useUpstreamTemplate = !!args.upstream;
 
   switch (true) {
+    case useUpstreamTemplate:
+      const { url } = args;
+
+      if (!url) {
+        logger.error(`Missing URL field`);
+        return;
+      }
+
+      const { isString } = lodash;
+      const upstream = isString(args.upstream)
+        ? args.upstream
+        : 'http://git.web.dz/WebTeam/common-library/esboot/esboot-react-mp.git';
+      const branch = isString(args.branch) ? args.branch : 'main';
+      const name = isString(args.name) ? args.name : getRepoName(url);
+
+      try {
+        logger.info('Clone project');
+        await execa.execa('git', [
+          'clone',
+          '-b',
+          branch,
+          '--single-branch',
+          upstream,
+          name,
+        ]);
+        process.chdir(name);
+        logger.info('Set branch');
+        await execa.execa('git', ['checkout', '-b', 'upstream']);
+        await execa.execa('git', ['checkout', '-b', 'dev']);
+        logger.info('Set remote');
+        await execa.execa('git', ['remote', 'set-url', 'origin', url]);
+        await execa.execa('git', ['remote', 'add', 'upstream', upstream]);
+        logger.info('Track upstream');
+        await execa.execa('git', ['fetch', 'upstream', 'main']);
+        await execa.execa('git', ['branch', '-u', 'upstream/main', 'upstream']);
+        logger.info('Initial commit');
+        await execa.execa('git', ['push', '-u', 'origin', '--all']);
+        logger.info('Done!');
+      } catch (error) {
+        logger.error('Error:', error);
+      }
+      return;
     case useExternalTemplate:
       await selectNpmClient();
       if (isCancel(npmClient)) {
@@ -287,15 +343,15 @@ export default async ({
     if (isPnpm8) {
       logger.warn(
         chalk.yellow(
-          `You current using pnpm v8, it will install minimal version of dependencies`,
-        ),
+          `You current using pnpm v8, it will install minimal version of dependencies`
+        )
       );
       logger.warn(
         chalk.green(
           `Recommended that you run ${chalk.bold.cyan(
-            'pnpm up -L',
-          )} to install latest version of dependencies`,
-        ),
+            'pnpm up -L'
+          )} to install latest version of dependencies`
+        )
       );
     }
   }

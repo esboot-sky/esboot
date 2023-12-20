@@ -44,7 +44,7 @@ stylelint下载之后需要配置一下能支持scss规则.
 
 ## 创建项目
 
-### 从官方内置模版创建
+### 方式一：从官方内置模版创建
 
 先找个地方建个空目录。
 
@@ -81,13 +81,35 @@ import TabItem from '@theme/TabItem';
   </TabItem>
 </Tabs>
 
-### 从自定义模版创建
+### 方式二：从自定义模版创建
 
 ```bash
 # 从 @dz-web/esboot-electron-template 创建一个 electron 模板
 
 pnpm create esboot --template electron
 ```
+
+### 方式三：从上游创建项目
+
+为了能够上游模版更新之后可以cherry-pick更改。
+
+```sh
+pnpm create esboot --upstream --url 你的项目git地址
+
+# 示例
+pnpm create esboot --upstream --url ssh://git@git.web.dz:10022/draft/esboot-react-mp-draft.git
+```
+
+#### 参数选项
+
+可用的参数如下：
+
+| option | description |
+| ------ | ------ |
+| `--url` | 必填，指定你的git仓库地址 |
+| `--name` | 可选，指定目录名称，如果不填，默认用项目名称 |
+| `--upstream` | 可选，上游的地址，默认`<http://git.web.dz/WebTeam/common-library/esboot/esboot-react-mp.git>` |
+| `--branch` | 可选，上游的分支，默认`main` |
 
 ### 参数选项
 

@@ -4,7 +4,7 @@ import { x as unpack } from '@umijs/utils/compiled/tar';
 export enum ERegistry {
   npm = 'https://registry.npmjs.com/',
   taobao = 'https://registry.npmmirror.com/',
-  dz = 'http://localhost:4873/',
+  dz = 'http://npm.web.dz/',
 }
 
 export type UmiTemplate = `@dz-web/esboot-${string}-template`;
