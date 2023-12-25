@@ -9,14 +9,18 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "check": "tsc --noEmit"
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "dev": "father dev",
+    "prepublishOnly": "father doctor && npm run build"
   },
   "files": [
     "dist/**/*",
     "types/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "exports": {
     ".": {
@@ -27,7 +31,7 @@
     "./preset": {
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs"
+      "import": "./dist/preset.js"
     },
     "./preview.js": {
       "types": "./dist/preview.d.ts",
@@ -35,6 +39,10 @@
       "import": "./dist/preview.mjs"
     },
     "./package.json": "./package.json"
+  },
+  "devDependencies": {
+    "@dz-web/esboot": "workspace:*",
+    "father": "^4.3.7"
   },
   "peerDependencies": {
     "@dz-web/esboot": "*"

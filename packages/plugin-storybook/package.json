@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@dz-web/esboot-utils": "workspace:*",
+    "@dz-web/esboot-storybook-framework": "workspace:*",
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-interactions": "^7.5.3",
     "@storybook/addon-links": "^7.5.3",
