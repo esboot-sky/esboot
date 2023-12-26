@@ -40,8 +40,9 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
   const {
     config,
     isDev,
-    userOpts: { isRelativePublicPath, pxtorem: pxtoremAllOptions },
+    userOpts: { isRelativePublicPath, pxtorem: pxtoremAllOptions, sourceMap },
   } = applyOpts;
+  const isSourceMap = isUndefined(sourceMap) ? isDev : sourceMap;
   const { enable: enablePxToRem, ...pxtoremCustom } = pxtoremAllOptions;
   const { rootPath, isMobile } = esbootConfig.compileTimeConfig;
   const enablePxToRemByCompatibility = isUndefined(enablePxToRem)
@@ -57,7 +58,7 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
   const parseScssModule = (options: ParseScssModuleOpts) => {
     const { modules = false } = options;
     const cssLoaderOptions = {
-      sourceMap: isDev,
+      sourceMap: isSourceMap,
     };
 
     if (modules) {
@@ -89,7 +90,7 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
       {
         loader: require.resolve('postcss-loader'),
         options: {
-          sourceMap: isDev,
+          sourceMap: isSourceMap,
           postcssOptions: {
             plugins: [
               enablePxToRemByCompatibility &&
@@ -126,7 +127,7 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
       // },
       {
         loader: require.resolve('sass-loader'),
-        options: { sourceMap: isDev },
+        options: { sourceMap: isSourceMap },
       },
     ];
   };

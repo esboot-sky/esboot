@@ -4,10 +4,10 @@ export const addDevtool = async (applyOpts: any) => {
   const {
     isDev,
     config,
-    userOpts: { sourcemap },
+    userOpts: { sourceMap },
   } = applyOpts;
 
-  if (sourcemap) {
+  if (sourceMap) {
     config.devtool = 'source-map';
     return;
   }

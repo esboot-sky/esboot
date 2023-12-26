@@ -1,7 +1,7 @@
 import webpack, { Configuration } from 'webpack';
 import webpackbar from 'webpackbar';
 import { MFSU } from '@umijs/mfsu';
-import { noop } from 'lodash';
+import { noop, isUndefined } from 'lodash';
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
