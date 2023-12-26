@@ -62,6 +62,7 @@ const getWebpackConfig = async (opts: IOpts) => {
       tmpBase: mfsuCacheDir,
       implementor: webpack,
       depBuildConfig: {},
+      unMatchLibs: [/rsuite/],
       buildDepWithESBuild: true,
       startBuildWorker: noop as any,
     });
@@ -151,7 +152,32 @@ const getWebpackConfig = async (opts: IOpts) => {
     externals,
   });
 
-  if (mfsu) await mfsu.setWebpackConfig({ config } as any);
+  const depConfig = {
+    output: {},
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.[jt]sx?$/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                '@babel/preset-env',
+                '@babel/preset-react',
+                '@babel/preset-typescript',
+              ],
+            },
+          },
+        },
+      ],
+    },
+    plugins: [],
+  };
+
+  if (mfsu) await mfsu.setWebpackConfig({ config, depConfig } as any);
   return customWebpack ? customWebpack(config, applyOpts) : config;
 };
 

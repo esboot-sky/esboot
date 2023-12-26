@@ -93,14 +93,14 @@ import { FONT_SIZE } from '@/constants/config';
 declare const define: string;
 ```
 
-## sourcemap
+## sourceMap
 
 `since 2.10.0`
 
 - 类型：`boolean`
 - 默认值：`dev`模式下为`true`，`prod`模式下`false`。
 
-是否开启`sourcemap`。
+是否开启`sourceMap`。
 
 ## externals
 

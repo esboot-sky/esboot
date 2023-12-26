@@ -27,13 +27,16 @@ export const getCssHashRule = () => '[local]__[contenthash:base64:8]';
 const getStyleLoader = (): Record<string, any> => ({
   loader: require.resolve('style-loader'),
   options: {
-    base: 0,
     esModule: true,
   },
 });
 const getMiniCssExtractPluginOptions = (): Record<string, any> => ({
   emit: true,
   esModule: true,
+});
+const getCssLoaderOptions = (): Record<string, any> => ({
+  esModule: true,
+  import: true,
 });
 
 export async function addCSSRules(applyOpts: ApplyOpts) {
@@ -55,15 +58,18 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
     path.join(rootPath, './platforms/pc/styles/'),
   ];
 
+  const cssLoaderOptions = {
+    sourceMap: isSourceMap,
+    ...getCssLoaderOptions(),
+  };
+
   const parseScssModule = (options: ParseScssModuleOpts) => {
     const { modules = false } = options;
-    const cssLoaderOptions = {
-      sourceMap: isSourceMap,
-    };
+
+    const cssLoaderOptionsCopy = { ...cssLoaderOptions, importLoaders: 2 };
 
     if (modules) {
-      Object.assign(cssLoaderOptions, {
-        importLoaders: 2,
+      Object.assign(cssLoaderOptionsCopy, {
         modules: {
           namedExport: true,
           localIdentContext: rootPath,
@@ -85,7 +91,7 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
           },
       {
         loader: require.resolve('css-loader'),
-        options: cssLoaderOptions,
+        options: cssLoaderOptionsCopy,
       },
       {
         loader: require.resolve('postcss-loader'),
@@ -146,11 +152,7 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
             },
         {
           loader: require.resolve('css-loader'),
-          options: {
-            importLoaders: 1,
-            esModule: true,
-            import: true,
-          },
+          options: cssLoaderOptions,
         },
       ],
     },
