@@ -61,9 +61,6 @@ export const addOptimization = async (applyOpts: ApplyOpts) => {
   }
 
   switch (cssMinifier) {
-    case CSSMinifier.cssnano:
-      minimizer.push(new CssMinimizerPlugin(cssMinifierOptions));
-      break;
     case CSSMinifier.lightningcss:
       // minimizer.push(
       //   new LightningCssMinifyPlugin({
@@ -73,115 +70,123 @@ export const addOptimization = async (applyOpts: ApplyOpts) => {
       // );
       break;
     default:
+      // CSSMinifier.cssnano
+      minimizer.push(new CssMinimizerPlugin(cssMinifierOptions));
       break;
   }
 
   let splitChunks = {};
 
-  if (jsStrategy === CodeSplittingType.granularChunks) {
-    const { frameworkBundles = [] } = jsStrategyOptions;
+  switch (jsStrategy) {
+    case CodeSplittingType.granularChunks:
+      const { frameworkBundles = [] } = jsStrategyOptions;
 
-    const FRAMEWORK_BUNDLES = [
-      // React Series
-      'react-dom',
-      'react',
-      'react-intl',
-      'react-router',
-      'react-router-dom',
-      'classnames',
-      //
-      'lodash',
-      'dayjs',
-      'zustand',
-      '@loadable/component',
-      ...frameworkBundles,
-    ];
+      const FRAMEWORK_BUNDLES = [
+        // React Series
+        'react-dom',
+        'react',
+        'react-intl',
+        'react-router',
+        'react-router-dom',
+        'classnames',
+        //
+        'lodash',
+        'dayjs',
+        'zustand',
+        '@loadable/component',
+        ...frameworkBundles,
+      ];
 
-    splitChunks = {
-      chunks: 'all',
-      name: 'vendor',
-      minChunks: 2,
-      cacheGroups: {
-        default: false,
-        defaultVendors: false,
-        framework: {
-          name: 'framework',
-          chunks: 'all',
-          test: new RegExp(
-            `[\\\\/]node_modules[\\\\/](${FRAMEWORK_BUNDLES.join(`|`)})[\\\\/]`
-          ),
-          priority: 40,
-          enforce: true,
-        },
-        lib: {
-          test(module: any) {
-            return (
-              !isModuleCSS(module) &&
-              module.size() > 160000 &&
-              /node_modules[/\\]/.test(module.identifier())
-            );
+      splitChunks = {
+        chunks: 'all',
+        name: 'vendor',
+        minChunks: 2,
+        cacheGroups: {
+          default: false,
+          defaultVendors: false,
+          framework: {
+            name: 'framework',
+            chunks: 'all',
+            test: new RegExp(
+              `[\\\\/]node_modules[\\\\/](${FRAMEWORK_BUNDLES.join(
+                `|`
+              )})[\\\\/]`
+            ),
+            priority: 40,
+            enforce: true,
           },
-          name(module: any) {
-            const rawRequest =
-              module.rawRequest &&
-              module.rawRequest.replace(/^@(\w+)[/\\]/, '$1-');
-            if (rawRequest) {
-              return `${
-                // when `require()` a package with relative path,
-                // need remove leading `.` and `/`, otherwise will not found `.js` file
-                // e.g. require('../../lib/codemirror')
-                rawRequest.replace(/\./g, '_').replace(/\//g, '-')
-              }-lib`;
-            }
+          lib: {
+            test(module: any) {
+              return (
+                !isModuleCSS(module) &&
+                module.size() > 160000 &&
+                /node_modules[/\\]/.test(module.identifier())
+              );
+            },
+            name(module: any) {
+              const rawRequest =
+                module.rawRequest &&
+                module.rawRequest.replace(/^@(\w+)[/\\]/, '$1-');
+              if (rawRequest) {
+                return `${
+                  // when `require()` a package with relative path,
+                  // need remove leading `.` and `/`, otherwise will not found `.js` file
+                  // e.g. require('../../lib/codemirror')
+                  rawRequest.replace(/\./g, '_').replace(/\//g, '-')
+                }-lib`;
+              }
 
-            const identifier = module.identifier();
-            const trimmedIdentifier = /(?:^|[/\\])node_modules[/\\](.*)/.exec(
-              identifier
-            );
-            const processedIdentifier =
-              trimmedIdentifier &&
-              trimmedIdentifier[1].replace(/^@(\w+)[/\\]/, '$1-');
+              const identifier = module.identifier();
+              const trimmedIdentifier = /(?:^|[/\\])node_modules[/\\](.*)/.exec(
+                identifier
+              );
+              const processedIdentifier =
+                trimmedIdentifier &&
+                trimmedIdentifier[1].replace(/^@(\w+)[/\\]/, '$1-');
 
-            return `${processedIdentifier || identifier}-lib`;
+              return `${processedIdentifier || identifier}-lib`;
+            },
+            priority: 30,
+            minChunks: 1,
+            reuseExistingChunk: true,
+            chunks: 'async',
           },
-          priority: 30,
-          minChunks: 1,
-          reuseExistingChunk: true,
-          chunks: 'async',
-        },
-        shared: {
-          name(_module: any, chunks: any) {
-            const cryptoName = crypto
-              .createHash('sha1')
-              .update(
-                chunks.reduce((acc: any, chunk: any) => {
-                  return acc + chunk.name;
-                }, '')
-              )
-              .digest('base64')
-              .replace(/\//g, '')
-              .replace(/\+/g, '-')
-              .replace(/=/g, '_');
-            return `shared-${cryptoName}`;
+          shared: {
+            name(_module: any, chunks: any) {
+              const cryptoName = crypto
+                .createHash('sha1')
+                .update(
+                  chunks.reduce((acc: any, chunk: any) => {
+                    return acc + chunk.name;
+                  }, '')
+                )
+                .digest('base64')
+                .replace(/\//g, '')
+                .replace(/\+/g, '-')
+                .replace(/=/g, '_');
+              return `shared-${cryptoName}`;
+            },
+            priority: 10,
+            minChunks: 2,
+            reuseExistingChunk: true,
+            chunks: 'async',
           },
-          priority: 10,
-          minChunks: 2,
-          reuseExistingChunk: true,
-          chunks: 'async',
         },
-      },
-    };
-  } else if (jsStrategy === CodeSplittingType.bigVendors) {
-    splitChunks = {
-      chunks: 'all',
-      name: 'vendor',
-      minChunks: 2,
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
+      };
+      break;
+    default:
+      // bigVendors
+      splitChunks = {
+        chunks: 'all',
+        name: 'vendor',
+        minChunks: 2,
+        cacheGroups: {
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+          },
         },
-      },
-    };
+      };
+      break;
   }
 
   config.optimization = {

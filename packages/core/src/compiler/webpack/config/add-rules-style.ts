@@ -24,6 +24,17 @@ interface ParseScssModuleOpts {
 // : '[package]___[path][name]___[local]___[hash:base64:6]';
 
 export const getCssHashRule = () => '[local]__[contenthash:base64:8]';
+const getStyleLoader = (): Record<string, any> => ({
+  loader: require.resolve('style-loader'),
+  options: {
+    base: 0,
+    esModule: true,
+  },
+});
+const getMiniCssExtractPluginOptions = (): Record<string, any> => ({
+  emit: true,
+  esModule: true,
+});
 
 export async function addCSSRules(applyOpts: ApplyOpts) {
   const {
@@ -48,6 +59,7 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
     const cssLoaderOptions = {
       sourceMap: isDev,
     };
+
     if (modules) {
       Object.assign(cssLoaderOptions, {
         importLoaders: 2,
@@ -59,12 +71,16 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
         },
       });
     }
+
+    const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
+    if (isRelativePublicPath) miniCssExtractPluginOptions.publicPath = '../';
+
     return [
       isDev
-        ? require.resolve('style-loader')
+        ? getStyleLoader()
         : {
             loader: MiniCssExtractPlugin.loader,
-            options: isRelativePublicPath ? { publicPath: '../' } : {},
+            options: miniCssExtractPluginOptions,
           },
       {
         loader: require.resolve('css-loader'),
@@ -122,13 +138,19 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
       test: /\.css$/,
       use: [
         isDev
-          ? require.resolve('style-loader')
+          ? getStyleLoader()
           : {
               loader: MiniCssExtractPlugin.loader,
-              // options: isRelativePublicPath ? { publicPath: '../' } : {},
+              options: getMiniCssExtractPluginOptions(),
             },
-        ,
-        require.resolve('css-loader'),
+        {
+          loader: require.resolve('css-loader'),
+          options: {
+            importLoaders: 1,
+            esModule: true,
+            import: true,
+          },
+        },
       ],
     },
     {
