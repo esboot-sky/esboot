@@ -9,7 +9,8 @@
       "outputs": []
     },
     "dev": {
-      "cache": false
+      "outputs": ["dist/**"],
+      "cache": true
     }
   }
 }
