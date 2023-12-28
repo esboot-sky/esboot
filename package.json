@@ -12,7 +12,8 @@
     "dev": "turbo run dev --filter @dz-web/esboot",
     "build": "turbo run build --filter @dz-web/esboot",
     "lint": "turbo run lint",
-    "changesets": "changesets",
+    "changeset": "changeset",
+    "pub": "changeset tag && pnpm publish -r",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
