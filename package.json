@@ -12,9 +12,12 @@
     "dev": "turbo run dev --filter @dz-web/esboot",
     "build": "turbo run build --filter @dz-web/esboot",
     "lint": "turbo run lint",
+    "changesets": "changesets",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.1",
     "@types/node": "^17.0.45",
     "father": "^4.2.3",
     "prettier": "latest",
