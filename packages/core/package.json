@@ -101,7 +101,8 @@
     "webpack-bundle-analyzer": "^4.9.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
-    "webpackbar": "5.0.2"
+    "webpackbar": "5.0.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.3",
