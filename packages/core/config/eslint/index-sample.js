@@ -32,7 +32,7 @@ module.exports = {
     tsconfigRootDir: '',
   },
   rules: {
-    "import/no-extraneous-dependencies": 0,
+    'import/no-extraneous-dependencies': 0,
     'no-shadow': 'off',
     'no-use-before-define': 'off',
     'import/no-unresolved': 'error',
@@ -99,6 +99,27 @@ module.exports = {
       'ForInStatement',
       'LabeledStatement',
       'WithStatement',
+    ],
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always',
+        warnOnUnassignedImports: true,
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index',
+          'object',
+          'type',
+        ],
+      },
     ],
   },
   env: {
