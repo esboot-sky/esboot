@@ -27,7 +27,7 @@ export function generateAliasFiles() {
 
     customEslintAlias.push([k, value]);
   }
-
+  
   eslintConfig.settings['import/resolver'].alias.map = customEslintAlias;
   const eslintOutputPath = join(cacheDir, 'eslint/index.js');
   fs.ensureFileSync(eslintOutputPath);
@@ -72,11 +72,12 @@ export function generateAliasFiles() {
     const key = isAbsoluteValue ? k : `${k}/*`;
     const value = isAbsoluteValue
       ? rawValue
-      : join(process.cwd(), `./${rawValue}/*`);
+      : `${rawValue}/*`;
 
     customTSConfigAlias[key] = [value];
   }
 
+  tsconfigJson.compilerOptions.baseUrl = process.cwd();
   tsconfigJson.compilerOptions.paths = customTSConfigAlias;
   tsconfigJson.exclude = tsconfigJson.exclude.map((v: string) => {
     return join(process.cwd(), v);
