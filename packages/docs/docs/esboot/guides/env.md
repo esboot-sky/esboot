@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# env
+# ENV
 
 ## .env文件
 

@@ -17,6 +17,7 @@ import { runCommitLint } from './lint/commit';
 import { runDocs } from './docs';
 import { runMockBridge } from './mock/bridge';
 import { generateAliasFiles } from './generate/alias';
+import { runPostInstall } from './postinstall/postinstall';
 
 import { writeMultiPlatform } from '../scripts/write-multi-platform';
 
@@ -51,7 +52,7 @@ export const run = () => {
     .action(async () => {
       process.env.NODE_ENV = Environment.prod;
       process.env.BABEL_ENV = Environment.prod;
-      
+
       esbootConfig.init();
       writeMultiPlatform();
       runBuild();
@@ -113,6 +114,13 @@ export const run = () => {
     .option('-s, --sampleFile <char>')
     .action(async (options) => {
       runMockBridge(options);
+    });
+
+  program
+    .command('postinstall')
+    .description('Post install actions')
+    .action(async (options) => {
+      runPostInstall(options);
     });
 
   program.version(pkg.version);

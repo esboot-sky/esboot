@@ -164,6 +164,23 @@ event - Build ~demos/:id/index.html
 event - Build ~demos/docs/esboot/esboot-hello-demo-0/index.html
 ```
 
+## postinstall
+
+用于执行`postinstall`钩子，内部执行两个命令。
+
+```sh
+$ pnpm run postinstall
+
+# esboot exec husky install
+info  - Created File: /Users/rocsun/Code/dz-library/esboot/esboot-react-sp/node_modules/.cache/esboot/eslint/index.js.
+info  - Created File: /Users/rocsun/Code/dz-library/esboot/esboot-react-sp/node_modules/.cache/esboot/typescript/esboot.d.ts.
+info  - Created File: /Users/rocsun/Code/dz-library/esboot/esboot-react-sp/node_modules/.cache/esboot/typescript/tsconfig.json.
+Done!
+
+# esboot g-alia
+husky - Git hooks installed
+```
+
 ## exec
 
 用于执行esboot内部的命令，对外可以不使用。

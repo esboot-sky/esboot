@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# static
+# Static
 
 ## 自定义静态文件
 

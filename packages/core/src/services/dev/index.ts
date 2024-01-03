@@ -15,8 +15,10 @@ export async function runDev() {
   let server: WebpackDevServer;
 
   const start = async () => {
+    console.time('dev');
     const cfg = await getWebpackConfig({ env: Environment.dev });
     const compiler = Webpack(cfg);
+    console.timeEnd('dev');
 
     logBrand();
     server = new WebpackDevServer(cfg.devServer, compiler);
