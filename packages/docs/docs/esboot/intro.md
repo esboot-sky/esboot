@@ -42,6 +42,22 @@ stylelint下载之后需要配置一下能支持scss规则.
 
 - [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
 
+#### CSS Peek
+
+下载[dz-web-css-peek](./assets/dz-web-vscode-css-peek-4.4.1.vsix)，执行
+
+```sh
+code --install-extension ./dz-web-vscode-css-peek-4.4.1.vsix
+```
+
+即可支持项目中`tsx`中的`styleName`跳转到scss文件。
+
+更多文档直接看[CSS Peek](https://marketplace.visualstudio.com/items?itemName=pranaygp.vscode-css-peek&ssr=false#overview)，此插件只是定制支持了`styleName`。
+
+效果如下:
+
+![xx](./assets/CleanShot%202024-01-03%20at%2013.46.34.gif)
+
 ## 创建项目
 
 ### 方式一：从官方内置模版创建
