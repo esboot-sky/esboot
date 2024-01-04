@@ -12,15 +12,13 @@ ESBoot集成了很多工程化工具，包括一些Rust和Go的包，比较大�
 
 ## 编辑器准备
 
-### 编辑器下载
-
 推荐使用[Visual Studio Code](https://code.visualstudio.com/)，
 
-### VSCode插件
+## VSCode插件
 
 因为ESBoot内置了eslint、stylelint规则。所以一定要安装以下插件
 
-#### Stylelint
+### Stylelint
 
 - [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint)
 
@@ -32,17 +30,17 @@ stylelint下载之后需要配置一下能支持scss规则.
 
 ![stylelint-error](./images/stylelint-error.png)
 
-#### ESLint
+### ESLint
 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
 安装完之后不需要额外的配置，直接找一个tsx文件测试一下即可。
 
-#### EditorConfig
+### EditorConfig for VS Code
 
 - [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
 
-#### CSS Peek
+### CSS Peek(local)
 
 下载[dz-web-css-peek](./assets/dz-web-vscode-css-peek-4.4.1.vsix)，执行
 
@@ -57,6 +55,14 @@ code --install-extension ./dz-web-vscode-css-peek-4.4.1.vsix
 效果如下:
 
 ![xx](./assets/CleanShot%202024-01-03%20at%2013.46.34.gif)
+
+### babel-plugin-react-css-modules-autocomplete
+
+搭配上面的插件，自动补全React CSS Modules类名。
+
+### Image preview
+
+预览`import`的图片。
 
 ## 创建项目
 
