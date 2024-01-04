@@ -1,5 +1,5 @@
 ---
-title: creact-esboot
+title: create-esboot
 sidebar_position: 3
 ---
 
