@@ -25,7 +25,7 @@ pnpm run esboot vitest
 `vitest`命令转发了[vitest](https://vitest.dev/guide/cli.html)，内置了`-r/-c/--dir`参数，其他参数可以正常加入，如：
 
 ```sh
-pnpm run vitest --open
+pnpm run esboot vitest --open
 ```
 
 ## 插件说明
