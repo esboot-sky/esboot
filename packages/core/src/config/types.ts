@@ -42,16 +42,18 @@ export interface Px2rem {
   minPixelValue?: number;
 }
 
+export type CustomWebpack = (
+  config: Configuration,
+  applyOpts: ApplyOpts
+) => Configuration;
+
 export type UserOpts = {
   analyze?: boolean;
   mfsu?: boolean;
   copy?: Pick<PluginOptions, 'patterns'>;
   outputPath?: string;
   publicPath?: string;
-  customWebpack?: (
-    config: Configuration,
-    applyOpts: ApplyOpts
-  ) => Configuration;
+  customWebpack?: CustomWebpack;
   TSChecker?: boolean;
   analyzer?: any;
   extraBabelPlugins?: string[];

@@ -33,6 +33,7 @@ import esbootConfig from '@@/config';
 
 import { mfsuCacheDir } from '@@/constants';
 import { afterHooks } from '@@/helpers/hooks';
+import { invokeEachPlugin } from '@@/helpers/plugins';
 
 import { ApplyOpts, CustomConfiguration } from './types';
 
@@ -178,6 +179,8 @@ const getWebpackConfig = async (opts: IOpts) => {
   };
 
   if (mfsu) await mfsu.setWebpackConfig({ config, depConfig } as any);
+
+  invokeEachPlugin((plugin) => plugin?.customWebpack?.(config, applyOpts));
   return customWebpack ? customWebpack(config, applyOpts) : config;
 };
 

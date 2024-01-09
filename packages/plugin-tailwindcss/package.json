@@ -1,0 +1,31 @@
+{
+  "name": "@dz-web/esboot-plugin-tailwindcss",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "dev": "father dev",
+    "prepublishOnly": "father doctor && npm run build"
+  },
+  "keywords": [],
+  "files": [
+    "dist"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot-utils": "workspace:*",
+    "father": "^4.3.7"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.4.1"
+  },
+  "peerDependencies": {
+    "@dz-web/esboot": "*"
+  }
+}
