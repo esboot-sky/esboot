@@ -11,6 +11,7 @@ function loadEnv({ root }: { root: string }) {
     if (existsSync(dotenvFile)) {
       dotEnvExpand.expand(
         dotEnv.config({
+          override: true,
           path: dotenvFile,
         })
       );
