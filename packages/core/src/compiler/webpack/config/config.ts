@@ -2,6 +2,7 @@ import webpack, { Configuration } from 'webpack';
 import webpackbar from 'webpackbar';
 import { MFSU } from '@umijs/mfsu';
 import { noop, isUndefined } from 'lodash';
+import Config from 'webpack-5-chain';
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
@@ -178,6 +179,11 @@ const getWebpackConfig = async (opts: IOpts) => {
     plugins: [],
   };
 
+  // FIXME:
+  // const depConfig2 = new Config();
+  // depConfig2.merge(config);
+
+  // console.log(depConfig2.toConfig(), '<-- depConfig2');
   if (mfsu) await mfsu.setWebpackConfig({ config, depConfig } as any);
 
   invokeEachPlugin((plugin) => plugin?.customWebpack?.(config, applyOpts));
