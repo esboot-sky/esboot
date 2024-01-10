@@ -177,7 +177,7 @@ info  - Created File: /Users/rocsun/Code/dz-library/esboot/esboot-react-sp/node_
 info  - Created File: /Users/rocsun/Code/dz-library/esboot/esboot-react-sp/node_modules/.cache/esboot/typescript/tsconfig.json.
 Done!
 
-# esboot g-alia
+# esboot g-alias
 husky - Git hooks installed
 ```
 
