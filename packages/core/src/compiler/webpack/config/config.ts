@@ -83,9 +83,10 @@ const getWebpackConfig = async (opts: IOpts) => {
 
   await addEntry(applyOpts);
   await addOutput(applyOpts);
+  await addResolve(applyOpts);
+
   console.log(chainedConfig.toConfig(), config, '<-- chainedConfig.toConfig()');
   return config;
-  await addResolve(applyOpts);
 
   // Rules
   await addJavaScriptRules(applyOpts);
