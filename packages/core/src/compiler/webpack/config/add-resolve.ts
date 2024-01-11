@@ -4,7 +4,6 @@ import type { UserOpts } from '@@/config/types';
 
 export const addResolve = async (applyOpts: any) => {
   const {
-    config,
     chainedConfig,
     userOpts: { alias },
   } = applyOpts;
@@ -21,19 +20,4 @@ export const addResolve = async (applyOpts: any) => {
   chainedConfig.resolve.extensions
     .clear()
     .merge(['.wasm', '.mjs', '.cjs', '.js', '.jsx', '.ts', '.tsx', '.json']);
-
-  // deprecated
-  config.resolve = {
-    alias: customAlias,
-    extensions: [
-      '.wasm',
-      '.mjs',
-      '.cjs',
-      '.js',
-      '.jsx',
-      '.ts',
-      '.tsx',
-      '.json',
-    ],
-  };
 };

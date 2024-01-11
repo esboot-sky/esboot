@@ -21,7 +21,6 @@ export const addEntry = async (applyOpts: ApplyOpts) => {
     process.env;
 
   const {
-    config,
     chainedConfig,
     userOpts: { port },
   } = applyOpts;
@@ -62,18 +61,5 @@ export const addEntry = async (applyOpts: ApplyOpts) => {
         hash: true,
       }
     ]);
-
-    // deprecated
-    config.entry[chunkName] = file;
-    config.plugins.push(
-      new HtmlWebpackPlugin({
-        inject: true,
-        chunks: [chunkName],
-        filename: `${chunkName}.html`,
-        title: ensureTitle,
-        template: ensureTpl,
-        hash: true,
-      })
-    );
   });
 };

@@ -1,7 +1,7 @@
 import webpack, { Configuration } from 'webpack';
 import webpackbar from 'webpackbar';
 import { MFSU } from '@umijs/mfsu';
-import { noop, isUndefined } from 'lodash';
+import { noop, isUndefined, isEqual } from 'lodash';
 import Config from 'webpack-5-chain';
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -85,12 +85,15 @@ const getWebpackConfig = async (opts: IOpts) => {
   await addOutput(applyOpts);
   await addResolve(applyOpts);
 
-  console.log(chainedConfig.toConfig(), config, '<-- chainedConfig.toConfig()');
-  return config;
-
   // Rules
   await addJavaScriptRules(applyOpts);
   await addCSSRules(applyOpts);
+   // @ts-ignore
+   const a = chainedConfig.toConfig().module?.rules?.[0]?.use;
+   const b = config.module?.rules[0].use;
+   console.log(a, b, isEqual(a, b), '<-- chainedConfig.toConfig()');
+ 
+   return config;
   await addAssetRules(applyOpts);
 
   // Plugins
