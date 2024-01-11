@@ -22,7 +22,7 @@ export const addEntry = async (applyOpts: ApplyOpts) => {
 
   const {
     config,
-    isDev,
+    chainedConfig,
     userOpts: { port },
   } = applyOpts;
   const files = await glob(`/**/${ESBOOT_CONTENT_PATTERN}.entry.tsx`, {
@@ -51,8 +51,20 @@ export const addEntry = async (applyOpts: ApplyOpts) => {
       url: `http://${ipv4}:${port}/${chunkName}.html`,
     });
 
-    config.entry[chunkName] = file;
+    chainedConfig.entry(chunkName).add(file);
+    chainedConfig.plugin('html').use(HtmlWebpackPlugin, [
+      {
+        inject: true,
+        chunks: ['chunkName'],
+        filename: 'chunkName.html',
+        title: 'ensureTitle',
+        template: 'ensureTpl',
+        hash: true,
+      }
+    ]);
 
+    // deprecated
+    config.entry[chunkName] = file;
     config.plugins.push(
       new HtmlWebpackPlugin({
         inject: true,

@@ -1,3 +1,4 @@
+import Config from 'webpack-5-chain';
 import type {
   Configuration,
   WebpackPluginInstance,
@@ -18,6 +19,7 @@ export interface CustomConfiguration extends Configuration {
 }
 
 export interface ApplyOpts {
+  chainedConfig: Config;
   config: CustomConfiguration;
   isDev: boolean;
   userOpts: any;

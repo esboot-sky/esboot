@@ -3,6 +3,7 @@ import { fork } from 'child_process';
 import { program } from 'commander';
 
 import { Environment } from '@@webpack/config/environment';
+import getWebpackConfig from '@@webpack/config/config';
 
 import esbootConfig from '@@/config';
 import { invokeEachPlugin } from '@@/helpers/plugins';
@@ -30,6 +31,19 @@ export const run = () => {
   registry({ root: cwd });
 
   invokeEachPlugin((plugin) => plugin?.registerCommands?.(program));
+
+  program
+  .command('cc')
+  .description('cc test')
+  .allowUnknownOption(true)
+  .action(async () => {
+    process.env.NODE_ENV = Environment.dev;
+    process.env.BABEL_ENV = Environment.dev;
+
+    esbootConfig.init();
+    writeMultiPlatform();
+    const cfg = await getWebpackConfig({ env: Environment.dev });
+  });
 
   program
     .command('dev')

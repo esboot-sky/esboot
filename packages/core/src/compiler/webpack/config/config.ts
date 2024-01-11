@@ -44,6 +44,8 @@ export interface IOpts {
 
 let execHooks = false;
 
+const chainedConfig = new Config();
+
 const getWebpackConfig = async (opts: IOpts) => {
   const { userOpts } = esbootConfig;
   const config: CustomConfiguration = {
@@ -71,6 +73,7 @@ const getWebpackConfig = async (opts: IOpts) => {
   }
 
   const applyOpts: ApplyOpts = {
+    chainedConfig,
     config,
     userOpts,
     cwd: process.cwd(),
@@ -79,6 +82,8 @@ const getWebpackConfig = async (opts: IOpts) => {
   };
 
   await addEntry(applyOpts);
+  console.log(chainedConfig.toConfig(), config, '<-- chainedConfig.toConfig()');
+  return config;
   await addOutput(applyOpts);
   await addResolve(applyOpts);
 
@@ -184,10 +189,10 @@ const getWebpackConfig = async (opts: IOpts) => {
   // depConfig2.merge(config);
 
   // console.log(depConfig2.toConfig(), '<-- depConfig2');
-  if (mfsu) await mfsu.setWebpackConfig({ config, depConfig } as any);
+  // if (mfsu) await mfsu.setWebpackConfig({ config, depConfig } as any);
 
-  invokeEachPlugin((plugin) => plugin?.customWebpack?.(config, applyOpts));
-  return customWebpack ? customWebpack(config, applyOpts) : config;
+  // invokeEachPlugin((plugin) => plugin?.customWebpack?.(config, applyOpts));
+  // return customWebpack ? customWebpack(config, applyOpts) : config;
 };
 
 export default getWebpackConfig;
