@@ -54,10 +54,10 @@ export const addEntry = async (applyOpts: ApplyOpts) => {
     chainedConfig.plugin('html').use(HtmlWebpackPlugin, [
       {
         inject: true,
-        chunks: ['chunkName'],
-        filename: 'chunkName.html',
-        title: 'ensureTitle',
-        template: 'ensureTpl',
+        chunks: [chunkName],
+        filename: `${chunkName}.html`,
+        title: ensureTitle,
+        template: ensureTpl,
         hash: true,
       }
     ]);
