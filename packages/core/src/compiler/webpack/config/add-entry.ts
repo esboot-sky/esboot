@@ -14,12 +14,8 @@ interface EntryFileExportProps {
 }
 
 export const addEntry = async (applyOpts: ApplyOpts) => {
-  const { contentRootPath, configRootPathOfPlatfrom, ipv4 } =
-    esbootConfig.compileTimeConfig;
-
-  const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } =
-    process.env;
-
+  const { contentRootPath, configRootPathOfPlatfrom, ipv4 } = esbootConfig.compileTimeConfig;
+  const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } = process.env;
   const {
     chainedConfig,
     userOpts: { port },
@@ -59,7 +55,7 @@ export const addEntry = async (applyOpts: ApplyOpts) => {
         title: ensureTitle,
         template: ensureTpl,
         hash: true,
-      }
+      },
     ]);
   });
 };

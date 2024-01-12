@@ -1,5 +1,4 @@
 import { join } from 'path';
-import { fork } from 'child_process';
 import { program } from 'commander';
 
 import { Environment } from '@@webpack/config/environment';
@@ -33,17 +32,17 @@ export const run = () => {
   invokeEachPlugin((plugin) => plugin?.registerCommands?.(program));
 
   program
-  .command('cc')
-  .description('cc test')
-  .allowUnknownOption(true)
-  .action(async () => {
-    process.env.NODE_ENV = Environment.dev;
-    process.env.BABEL_ENV = Environment.dev;
+    .command('cc')
+    .description('cc test')
+    .allowUnknownOption(true)
+    .action(async () => {
+      process.env.NODE_ENV = Environment.dev;
+      process.env.BABEL_ENV = Environment.dev;
 
-    esbootConfig.init();
-    writeMultiPlatform();
-    const cfg = await getWebpackConfig({ env: Environment.dev });
-  });
+      esbootConfig.init();
+      writeMultiPlatform();
+      const cfg = await getWebpackConfig({ env: Environment.dev });
+    });
 
   program
     .command('dev')
@@ -140,19 +139,3 @@ export const run = () => {
   program.version(pkg.version);
   program.parse(process.argv);
 };
-
-// Dead Code
-export function forkScript(scriptPath: string) {
-  const child = fork(scriptPath, {
-    cwd,
-    env: {
-      ...process.env,
-    },
-    stdio: 'inherit',
-  });
-  child.on('exit', (code) => {
-    process.exit(code || 0);
-  });
-
-  return child;
-}

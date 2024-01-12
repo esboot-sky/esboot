@@ -1,22 +1,14 @@
-import { merge } from 'lodash';
 import { USER_CONFIG_FILE, webpackCacheDir } from '@@/constants';
 
 export const addCache = async (applyOpts: any) => {
-  const { config, isDev } = applyOpts;
+  const { chainedConfig, isDev } = applyOpts;
 
   if (isDev) return;
 
-  merge(config, {
-    optimization: {
-      runtimeChunk: 'single',
-      moduleIds: 'deterministic',
-    },
-    cache: {
-      type: 'filesystem',
-      cacheDirectory: webpackCacheDir,
-      buildDependencies: {
-        config: [USER_CONFIG_FILE],
-      },
-    },
-  });
+  chainedConfig.optimization.runtimeChunk('single').moduleIds('deterministic');
+
+  chainedConfig.cache
+    .type('filesystem')
+    .cacheDirectory(webpackCacheDir)
+    .buildDependencies.config([USER_CONFIG_FILE]);
 };

@@ -30,10 +30,12 @@ const getStyleLoader = (): Record<string, any> => ({
     esModule: true,
   },
 });
+
 const getMiniCssExtractPluginOptions = (): Record<string, any> => ({
   emit: true,
   esModule: true,
 });
+
 const getCssLoaderOptions = (): Record<string, any> => ({
   esModule: true,
   import: true,
@@ -41,6 +43,7 @@ const getCssLoaderOptions = (): Record<string, any> => ({
 
 export async function addCSSRules(applyOpts: ApplyOpts) {
   const {
+    chainedConfig,
     config,
     isDev,
     userOpts: { isRelativePublicPath, pxtorem: pxtoremAllOptions, sourceMap },

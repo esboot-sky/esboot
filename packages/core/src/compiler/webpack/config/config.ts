@@ -1,4 +1,4 @@
-import webpack, { Configuration } from 'webpack';
+import webpack from 'webpack';
 import webpackbar from 'webpackbar';
 import { MFSU } from '@umijs/mfsu';
 import { noop, isUndefined, isEqual } from 'lodash';
@@ -43,11 +43,11 @@ export interface IOpts {
 }
 
 let execHooks = false;
-
 const chainedConfig = new Config();
 
 const getWebpackConfig = async (opts: IOpts) => {
   const { userOpts } = esbootConfig;
+  // deprecated
   const config: CustomConfiguration = {
     entry: {},
     plugins: [],
@@ -81,6 +81,7 @@ const getWebpackConfig = async (opts: IOpts) => {
     mfsu,
   };
 
+  // Basic
   await addEntry(applyOpts);
   await addOutput(applyOpts);
   await addResolve(applyOpts);
