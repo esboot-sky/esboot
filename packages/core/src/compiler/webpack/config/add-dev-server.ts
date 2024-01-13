@@ -6,7 +6,7 @@ import { ApplyOpts } from './types';
 
 export const addDevServer = async (applyOpts: ApplyOpts) => {
   const {
-    config,
+    chainedConfig,
     isDev,
     mfsu,
     userOpts: { proxy, port, host, https, http2, open },

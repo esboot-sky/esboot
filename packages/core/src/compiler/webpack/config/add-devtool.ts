@@ -2,17 +2,20 @@ import { DEFAULT_DEVTOOL } from '@@/constants';
 
 export const addDevtool = async (applyOpts: any) => {
   const {
+    chainedConfig,
     isDev,
-    config,
     userOpts: { sourceMap },
   } = applyOpts;
 
+  chainedConfig
+
+  
   if (sourceMap) {
-    config.devtool = 'source-map';
+    chainedConfig.devtool('source-map');
     return;
   }
 
   if (isDev) {
-    config.devtool = DEFAULT_DEVTOOL;
+    chainedConfig.devtool(DEFAULT_DEVTOOL);
   }
 };
