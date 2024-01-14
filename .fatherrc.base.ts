@@ -1,7 +1,17 @@
 import { defineConfig } from 'father';
 
 export default defineConfig({
-  cjs: {
-    output: 'dist',
+  esm: {
+    transformer: 'esbuild',
+    overrides: {
+      'src/index': {
+        platform: 'browser',
+      },
+    },
+  },
+  cjs: { input: 'src', output: 'dist' },
+  prebundle: {},
+  alias: {
+    '@@/': './src/',
   },
 });

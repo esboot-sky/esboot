@@ -2,7 +2,6 @@ import crypto from 'crypto';
 import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import TerserPlugin from 'terser-webpack-plugin';
 import { merge } from 'lodash';
-
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 // 不成熟，暂时禁用
 // import LightningCSS from 'lightningcss';
@@ -14,6 +13,7 @@ import { JsMinifier, CSSMinifier, CodeSplittingType } from '@@/config/types';
 export const addOptimization = async (applyOpts: ApplyOpts) => {
   const {
     config,
+    chainedConfig,
     userOpts: {
       jsMinifier,
       jsMinifierOptions,
@@ -189,14 +189,14 @@ export const addOptimization = async (applyOpts: ApplyOpts) => {
       break;
   }
 
-  config.optimization = {
-    splitChunks,
-    emitOnErrors: true,
-    usedExports: true,
-    sideEffects: false,
-    minimize: true,
-    minimizer,
-  };
+  chainedConfig.optimization
+    .splitChunks(splitChunks)
+    .emitOnErrors(true)
+    .usedExports(true)
+    .sideEffects(false)
+    .minimize(true)
+    .minimizer(minimizer)
+    .end();
 };
 
 function isModuleCSS(module: { type: string }) {
