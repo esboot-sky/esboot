@@ -141,6 +141,26 @@ export async function addCSSRules(applyOpts: ApplyOpts) {
     ];
   };
 
+  chainedConfig.module
+    .rule('css')
+    .test(/\.css$/)
+    .use(parseScssModule({}))
+    .end();
+  chainedConfig.module
+    .rule('scss')
+    .test(/\.scss$/)
+    .oneOf([
+      {
+        exclude: globalScssPathList,
+        use: [parseScssModule({ modules: true })],
+      },
+      {
+        include: globalScssPathList,
+        use: [parseScssModule({})],
+      },
+    ])
+    .end();
+
   config.module.rules.push(
     {
       /* Loads CSS stylesheets. It is assumed that CSS stylesheets come only
