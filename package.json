@@ -1,22 +1,18 @@
 {
-  "name": "react",
-  "version": "0.0.0",
+  "name": "esboot",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "boilerplate/*"
-  ],
   "scripts": {
     "dev:all": "turbo run dev --parallel",
     "dev": "turbo run dev --filter @dz-web/esboot",
     "build": "turbo run build --filter @dz-web/esboot",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "pub": "lerna publish --force-publish=*"
   },
   "devDependencies": {
-    "@types/node": "^17.0.45",
-    "father": "^4.2.3",
+    "@types/node": "^20.12.7",
+    "father": "^4.4.0",
+    "lerna": "^8.1.2",
     "prettier": "latest",
     "turbo": "latest"
   },
@@ -24,5 +20,5 @@
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
   },
-  "packageManager": "pnpm@7.1.7"
+  "packageManager": "pnpm@8.15.4"
 }
