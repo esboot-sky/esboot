@@ -1,0 +1,6 @@
+{
+  "global.pc.platform": "pc browser",
+  "global.pc.apologize": "Sorry, the application encountered some problems.",
+  "global.pc.boundaryErrorTitle": "Oops, something went wrong!",
+  "global.pc.retry": "Retry"
+}

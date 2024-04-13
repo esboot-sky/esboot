@@ -1,0 +1,36 @@
+{
+  "name": "create-esboot",
+  "version": "2.5.1",
+  "description": "create-umi",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "create-esboot": "bin/create-esboot.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "templates/mp/.gitignore"
+  ],
+  "scripts": {
+    "build": "father build",
+    "build:deps": "bundleDeps",
+    "dev": "father dev",
+    "prepublishOnly": "father doctor && npm run build"
+  },
+  "dependencies": {
+    "@umijs/utils": "^4.0.75"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "chencheng <sorrycc@gmail.com> (https://github.com/sorrycc)",
+    "roc <moonlitusun@gmail.com> (https://github.com/moonlitusun)"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-utils",
-  "version": "3.0.0",
+  "version": "2.10.8",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,13 +13,13 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@types/cross-spawn": "^6.0.6",
+    "@types/cross-spawn": "^6.0.5",
     "@types/fs-extra": "^11.0.4",
-    "father": "^4.4.0"
+    "father": "^4.3.7"
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.1.1"
   },
   "keywords": [],
   "author": "",

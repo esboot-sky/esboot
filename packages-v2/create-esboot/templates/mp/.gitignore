@@ -1,0 +1,28 @@
+# os
+.DS_Store
+
+# Dependency directories
+node_modules
+
+# env
+.env.local
+# editor
+.vscode
+
+dist
+src/helpers/multi-platforms.ts
+
+# Release
+dist
+*.zip
+
+# cache
+.dumi
+.umi
+.umi-*
+.mfsu-*
+.mfsu
+.cache
+
+# Bridge-mock
+bridge-mock.js
