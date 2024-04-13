@@ -1,5 +1,5 @@
 {
-  "name": "esboot-basic",
+  "name": "esboot-example-basic",
   "version": "1.0.0",
   "testVersion": 1,
   "description": "",
@@ -15,14 +15,14 @@
   "license": "ISC",
   "dependencies": {
     "@loadable/component": "^5.16.3",
-    "ahooks": "^3.7.8",
-    "antd": "^5.12.7",
+    "ahooks": "^3.7.11",
+    "antd": "^5.16.1",
     "classnames": "^2.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-intl": "^6.5.5",
-    "react-router-dom": "^6.21.1",
-    "zustand": "^4.4.7"
+    "react-intl": "^6.6.5",
+    "react-router-dom": "^6.22.3",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",

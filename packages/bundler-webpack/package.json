@@ -1,5 +1,5 @@
 {
-  "name": "@dz-web/esboot",
+  "name": "@dz-web/esboot-bundler-webpack",
   "version": "3.0.0",
   "description": "",
   "keywords": [
@@ -8,7 +8,7 @@
   ],
   "license": "ISC",
   "author": "Roc",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "types": "dist/index.d.ts",
   "bin": {
     "esboot": "bin/index.js"
@@ -24,8 +24,6 @@
     "prepublishOnly": "father doctor && npm run build"
   },
   "dependencies": {
-    "@dz-web/esboot-bundler-webpack": "workspace:*",
-    "@dz-web/esboot-utils": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {
