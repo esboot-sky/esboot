@@ -1,0 +1,64 @@
+{
+  "name": "esboot-basic",
+  "version": "1.0.0",
+  "testVersion": 1,
+  "description": "",
+  "private": "true",
+  "main": "index.js",
+  "scripts": {
+    "dev": "esboot dev",
+    "build": "esboot build",
+    "esboot": "esboot",
+    "postinstall": "esboot postinstall"
+  },
+  "author": "Roc",
+  "license": "ISC",
+  "dependencies": {
+    "@loadable/component": "^5.16.3",
+    "ahooks": "^3.7.8",
+    "antd": "^5.12.7",
+    "classnames": "^2.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-intl": "^6.5.5",
+    "react-router-dom": "^6.21.1",
+    "zustand": "^4.4.7"
+  },
+  "devDependencies": {
+    "@dz-web/esboot": "workspace:*",
+    "@types/dz-web": "^1.0.2",
+    "@types/node": "^20.12.7",
+    "@types/react": "18.2.46",
+    "@types/react-dom": "^18.2.18",
+    "eslint": "^9.0.0",
+    "stylelint": "^16.3.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint",
+    "*.{scss,css}": "stylelint"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/.cache/esboot/eslint"
+    ]
+  },
+  "stylelint": {
+    "extends": [
+      "@dz-web/esboot/config/stylelint"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "./node_modules/@dz-web/esboot/config/commitlint/index.js"
+    ]
+  },
+  "prettier": "@dz-web/esboot/config/prettier/index.json",
+  "browserslist": {
+    "development": [
+      "last 1 chrome version"
+    ],
+    "production": [
+      "Chrome >= 67"
+    ]
+  }
+}
