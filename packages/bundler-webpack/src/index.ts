@@ -1,5 +1,5 @@
 export const dev = () => {
-  console.log(1, '<-- dev');
+  console.log(12323432, '<-- dev');
 }
 
 export const build = () => {

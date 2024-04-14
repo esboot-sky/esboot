@@ -4,22 +4,27 @@
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/esm/index.js",
+  "module": "dist/index.mjs",
   "scripts": {
-    "build": "father build",
-    "build:deps": "father prebundle",
-    "dev": "father dev",
-    "prepublishOnly": "father doctor && npm run build",
+    "build": "tsup --minify --dts --format esm,cjs",
+    "dev": "tsup --dts --watch --format cjs",
+    "prepublishOnly": "npm run build",
     "test": "vitest"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.6",
     "@types/fs-extra": "^11.0.4",
-    "father": "^4.4.0"
+    "tsup": "^8.0.2"
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
     "fs-extra": "^11.2.0"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "clean": true
   },
   "keywords": [],
   "author": "",

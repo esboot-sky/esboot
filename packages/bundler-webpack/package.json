@@ -8,25 +8,26 @@
   ],
   "license": "ISC",
   "author": "Roc",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "bin": {
-    "esboot": "bin/index.js"
-  },
   "files": [
-    "dist",
-    "config"
+    "dist"
   ],
   "scripts": {
-    "build": "father build",
-    "build:deps": "father prebundle",
-    "dev": "father dev",
-    "prepublishOnly": "father doctor && npm run build"
+    "build": "tsup --minify --dts --format esm,cjs",
+    "dev": "tsup --dts --watch --format cjs",
+    "prepublishOnly": "npm run build"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "clean": true
   },
   "dependencies": {
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "father": "^4.4.0"
+    "tsup": "^8.0.2"
   }
 }

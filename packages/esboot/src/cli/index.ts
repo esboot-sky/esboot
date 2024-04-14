@@ -1,3 +1,7 @@
+import { dev } from '@dz-web/esboot-bundler-webpack';
+
 export const run = () => {
-  console.log(1, '<-- 1');
-}
+  dev();
+
+  console.log(2334, '<-- 1');
+};

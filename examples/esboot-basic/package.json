@@ -6,7 +6,7 @@
   "private": "true",
   "main": "index.js",
   "scripts": {
-    "dev": "esboot dev",
+    "dev": "esboot dev -v",
     "build": "esboot build",
     "esboot": "esboot",
     "postinstall": "esboot postinstall"
