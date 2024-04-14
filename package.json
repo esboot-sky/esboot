@@ -5,16 +5,20 @@
     "dev:all": "turbo run dev --parallel",
     "dev": "turbo run dev --filter @dz-web/esboot --filter @dz-web/esboot-bundler-webpack",
     "build": "turbo run build --filter @dz-web/esboot",
+    "test": "vitest",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "pub": "lerna publish --force-publish=*"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
+    "@vitest/ui": "^1.5.0",
     "father": "^4.4.0",
     "lerna": "^8.1.2",
     "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "latest",
+    "vite": "^5.2.8",
+    "vitest": "^1.5.0"
   },
   "engines": {
     "npm": ">=7.0.0",

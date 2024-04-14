@@ -29,7 +29,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "tsup": "^8.0.2"
+    "tsup": "^8.0.2",
+    "vitest": "^1.5.0"
   },
   "tsup": {
     "entry": [
