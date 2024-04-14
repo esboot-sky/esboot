@@ -1,7 +1,24 @@
 import { dev } from '@dz-web/esboot-bundler-webpack';
 
-export const run = () => {
-  dev();
+import { join } from 'path';
+import { program } from 'commander';
 
-  console.log(2334, '<-- 1');
+const cwd = process.cwd();
+
+const pkgPath = join(__dirname, '../../package.json');
+const pkg = require(pkgPath);
+
+export const run = () => {
+  // registry({ root: cwd });
+
+  program
+    .command('dev')
+    .description('Start development project')
+    .allowUnknownOption(true)
+    .action(async () => {
+      dev();
+    });
+
+  program.version(pkg.version);
+  program.parse(process.argv);
 };
