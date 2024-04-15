@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev:all": "turbo run dev --parallel",
-    "dev": "turbo run dev --filter @dz-web/esboot --filter @dz-web/esboot-bundler-webpack",
+    "dev": "turbo run dev --filter @dz-web/esboot-bundler-webpack --filter @dz-web/esboot",
     "build": "turbo run build --filter @dz-web/esboot",
     "test": "vitest",
     "lint": "turbo run lint",

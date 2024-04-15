@@ -10,18 +10,20 @@
   "author": "Roc",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "tsup --minify --dts --format esm,cjs",
-    "dev": "tsup --dts --watch --format cjs",
+    "dev": "tsup --watch --dts --format cjs --onSuccess 'tsc --emitDeclarationOnly --declaration'",
     "prepublishOnly": "npm run build"
   },
   "tsup": {
     "entry": [
-      "src/index.ts"
+      "src"
     ],
+    "sourceMap": true,
     "clean": true
   },
   "dependencies": {

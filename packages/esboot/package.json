@@ -38,7 +38,8 @@
   },
   "tsup": {
     "entry": [
-      "src"
+      "src/index.ts",
+      "src/cli/index.ts"
     ],
     "clean": true
   }

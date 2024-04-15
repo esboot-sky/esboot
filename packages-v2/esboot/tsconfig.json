@@ -1,16 +1,12 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "strict": true,
-    "esModuleInterop": true,
-    "declaration": true,
-    "skipLibCheck": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": "./",
     "paths": {
       "@@/*": ["src/*"],
       "@@webpack/*": ["src/compiler/webpack/*"],
     },
   },
-  "include": ["src", "globals.d.ts"],
+  "include": ["src", "global.d.ts"],
 }

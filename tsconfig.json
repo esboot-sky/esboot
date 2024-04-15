@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["*"],
+      "@dz-web/esboot-bundler-webpack": ["./packages/bundler-webpack"],
     }
   }
 }

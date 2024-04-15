@@ -5,7 +5,7 @@
     "rootDir": "./src"
   },
   "path": {
-    "@@": ["src"]
+    "@/*": ["./src/*"]
   },
   "include": ["src"]
 }
