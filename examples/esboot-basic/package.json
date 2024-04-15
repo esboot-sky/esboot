@@ -8,8 +8,7 @@
   "scripts": {
     "dev": "esboot dev",
     "build": "esboot build",
-    "esboot": "esboot",
-    "postinstall": "esboot postinstall"
+    "esboot": "esboot"
   },
   "author": "Roc",
   "license": "ISC",

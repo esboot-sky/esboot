@@ -27,6 +27,10 @@
     "@dz-web/esboot-bundler-webpack": "workspace:*",
     "@dz-web/esboot-utils": "workspace:*",
     "commander": "^12.0.0",
+    "dotenv": "^16.4.5",
+    "dotenv-expand": "^11.0.6",
+    "esbuild": "^0.20.2",
+    "pirates": "^4.0.6",
     "zod": "^3.22.4"
   },
   "devDependencies": {

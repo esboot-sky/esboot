@@ -9,6 +9,7 @@ function checkNodeVersion() {
     console.error(
       `Your node version ${v} is not supported, please upgrade to ${MIN_NODE_VERSION}.`
     );
+
     process.exit(1);
   }
 }
