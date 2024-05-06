@@ -1,4 +1,1 @@
-import { dev } from '@dz-web/esboot-bundler-webpack';
-
-dev();
-export const a = 1;
+export { default as defineConfig } from "./cfg/define-config";

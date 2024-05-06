@@ -1,0 +1,1 @@
+export const isWins = process.platform === 'win32';

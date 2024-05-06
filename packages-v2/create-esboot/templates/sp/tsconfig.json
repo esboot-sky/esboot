@@ -1,3 +1,0 @@
-{
-  "extends": "@dz-web/esboot/config/typescript/tsconfig.json"
-}

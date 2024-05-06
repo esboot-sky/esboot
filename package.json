@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev:all": "turbo run dev --parallel",
-    "dev": "turbo run dev --filter @dz-web/esboot-bundler-webpack --filter @dz-web/esboot",
+    "dev": "turbo run dev --filter @dz-web/esboot-common --filter @dz-web/esboot-bundler-webpack --filter @dz-web/esboot",
     "build": "turbo run build --filter @dz-web/esboot",
     "test": "vitest",
     "lint": "turbo run lint",
@@ -11,18 +11,18 @@
     "pub": "lerna publish --force-publish=*"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7",
-    "@vitest/ui": "^1.5.0",
+    "@types/node": "^20.12.8",
+    "@vitest/ui": "^1.6.0",
     "father": "^4.4.0",
     "lerna": "^8.1.2",
     "prettier": "latest",
     "turbo": "latest",
-    "vite": "^5.2.8",
-    "vitest": "^1.5.0"
+    "vite": "^5.2.11",
+    "vitest": "^1.6.0"
   },
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
   },
-  "packageManager": "pnpm@8.15.4"
+  "packageManager": "pnpm@9.1.0"
 }

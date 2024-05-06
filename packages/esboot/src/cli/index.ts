@@ -4,6 +4,7 @@ import { program } from 'commander';
 import { dev } from '@dz-web/esboot-bundler-webpack';
 import { processPrepare } from './prepare';
 import { loadEnv } from './load-env';
+import userCfg from '@/cfg/user-cfg';
 
 const cwd = process.cwd();
 
@@ -13,6 +14,7 @@ const pkg = require(pkgPath);
 export const run = () => {
   processPrepare();
   loadEnv({ root: cwd });
+  userCfg.init();
 
   program
     .command('dev')
