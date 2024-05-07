@@ -1,12 +1,25 @@
-import { Environment, USER_CONFIG_FILE } from '@dz-web/esboot-common';
+import { existsSync } from 'fs';
+import { USER_CONFIG_FILE, error } from '@dz-web/esboot-common';
+import { exit } from 'process';
 
 export default new (class UserCfg {
+  getConfigFilePath = () => {
+    return USER_CONFIG_FILE;
+  };
+
   initUserConfig = (reload = false) => {
-    if (reload) {
-      delete require.cache[require.resolve(USER_CONFIG_FILE)];
+    const filePath = this.getConfigFilePath();
+    if (!existsSync(filePath)) {
+      error(`User config file not found: ${filePath}`);
+      exit(1);
     }
 
-    const { default: cfg } = require(USER_CONFIG_FILE);
+    if (reload) {
+      delete require.cache[require.resolve(filePath)];
+    }
+
+    console.log(filePath, '<-- process.env.NODE_ENV');
+    const { default: cfg } = require(filePath);
 
     console.log(cfg, '<-- userCfg');
     // const { isSP } = this.compileTimeConfig;
