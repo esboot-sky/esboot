@@ -1,6 +1,6 @@
 import { existsSync } from 'fs';
-import { USER_CONFIG_FILE, error } from '@dz-web/esboot-common';
 import { exit } from 'process';
+import { USER_CONFIG_FILE, error } from '@dz-web/esboot-common';
 
 export default class UserCfg {
   getConfigFilePath = () => {

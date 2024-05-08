@@ -19,6 +19,6 @@ export enum PAGE_TYPE {
 
 export default class CompileTimeCfg {
   load = () => {
-
+    console.log('load compile time config');
   };
 }
