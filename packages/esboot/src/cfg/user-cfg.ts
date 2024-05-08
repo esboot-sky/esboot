@@ -2,12 +2,12 @@ import { existsSync } from 'fs';
 import { USER_CONFIG_FILE, error } from '@dz-web/esboot-common';
 import { exit } from 'process';
 
-export default new (class UserCfg {
+export default class UserCfg {
   getConfigFilePath = () => {
     return USER_CONFIG_FILE;
   };
 
-  initUserConfig = (reload = false) => {
+  load = (reload = false) => {
     const filePath = this.getConfigFilePath();
     if (!existsSync(filePath)) {
       error(`User config file not found: ${filePath}`);
@@ -18,7 +18,6 @@ export default new (class UserCfg {
       delete require.cache[require.resolve(filePath)];
     }
 
-    console.log(filePath, '<-- process.env.NODE_ENV');
     const { default: cfg } = require(filePath);
 
     console.log(cfg, '<-- userCfg');
@@ -46,8 +45,4 @@ export default new (class UserCfg {
 
     // this.userOpts = config;
   };
-
-  init = () => {
-    this.initUserConfig();
-  };
-})();
+}
