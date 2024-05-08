@@ -14,6 +14,33 @@
     "prepublishOnly": "npm run build",
     "test": "vitest"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/constants/index.mjs",
+      "default": "./dist/constants/index.js",
+      "types": "./dist/constants/index.d.ts"
+    },
+    "./constants": {
+      "import": "./dist/constants/index.mjs",
+      "default": "./dist/constants/index.js",
+      "types": "./dist/constants/index.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils/index.mjs",
+      "default": "./dist/utils/index.js",
+      "types": "./dist/utils/index.d.ts"
+    },
+    "./helpers": {
+      "import": "./dist/helpers/index.mjs",
+      "default": "./dist/helpers/index.js",
+      "types": "./dist/helpers/index.d.ts"
+    },
+    "./radash": {
+      "import": "./dist/third/radash/index.mjs",
+      "default": "./dist/third/radash/index.js",
+      "types": "./dist/third/radash/index.d.ts"
+    }
+  },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.6",
     "@types/fs-extra": "^11.0.4",
@@ -22,11 +49,15 @@
   "dependencies": {
     "cross-spawn": "^7.0.3",
     "fs-extra": "^11.2.0",
-    "kleur": "^4.1.5"
+    "kleur": "^4.1.5",
+    "radash": "^12.1.0"
   },
   "tsup": {
     "entry": [
-      "src/index.ts"
+      "src/constants/index.ts",
+      "src/helpers/index.ts",
+      "src/utils/index.ts",
+      "src/third/radash/index.ts"
     ],
     "clean": true
   },

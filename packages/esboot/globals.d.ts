@@ -6,7 +6,7 @@ declare global {
       ESBOOT_PLATFORM: string;
       ESBOOT_PAGE_TYPE: string;
       ESBOOT_CONTENT_PATTERN: string;
-      NODE_ENV: 'development' | 'production';
+      NODE_ENV: 'development' | 'production' | 'test';
     }
   }
 }
