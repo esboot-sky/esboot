@@ -1,0 +1,1 @@
+var GLOBAL_CONFIG = {};

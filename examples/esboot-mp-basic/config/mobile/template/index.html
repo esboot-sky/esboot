@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+      name="viewport"
+    />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <script>
+      (function (root, factory) {
+        /* istanbul ignore next*/
+        if (typeof define === 'function' && define.amd) {
+          define([], factory);
+        } else if (typeof exports === 'object') {
+          module.exports = factory();
+        } else {
+          root.anyQs = factory();
+        }
+      })(this, function () {
+        var defaultOptions = {
+          parseNumber: true,
+        };
+        /**
+         * return an object contains all query parameters or empty object
+         * @param {string} url
+         * @return {object}
+         */
+        function anyQs(url, options) {
+          var postOptions = defaultOptions;
+          if (typeof options === 'undefined') {
+            options = defaultOptions;
+          } else {
+            for (var i in options) {
+              postOptions[i] = options[i];
+            }
+          }
+
+          var params = {},
+            tempArr = decodeURIComponent(url)
+              .replace(/\+/g, ' ')
+              .match(/\w+=[^&#?\/,;]+/g);
+          if (!tempArr) {
+            return {};
+          }
+          tempArr.forEach(function (item) {
+            var ps = item.split('=');
+            if (postOptions.parseNumber) {
+              params[ps[0]] = /^\d+(\.\d+)?$/.test(ps[1]) ? parseFloat(ps[1]) : ps[1];
+            } else {
+              params[ps[0]] = ps[1];
+            }
+          });
+
+          return params;
+        }
+
+        /**
+         * Alternative version that don't parse number
+         */
+        anyQs.stringOnly = function (url) {
+          return anyQs(url, { parseNumber: false });
+        };
+        return anyQs;
+      });
+    </script>
+    <script>
+      (function () {
+        var theme = anyQs(window.location.href).theme || 'light';
+        if (theme === 'black') {
+          theme = 'dark';
+        } else if (theme === 'white') {
+          theme = 'light';
+        }
+        document.documentElement.classList.add('dz-theme-' + theme);
+      })();
+    </script>
+    <style>
+      html,
+      body {
+        font-family:
+          -apple-system,
+          blinkmacsystemfont,
+          'Helvetica Neue',
+          helvetica,
+          segoe ui,
+          arial,
+          roboto,
+          'PingFang SC',
+          'miui',
+          'Hiragino Sans GB',
+          'Microsoft Yahei',
+          sans-serif !important;
+      }
+    </style>
+    <script>
+      (function (a, b) {
+        // 页面自适应脚本
+        var c = a.documentElement,
+          d = 'orientationchange' in window ? 'orientationchange' : 'resize',
+          e = (window.recalc = function () {
+            var a = c.clientWidth;
+            if (a) {
+              var fontsize = 16 * (a / 375);
+              c.style.fontSize = fontsize + 'px';
+            }
+          });
+        a.addEventListener && (b.addEventListener(d, e, !1), a.addEventListener('DOMContentLoaded', e, !1));
+      })(document, window);
+    </script>
+
+    <!-- <script>
+      function getUrlParam(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]);
+        return null;
+      }
+
+      var theme = getUrlParam('theme');
+      var fontSize = getUrlParam('fontSize');
+
+      if (theme) {
+        document.documentElement.className = theme;
+      }
+
+      window.esboot_urlParams = {
+        theme: theme,
+      };
+    </script> -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // 阻止双击放大
+      var lastTouchEnd = 0;
+      document.addEventListener('touchstart', function (event) {
+        if (event.touches.length > 1) {
+          event.cancelable && event.preventDefault();
+        }
+      });
+
+      document.addEventListener(
+        'touchend',
+        function (event) {
+          var now = new Date().getTime();
+          if (now - lastTouchEnd <= 300) {
+            event.cancelable && event.preventDefault();
+          }
+          lastTouchEnd = now;
+        },
+        false,
+      );
+
+      // 阻止双指放大
+      document.addEventListener('gesturestart', function (event) {
+        event.cancelable && event.preventDefault();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      name="viewport"
+    />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <script>
+      (function (root, factory) {
+        /* istanbul ignore next*/
+        if (typeof define === 'function' && define.amd) {
+          define([], factory);
+        } else if (typeof exports === 'object') {
+          module.exports = factory();
+        } else {
+          root.anyQs = factory();
+        }
+      })(this, function () {
+        var defaultOptions = {
+          parseNumber: true,
+        };
+        /**
+         * return an object contains all query parameters or empty object
+         * @param {string} url
+         * @return {object}
+         */
+        function anyQs(url, options) {
+          var postOptions = defaultOptions;
+          if (typeof options === 'undefined') {
+            options = defaultOptions;
+          } else {
+            for (var i in options) {
+              postOptions[i] = options[i];
+            }
+          }
+
+          var params = {},
+            tempArr = decodeURIComponent(url)
+              .replace(/\+/g, ' ')
+              .match(/\w+=[^&#?\/,;]+/g);
+          if (!tempArr) {
+            return {};
+          }
+          tempArr.forEach(function (item) {
+            var ps = item.split('=');
+            if (postOptions.parseNumber) {
+              params[ps[0]] = /^\d+(\.\d+)?$/.test(ps[1]) ? parseFloat(ps[1]) : ps[1];
+            } else {
+              params[ps[0]] = ps[1];
+            }
+          });
+
+          return params;
+        }
+
+        /**
+         * Alternative version that don't parse number
+         */
+        anyQs.stringOnly = function (url) {
+          return anyQs(url, { parseNumber: false });
+        };
+        return anyQs;
+      });
+    </script>
+    <script>
+      (function () {
+        var theme = anyQs(window.location.href).theme || 'light';
+        if (theme === 'black') {
+          theme = 'dark';
+        } else if (theme === 'white') {
+          theme = 'light';
+        }
+        document.documentElement.classList.add('dz-theme-' + theme);
+        if (theme === 'dark') {
+          document.documentElement.classList.add('rs-theme-dark');
+
+          setTimeout(function () {
+            document.documentElement.classList.remove('rs-theme-dark');
+          }, 5000);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> -->
+    <div id="root"></div>
+  </body>
+</html>
