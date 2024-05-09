@@ -4,6 +4,8 @@ import { USER_CONFIG_FILE } from '@dz-web/esboot-common/constants';
 import { error } from '@dz-web/esboot-common/helpers';
 
 export default class UserCfg {
+  config: any = {};
+
   getConfigFilePath = () => {
     return USER_CONFIG_FILE;
   };

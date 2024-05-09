@@ -1,3 +1,5 @@
+export * from './types';
+
 export const dev = () => {
   console.log(12323432, '<-- dev');
 };
