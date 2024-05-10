@@ -2,9 +2,12 @@ import { existsSync } from 'fs';
 import { exit } from 'process';
 import { USER_CONFIG_FILE } from '@dz-web/esboot-common/constants';
 import { error } from '@dz-web/esboot-common/helpers';
+import type { BundlerWebpackCfg } from '@dz-web/esboot-bundler-webpack';
+
+export interface UserConfig extends BundlerWebpackCfg {}
 
 export default class UserCfg {
-  config: any = {};
+  config: UserConfig = {};
 
   getConfigFilePath = () => {
     return USER_CONFIG_FILE;

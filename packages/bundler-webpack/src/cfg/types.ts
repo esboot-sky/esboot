@@ -2,8 +2,6 @@ import type { Configuration as DevServerConfiguration } from 'webpack-dev-server
 import type { PluginOptions } from 'copy-webpack-plugin';
 import type { Configuration } from 'webpack';
 
-import { ApplyOpts } from '../compiler/webpack/config/types';
-
 export enum JsMinifier {
   terser = 'terser',
   // esbuild = 'esbuild',
@@ -41,11 +39,6 @@ export interface Px2rem {
   minPixelValue?: number;
 }
 
-export type CustomWebpack = (
-  config: Configuration,
-  applyOpts: ApplyOpts
-) => Configuration;
-
 export interface MFSUOpts {
   cwd?: string;
   excludeNodeNatives?: boolean;
@@ -67,14 +60,13 @@ export interface MFSUOpts {
   startBuildWorker?: (dep: any[]) => Worker;
 }
 
-export type UserOpts = {
+export type BundlerWebpackCfg = {
   analyze?: boolean;
   mfsu?: boolean;
   mfsuOptions?: (cfg: MFSUOpts) => MFSUOpts;
   copy?: Pick<PluginOptions, 'patterns'>;
   outputPath?: string;
   publicPath?: string;
-  customWebpack?: CustomWebpack;
   TSChecker?: boolean;
   analyzer?: any;
   extraBabelPlugins?: string[];
