@@ -1,13 +1,20 @@
 import { existsSync } from 'fs';
 import { exit } from 'process';
+import { isFunction } from '@dz-web/esboot-common/radash';
 import { USER_CONFIG_FILE } from '@dz-web/esboot-common/constants';
 import { error } from '@dz-web/esboot-common/helpers';
 import type { BundlerWebpackCfg } from '@dz-web/esboot-bundler-webpack';
+
+import { CompileTimeConfig } from './compile-time-cfg';
 
 export interface UserConfig extends BundlerWebpackCfg {}
 
 export default class UserCfg {
   config: UserConfig = {};
+
+  constructor(private compileTimeConfig: CompileTimeConfig) {
+    this.compileTimeConfig = compileTimeConfig;
+  }
 
   getConfigFilePath = () => {
     return USER_CONFIG_FILE;
@@ -24,13 +31,11 @@ export default class UserCfg {
       delete require.cache[require.resolve(filePath)];
     }
 
-    const { default: cfg } = require(filePath);
+    const { default: getCfg, afterhook } = require(filePath);
+    const cfg = isFunction(getCfg) ? getCfg(this.compileTimeConfig) : getCfg;
 
     console.log(cfg, '<-- userCfg');
     // const { isSP } = this.compileTimeConfig;
-    // const customOpts = isFunction(getCustomOpts)
-    //   ? getCustomOpts(this.compileTimeConfig)
-    //   : getCustomOpts;
 
     // const isDev = process.env.NODE_ENV === Environment.dev;
     // const publicPath = isDev ? '/' : './';

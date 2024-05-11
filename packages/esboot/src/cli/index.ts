@@ -15,7 +15,6 @@ export const run = () => {
   processPrepare();
   loadEnv({ root: cwd });
   cfg.load();
-  console.log(cfg.compileTimeCfg, '<-- cfg.compileTimeCfg');
 
   program
     .command('dev')

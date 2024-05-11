@@ -6,8 +6,8 @@ export default new (class Cfg {
   #compileTimeCfg: CompileTimeCfg;
 
   constructor() {
-    this.#userCfg = new UserCfg();
     this.#compileTimeCfg = new CompileTimeCfg();
+    this.#userCfg = new UserCfg(this.#compileTimeCfg.config);
   }
 
   get compileTimeCfg() {
