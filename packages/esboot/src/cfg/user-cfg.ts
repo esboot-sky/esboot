@@ -34,7 +34,7 @@ export default class UserCfg {
       delete require.cache[require.resolve(filePath)];
     }
 
-    const { default: getCfg, afterhook } = require(filePath);
+    const { default: getCfg } = require(filePath);
     const cfg = isFunction(getCfg) ? getCfg(this.compileTimeConfig) : getCfg;
 
     console.log(cfg, '<-- userCfg');

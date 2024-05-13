@@ -1,7 +1,6 @@
 import { resolve, join } from 'path';
 import { pick } from '@dz-web/esboot-common/radash';
 import { Environment } from '@dz-web/esboot-common/constants';
-import type { copyWebpackPluginPattern as Pattern } from '@dz-web/esboot-bundler-webpack';
 
 import { ip } from 'address';
 
@@ -42,7 +41,7 @@ export interface CompileTimeConfig extends Partial<CompileTimeConfigForMP> {
   version: string;
   cwd: string;
   entry: Record<string, string>[];
-  staticPathList: Pattern[];
+  staticPathList: any[];
 }
 
 export default class CompileTimeCfg {
@@ -73,7 +72,7 @@ export default class CompileTimeCfg {
         from: `${configRootPath}/static`,
         to: './static',
       },
-    ] satisfies Pattern[];
+    ] satisfies any[];
 
     const cfg = {
       contentRootPath: rootPath,
@@ -123,7 +122,7 @@ export default class CompileTimeCfg {
         from: `${configRootPath}/static`,
         to: './static',
       },
-    ] satisfies Pattern[];
+    ] satisfies any[];
 
     const cfg = {
       contentRootPath: join(rootPath, `./platforms/${platform}/_${pageType}`),
