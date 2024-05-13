@@ -1,9 +1,6 @@
-import { Bundler } from './bundler';
+export abstract class Bundler {
+  constructor() {}
 
-export class Bundle {
-  bundler: Bundler;
-
-  constructor(bundler: Bundler) {
-    this.bundler = bundler;
-  }
+  abstract dev(): void;
+  abstract build(): void;
 }

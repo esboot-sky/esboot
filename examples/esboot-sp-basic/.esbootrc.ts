@@ -1,7 +1,9 @@
 import { defineConfig } from '@dz-web/esboot';
+import { BundlerWebpack } from '@dz-web/esboot-bundler-webpack';
 
 export default defineConfig({
   mfsu: false,
+  bundler: new BundlerWebpack(),
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

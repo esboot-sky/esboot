@@ -1,10 +1,14 @@
+import { Bundler } from '@dz-web/esboot';
+
 export * from './types';
 export * from './cfg';
 
-export const dev = () => {
-  console.log(12323432, '<-- dev');
-};
+export class BundlerWebpack implements Bundler {
+  dev() {
+    console.log(1, '<-- dev');
+  }
 
-export const build = () => {
-  console.log(1, '<-- build');
-};
+  build() {
+    console.log(1, '<-- build');
+  }
+}

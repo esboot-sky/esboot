@@ -35,6 +35,10 @@
     "webpackbar": "^6.0.1"
   },
   "devDependencies": {
-    "tsup": "^8.0.2"
+    "tsup": "^8.0.2",
+    "@dz-web/esboot": "workspace:*"
+  },
+  "peerDependencies": {
+    "@dz-web/esboot": "workspace:*"
   }
 }

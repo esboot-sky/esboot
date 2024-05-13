@@ -3,14 +3,17 @@ import { exit } from 'process';
 import { isFunction } from '@dz-web/esboot-common/radash';
 import { USER_CONFIG_FILE } from '@dz-web/esboot-common/constants';
 import { error } from '@dz-web/esboot-common/helpers';
-import type { BundlerWebpackCfg } from '@dz-web/esboot-bundler-webpack';
 
 import { CompileTimeConfig } from './compile-time-cfg';
 
-export interface UserConfig extends BundlerWebpackCfg {}
+import { Bundler } from '../bundle';
+
+export interface UserConfig {
+  bundler: Bundler | null;
+}
 
 export default class UserCfg {
-  config: UserConfig = {};
+  config: UserConfig = { bundler: null };
 
   constructor(private compileTimeConfig: CompileTimeConfig) {
     this.compileTimeConfig = compileTimeConfig;
@@ -35,6 +38,7 @@ export default class UserCfg {
     const cfg = isFunction(getCfg) ? getCfg(this.compileTimeConfig) : getCfg;
 
     console.log(cfg, '<-- userCfg');
+    this.config = cfg;
     // const { isSP } = this.compileTimeConfig;
 
     // const isDev = process.env.NODE_ENV === Environment.dev;

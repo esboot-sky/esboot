@@ -1,7 +1,6 @@
 import { join } from 'path';
 import { program } from 'commander';
 
-import { dev } from '@dz-web/esboot-bundler-webpack';
 import { processPrepare } from './prepare';
 import { loadEnv } from './load-env';
 import cfg from '@/cfg';
@@ -21,7 +20,7 @@ export const run = () => {
     .description('Start development project')
     .allowUnknownOption(true)
     .action(async () => {
-      dev();
+      cfg.userCfg.bundler?.dev();
     });
 
   program
