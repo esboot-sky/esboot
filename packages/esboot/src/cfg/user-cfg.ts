@@ -6,11 +6,7 @@ import { error } from '@dz-web/esboot-common/helpers';
 
 import { CompileTimeConfig } from './compile-time-cfg';
 
-import { Bundler } from '../bundle';
-
-export interface UserConfig {
-  bundler: Bundler | null;
-}
+import type { UserConfig } from './types';
 
 export default class UserCfg {
   config: UserConfig = { bundler: null };

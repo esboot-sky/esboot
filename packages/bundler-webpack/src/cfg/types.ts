@@ -61,12 +61,9 @@ export interface MFSUOpts {
 }
 
 export type BundlerWebpackCfg = {
-  analyze?: boolean;
   mfsu?: boolean;
   mfsuOptions?: (cfg: MFSUOpts) => MFSUOpts;
   copy?: Pick<PluginOptions, 'patterns'>;
-  outputPath?: string;
-  publicPath?: string;
   TSChecker?: boolean;
   analyzer?: any;
   extraBabelPlugins?: string[];
@@ -77,15 +74,12 @@ export type BundlerWebpackCfg = {
   jsMinifierOptions?: any;
   cssMinifier?: CSSMinifier;
   cssMinifierOptions?: any;
-  alias?: Record<string, string>;
-  define?: Record<string, string>;
   codeSplitting?: {
     jsStrategy: CodeSplittingType;
     jsStrategyOptions: jsStrategyForGranularChunksOptions | Record<string, any>;
   };
   svgr?: boolean;
   svgrOptions?: Record<string, any>;
-  sourceMap?: boolean;
 } & Pick<
   DevServerConfiguration,
   'https' | 'http2' | 'open' | 'host' | 'proxy' | 'port'
