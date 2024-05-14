@@ -1,0 +1,37 @@
+{
+  "name": "@dz-web/esboot-bundler-vite",
+  "version": "3.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Roc",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup --minify --dts --format esm,cjs",
+    "dev": "tsup --watch --dts --format cjs --onSuccess 'tsc --emitDeclarationOnly --declaration'",
+    "prepublishOnly": "npm run build"
+  },
+  "tsup": {
+    "entry": [
+      "src"
+    ],
+    "sourceMap": true,
+    "clean": true
+  },
+  "dependencies": {
+    "@dz-web/esboot-common": "workspace:*",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.2.11"
+  },
+  "devDependencies": {
+    "@dz-web/esboot": "workspace:*",
+    "tsup": "^8.0.2"
+  },
+  "peerDependencies": {
+    "@dz-web/esboot": "workspace:*"
+  }
+}

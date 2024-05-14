@@ -1,0 +1,44 @@
+{
+  "name": "@dz-web/esboot-bundler-common",
+  "version": "3.0.0",
+  "description": "",
+  "keywords": [
+    "webpack",
+    "react"
+  ],
+  "license": "ISC",
+  "author": "Roc",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup --minify --dts --format esm,cjs",
+    "dev": "tsup --watch --dts --format cjs --onSuccess 'tsc --emitDeclarationOnly --declaration'",
+    "prepublishOnly": "npm run build"
+  },
+  "tsup": {
+    "entry": [
+      "src"
+    ],
+    "sourceMap": true,
+    "clean": true
+  },
+  "dependencies": {
+    "@dz-web/esboot-common": "workspace:*",
+    "copy-webpack-plugin": "^12.0.2",
+    "webpack": "^5.91.0",
+    "webpack-5-chain": "^8.0.1",
+    "webpack-dev-server": "^5.0.4",
+    "webpackbar": "^6.0.1"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "@dz-web/esboot": "workspace:*"
+  },
+  "peerDependencies": {
+    "@dz-web/esboot": "workspace:*"
+  }
+}

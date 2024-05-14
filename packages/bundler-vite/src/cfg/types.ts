@@ -25,6 +25,20 @@ export interface jsStrategyForGranularChunksOptions {
   frameworkBundles: string[];
 }
 
+export interface Px2rem {
+  enable?: boolean;
+  rootValue?: number | Record<string, number>;
+  unitPrecision?: number;
+  propWhiteList?: string[];
+  propBlackList?: string[];
+  exclude?: any;
+  selectorBlackList?: string[];
+  ignoreIdentifier?: boolean | string;
+  replace?: boolean;
+  mediaQuery?: boolean;
+  minPixelValue?: number;
+}
+
 export interface MFSUOpts {
   cwd?: string;
   excludeNodeNatives?: boolean;
@@ -46,15 +60,16 @@ export interface MFSUOpts {
   startBuildWorker?: (dep: any[]) => Worker;
 }
 
-export type BundlerWebpackCfg = {
+export type BundlerViteCfg = {
   mfsu?: boolean;
   mfsuOptions?: (cfg: MFSUOpts) => MFSUOpts;
+  copy?: Pick<PluginOptions, 'patterns'>;
   TSChecker?: boolean;
+  analyzer?: any;
   extraBabelPlugins?: string[];
   extraBabelPresets?: string[];
   extraBabelIncludes?: Array<string | RegExp>;
-  //
-  // copy?: Pick<PluginOptions, 'patterns'>;
+  pxtorem?: Px2rem;
   jsMinifier?: JsMinifier;
   jsMinifierOptions?: any;
   cssMinifier?: CSSMinifier;
@@ -63,8 +78,10 @@ export type BundlerWebpackCfg = {
     jsStrategy: CodeSplittingType;
     jsStrategyOptions: jsStrategyForGranularChunksOptions | Record<string, any>;
   };
+  svgr?: boolean;
+  svgrOptions?: Record<string, any>;
 } & Pick<
   DevServerConfiguration,
-  'https' | 'http2' | 'proxy' | 'port'
+  'https' | 'http2' | 'open' | 'host' | 'proxy' | 'port'
 > &
   Pick<Configuration, 'externals'>;
