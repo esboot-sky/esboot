@@ -1,4 +1,4 @@
-import { Bundler } from '../bundle';
+import { Bundler } from '../bundler';
 
 export interface Px2rem {
   enable?: boolean;
