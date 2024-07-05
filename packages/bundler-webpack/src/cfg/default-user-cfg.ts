@@ -1,5 +1,4 @@
 import { DEFAULT_DEV_PORT } from '@dz-web/esboot-common/constants';
-import type { UserOpts } from './types';
 import { JsMinifier, CSSMinifier, CodeSplittingType } from './types';
 
 export const defaultUserOpts = {
@@ -34,4 +33,4 @@ export const defaultUserOpts = {
     '@': 'src',
   },
   svgr: true,
-} satisfies UserOpts;
+} satisfies any;

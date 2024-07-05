@@ -1,5 +1,4 @@
 import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
-import type { PluginOptions } from 'copy-webpack-plugin';
 import type { Configuration } from 'webpack';
 
 export enum JsMinifier {
