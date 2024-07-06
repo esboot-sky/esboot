@@ -1,18 +1,20 @@
-import { Bundler } from '@dz-web/esboot';
 import { createServer } from 'vite';
+import { Bundler } from '@dz-web/esboot';
 import react from '@vitejs/plugin-react';
-import type { BundlerViteCfg } from './cfg/types';
+
+// import type { BundlerViteCfg } from './cfg/types.ts';
 
 export class BundlerVite implements Bundler {
-  constructor(cfg: BundlerViteCfg) {
+  constructor(cfg: any) {
     console.log(cfg, '<-- cfg');
   }
 
   async dev() {
+    console.log(__dirname, '<-- __dirname');
     const server = await createServer({
       plugins: [react()],
       configFile: false,
-      root: __dirname,
+      root: process.cwd(),
       server: {
         port: 1337,
       },
@@ -28,5 +30,4 @@ export class BundlerVite implements Bundler {
   }
 }
 
-export * from './types';
-export * from './cfg';
+export * from './types.ts';

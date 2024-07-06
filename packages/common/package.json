@@ -36,9 +36,14 @@
       "types": "./dist/helpers/index.d.ts"
     },
     "./radash": {
-      "import": "./dist/third/radash/index.mjs",
-      "default": "./dist/third/radash/index.js",
-      "types": "./dist/third/radash/index.d.ts"
+      "import": "./dist/radash/index.mjs",
+      "default": "./dist/radash/index.js",
+      "types": "./dist/radash/index.d.ts"
+    },
+    "./fs-extra": {
+      "import": "./dist/fs-extra/index.mjs",
+      "default": "./dist/fs-extra/index.js",
+      "types": "./dist/fs-extra/index.d.ts"
     }
   },
   "devDependencies": {
@@ -57,7 +62,8 @@
       "src/constants/index.ts",
       "src/helpers/index.ts",
       "src/utils/index.ts",
-      "src/third/radash/index.ts"
+      "src/radash/index.ts",
+      "src/fs-extra/index.ts"
     ],
     "clean": true
   },

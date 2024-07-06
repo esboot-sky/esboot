@@ -1,9 +1,12 @@
 import { join } from 'path';
 import { program } from 'commander';
 
+import cfg from '@/cfg';
+
 import { processPrepare } from './prepare';
 import { loadEnv } from './load-env';
-import cfg from '@/cfg';
+
+import { prepare } from './services/prepare';
 
 const cwd = process.cwd();
 
@@ -24,11 +27,10 @@ export const run = () => {
     });
 
   program
-    .command('postinstall')
-    .description('Postinstall action')
-    .allowUnknownOption(true)
-    .action(async () => {
-      console.log(1, '<-- postinstall');
+    .command('prepare')
+    .description('Prepare esboot project')
+    .action(() => {
+      prepare();
     });
 
   program.version(pkg.version);
