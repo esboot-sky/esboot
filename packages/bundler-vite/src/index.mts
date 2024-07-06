@@ -15,6 +15,11 @@ export class BundlerVite implements Bundler {
       plugins: [react()],
       configFile: false,
       root: process.cwd(),
+      resolve: {
+        alias: {
+          '@': '/src',
+        },
+      },
       server: {
         port: 1337,
       },
