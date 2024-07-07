@@ -1,5 +1,5 @@
 {
-  "name": "sp-bundler-webpack",
+  "name": "sp-bundler-vite",
   "version": "1.0.0",
   "testVersion": 1,
   "description": "",
@@ -13,24 +13,32 @@
   "author": "Roc",
   "license": "ISC",
   "dependencies": {
-    "@loadable/component": "^5.16.3",
-    "ahooks": "^3.7.11",
-    "antd": "^5.16.1",
+    "@dz-web/axios": "^0.0.6",
+    "@dz-web/axios-middlewares": "^1.0.3",
+    "@loadable/component": "^5.16.4",
+    "@tanstack/react-query": "^5.49.2",
+    "ahooks": "^3.8.0",
+    "antd": "^5.19.0",
+    "axios": "^1.7.2",
     "classnames": "^2.5.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-intl": "^6.6.5",
-    "react-router-dom": "^6.22.3",
-    "zustand": "^4.5.2"
+    "lodash-es": "^4.17.21",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-intl": "^6.6.8",
+    "react-router-dom": "^6.24.1",
+    "sass": "^1.77.6",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot-bundler-vite": "workspace:*",
     "@dz-web/esboot-bundler-webpack": "workspace:*",
-    "@types/node": "^20.12.7",
-    "@types/react": "18.2.77",
-    "@types/react-dom": "^18.2.25",
-    "eslint": "^9.0.0",
-    "stylelint": "^16.3.1"
+    "@types/dz-web": "^1.0.1",
+    "@types/node": "^20.14.9",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8.50.0",
+    "stylelint": "^15.10.3"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint",
