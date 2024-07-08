@@ -15,7 +15,7 @@ export interface Px2rem {
 }
 
 export interface UserConfig {
-  bundler: Bundler | null;
+  bundler: typeof Bundler | null;
   outputPath?: string;
   publicPath?: string;
   analyze?: boolean;

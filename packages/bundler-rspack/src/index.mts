@@ -1,8 +1,6 @@
-import { createServer } from 'vite';
-import { Bundler } from '@dz-web/esboot';
-import react from '@vitejs/plugin-react';
+import { rspack } from '@rspack/core';
 
-// import type { BundlerViteCfg } from './cfg/types.ts';
+import { Bundler } from '@dz-web/esboot';
 
 export class BundlerRSPack implements Bundler {
   constructor(cfg: any) {
@@ -10,24 +8,15 @@ export class BundlerRSPack implements Bundler {
   }
 
   async dev() {
-    console.log(__dirname, '<-- __dirname');
-    const server = await createServer({
-      plugins: [react()],
-      configFile: false,
-      root: process.cwd(),
-      resolve: {
-        alias: {
-          '@': '/src',
-        },
-      },
-      server: {
-        port: 1337,
-      },
-    });
+    const compiler = rspack({});
 
-    await server.listen();
-    server.printUrls();
-    server.bindCLIShortcuts({ print: true });
+    compiler.run((err, stats) => {
+      // ...
+
+      compiler.close((closeErr) => {
+        // ...
+      });
+    });
   }
 
   build() {

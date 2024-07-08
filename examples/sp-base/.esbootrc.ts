@@ -1,8 +1,10 @@
 import { defineConfig } from '@dz-web/esboot';
 import { BundlerVite } from '@dz-web/esboot-bundler-vite';
+import { BundlerWebpack } from '@dz-web/esboot-bundler-webpack';
 
 export default defineConfig({
-  bundler: new BundlerVite({}),
+  // bundler: new BundlerVite({}),
+  bundler: BundlerWebpack,
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

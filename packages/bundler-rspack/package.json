@@ -1,5 +1,5 @@
 {
-  "name": "@dz-web/esboot-bundler-vite",
+  "name": "@dz-web/esboot-bundler-rspack",
   "version": "3.0.0",
   "description": "",
   "license": "ISC",
