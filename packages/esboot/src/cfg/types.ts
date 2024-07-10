@@ -1,5 +1,5 @@
 import { Bundler } from '../bundler';
-import type { BaseBundlerCfg } from '../bundler/types';
+import type { BaseBundlerOptions } from '../bundler/types';
 
 export interface Px2rem {
   enable?: boolean;
@@ -15,9 +15,9 @@ export interface Px2rem {
   minPixelValue?: number;
 }
 
-export interface UserConfig<BundlerCfg = any> {
-  bundler: (new (config: BaseBundlerCfg) => Bundler) | null;
-  BundlerCfg?: BundlerCfg;
+export interface UserConfig<BundlerOptions = any> {
+  bundler: (new (config: BaseBundlerOptions) => Bundler) | null;
+  bundlerOptions?: BundlerOptions;
   outputPath?: string;
   publicPath?: string;
   analyze?: boolean;

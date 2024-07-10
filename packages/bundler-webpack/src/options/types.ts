@@ -45,7 +45,7 @@ export interface MFSUOpts {
   startBuildWorker?: (dep: any[]) => Worker;
 }
 
-export type BundlerWebpackCfg = {
+export type BundlerWebpackOptions = {
   mfsu?: boolean;
   mfsuOptions?: (cfg: MFSUOpts) => MFSUOpts;
   TSChecker?: boolean;

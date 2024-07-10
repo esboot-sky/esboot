@@ -8,7 +8,7 @@ import { CompileTimeConfig } from './compile-time-cfg';
 
 import type { UserConfig } from './types';
 
-export default class UserOptions {
+export default class UserOptionsC {
   config: UserConfig = { bundler: null };
 
   constructor(private compileTimeConfig: CompileTimeConfig) {
