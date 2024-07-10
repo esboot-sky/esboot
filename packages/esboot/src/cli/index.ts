@@ -20,7 +20,7 @@ export const run = () => {
 
   program
     .command('dev')
-    .description('Start development project')
+    .description('Start to develop project')
     .allowUnknownOption(true)
     .action(async () => {
       cfg?.bundler?.dev();

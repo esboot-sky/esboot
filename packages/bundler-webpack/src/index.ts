@@ -1,5 +1,5 @@
 import { Bundler } from '@dz-web/esboot';
-import type { BundlerWebpackCfg } from './cfg/types';
+import type { BundlerWebpackOptions } from './cfg/types';
 
 export class BundlerWebpack implements Bundler {
   constructor(cfg: BundlerWebpackCfg) {

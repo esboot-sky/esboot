@@ -3,8 +3,8 @@ import { rspack } from '@rspack/core';
 import { Bundler } from '@dz-web/esboot';
 
 export class BundlerRSPack implements Bundler {
-  constructor(cfg: any) {
-    console.log(cfg, '<-- cfg');
+  constructor(Options: any) {
+    console.log(Options, '<-- Options');
   }
 
   async dev() {

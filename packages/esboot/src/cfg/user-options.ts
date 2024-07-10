@@ -8,7 +8,7 @@ import { CompileTimeConfig } from './compile-time-cfg';
 
 import type { UserConfig } from './types';
 
-export default class UserCfg {
+export default class UserOptions {
   config: UserConfig = { bundler: null };
 
   constructor(private compileTimeConfig: CompileTimeConfig) {
@@ -33,7 +33,7 @@ export default class UserCfg {
     const { default: getCfg } = require(filePath);
     const cfg = isFunction(getCfg) ? getCfg(this.compileTimeConfig) : getCfg;
 
-    console.log(cfg, '<-- userCfg');
+    console.log(cfg, '<-- userOptions');
     this.config = cfg;
     // const { isSP } = this.compileTimeConfig;
 

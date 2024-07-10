@@ -1,17 +1,17 @@
 import { omit } from '@dz-web/esboot-common/lodash';
 import CompileTimeCfg, { CompileTimeConfig } from './compile-time-cfg';
-import UserCfg from './user-cfg';
+import UserOptionsC from './user-options';
 
 import { Bundler } from '../bundler';
 
 export default new (class Cfg {
-  #userCfg: UserCfg;
+  #userOptions: UserOptionsC;
   #compileTimeCfg: CompileTimeCfg;
   #bundler: Bundler | null;
 
   constructor() {
     this.#compileTimeCfg = new CompileTimeCfg();
-    this.#userCfg = new UserCfg(this.#compileTimeCfg.config);
+    this.#userOptions = new UserOptionsC(this.#compileTimeCfg.config);
     this.#bundler = null;
   }
 
@@ -20,8 +20,8 @@ export default new (class Cfg {
     return this.#compileTimeCfg.config as Required<CompileTimeConfig>;
   }
 
-  get userCfg() {
-    return this.#userCfg.config;
+  get userOptions() {
+    return this.#userOptions.config;
   }
 
   get bundler() {
@@ -30,12 +30,12 @@ export default new (class Cfg {
 
   load() {
     this.#compileTimeCfg.load();
-    this.#userCfg.load();
+    this.#userOptions.load();
 
-    if (this.userCfg.bundler) {
-      this.#bundler = new this.userCfg.bundler({
+    if (this.userOptions.bundler) {
+      this.#bundler = new this.userOptions.bundler({
         compileTimeCfg: this.compileTimeCfg,
-        userCfg: omit(this.userCfg, 'bundler'),
+        userOptions: omit(this.userOptions, 'bundler'),
       });
     }
   }

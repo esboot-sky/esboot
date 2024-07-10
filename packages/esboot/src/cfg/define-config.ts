@@ -1,6 +1,8 @@
 import type { UserConfig } from './types';
 
-function defineConfig(config: UserConfig): UserConfig {
+function defineConfig<BundlerCfg>(
+  config: UserConfig<BundlerCfg>
+): UserConfig<BundlerCfg> {
   return config;
 }
 

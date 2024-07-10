@@ -2,11 +2,11 @@ import { createServer } from 'vite';
 import { Bundler } from '@dz-web/esboot';
 import react from '@vitejs/plugin-react';
 
-// import type { BundlerViteCfg } from './cfg/types.ts';
+// import type { BundlerViteOptions } from './Options/types.ts';
 
 export class BundlerVite implements Bundler {
-  constructor(cfg: any) {
-    console.log(cfg, '<-- cfg');
+  constructor(Options: any) {
+    console.log(Options, '<-- Options');
   }
 
   async dev() {
