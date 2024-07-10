@@ -3,12 +3,11 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@@/*": ["./node_modules/@dz-web/esboot-common/dist/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src", "globals.d.ts"]

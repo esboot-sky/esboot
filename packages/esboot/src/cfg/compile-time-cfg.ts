@@ -1,5 +1,5 @@
 import { resolve, join } from 'path';
-import { pick } from '@dz-web/esboot-common/radash';
+import { pick } from '@dz-web/esboot-common/lodash';
 import { Environment } from '@dz-web/esboot-common/constants';
 
 import { ip } from 'address';

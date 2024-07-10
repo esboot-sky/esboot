@@ -1,7 +1,7 @@
-import { join, isAbsolute } from 'path';
+import { join } from 'path';
 
-import { writeJSONSync, ensureDirSync } from '@@/fs-extra';
-import { cacheDir } from '@@/constants';
+import { writeJSONSync, ensureDirSync } from '@dz-web/esboot-common/fs-extra';
+import { cacheDir } from '@dz-web/esboot-common/constants';
 
 import cfg from '@/cfg';
 
@@ -21,7 +21,7 @@ export function generateTypeScriptCfg(basePath: string) {
 
   const _alias: Record<string, string[]> = {};
 
-  console.log(cfg.compileTimeCfg, '<-- cfg');
+  // console.log(cfg.compileTimeCfg, '<-- cfg');
   // for (let k in alias) {
   //   const rawValue = alias[k];
   //   const isAbsoluteValue = isAbsolute(rawValue);

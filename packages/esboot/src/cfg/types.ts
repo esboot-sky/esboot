@@ -1,4 +1,5 @@
 import { Bundler } from '../bundler';
+import type { BundlerOptions } from '../bundler/types';
 
 export interface Px2rem {
   enable?: boolean;
@@ -15,7 +16,7 @@ export interface Px2rem {
 }
 
 export interface UserConfig {
-  bundler: typeof Bundler | null;
+  bundler: (new (config: BundlerOptions) => Bundler) | null;
   outputPath?: string;
   publicPath?: string;
   analyze?: boolean;

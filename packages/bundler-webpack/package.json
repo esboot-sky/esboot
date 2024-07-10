@@ -29,13 +29,13 @@
   "dependencies": {
     "@dz-web/esboot-common": "workspace:*",
     "copy-webpack-plugin": "^12.0.2",
-    "webpack": "^5.91.0",
-    "webpack-5-chain": "^8.0.1",
+    "webpack": "^5.92.1",
+    "webpack-5-chain": "^8.0.2",
     "webpack-dev-server": "^5.0.4",
     "webpackbar": "^6.0.1"
   },
   "devDependencies": {
-    "tsup": "^8.0.2",
+    "tsup": "^8.1.0",
     "@dz-web/esboot": "workspace:*"
   },
   "peerDependencies": {

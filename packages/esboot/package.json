@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "tsup --minify --dts --format esm,cjs",
-    "dev": "tsup --dts --watch --format esm,cjs",
+    "dev": "tsup --watch --dts --format cjs,esm --onSuccess 'tsc --emitDeclarationOnly --declaration'",
     "prepublishOnly": "npm run build",
     "test": "vitest"
   },

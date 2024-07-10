@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "tsup --minify --dts --format esm,cjs",
-    "dev": "tsup --dts --watch --format esm,cjs",
+    "dev": "tsup --dts --watch --format cjs --onSuccess 'tsc --emitDeclarationOnly --declaration'",
     "prepublishOnly": "npm run build",
     "test": "vitest"
   },
@@ -35,10 +35,10 @@
       "default": "./dist/helpers/index.js",
       "types": "./dist/helpers/index.d.ts"
     },
-    "./radash": {
-      "import": "./dist/radash/index.mjs",
-      "default": "./dist/radash/index.js",
-      "types": "./dist/radash/index.d.ts"
+    "./lodash": {
+      "import": "./dist/lodash/index.mjs",
+      "default": "./dist/lodash/index.js",
+      "types": "./dist/lodash/index.d.ts"
     },
     "./fs-extra": {
       "import": "./dist/fs-extra/index.mjs",
@@ -49,20 +49,23 @@
   "devDependencies": {
     "@types/cross-spawn": "^6.0.6",
     "@types/fs-extra": "^11.0.4",
+    "@types/lodash": "^4.17.6",
+    "@types/lodash-es": "^4.17.12",
     "tsup": "^8.0.2"
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
     "fs-extra": "^11.2.0",
     "kleur": "^4.1.5",
-    "radash": "^12.1.0"
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21"
   },
   "tsup": {
     "entry": [
       "src/constants/index.ts",
       "src/helpers/index.ts",
       "src/utils/index.ts",
-      "src/radash/index.ts",
+      "src/lodash/index.ts",
       "src/fs-extra/index.ts"
     ],
     "clean": true

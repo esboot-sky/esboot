@@ -4,7 +4,8 @@ import { BundlerWebpack } from '@dz-web/esboot-bundler-webpack';
 
 export default defineConfig({
   // bundler: new BundlerVite({}),
-  bundler: BundlerWebpack,
+  bundler: BundlerWebpack as any,
+  sourceMap: false,
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

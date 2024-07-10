@@ -1,6 +1,6 @@
 import { existsSync } from 'fs';
 import { exit } from 'process';
-import { isFunction } from '@dz-web/esboot-common/radash';
+import { isFunction } from '@dz-web/esboot-common/lodash';
 import { USER_CONFIG_FILE } from '@dz-web/esboot-common/constants';
 import { error } from '@dz-web/esboot-common/helpers';
 
