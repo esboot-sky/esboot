@@ -1,7 +1,7 @@
 import { UserConfig } from '../cfg/types';
 import { CompileTimeConfig } from '../cfg/compile-time-cfg';
 
-export interface BaseBundlerOptions {
+export interface BaseBundlerOptions<BundlerOptions = any> {
   compileTimeCfg: CompileTimeConfig;
-  userOptions: Omit<UserConfig, 'bundler'>;
+  userOptions: Omit<UserConfig<BundlerOptions>, 'bundler'>;
 }
