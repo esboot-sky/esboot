@@ -7,6 +7,7 @@ import { processPrepare } from './prepare';
 import { loadEnv } from './load-env';
 
 import { prepare } from './services/prepare';
+import { Environment } from '@dz-web/esboot-common';
 
 const cwd = process.cwd();
 
@@ -23,7 +24,19 @@ export const run = () => {
     .description('Start to develop project')
     .allowUnknownOption(true)
     .action(async () => {
+      cfg.updateCompileTimeCfg({ env: Environment.dev });
+      cfg.initBundler();
       cfg?.bundler?.dev();
+    });
+
+  program
+    .command('build')
+    .description('Build project')
+    .allowUnknownOption(true)
+    .action(async () => {
+      cfg.updateCompileTimeCfg({ env: Environment.prod });
+      cfg.initBundler();
+      cfg?.bundler?.build();
     });
 
   program

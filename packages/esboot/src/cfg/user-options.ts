@@ -33,7 +33,6 @@ export default class UserOptionsC {
     const { default: getCfg } = require(filePath);
     const cfg = isFunction(getCfg) ? getCfg(this.compileTimeConfig) : getCfg;
 
-    console.log(cfg, '<-- userOptions');
     this.config = cfg;
     // const { isSP } = this.compileTimeConfig;
 

@@ -1,29 +1,28 @@
 import { Bundler } from '@dz-web/esboot';
 import { omit } from '@dz-web/esboot-common/lodash';
-
 import { BaseBundlerOptions } from '@dz-web/esboot';
 import type { BundlerWebpackOptions } from './options/types';
 
-type UserOptions = Omit<BaseBundlerOptions['userOptions'], 'bundlerOptions'>;
+import { getWebpackCfg } from './cfg';
+
+import type { BundlerCfg } from './types';
+
 export class BundlerWebpack implements Bundler {
-  compileTimeCfg: BaseBundlerOptions['compileTimeCfg'];
-  userOptions: UserOptions;
-  bundlerOptions: BundlerWebpackOptions | Record<string, unknown>;
+  bundlerCfg: BundlerCfg;
 
   constructor(cfg: BaseBundlerOptions<BundlerWebpackOptions>) {
     const { compileTimeCfg, userOptions } = cfg;
 
-    this.userOptions = omit(userOptions, ['bundlerOptions']);
-    this.compileTimeCfg = compileTimeCfg;
-    this.bundlerOptions = userOptions.bundlerOptions || {};
-
-    console.log(this.userOptions, '<-- this.userOptions');
-    console.log(this.compileTimeCfg, '<-- this.compileTimeCfg');
-    console.log(this.bundlerOptions, '<-- this.bundlerOptions');
+    this.bundlerCfg = {
+      userOptions: omit(userOptions, ['bundlerOptions']),
+      compileTimeCfg,
+      bundlerOptions: userOptions.bundlerOptions || {},
+    };
   }
 
-  dev() {
-    console.log(1, '<-- dev');
+  async dev() {
+    const webpackCfg = await getWebpackCfg(this.bundlerCfg);
+    console.log(webpackCfg, '<-- dev');
   }
 
   build() {

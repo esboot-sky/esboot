@@ -20,6 +20,10 @@ export default new (class Cfg {
     return this.#compileTimeCfg.config as Required<CompileTimeConfig>;
   }
 
+  updateCompileTimeCfg(cfg: Partial<CompileTimeConfig>): void {
+    return this.#compileTimeCfg.update(cfg);
+  }
+
   get userOptions() {
     return this.#userOptions.config;
   }
@@ -31,7 +35,9 @@ export default new (class Cfg {
   load() {
     this.#compileTimeCfg.load();
     this.#userOptions.load();
+  }
 
+  initBundler() {
     if (this.userOptions.bundler) {
       this.#bundler = new this.userOptions.bundler({
         compileTimeCfg: this.compileTimeCfg,

@@ -40,6 +40,7 @@ export interface CompileTimeConfig extends Partial<CompileTimeConfigForMP> {
   ipv4: string;
   version: string;
   cwd: string;
+  env: Environment;
   entry: Record<string, string>[];
   staticPathList: any[];
 }
@@ -52,6 +53,7 @@ export default class CompileTimeCfg {
     configRootPath: '',
     contentRootPath: '',
     configJSPath: '',
+    env: Environment.dev,
     ipv4: 'localhost',
     version: '',
     entry: [],
@@ -169,4 +171,8 @@ export default class CompileTimeCfg {
 
     this.generateMPCfg();
   };
+
+  update(data: Partial<CompileTimeConfig>) {
+    Object.assign(this.config, data);
+  }
 }
