@@ -15,11 +15,13 @@ export interface Px2rem {
   minPixelValue?: number;
 }
 
-export interface UserConfig<BundlerOptions = any> {
+export interface UserOptions<BundlerOptions = any> {
   bundler: (new (config: BaseBundlerOptions) => Bundler) | null;
   bundlerOptions?: BundlerOptions;
   outputPath?: string;
   publicPath?: string;
+  useLangJsonPicker?: boolean;
+  //
   analyze?: boolean;
   alias?: Record<string, string>;
   define?: Record<string, string>;
@@ -29,7 +31,8 @@ export interface UserConfig<BundlerOptions = any> {
   svgr?: boolean;
   svgrOptions?: Record<string, any>;
   server?: {
-    host?: string | undefined;
-    open?: boolean | string;
+    host?: string;
+    open?: boolean;
+    port?: number;
   };
 }

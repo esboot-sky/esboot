@@ -40,6 +40,7 @@ export default new (class Cfg {
   initBundler() {
     if (this.userOptions.bundler) {
       this.#bundler = new this.userOptions.bundler({
+        updateCompileTimeCfg: this.updateCompileTimeCfg,
         compileTimeCfg: this.compileTimeCfg,
         userOptions: omit(this.userOptions, 'bundler'),
       });

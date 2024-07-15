@@ -11,12 +11,13 @@ export class BundlerWebpack implements Bundler {
   bundlerCfg: BundlerCfg;
 
   constructor(cfg: BaseBundlerOptions<BundlerWebpackOptions>) {
-    const { compileTimeCfg, userOptions } = cfg;
+    const { compileTimeCfg, userOptions, updateCompileTimeCfg } = cfg;
 
     this.bundlerCfg = {
       userOptions: omit(userOptions, ['bundlerOptions']),
       compileTimeCfg,
       bundlerOptions: userOptions.bundlerOptions || {},
+      updateCompileTimeCfg,
     };
   }
 

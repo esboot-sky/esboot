@@ -1,10 +1,12 @@
-import { getExportProps } from '@umijs/ast';
 import { readFileSync } from 'fs';
 import { basename, join } from 'path';
+
+import { getExportProps } from '@umijs/ast';
 import { glob } from 'glob';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-
 import Config from 'webpack-5-chain';
+
+import type { CompileTimeConfig } from '@dz-web/esboot';
 
 import type { BundlerCfg } from '@/types';
 
@@ -16,53 +18,55 @@ interface EntryFileExportProps {
 }
 
 export const addEntry = async (cfg: BundlerCfg, webpackCfg: Config) => {
-  console.log(2433223, '<-- 2433223');
-  // const { contentRootPath, configRootPathOfPlatfrom, ipv4 } =
-  //   esbootConfig.compileTimeConfig;
+  const { contentRootPath, configRootPath = '', ipv4 } = cfg.compileTimeCfg;
+  const {
+    server: { port },
+  } = cfg.userOptions;
 
-  // const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } =
-  //   process.env;
+  const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } =
+    process.env;
 
-  // const {
-  //   config,
-  //   isDev,
-  //   userOpts: { port },
-  // } = applyOpts;
-  // const files = await glob(`/**/${ESBOOT_CONTENT_PATTERN}.entry.tsx`, {
-  //   root: join(contentRootPath, ESBOOT_CONTENT_PATH),
-  // });
+  const files = await glob(`/**/${ESBOOT_CONTENT_PATTERN}.entry.tsx`, {
+    root: join(contentRootPath, ESBOOT_CONTENT_PATH),
+  });
 
-  // files.forEach((file: string, index) => {
-  //   const { title, template, name, langJsonPicker } =
-  //     (getExportProps(readFileSync(file, 'utf-8')) as EntryFileExportProps) ||
-  //     {};
+  const entry: CompileTimeConfig['entry'] = {};
 
-  //   const filename = basename(file, '.entry.tsx');
-  //   const chunkName = name || filename;
-  //   const ensureTitle = title || filename || 'ESboot APP';
-  //   const tplRelativePath = `template/${template || 'index'}.html`;
-  //   const ensureTpl = join(configRootPathOfPlatfrom, tplRelativePath);
+  files.forEach((file: string, index) => {
+    const { title, template, name, langJsonPicker } =
+      (getExportProps(readFileSync(file, 'utf-8')) as EntryFileExportProps) ||
+      {};
 
-  //   esbootConfig.compileTimeConfig._entry[file] = {
-  //     langJsonPicker,
-  //     tpl: tplRelativePath,
-  //     chunkName,
-  //     filename,
-  //     title: ensureTitle,
-  //     url: `http://${ipv4}:${port}/${chunkName}.html`,
-  //   };
+    const fileName = basename(file, '.entry.tsx');
+    const chunkName = name || fileName;
+    const ensureTitle = title || fileName || 'ESboot APP';
+    const tplRelativePath = `template/${template || 'index'}.html`;
+    const ensureTpl = join(configRootPath, tplRelativePath);
 
-  //   config.entry[chunkName] = file;
+    webpackCfg.entry(chunkName).add(file).end();
 
-  //   config.plugins.push(
-  //     new HtmlWebpackPlugin({
-  //       inject: true,
-  //       chunks: [chunkName],
-  //       filename: `${chunkName}.html`,
-  //       title: ensureTitle,
-  //       template: ensureTpl,
-  //       hash: true,
-  //     })
-  //   );
-  // });
+    webpackCfg
+      .plugin(`html-webpack-plugin-${chunkName}-${index}`)
+      .use(HtmlWebpackPlugin, [
+        {
+          inject: true,
+          chunks: [chunkName],
+          filename: `${chunkName}.html`,
+          title: ensureTitle,
+          template: ensureTpl,
+          hash: true,
+        },
+      ]);
+
+    entry[file] = {
+      langJsonPicker,
+      tpl: tplRelativePath,
+      chunkName,
+      fileName,
+      title: ensureTitle,
+      url: `http://${ipv4}:${port}/${chunkName}.html`,
+    };
+  });
+
+  cfg.updateCompileTimeCfg({ entry });
 };

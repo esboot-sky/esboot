@@ -1,8 +1,8 @@
-import type { UserConfig } from './types';
+import type { UserOptions } from './types';
 
 function defineConfig<BundlerCfg>(
-  config: UserConfig<BundlerCfg>
-): UserConfig<BundlerCfg> {
+  config: UserOptions<BundlerCfg>
+): UserOptions<BundlerCfg> {
   return config;
 }
 

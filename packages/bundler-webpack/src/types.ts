@@ -8,6 +8,7 @@ export { copyWebpackPluginPattern };
 type UserOptions = Omit<BaseBundlerOptions['userOptions'], 'bundlerOptions'>;
 export interface BundlerCfg {
   compileTimeCfg: BaseBundlerOptions['compileTimeCfg'];
+  updateCompileTimeCfg: BaseBundlerOptions['updateCompileTimeCfg'];
   userOptions: UserOptions;
   bundlerOptions: BundlerWebpackOptions | Record<string, unknown>;
 }

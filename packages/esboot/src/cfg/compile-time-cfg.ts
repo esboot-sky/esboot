@@ -30,8 +30,18 @@ export interface CompileTimeConfigForMP {
   configRootPathOfPageType: string;
 }
 
+interface Entry {
+  chunkName: string;
+  tpl: string;
+  fileName: string;
+  title: string;
+  url: string;
+  langJsonPicker?: string[];
+}
+
 export interface CompileTimeConfig extends Partial<CompileTimeConfigForMP> {
   projectType: PROJECT_TYPE;
+  isDev: boolean;
   isSP: boolean;
   rootPath: string;
   contentRootPath: string;
@@ -41,13 +51,14 @@ export interface CompileTimeConfig extends Partial<CompileTimeConfigForMP> {
   version: string;
   cwd: string;
   env: Environment;
-  entry: Record<string, string>[];
+  entry: Record<string, Entry>;
   staticPathList: any[];
 }
 
 export default class CompileTimeCfg {
   config: CompileTimeConfig = {
     projectType: PROJECT_TYPE.MP,
+    isDev: true,
     isSP: false,
     rootPath: '',
     configRootPath: '',
@@ -56,7 +67,7 @@ export default class CompileTimeCfg {
     env: Environment.dev,
     ipv4: 'localhost',
     version: '',
-    entry: [],
+    entry: {},
     cwd: process.cwd(),
     staticPathList: [],
   };
@@ -142,7 +153,7 @@ export default class CompileTimeCfg {
   };
 
   load = () => {
-    const { ESBOOT_PROJECT_TYPE = PROJECT_TYPE.MP } = process.env;
+    const { NODE_ENV, ESBOOT_PROJECT_TYPE = PROJECT_TYPE.MP } = process.env;
     const { cwd } = this.config;
 
     const rootPath = resolve(cwd, './src');
@@ -157,7 +168,8 @@ export default class CompileTimeCfg {
       configRootPath,
       projectType: ESBOOT_PROJECT_TYPE as PROJECT_TYPE,
       isSP: ESBOOT_PROJECT_TYPE === PROJECT_TYPE.SP,
-      entry: [],
+      isDev: NODE_ENV === Environment.dev,
+      entry: {},
       ...pick(pkg, ['version']),
     } satisfies Partial<CompileTimeConfig>;
 
