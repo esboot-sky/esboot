@@ -1,49 +1,44 @@
 import { omit } from '@dz-web/esboot-common/lodash';
 import CompileTimeCfg, { CompileTimeConfig } from './compile-time-cfg';
 import UserOptionsC from './user-options';
+import { PROJECT_TYPE } from './types';
 
 import { Bundler } from '../bundler';
 
+import type { Configuration } from './types';
+
 export default new (class Cfg {
-  #userOptions: UserOptionsC;
-  #compileTimeCfg: CompileTimeCfg;
-  #bundler: Bundler | null;
+  #config: Configuration | null;
 
-  constructor() {
-    this.#compileTimeCfg = new CompileTimeCfg();
-    this.#userOptions = new UserOptionsC(this.#compileTimeCfg.config);
-    this.#bundler = null;
-  }
+  load = () => {
+    const { NODE_ENV, ESBOOT_PROJECT_TYPE = PROJECT_TYPE.MP } = process.env;
+    const { cwd } = this.#config;
 
-  get compileTimeCfg() {
-    // TODO: type
-    return this.#compileTimeCfg.config as Required<CompileTimeConfig>;
-  }
+    const rootPath = resolve(cwd, './src');
+    const configRootPath = resolve(cwd, `./config`);
 
-  updateCompileTimeCfg(cfg: Partial<CompileTimeConfig>): void {
-    return this.#compileTimeCfg.update(cfg);
-  }
+    const ipv4 = ip();
 
-  get userOptions() {
-    return this.#userOptions.config;
-  }
+    const cfg = {
+      cwd,
+      ipv4,
+      rootPath,
+      configRootPath,
+      projectType: ESBOOT_PROJECT_TYPE as PROJECT_TYPE,
+      isSP: ESBOOT_PROJECT_TYPE === PROJECT_TYPE.SP,
+      isDev: NODE_ENV === Environment.dev,
+      entry: {},
+      ...pick(pkg, ['version']),
+    } satisfies Partial<CompileTimeConfig>;
 
-  get bundler() {
-    return this.#bundler;
-  }
+    Object.assign(this.config, cfg);
 
-  load() {
-    this.#compileTimeCfg.load();
-    this.#userOptions.load();
-  }
+    if (cfg.isSP) {
+      this.generateSPCfg();
 
-  initBundler() {
-    if (this.userOptions.bundler) {
-      this.#bundler = new this.userOptions.bundler({
-        updateCompileTimeCfg: this.updateCompileTimeCfg,
-        compileTimeCfg: this.compileTimeCfg,
-        userOptions: omit(this.userOptions, 'bundler'),
-      });
+      return;
     }
-  }
+
+    this.generateMPCfg();
+  };
 })();

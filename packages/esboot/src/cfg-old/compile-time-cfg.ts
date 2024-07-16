@@ -1,9 +1,59 @@
 import { resolve, join } from 'path';
 import { pick } from '@dz-web/esboot-common/lodash';
+import { Environment } from '@dz-web/esboot-common/constants';
 
 import { ip } from 'address';
 
 const pkg = require('../../package.json');
+
+export enum PROJECT_TYPE {
+  SP = 'SP',
+  MP = 'MP',
+}
+
+export enum PLATFORMS {
+  MOBILE = 'mobile',
+  PC = 'pc',
+}
+
+export enum PAGE_TYPE {
+  native = 'native',
+  browser = 'browser',
+}
+
+export interface CompileTimeConfigForMP {
+  pageType: PAGE_TYPE;
+  platform: PLATFORMS;
+  isMobile: boolean;
+  isBrowser: boolean;
+  configRootPathOfPlatfrom: string;
+  configRootPathOfPageType: string;
+}
+
+interface Entry {
+  chunkName: string;
+  tpl: string;
+  fileName: string;
+  title: string;
+  url: string;
+  langJsonPicker?: string[];
+}
+
+export interface CompileTimeConfig extends Partial<CompileTimeConfigForMP> {
+  projectType: PROJECT_TYPE;
+  isDev: boolean;
+  isSP: boolean;
+  rootPath: string;
+  contentRootPath: string;
+  configRootPath: string;
+  configJSPath: string;
+  ipv4: string;
+  version: string;
+  cwd: string;
+  env: Environment;
+  entry: Record<string, Entry>;
+  staticPathList: any[];
+}
 
 export default class CompileTimeCfg {
   config: CompileTimeConfig = {
