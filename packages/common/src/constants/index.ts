@@ -11,3 +11,18 @@ export const DEFAULT_DEV_PORT = 8100;
 export const cacheDir = resolve(process.cwd(), 'node_modules/.cache/esboot');
 export const webpackCacheDir = join(cacheDir, 'webpack-cache');
 export const mfsuCacheDir = join(cacheDir, './mfsu');
+
+export enum PROJECT_TYPE {
+  SP = 'SP',
+  MP = 'MP',
+}
+
+export enum PLATFORMS {
+  MOBILE = 'mobile',
+  PC = 'pc',
+}
+
+export enum PAGE_TYPE {
+  native = 'native', // Embed
+  browser = 'browser',
+}

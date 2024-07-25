@@ -24,9 +24,9 @@ export const run = () => {
     .description('Start to develop project')
     .allowUnknownOption(true)
     .action(async () => {
-      cfg.updateCompileTimeCfg({ env: Environment.dev });
-      cfg.initBundler();
-      cfg?.bundler?.dev();
+      // cfg.updateCompileTimeCfg({ env: Environment.dev });
+      // cfg.initBundler();
+      // cfg?.bundler?.dev();
     });
 
   program
@@ -34,9 +34,9 @@ export const run = () => {
     .description('Build project')
     .allowUnknownOption(true)
     .action(async () => {
-      cfg.updateCompileTimeCfg({ env: Environment.prod });
-      cfg.initBundler();
-      cfg?.bundler?.build();
+      // cfg.updateCompileTimeCfg({ env: Environment.prod });
+      // cfg.initBundler();
+      // cfg?.bundler?.build();
     });
 
   program

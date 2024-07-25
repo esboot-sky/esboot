@@ -1,22 +1,12 @@
-import { Environment } from '@dz-web/esboot-common/constants';
+import {
+  Environment,
+  PROJECT_TYPE,
+  PLATFORMS,
+  PAGE_TYPE,
+} from '@dz-web/esboot-common/constants';
 
 import { Bundler } from '../bundler';
 import type { BaseBundlerOptions } from '../bundler/types';
-
-export enum PROJECT_TYPE {
-  SP = 'SP',
-  MP = 'MP',
-}
-
-export enum PLATFORMS {
-  MOBILE = 'mobile',
-  PC = 'pc',
-}
-
-export enum PAGE_TYPE {
-  native = 'native', // Embed
-  browser = 'browser',
-}
 
 interface Entry {
   chunkName: string;
