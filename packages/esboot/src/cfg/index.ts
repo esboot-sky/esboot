@@ -1,13 +1,17 @@
 import { resolve, join } from 'path';
+import { existsSync } from 'fs';
+import { exit } from 'process';
 import { ip } from 'address';
 
-import { pick, merge } from '@dz-web/esboot-common/lodash';
+import { isFunction, pick, merge } from '@dz-web/esboot-common/lodash';
 import {
   Environment,
   PROJECT_TYPE,
   PAGE_TYPE,
   PLATFORMS,
+  USER_CONFIG_FILE,
 } from '@dz-web/esboot-common/constants';
+import { error } from '@dz-web/esboot-common/helpers';
 
 import { defaultCfg } from './default-cfg';
 import type { Configuration, ConfigurationForMP } from './types';
@@ -30,10 +34,14 @@ export default new (class Cfg {
         from: `${configRootPath}/static`,
         to: './static',
       },
-    ] satisfies any[];
+    ] satisfies Configuration['staticPathList'];
+    const alias = {
+      '@': 'src',
+    } satisfies Configuration['alias'];
 
     const cfg = {
       configJSPath,
+      alias,
       staticPathList,
     } satisfies Partial<Configuration>;
 
@@ -79,7 +87,16 @@ export default new (class Cfg {
         from: `${configRootPath}/static`,
         to: './static',
       },
-    ] satisfies any[];
+    ] satisfies Configuration['staticPathList'];
+    const alias = {
+      '@mobile-native': 'src/platforms/mobile/_native',
+      '@mobile-browser': 'src/platforms/mobile/_browser',
+      '@pc-native': 'src/platforms/pc/_native',
+      '@pc-browser': 'src/platforms/pc/_browser',
+      '@mobile': 'src/platforms/mobile',
+      '@pc': 'src/platforms/pc',
+      '@': 'src',
+    } satisfies Configuration['alias'];
 
     const MPConfiguration = {
       platform,
@@ -94,10 +111,36 @@ export default new (class Cfg {
     const cfg = {
       configJSPath,
       staticPathList,
+      alias,
       MPConfiguration,
     } satisfies Partial<Configuration>;
 
     Object.assign(this.#config, cfg);
+  };
+
+  loadConfigFile = (reload = false) => {
+    const filePath = USER_CONFIG_FILE;
+    if (!existsSync(filePath)) {
+      error(`User config file not found: ${filePath}`);
+      exit(1);
+    }
+
+    if (reload) {
+      delete require.cache[require.resolve(filePath)];
+    }
+
+    const { default: getCfg } = require(filePath);
+    const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
+
+    const { isSP, isDev } = this.#config;
+    const platformCfg = isSP ? this.generateSPCfg() : this.generateMPCfg();
+
+    this.#config = merge(
+      this.#config,
+      platformCfg,
+      { publicPath: isDev ? '/' : './' },
+      userCfg
+    );
   };
 
   load = () => {
@@ -119,12 +162,8 @@ export default new (class Cfg {
     } satisfies Partial<Configuration>;
     Object.assign(this.#config, cfg);
 
-    if (cfg.isSP) {
-      this.generateSPCfg();
-      return;
-    }
-
-    this.generateMPCfg();
+    this[cfg.isSP ? 'generateSPCfg' : 'generateMPCfg']();
+    this.loadConfigFile();
     console.log(this.#config, '<-- cfg');
   };
 })();

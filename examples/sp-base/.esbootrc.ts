@@ -8,6 +8,9 @@ export default defineConfig<BundlerWebpackOptions>({
   bundler: BundlerWebpack as any,
   bundlerOptions: { mfsu: true },
   sourceMap: false,
+  alias: {
+    '@@': 'src'
+  }
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

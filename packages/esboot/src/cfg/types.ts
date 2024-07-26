@@ -79,5 +79,6 @@ export interface Configuration {
     from: string;
     to: string;
   }[];
+  alias: Record<string, string>;
   MPConfiguration?: ConfigurationForMP;
 }
