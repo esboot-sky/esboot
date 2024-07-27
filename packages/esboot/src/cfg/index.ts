@@ -21,7 +21,11 @@ const pkg = require('../../package.json');
 export default new (class Cfg {
   #config: Configuration = defaultCfg;
 
-  generateSPCfg = () => {
+  get config() {
+    return this.#config;
+  }
+
+  #generateSPCfg = () => {
     const { configRootPath } = this.#config;
 
     const configJSPath = `${configRootPath}/config.js`;
@@ -48,7 +52,7 @@ export default new (class Cfg {
     Object.assign(this.#config, cfg);
   };
 
-  generateMPCfg = () => {
+  #generateMPCfg = () => {
     const {
       NODE_ENV,
       ESBOOT_PLATFORM = PLATFORMS.PC,
@@ -132,12 +136,10 @@ export default new (class Cfg {
     const { default: getCfg } = require(filePath);
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
 
-    const { isSP, isDev } = this.#config;
-    const platformCfg = isSP ? this.generateSPCfg() : this.generateMPCfg();
+    const { isDev } = this.#config;
 
     this.#config = merge(
       this.#config,
-      platformCfg,
       { publicPath: isDev ? '/' : './' },
       userCfg
     );
@@ -162,8 +164,11 @@ export default new (class Cfg {
     } satisfies Partial<Configuration>;
     Object.assign(this.#config, cfg);
 
-    this[cfg.isSP ? 'generateSPCfg' : 'generateMPCfg']();
+    cfg.isSP ? this.#generateSPCfg() : this.#generateMPCfg();
     this.loadConfigFile();
-    console.log(this.#config, '<-- cfg');
+  };
+
+  patch = (cfg: Partial<Configuration>) => {
+    this.#config = merge(this.#config, cfg);
   };
 })();

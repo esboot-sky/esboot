@@ -24,9 +24,14 @@ export const run = () => {
     .description('Start to develop project')
     .allowUnknownOption(true)
     .action(async () => {
-      // cfg.updateCompileTimeCfg({ env: Environment.dev });
-      // cfg.initBundler();
-      // cfg?.bundler?.dev();
+      cfg.patch({ env: Environment.dev });
+      const { config } = cfg;
+
+      if (config.bundler) {
+        const bundler = new config.bundler({ configuration: cfg });
+
+        bundler.dev();
+      }
     });
 
   program

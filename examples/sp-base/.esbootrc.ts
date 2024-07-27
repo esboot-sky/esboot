@@ -1,4 +1,4 @@
-import { defineConfig } from '@dz-web/esboot';
+import { defineConfig, type Configuration } from '@dz-web/esboot';
 import { BundlerVite } from '@dz-web/esboot-bundler-vite';
 import { BundlerWebpack } from '@dz-web/esboot-bundler-webpack';
 import type { BundlerWebpackOptions } from "@dz-web/esboot-bundler-webpack";

@@ -63,7 +63,7 @@ export interface ConfigurationForMP {
   contentRootPath: string;
 }
 
-export interface Configuration {
+export interface Configuration extends UserOptions {
   projectType: PROJECT_TYPE;
   isDev: boolean;
   isSP: boolean;
@@ -81,4 +81,8 @@ export interface Configuration {
   }[];
   alias: Record<string, string>;
   MPConfiguration?: ConfigurationForMP;
+  server: {
+    open: boolean;
+    port: number;
+  };
 }

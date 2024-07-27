@@ -2,13 +2,10 @@ import { readFileSync } from 'fs';
 import { basename, join } from 'path';
 
 import { getExportProps } from '@umijs/ast';
+import type { Configuration, ConfigurationInstance } from '@dz-web/esboot';
 import { glob } from 'glob';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Config from 'webpack-5-chain';
-
-import type { CompileTimeConfig } from '@dz-web/esboot';
-
-import type { BundlerCfg } from '@/types';
 
 interface EntryFileExportProps {
   title?: string;
@@ -17,20 +14,34 @@ interface EntryFileExportProps {
   langJsonPicker?: string[];
 }
 
-export const addEntry = async (cfg: BundlerCfg, webpackCfg: Config) => {
-  const { contentRootPath, configRootPath = '', ipv4 } = cfg.compileTimeCfg;
+export const addEntry = async (
+  cfg: ConfigurationInstance,
+  webpackCfg: Config
+) => {
   const {
+    isSP,
+    MPConfiguration,
+    configRootPath = '',
+    ipv4,
+    rootPath,
     server: { port },
-  } = cfg.userOptions;
+  } = cfg.config;
 
+  let contentRootPath = rootPath;
+  if (!isSP && MPConfiguration) {
+    contentRootPath = MPConfiguration.contentRootPath;
+  }
+
+  console.log(contentRootPath, '<-- contentRootPath');
   const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } =
     process.env;
 
   const files = await glob(`/**/${ESBOOT_CONTENT_PATTERN}.entry.tsx`, {
     root: join(contentRootPath, ESBOOT_CONTENT_PATH),
+    ignore: ['**/node_modules/**', '**/test/**'],
   });
 
-  const entry: CompileTimeConfig['entry'] = {};
+  const entry: Configuration['entry'] = {};
 
   files.forEach((file: string, index) => {
     const { title, template, name, langJsonPicker } =
@@ -68,5 +79,5 @@ export const addEntry = async (cfg: BundlerCfg, webpackCfg: Config) => {
     };
   });
 
-  cfg.updateCompileTimeCfg({ entry });
+  cfg.patch({ entry });
 };

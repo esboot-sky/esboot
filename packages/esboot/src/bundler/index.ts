@@ -1,8 +1,10 @@
-import type { BaseBundlerOptions } from './types';
+import cfg from '@/cfg';
 
 export abstract class Bundler {
-  constructor(options: BaseBundlerOptions) {
-    console.log(options, '<-- options');
+  cfg: typeof cfg;
+
+  constructor() {
+    this.cfg = cfg;
   }
 
   abstract dev(): void;

@@ -1,29 +1,18 @@
 import { Bundler } from '@dz-web/esboot';
-import { omit } from '@dz-web/esboot-common/lodash';
-import { BaseBundlerOptions } from '@dz-web/esboot';
-import type { BundlerWebpackOptions } from './options/types';
+import { BaseBundlerOptions, ConfigurationInstance } from '@dz-web/esboot';
 
 import { getWebpackCfg } from './cfg';
 
-import type { BundlerCfg } from './types';
-
 export class BundlerWebpack implements Bundler {
-  bundlerCfg: BundlerCfg;
+  cfg: ConfigurationInstance;
 
-  constructor(cfg: BaseBundlerOptions<BundlerWebpackOptions>) {
-    const { compileTimeCfg, userOptions, updateCompileTimeCfg } = cfg;
-
-    this.bundlerCfg = {
-      userOptions: omit(userOptions, ['bundlerOptions']),
-      compileTimeCfg,
-      bundlerOptions: userOptions.bundlerOptions || {},
-      updateCompileTimeCfg,
-    };
+  constructor(options: BaseBundlerOptions) {
+    this.cfg = options.configuration;
   }
 
   async dev() {
-    const webpackCfg = await getWebpackCfg(this.bundlerCfg);
-    console.log(webpackCfg, '<-- dev');
+    const webpackCfg = await getWebpackCfg(this.cfg);
+    console.log(webpackCfg.toConfig(), '<-- dev');
   }
 
   build() {
