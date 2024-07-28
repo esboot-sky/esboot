@@ -1,5 +1,7 @@
-import type Cfg from '../cfg';
+import configuration from '../cfg';
+
+export type ConfigurationInstance = typeof configuration;
 
 export interface BaseBundlerOptions {
-  configuration: typeof Cfg;
+  configuration: ConfigurationInstance;
 }

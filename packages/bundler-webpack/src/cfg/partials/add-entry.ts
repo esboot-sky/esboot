@@ -16,7 +16,7 @@ interface EntryFileExportProps {
 
 export const addEntry = async (
   cfg: ConfigurationInstance,
-  webpackCfg: Config
+  webpackChain: Config
 ) => {
   const {
     isSP,
@@ -32,7 +32,6 @@ export const addEntry = async (
     contentRootPath = MPConfiguration.contentRootPath;
   }
 
-  console.log(contentRootPath, '<-- contentRootPath');
   const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } =
     process.env;
 
@@ -54,9 +53,9 @@ export const addEntry = async (
     const tplRelativePath = `template/${template || 'index'}.html`;
     const ensureTpl = join(configRootPath, tplRelativePath);
 
-    webpackCfg.entry(chunkName).add(file).end();
+    webpackChain.entry(chunkName).add(file).end();
 
-    webpackCfg
+    webpackChain
       .plugin(`html-webpack-plugin-${chunkName}-${index}`)
       .use(HtmlWebpackPlugin, [
         {

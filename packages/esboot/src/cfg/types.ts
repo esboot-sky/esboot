@@ -31,7 +31,7 @@ export interface Px2rem {
   minPixelValue?: number;
 }
 
-export interface UserOptions<BundlerOptions = any> {
+export interface UserOptions<BundlerOptions = unknown> {
   bundler: (new (config: BaseBundlerOptions) => Bundler) | null;
   bundlerOptions?: BundlerOptions;
   outputPath?: string;
@@ -63,7 +63,13 @@ export interface ConfigurationForMP {
   contentRootPath: string;
 }
 
-export interface Configuration extends UserOptions {
+export interface Configuration<BundlerOptions = unknown>
+  extends Required<
+    Omit<
+      UserOptions<BundlerOptions>,
+      'server' | 'define' | 'copy' | 'sourceMap'
+    >
+  > {
   projectType: PROJECT_TYPE;
   isDev: boolean;
   isSP: boolean;
@@ -81,8 +87,5 @@ export interface Configuration extends UserOptions {
   }[];
   alias: Record<string, string>;
   MPConfiguration?: ConfigurationForMP;
-  server: {
-    open: boolean;
-    port: number;
-  };
+  server: UserOptions['server'] & Required<Omit<UserOptions['server'], 'host'>>;
 }

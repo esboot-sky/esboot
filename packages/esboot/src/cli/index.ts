@@ -17,14 +17,15 @@ const pkg = require(pkgPath);
 export const run = () => {
   processPrepare();
   loadEnv({ root: cwd });
-  cfg.load();
 
   program
     .command('dev')
     .description('Start to develop project')
     .allowUnknownOption(true)
     .action(async () => {
-      cfg.patch({ env: Environment.dev });
+      process.env.NODE_ENV = Environment.dev;
+      cfg.load();
+
       const { config } = cfg;
 
       if (config.bundler) {

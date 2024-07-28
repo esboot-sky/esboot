@@ -1,10 +1,10 @@
-import cfg from '@/cfg';
+import { ConfigurationInstance } from './types';
 
 export abstract class Bundler {
-  cfg: typeof cfg;
+  cfg: ConfigurationInstance;
 
-  constructor() {
-    this.cfg = cfg;
+  constructor({ configuration }: { configuration: ConfigurationInstance }) {
+    this.cfg = configuration;
   }
 
   abstract dev(): void;
