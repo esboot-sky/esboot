@@ -26,6 +26,8 @@ export const defaultCfg: Configuration = {
   px2rem: {},
   svgr: true,
   svgrOptions: {},
+  isMobile: false,
+  isBrowser: true,
   server: {
     open: false,
     port: DEFAULT_DEV_PORT,

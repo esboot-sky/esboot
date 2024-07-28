@@ -48,6 +48,7 @@ export interface UserOptions<BundlerOptions = unknown> {
   svgrOptions?: Record<string, any>;
   server?: {
     host?: string;
+    https?: boolean;
     open?: boolean;
     port?: number;
   };
@@ -56,8 +57,6 @@ export interface UserOptions<BundlerOptions = unknown> {
 export interface ConfigurationForMP {
   pageType: PAGE_TYPE;
   platform: PLATFORMS;
-  isMobile: boolean;
-  isBrowser: boolean;
   configRootPathOfPlatfrom: string;
   configRootPathOfPageType: string;
   contentRootPath: string;
@@ -65,10 +64,7 @@ export interface ConfigurationForMP {
 
 export interface Configuration<BundlerOptions = unknown>
   extends Required<
-    Omit<
-      UserOptions<BundlerOptions>,
-      'server' | 'define' | 'copy' | 'sourceMap'
-    >
+    Omit<UserOptions<BundlerOptions>, 'define' | 'copy' | 'sourceMap'>
   > {
   projectType: PROJECT_TYPE;
   isDev: boolean;
@@ -81,11 +77,13 @@ export interface Configuration<BundlerOptions = unknown>
   cwd: string;
   env: Environment;
   entry: Record<string, Entry>;
+  isMobile: boolean;
+  isBrowser: boolean;
   staticPathList: {
     from: string;
     to: string;
   }[];
   alias: Record<string, string>;
   MPConfiguration?: ConfigurationForMP;
-  server: UserOptions['server'] & Required<Omit<UserOptions['server'], 'host'>>;
+  sourceMap?: UserOptions['sourceMap'];
 }

@@ -23,8 +23,9 @@ export const addJavaScriptRules = async (
     .test(/\.(t|j)sx?|mjs$/)
     .include.add(rootPath)
     .end()
-    .include.add(extraBabelIncludes.filter(Boolean))
-    .end()
+    .when(extraBabelIncludes.length > 0, (rule) =>
+      rule.include.add(extraBabelIncludes.filter(Boolean))
+    )
     // Temporarily disabled, otherwise regular expressions cannot be used for include
     .exclude.add(/\.*.json$/)
     .end()

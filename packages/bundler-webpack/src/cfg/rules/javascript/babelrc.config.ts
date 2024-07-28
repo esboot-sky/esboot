@@ -1,6 +1,6 @@
 import path from 'path';
 import type { Configuration } from '@dz-web/esboot';
-import { getCssHashRule } from '../add-rules-style';
+import { getCssHashRule } from '../style/utils';
 
 export const presets = [
   [

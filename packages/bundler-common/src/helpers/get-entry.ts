@@ -1,3 +1,1 @@
-export async function getEntry() {
-  
-}
+export async function getEntry() {}

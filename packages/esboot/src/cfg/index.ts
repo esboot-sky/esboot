@@ -105,8 +105,6 @@ export default new (class Cfg {
     const MPConfiguration = {
       platform,
       pageType,
-      isMobile: ESBOOT_PLATFORM === PLATFORMS.MOBILE,
-      isBrowser: ESBOOT_PAGE_TYPE === PAGE_TYPE.browser,
       configRootPathOfPlatfrom,
       configRootPathOfPageType,
       contentRootPath: join(rootPath, `./platforms/${platform}/_${pageType}`),
@@ -146,7 +144,12 @@ export default new (class Cfg {
   };
 
   load = () => {
-    const { NODE_ENV, ESBOOT_PROJECT_TYPE = PROJECT_TYPE.MP } = process.env;
+    const {
+      NODE_ENV,
+      ESBOOT_PROJECT_TYPE = PROJECT_TYPE.MP,
+      ESBOOT_PLATFORM = PLATFORMS.PC,
+      ESBOOT_PAGE_TYPE = PAGE_TYPE.browser,
+    } = process.env;
     const { cwd } = this.#config;
     const rootPath = resolve(cwd, './src');
     const configRootPath = resolve(cwd, `./config`);
@@ -159,6 +162,8 @@ export default new (class Cfg {
       projectType: ESBOOT_PROJECT_TYPE,
       isSP: ESBOOT_PROJECT_TYPE === PROJECT_TYPE.SP,
       isDev: NODE_ENV === Environment.dev,
+      isMobile: ESBOOT_PLATFORM === PLATFORMS.MOBILE,
+      isBrowser: ESBOOT_PAGE_TYPE === PAGE_TYPE.browser,
       entry: {},
       ...pick(pkg, ['version']),
     } satisfies Partial<Configuration>;

@@ -44,6 +44,11 @@
       "import": "./dist/fs-extra/index.mjs",
       "default": "./dist/fs-extra/index.js",
       "types": "./dist/fs-extra/index.d.ts"
+    },
+    "./kleur": {
+      "import": "./dist/kleur/index.mjs",
+      "default": "./dist/kleur/index.js",
+      "types": "./dist/kleur/index.d.ts"
     }
   },
   "devDependencies": {
@@ -66,7 +71,8 @@
       "src/helpers/index.ts",
       "src/utils/index.ts",
       "src/lodash/index.ts",
-      "src/fs-extra/index.ts"
+      "src/fs-extra/index.ts",
+      "src/kleur/index.ts"
     ],
     "clean": true
   },

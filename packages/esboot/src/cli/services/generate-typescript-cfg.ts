@@ -6,7 +6,7 @@ import { cacheDir } from '@dz-web/esboot-common/constants';
 import cfg from '@/cfg';
 
 const absListPath = (ref: string[]): string[] => {
-  const { cwd } = cfg.compileTimeCfg;
+  const { cwd } = cfg.config;
 
   return ref.map((path: string) => {
     return join(cwd, path);
@@ -14,7 +14,7 @@ const absListPath = (ref: string[]): string[] => {
 };
 
 export function generateTypeScriptCfg(basePath: string) {
-  const { cwd } = cfg.compileTimeCfg;
+  const { cwd } = cfg.config;
   const tsconfigJson = require(
     join(basePath, 'typescript/tsconfig-sample.json')
   );
@@ -47,5 +47,5 @@ export function generateTypeScriptCfg(basePath: string) {
     spaces: 2,
   });
   // info(`Created File: ${outoutPath}.`);
-  console.log(outoutPath, tsconfigJson, '<-- tsconfigJson');
+  // console.log(outoutPath, tsconfigJson, '<-- tsconfigJson');
 }
