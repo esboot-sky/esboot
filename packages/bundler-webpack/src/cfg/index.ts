@@ -16,6 +16,7 @@ import { addAssetRules } from './rules/add-rules-asset';
 
 import { addInjectBodyPlugin } from './plugins/add-plugin-inject-body';
 import { addCopyPlugin } from './plugins/add-plugin-copy';
+import { addWebpackbarPlugin } from './plugins/add-plugin-webpackbar';
 
 import { addDevServer } from './add-dev-server';
 
@@ -41,14 +42,17 @@ export const getWebpackCfg = async (
   // Plugins
   await addInjectBodyPlugin(cfg, webpackChain);
   await addCopyPlugin(cfg, webpackChain);
+  await addWebpackbarPlugin(cfg, webpackChain);
 
   await addDevServer(cfg, webpackChain);
 
-  webpackChain.when(isDev, (rule) => {
-    rule
+  webpackChain.when(isDev, (chain) => {
+    chain
       .plugin('ReactRefreshWebpackPlugin')
       .use(ReactRefreshWebpackPlugin)
       .end();
+
+    chain.stats('errors-only').infrastructureLogging({ level: 'error' });
   });
 
   return webpackChain;
