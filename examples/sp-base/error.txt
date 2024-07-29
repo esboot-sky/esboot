@@ -1,653 +1,82 @@
 $ esboot dev
-dev: 610.488ms
-/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/schema-utils@4.2.0/node_modules/schema-utils/dist/validate.js:158
-    throw new _ValidationError.default(errors, schema, configuration);
-          ^
+dev: 525.383ms
+<i> [webpack-dev-server] Project is running at:
+<i> [webpack-dev-server] Loopback: http://localhost:8100/
+<i> [webpack-dev-server] On Your Network (IPv4): http://172.20.10.3:8100/
+<i> [webpack-dev-server] On Your Network (IPv6): http://[fc00:1234:ffff::10]:8100/
+<i> [webpack-dev-server] Content not from webpack is served from '/Users/rocsun/Code/dz-library/esboot/]esboot-next/examples/sp-base/public' directory
+<i> [webpack-dev-server] 404s will fallback to '/index.html'
+error - ReferenceError: address is not defined
+    at Object.onListening (/Users/rocsun/Code/dz-library/esboot/]esboot-next/packages/bundler-webpack/dist/index.js:407:97)
+    at Server.start (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/webpack-dev-server@5.0.4_webpack@5.93.0_esbuild@0.21.5_/node_modules/webpack-dev-server/lib/Server.js:3128:20)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async start (/Users/rocsun/Code/dz-library/esboot/]esboot-next/packages/bundler-webpack/dist/index.js:459:9)
+asset js/index.js 276 KiB [emitted] [big] (name: index)
+asset index.html 1.23 KiB [emitted]
+runtime modules 26.3 KiB 11 modules
+modules by path ../../node_modules/.pnpm/ 172 KiB
+  modules by path ../../node_modules/.pnpm/webpack-dev-server@5.0.4_webpack@5.93.0_esbuild@0.21.5_...(truncated) 69.7 KiB 16 modules
+  modules by path ../../node_modules/.pnpm/webpack@5.93.0_esbuild@0.21.5/node_modules/we...(truncated) 5.18 KiB
+    ../../node_modules/.pnpm/webpack@5.93.0_esbuild@0.21.5/node_modules/webpack/hot...(truncated) 1.94 KiB [built] [code generated]
+    ../../node_modules/.pnpm/webpack@5.93.0_esbuild@0.21.5/node_modules/webp...(truncated) 1.74 KiB [built] [code generated]
+    + 2 modules
+  modules by path ../../node_modules/.pnpm/html-entities@2.5.2/node_modules/html-entities/lib/*.js 78.9 KiB
+    ../../node_modules/.pnpm/html-entities@2.5.2/node_modules/html-entitie...(truncated) 4.84 KiB [built] [code generated]
+    ../../node_modules/.pnpm/html-entities@2.5.2/node_modules/html-entities/lib/name...(truncated) 73.1 KiB [built] [code generated]
+    ../../node_modules/.pnpm/html-entities@2.5.2/node_modules/html-entities/lib/nume...(truncated) 389 bytes [built] [code generated]
+    ../../node_modules/.pnpm/html-entities@2.5.2/node_modules/html-entities/lib/surr...(truncated) 583 bytes [built] [code generated]
+  ../../node_modules/.pnpm/ansi-html-community@0.0.8/node_modules/ansi-html-comm...(truncated) 4.16 KiB [built] [code generated]
+  ../../node_modules/.pnpm/events@3.3.0/node_modules/events/events.js 14.5 KiB [built] [code generated]
+./src/index.entry.tsx 39 bytes [built] [code generated] [1 error]
 
-ValidationError: Invalid options object. Dev Server has been initialized using an options object that does not match the API schema.
- - options has an unknown property 'clientLogLevel'. These properties are valid:
-   object { allowedHosts?, bonjour?, client?, compress?, devMiddleware?, headers?, historyApiFallback?, host?, hot?, ipc?, liveReload?, onListening?, open?, port?, proxy?, server?, setupExitSignals?, setupMiddlewares?, static?, watchFiles?, webSocketServer? }
-    at validate (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/schema-utils@4.2.0/node_modules/schema-utils/dist/validate.js:158:11)
-    at new Server (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/webpack-dev-server@5.0.4_webpack@5.93.0_esbuild@0.21.5_/node_modules/webpack-dev-server/lib/Server.js:254:5)
-    at start (/Users/rocsun/Code/dz-library/esboot/]esboot-next/packages/bundler-webpack/dist/index.js:511:16) {
-  errors: [
-    {
-      instancePath: '',
-      schemaPath: '#/additionalProperties',
-      keyword: 'additionalProperties',
-      params: { additionalProperty: 'clientLogLevel' },
-      message: 'must NOT have additional properties',
-      schema: false,
-      parentSchema: {
-        title: 'Dev Server options',
-        type: 'object',
-        definitions: {
-          AllowedHosts: {
-            anyOf: [Array],
-            description: "Allows to enumerate the hosts from which access to the dev server are allowed (useful when you are proxying dev server, by default is 'auto').",
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverallowedhosts'
-          },
-          AllowedHostsItem: { type: 'string', minLength: 1 },
-          Bonjour: {
-            anyOf: [Array],
-            description: 'Allows to broadcasts dev server via ZeroConf networking on start.',
-            link: ' https://webpack.js.org/configuration/dev-server/#devserverbonjour'
-          },
-          Client: {
-            description: 'Allows to specify options for client script in the browser or disable client script.',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverclient',
-            anyOf: [Array]
-          },
-          ClientLogging: {
-            enum: [Array],
-            description: 'Allows to set log level in the browser.',
-            link: 'https://webpack.js.org/configuration/dev-server/#logging'
-          },
-          ClientOverlay: { anyOf: [Array] },
-          ClientProgress: {
-            description: 'Prints compilation progress in percentage in the browser.',
-            link: 'https://webpack.js.org/configuration/dev-server/#progress',
-            type: 'boolean',
-            cli: [Object]
-          },
-          ClientReconnect: {
-            description: 'Tells dev-server the number of times it should try to reconnect the client.',
-            link: 'https://webpack.js.org/configuration/dev-server/#reconnect',
-            anyOf: [Array]
-          },
-          ClientWebSocketTransport: {
-            anyOf: [Array],
-            description: 'Allows to set custom web socket transport to communicate with dev server.',
-            link: 'https://webpack.js.org/configuration/dev-server/#websockettransport'
-          },
-          ClientWebSocketTransportEnum: { enum: [Array] },
-          ClientWebSocketTransportString: { type: 'string', minLength: 1 },
-          ClientWebSocketURL: {
-            description: "Allows to specify URL to web socket server (useful when you're proxying dev server and client script does not always know where to connect to).",
-            link: 'https://webpack.js.org/configuration/dev-server/#websocketurl',
-            anyOf: [Array]
-          },
-          Compress: {
-            type: 'boolean',
-            description: 'Enables gzip compression for everything served.',
-            link: 'https://webpack.js.org/configuration/dev-server/#devservercompress',
-            cli: [Object]
-          },
-          DevMiddleware: {
-            description: "Provide options to 'webpack-dev-middleware' which handles webpack assets.",
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverdevmiddleware',
-            type: 'object',
-            additionalProperties: true
-          },
-          HeaderObject: {
-            type: 'object',
-            additionalProperties: false,
-            properties: [Object],
-            cli: [Object]
-          },
-          Headers: {
-            anyOf: [Array],
-            description: 'Allows to set custom headers on response.',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverheaders'
-          },
-          HistoryApiFallback: {
-            anyOf: [Array],
-            description: "Allows to proxy requests through a specified index page (by default 'index.html'), useful for Single Page Applications that utilise the HTML5 History API.",
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverhistoryapifallback'
-          },
-          Host: {
-            description: 'Allows to specify a hostname to use.',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverhost',
-            anyOf: [Array]
-          },
-          Hot: {
-            anyOf: [Array],
-            description: 'Enables Hot Module Replacement.',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverhot'
-          },
-          IPC: {
-            anyOf: [Array],
-            description: 'Listen to a unix socket.',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserveripc'
-          },
-          LiveReload: {
-            type: 'boolean',
-            description: 'Enables reload/refresh the page(s) when file changes are detected (enabled by default).',
-            cli: [Object],
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverlivereload'
-          },
-          OnListening: {
-            instanceof: 'Function',
-            description: 'Provides the ability to execute a custom function when dev server starts listening.',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserveronlistening'
-          },
-          Open: {
-            anyOf: [Array],
-            description: 'Allows to configure dev server to open the browser(s) and page(s) after server had been started (set it to true to open your default browser).',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserveropen'
-          },
-          OpenBoolean: { type: 'boolean', cli: [Object] },
-          OpenObject: {
-            type: 'object',
-            additionalProperties: false,
-            properties: [Object]
-          },
-          OpenString: { type: 'string', minLength: 1 },
-          Port: {
-            anyOf: [Array],
-            description: 'Allows to specify a port to use.',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverport'
-          },
-          Proxy: {
-            type: 'array',
-            items: [Object],
-            description: 'Allows to proxy requests, can be useful when you have a separate API backend development server and you want to send API requests on the same domain.',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverproxy'
-          },
-          Server: {
-            anyOf: [Array],
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverserver',
-            description: "Allows to set server and options (by default 'http')."
-          },
-          ServerType: { enum: [Array] },
-          ServerEnum: { enum: [Array], cli: [Object] },
-          ServerString: { type: 'string', minLength: 1, cli: [Object] },
-          ServerObject: {
-            type: 'object',
-            properties: [Object],
-            additionalProperties: false
-          },
-          ServerOptions: {
-            type: 'object',
-            additionalProperties: true,
-            properties: [Object]
-          },
-          SetupExitSignals: {
-            type: 'boolean',
-            description: 'Allows to close dev server and exit the process on SIGINT and SIGTERM signals (enabled by default for CLI).',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserversetupexitsignals',
-            cli: [Object]
-          },
-          SetupMiddlewares: {
-            instanceof: 'Function',
-            description: 'Provides the ability to execute a custom function and apply custom middleware(s).',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserversetupmiddlewares'
-          },
-          Static: {
-            anyOf: [Array],
-            description: "Allows to configure options for serving static files from directory (by default 'public' directory).",
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverstatic'
-          },
-          StaticObject: {
-            type: 'object',
-            additionalProperties: false,
-            properties: [Object]
-          },
-          StaticString: { type: 'string', minLength: 1 },
-          WatchFiles: {
-            anyOf: [Array],
-            description: 'Allows to configure list of globs/directories/files to watch for file changes.',
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverwatchfiles'
-          },
-          WatchFilesObject: {
-            cli: [Object],
-            type: 'object',
-            properties: [Object],
-            additionalProperties: false
-          },
-          WatchFilesString: { type: 'string', minLength: 1 },
-          WebSocketServer: {
-            anyOf: [Array],
-            description: "Allows to set web socket server and options (by default 'ws').",
-            link: 'https://webpack.js.org/configuration/dev-server/#devserverwebsocketserver'
-          },
-          WebSocketServerType: { enum: [Array] },
-          WebSocketServerEnum: { anyOf: [Array] },
-          WebSocketServerFunction: { instanceof: 'Function' },
-          WebSocketServerObject: {
-            type: 'object',
-            properties: [Object],
-            additionalProperties: false
-          },
-          WebSocketServerString: { type: 'string', minLength: 1, cli: [Object] }
-        },
-        additionalProperties: false,
-        properties: {
-          allowedHosts: { '$ref': '#/definitions/AllowedHosts' },
-          bonjour: { '$ref': '#/definitions/Bonjour' },
-          client: { '$ref': '#/definitions/Client' },
-          compress: { '$ref': '#/definitions/Compress' },
-          devMiddleware: { '$ref': '#/definitions/DevMiddleware' },
-          headers: { '$ref': '#/definitions/Headers' },
-          historyApiFallback: { '$ref': '#/definitions/HistoryApiFallback' },
-          host: { '$ref': '#/definitions/Host' },
-          hot: { '$ref': '#/definitions/Hot' },
-          ipc: { '$ref': '#/definitions/IPC' },
-          liveReload: { '$ref': '#/definitions/LiveReload' },
-          onListening: { '$ref': '#/definitions/OnListening' },
-          open: { '$ref': '#/definitions/Open' },
-          port: { '$ref': '#/definitions/Port' },
-          proxy: { '$ref': '#/definitions/Proxy' },
-          server: { '$ref': '#/definitions/Server' },
-          setupExitSignals: { '$ref': '#/definitions/SetupExitSignals' },
-          setupMiddlewares: { '$ref': '#/definitions/SetupMiddlewares' },
-          static: { '$ref': '#/definitions/Static' },
-          watchFiles: { '$ref': '#/definitions/WatchFiles' },
-          webSocketServer: { '$ref': '#/definitions/WebSocketServer' }
-        }
-      },
-      data: {
-        compress: true,
-        hot: true,
-        clientLogLevel: 'error',
-        port: 8100,
-        historyApiFallback: { disableDotRule: true },
-        onListening: [Function (anonymous)]
-      }
-    }
-  ],
-  schema: {
-    title: 'Dev Server options',
-    type: 'object',
-    definitions: {
-      AllowedHosts: {
-        anyOf: [
-          { type: 'array', minItems: 1, items: [Object] },
-          { enum: [Array] },
-          { '$ref': '#/definitions/AllowedHostsItem' }
-        ],
-        description: "Allows to enumerate the hosts from which access to the dev server are allowed (useful when you are proxying dev server, by default is 'auto').",
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverallowedhosts'
-      },
-      AllowedHostsItem: { type: 'string', minLength: 1 },
-      Bonjour: {
-        anyOf: [
-          { type: 'boolean', cli: [Object] },
-          {
-            type: 'object',
-            description: 'Options for bonjour.',
-            link: 'https://github.com/watson/bonjour#initializing'
-          }
-        ],
-        description: 'Allows to broadcasts dev server via ZeroConf networking on start.',
-        link: ' https://webpack.js.org/configuration/dev-server/#devserverbonjour'
-      },
-      Client: {
-        description: 'Allows to specify options for client script in the browser or disable client script.',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverclient',
-        anyOf: [
-          { enum: [Array], cli: [Object] },
-          {
-            type: 'object',
-            additionalProperties: false,
-            properties: [Object]
-          }
-        ]
-      },
-      ClientLogging: {
-        enum: [ 'none', 'error', 'warn', 'info', 'log', 'verbose' ],
-        description: 'Allows to set log level in the browser.',
-        link: 'https://webpack.js.org/configuration/dev-server/#logging'
-      },
-      ClientOverlay: {
-        anyOf: [
-          {
-            description: 'Enables a full-screen overlay in the browser when there are compiler errors or warnings.',
-            link: 'https://webpack.js.org/configuration/dev-server/#overlay',
-            type: 'boolean',
-            cli: [Object]
-          },
-          {
-            type: 'object',
-            additionalProperties: false,
-            properties: [Object]
-          }
-        ]
-      },
-      ClientProgress: {
-        description: 'Prints compilation progress in percentage in the browser.',
-        link: 'https://webpack.js.org/configuration/dev-server/#progress',
-        type: 'boolean',
-        cli: {
-          negatedDescription: 'Does not print compilation progress in percentage in the browser.'
-        }
-      },
-      ClientReconnect: {
-        description: 'Tells dev-server the number of times it should try to reconnect the client.',
-        link: 'https://webpack.js.org/configuration/dev-server/#reconnect',
-        anyOf: [
-          { type: 'boolean', cli: [Object] },
-          { type: 'number', minimum: 0 }
-        ]
-      },
-      ClientWebSocketTransport: {
-        anyOf: [
-          { '$ref': '#/definitions/ClientWebSocketTransportEnum' },
-          { '$ref': '#/definitions/ClientWebSocketTransportString' }
-        ],
-        description: 'Allows to set custom web socket transport to communicate with dev server.',
-        link: 'https://webpack.js.org/configuration/dev-server/#websockettransport'
-      },
-      ClientWebSocketTransportEnum: { enum: [ 'sockjs', 'ws' ] },
-      ClientWebSocketTransportString: { type: 'string', minLength: 1 },
-      ClientWebSocketURL: {
-        description: "Allows to specify URL to web socket server (useful when you're proxying dev server and client script does not always know where to connect to).",
-        link: 'https://webpack.js.org/configuration/dev-server/#websocketurl',
-        anyOf: [
-          { type: 'string', minLength: 1 },
-          {
-            type: 'object',
-            additionalProperties: false,
-            properties: [Object]
-          }
-        ]
-      },
-      Compress: {
-        type: 'boolean',
-        description: 'Enables gzip compression for everything served.',
-        link: 'https://webpack.js.org/configuration/dev-server/#devservercompress',
-        cli: {
-          negatedDescription: 'Disables gzip compression for everything served.'
-        }
-      },
-      DevMiddleware: {
-        description: "Provide options to 'webpack-dev-middleware' which handles webpack assets.",
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverdevmiddleware',
-        type: 'object',
-        additionalProperties: true
-      },
-      HeaderObject: {
-        type: 'object',
-        additionalProperties: false,
-        properties: {
-          key: { description: 'key of header.', type: 'string' },
-          value: { description: 'value of header.', type: 'string' }
-        },
-        cli: { exclude: true }
-      },
-      Headers: {
-        anyOf: [
-          { type: 'array', items: [Object], minItems: 1 },
-          { type: 'object' },
-          { instanceof: 'Function' }
-        ],
-        description: 'Allows to set custom headers on response.',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverheaders'
-      },
-      HistoryApiFallback: {
-        anyOf: [
-          { type: 'boolean', cli: [Object] },
-          {
-            type: 'object',
-            description: 'Options for `historyApiFallback`.',
-            link: 'https://github.com/bripkens/connect-history-api-fallback#options'
-          }
-        ],
-        description: "Allows to proxy requests through a specified index page (by default 'index.html'), useful for Single Page Applications that utilise the HTML5 History API.",
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverhistoryapifallback'
-      },
-      Host: {
-        description: 'Allows to specify a hostname to use.',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverhost',
-        anyOf: [ { enum: [Array] }, { type: 'string', minLength: 1 } ]
-      },
-      Hot: {
-        anyOf: [ { type: 'boolean', cli: [Object] }, { enum: [Array] } ],
-        description: 'Enables Hot Module Replacement.',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverhot'
-      },
-      IPC: {
-        anyOf: [
-          { type: 'string', minLength: 1 },
-          { type: 'boolean', enum: [Array] }
-        ],
-        description: 'Listen to a unix socket.',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserveripc'
-      },
-      LiveReload: {
-        type: 'boolean',
-        description: 'Enables reload/refresh the page(s) when file changes are detected (enabled by default).',
-        cli: {
-          negatedDescription: 'Disables reload/refresh the page(s) when file changes are detected (enabled by default).'
-        },
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverlivereload'
-      },
-      OnListening: {
-        instanceof: 'Function',
-        description: 'Provides the ability to execute a custom function when dev server starts listening.',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserveronlistening'
-      },
-      Open: {
-        anyOf: [
-          { type: 'array', items: [Object] },
-          { '$ref': '#/definitions/OpenBoolean' },
-          { '$ref': '#/definitions/OpenString' },
-          { '$ref': '#/definitions/OpenObject' }
-        ],
-        description: 'Allows to configure dev server to open the browser(s) and page(s) after server had been started (set it to true to open your default browser).',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserveropen'
-      },
-      OpenBoolean: {
-        type: 'boolean',
-        cli: { negatedDescription: 'Does not open the default browser.' }
-      },
-      OpenObject: {
-        type: 'object',
-        additionalProperties: false,
-        properties: {
-          target: {
-            anyOf: [Array],
-            description: 'Opens specified page in browser.'
-          },
-          app: { anyOf: [Array], description: 'Open specified browser.' }
-        }
-      },
-      OpenString: { type: 'string', minLength: 1 },
-      Port: {
-        anyOf: [
-          { type: 'number', minimum: 0, maximum: 65535 },
-          { type: 'string', minLength: 1 },
-          { enum: [Array] }
-        ],
-        description: 'Allows to specify a port to use.',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverport'
-      },
-      Proxy: {
-        type: 'array',
-        items: { anyOf: [ [Object], [Object] ] },
-        description: 'Allows to proxy requests, can be useful when you have a separate API backend development server and you want to send API requests on the same domain.',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverproxy'
-      },
-      Server: {
-        anyOf: [
-          { '$ref': '#/definitions/ServerEnum' },
-          { '$ref': '#/definitions/ServerString' },
-          { '$ref': '#/definitions/ServerObject' }
-        ],
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverserver',
-        description: "Allows to set server and options (by default 'http')."
-      },
-      ServerType: { enum: [ 'http', 'https', 'spdy' ] },
-      ServerEnum: { enum: [ 'http', 'https', 'spdy' ], cli: { exclude: true } },
-      ServerString: { type: 'string', minLength: 1, cli: { exclude: true } },
-      ServerObject: {
-        type: 'object',
-        properties: {
-          type: { anyOf: [Array] },
-          options: { '$ref': '#/definitions/ServerOptions' }
-        },
-        additionalProperties: false
-      },
-      ServerOptions: {
-        type: 'object',
-        additionalProperties: true,
-        properties: {
-          passphrase: { type: 'string', description: 'Passphrase for a pfx file.' },
-          requestCert: {
-            type: 'boolean',
-            description: 'Request for an SSL certificate.',
-            cli: [Object]
-          },
-          ca: {
-            anyOf: [Array],
-            description: 'Path to an SSL CA certificate or content of an SSL CA certificate.'
-          },
-          cert: {
-            anyOf: [Array],
-            description: 'Path to an SSL certificate or content of an SSL certificate.'
-          },
-          crl: {
-            anyOf: [Array],
-            description: 'Path to PEM formatted CRLs (Certificate Revocation Lists) or content of PEM formatted CRLs (Certificate Revocation Lists).'
-          },
-          key: {
-            anyOf: [Array],
-            description: 'Path to an SSL key or content of an SSL key.'
-          },
-          pfx: {
-            anyOf: [Array],
-            description: 'Path to an SSL pfx file or content of an SSL pfx file.'
-          }
-        }
-      },
-      SetupExitSignals: {
-        type: 'boolean',
-        description: 'Allows to close dev server and exit the process on SIGINT and SIGTERM signals (enabled by default for CLI).',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserversetupexitsignals',
-        cli: { exclude: true }
-      },
-      SetupMiddlewares: {
-        instanceof: 'Function',
-        description: 'Provides the ability to execute a custom function and apply custom middleware(s).',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserversetupmiddlewares'
-      },
-      Static: {
-        anyOf: [
-          { type: 'array', items: [Object] },
-          { type: 'boolean', cli: [Object] },
-          { '$ref': '#/definitions/StaticString' },
-          { '$ref': '#/definitions/StaticObject' }
-        ],
-        description: "Allows to configure options for serving static files from directory (by default 'public' directory).",
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverstatic'
-      },
-      StaticObject: {
-        type: 'object',
-        additionalProperties: false,
-        properties: {
-          directory: {
-            type: 'string',
-            minLength: 1,
-            description: 'Directory for static contents.',
-            link: 'https://webpack.js.org/configuration/dev-server/#directory'
-          },
-          staticOptions: {
-            type: 'object',
-            link: 'https://webpack.js.org/configuration/dev-server/#staticoptions',
-            additionalProperties: true
-          },
-          publicPath: {
-            anyOf: [Array],
-            description: 'The static files will be available in the browser under this public path.',
-            link: 'https://webpack.js.org/configuration/dev-server/#publicpath'
-          },
-          serveIndex: {
-            anyOf: [Array],
-            description: 'Tells dev server to use serveIndex middleware when enabled.',
-            link: 'https://webpack.js.org/configuration/dev-server/#serveindex'
-          },
-          watch: {
-            anyOf: [Array],
-            description: 'Watches for files in static content directory.',
-            link: 'https://webpack.js.org/configuration/dev-server/#watch'
-          }
-        }
-      },
-      StaticString: { type: 'string', minLength: 1 },
-      WatchFiles: {
-        anyOf: [
-          { type: 'array', items: [Object] },
-          { '$ref': '#/definitions/WatchFilesString' },
-          { '$ref': '#/definitions/WatchFilesObject' }
-        ],
-        description: 'Allows to configure list of globs/directories/files to watch for file changes.',
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverwatchfiles'
-      },
-      WatchFilesObject: {
-        cli: { exclude: true },
-        type: 'object',
-        properties: {
-          paths: {
-            anyOf: [Array],
-            description: 'Path(s) of globs/directories/files to watch for file changes.'
-          },
-          options: {
-            type: 'object',
-            description: 'Configure advanced options for watching. See the chokidar documentation for the possible options.',
-            link: 'https://github.com/paulmillr/chokidar#api',
-            additionalProperties: true
-          }
-        },
-        additionalProperties: false
-      },
-      WatchFilesString: { type: 'string', minLength: 1 },
-      WebSocketServer: {
-        anyOf: [
-          { '$ref': '#/definitions/WebSocketServerEnum' },
-          { '$ref': '#/definitions/WebSocketServerString' },
-          { '$ref': '#/definitions/WebSocketServerFunction' },
-          { '$ref': '#/definitions/WebSocketServerObject' }
-        ],
-        description: "Allows to set web socket server and options (by default 'ws').",
-        link: 'https://webpack.js.org/configuration/dev-server/#devserverwebsocketserver'
-      },
-      WebSocketServerType: { enum: [ 'sockjs', 'ws' ] },
-      WebSocketServerEnum: {
-        anyOf: [
-          { enum: [Array], cli: [Object] },
-          { enum: [Array], cli: [Object] }
-        ]
-      },
-      WebSocketServerFunction: { instanceof: 'Function' },
-      WebSocketServerObject: {
-        type: 'object',
-        properties: {
-          type: { anyOf: [Array] },
-          options: { type: 'object', additionalProperties: true, cli: [Object] }
-        },
-        additionalProperties: false
-      },
-      WebSocketServerString: { type: 'string', minLength: 1, cli: { exclude: true } }
-    },
-    additionalProperties: false,
-    properties: {
-      allowedHosts: { '$ref': '#/definitions/AllowedHosts' },
-      bonjour: { '$ref': '#/definitions/Bonjour' },
-      client: { '$ref': '#/definitions/Client' },
-      compress: { '$ref': '#/definitions/Compress' },
-      devMiddleware: { '$ref': '#/definitions/DevMiddleware' },
-      headers: { '$ref': '#/definitions/Headers' },
-      historyApiFallback: { '$ref': '#/definitions/HistoryApiFallback' },
-      host: { '$ref': '#/definitions/Host' },
-      hot: { '$ref': '#/definitions/Hot' },
-      ipc: { '$ref': '#/definitions/IPC' },
-      liveReload: { '$ref': '#/definitions/LiveReload' },
-      onListening: { '$ref': '#/definitions/OnListening' },
-      open: { '$ref': '#/definitions/Open' },
-      port: { '$ref': '#/definitions/Port' },
-      proxy: { '$ref': '#/definitions/Proxy' },
-      server: { '$ref': '#/definitions/Server' },
-      setupExitSignals: { '$ref': '#/definitions/SetupExitSignals' },
-      setupMiddlewares: { '$ref': '#/definitions/SetupMiddlewares' },
-      static: { '$ref': '#/definitions/Static' },
-      watchFiles: { '$ref': '#/definitions/WatchFiles' },
-      webSocketServer: { '$ref': '#/definitions/WebSocketServer' }
-    }
-  },
-  headerName: 'Dev Server',
-  baseDataPath: 'options',
-  postFormatter: null
-}
+ERROR in ./src/index.entry.tsx
+Module build failed (from ../../node_modules/.pnpm/babel-loader@9.1.3_@babel+core@7.24.9_webpack@5.93.0_esbuild@0.21.5_/node_modules/babel-loader/lib/index.js):
+Error: /Users/rocsun/Code/dz-library/esboot/]esboot-next/examples/sp-base/src/index.entry.tsx: Cannot find module 'postcss-scss'
+Require stack:
+- /Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@dz-web+babel-plugin-react-css-modules@6.11.4_css-loader@7.1.2_@rspack+core@0.7.5_webpack@5.9_5t635dsqvcgkzu2rck2uuy6ehu/node_modules/@dz-web/babel-plugin-react-css-modules/dist/requireCssModule.js
+- /Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@dz-web+babel-plugin-react-css-modules@6.11.4_css-loader@7.1.2_@rspack+core@0.7.5_webpack@5.9_5t635dsqvcgkzu2rck2uuy6ehu/node_modules/@dz-web/babel-plugin-react-css-modules/dist/index.js
+- /Users/rocsun/Code/dz-library/esboot/]esboot-next/packages/bundler-webpack/dist/index.js
+- /Users/rocsun/Code/dz-library/esboot/]esboot-next/examples/sp-base/.esbootrc.ts
+- /Users/rocsun/Code/dz-library/esboot/]esboot-next/packages/esboot/dist/cli/index.js
+- /Users/rocsun/Code/dz-library/esboot/]esboot-next/packages/esboot/bin/index.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1048:15)
+    at Module._load (node:internal/modules/cjs/loader:901:27)
+    at Module.require (node:internal/modules/cjs/loader:1115:19)
+    at require (node:internal/modules/helpers:130:18)
+    at getSyntax (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@dz-web+babel-plugin-react-css-modules@6.11.4_css-loader@7.1.2_@rspack+core@0.7.5_webpack@5.9_5t635dsqvcgkzu2rck2uuy6ehu/node_modules/@dz-web/babel-plugin-react-css-modules/dist/requireCssModule.js:34:10)
+    at getTokens (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@dz-web+babel-plugin-react-css-modules@6.11.4_css-loader@7.1.2_@rspack+core@0.7.5_webpack@5.9_5t635dsqvcgkzu2rck2uuy6ehu/node_modules/@dz-web/babel-plugin-react-css-modules/dist/requireCssModule.js:57:22)
+    at _default (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@dz-web+babel-plugin-react-css-modules@6.11.4_css-loader@7.1.2_@rspack+core@0.7.5_webpack@5.9_5t635dsqvcgkzu2rck2uuy6ehu/node_modules/@dz-web/babel-plugin-react-css-modules/dist/requireCssModule.js:127:10)
+    at loadStyleMap (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@dz-web+babel-plugin-react-css-modules@6.11.4_css-loader@7.1.2_@rspack+core@0.7.5_webpack@5.9_5t635dsqvcgkzu2rck2uuy6ehu/node_modules/@dz-web/babel-plugin-react-css-modules/dist/index.js:131:48)
+    at PluginPass.ImportDeclaration (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@dz-web+babel-plugin-react-css-modules@6.11.4_css-loader@7.1.2_@rspack+core@0.7.5_webpack@5.9_5t635dsqvcgkzu2rck2uuy6ehu/node_modules/@dz-web/babel-plugin-react-css-modules/dist/index.js:198:26)
+    at newFn (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/visitors.js:160:14)
+    at NodePath._call (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/path/context.js:47:20)
+    at NodePath.call (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/path/context.js:37:18)
+    at NodePath.visit (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/path/context.js:83:31)
+    at TraversalContext.visitQueue (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/context.js:89:16)
+    at TraversalContext.visitMultiple (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/context.js:61:17)
+    at TraversalContext.visit (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/context.js:110:19)
+    at traverseNode (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/traverse-node.js:22:17)
+    at NodePath.visit (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/path/context.js:89:52)
+    at TraversalContext.visitQueue (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/context.js:89:16)
+    at TraversalContext.visitSingle (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/context.js:65:19)
+    at TraversalContext.visit (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/context.js:112:19)
+    at traverseNode (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/traverse-node.js:22:17)
+    at traverse (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+traverse@7.24.8/node_modules/@babel/traverse/lib/index.js:52:34)
+    at transformFile (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+core@7.24.9/node_modules/@babel/core/lib/transformation/index.js:82:31)
+    at transformFile.next (<anonymous>)
+    at run (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+core@7.24.9/node_modules/@babel/core/lib/transformation/index.js:24:12)
+    at run.next (<anonymous>)
+    at transform (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+core@7.24.9/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:261:32)
+    at /Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:223:11)
+    at /Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:189:28
+    at /Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/@babel+core@7.24.9/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+    at /Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:113:33
+    at step (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:287:14)
+    at /Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:223:11)
 
-Node.js v20.6.1
-error: script "dev" exited with code 1 (SIGHUP)
+webpack 5.93.0 compiled with 1 error in 509 ms
+<i> [webpack-dev-server] Gracefully shutting down. To force exit, press ^C again. Please wait...

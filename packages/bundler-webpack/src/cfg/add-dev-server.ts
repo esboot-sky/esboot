@@ -3,6 +3,7 @@ import { merge } from '@dz-web/esboot-common/lodash';
 import { ready } from '@dz-web/esboot-common/helpers';
 import kleur from '@dz-web/esboot-common/kleur';
 import Config, { DevServer } from 'webpack-5-chain';
+import { ip } from 'address';
 
 export async function addDevServer(
   cfg: ConfigurationInstance,
@@ -18,7 +19,6 @@ export async function addDevServer(
   webpackChain.devServer
     .compress(true)
     .hot(true)
-    .clientLogLevel('error')
     .port(port!)
     .historyApiFallback({
       disableDotRule: true,
@@ -36,11 +36,12 @@ export async function addDevServer(
       if (!devServerInstance) {
         throw new Error('webpack-dev-server is not defined');
       }
+
       const { port } = devServerInstance.server?.address() as any;
       ready(
         `started server on [::]:${port}, url: ${kleur
           .underline()
-          .green(`http://${address.ip()}:${port}`)} \n`
+          .green(`http://${ip()}:${port}`)} \n`
       );
     });
 }

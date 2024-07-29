@@ -57,6 +57,7 @@ export async function addStyleRules(
 
   const styleLoader = getStyleLoader();
   const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
+  if (publicPath === './') miniCssExtractPluginOptions.publicPath = '../';
 
   webpackChain.module
     .rule('css')
