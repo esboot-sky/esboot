@@ -1,4 +1,3 @@
-import { Configuration } from 'webpack';
 import { ConfigurationInstance } from '@dz-web/esboot';
 import { Environment } from '@dz-web/esboot-common';
 
@@ -7,6 +6,8 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import { addEntry } from './partials/add-entry';
 import { addOutput } from './partials/add-output';
 import { addResolve } from './partials/add-resolve';
+
+import { createMFSU } from './helpers/mfsu';
 
 import { addJavaScriptRules } from './rules/javascript/add-rules-javascript';
 import { addStyleRules } from './rules/style/add-rules-style';
@@ -38,20 +39,22 @@ export const getWebpackCfg = async (
     },
   };
 
+  const mfsu = createMFSU(cfg);
+
   // Partial
   await addEntry(cfg, webpackCfg);
   await addOutput(cfg, webpackCfg);
   await addResolve(cfg, webpackCfg);
 
   // // Rules
-  await addJavaScriptRules(cfg, webpackCfg);
-  // await addStyleRules(cfg, webpackChain);
-  // await addAssetRules(cfg, webpackChain);
+  await addJavaScriptRules(cfg, webpackCfg, { mfsu });
+  await addStyleRules(cfg, webpackCfg);
+  await addAssetRules(cfg, webpackCfg);
 
   // // Plugins
-  // await addInjectBodyPlugin(cfg, webpackChain);
-  // await addCopyPlugin(cfg, webpackChain);
-  // await addWebpackbarPlugin(cfg, webpackChain);
+  await addInjectBodyPlugin(cfg, webpackCfg);
+  await addCopyPlugin(cfg, webpackCfg);
+  // await addWebpackbarPlugin(cfg, webpackCfg);
 
   // await addDevServer(cfg, webpackChain);
 

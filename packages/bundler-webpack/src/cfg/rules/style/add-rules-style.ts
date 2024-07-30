@@ -1,8 +1,14 @@
 import path from 'path';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
 
-import type { ConfigurationInstance } from '@dz-web/esboot';
-import Config from 'webpack-5-chain';
+const postcssNormalize = require('postcss-normalize');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const pxtorem = require('@alitajs/postcss-plugin-px2rem');
+const {
+  getLocalIdent,
+} = require('@dz-web/babel-plugin-react-css-modules/utils');
+
+import type { AddFunc } from '@/cfg/types';
 
 import {
   getCssHashRule,
@@ -11,21 +17,11 @@ import {
   getCssLoaderOptions,
 } from './utils';
 
-const postcssNormalize = require('postcss-normalize');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const pxtorem = require('@alitajs/postcss-plugin-px2rem');
-const {
-  getLocalIdent,
-} = require('@dz-web/babel-plugin-react-css-modules/utils');
-
 interface ParseScssModuleOpts {
   modules?: boolean;
 }
 
-export async function addStyleRules(
-  cfg: ConfigurationInstance,
-  webpackChain: Config
-) {
+export const addStyleRules: AddFunc = async function (cfg, webpackCfg) {
   const {
     isDev,
     isSP,
@@ -50,113 +46,114 @@ export async function addStyleRules(
     );
   }
 
+  const styleLoader = getStyleLoader();
+  const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
+  if (publicPath === './') miniCssExtractPluginOptions.publicPath = '../';
+
   const cssLoaderOptions = {
     sourceMap: isSourceMap,
     ...getCssLoaderOptions(),
   };
 
-  const styleLoader = getStyleLoader();
-  const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
-  if (publicPath === './') miniCssExtractPluginOptions.publicPath = '../';
+  const parseScssModule = (options: ParseScssModuleOpts) => {
+    const { modules = false } = options;
 
-  webpackChain.module
-    .rule('css')
-    .test(/\.css$/)
-    .use('style-loader')
-    .loader(isDev ? styleLoader.loader : MiniCssExtractPlugin.loader)
-    .options(isDev ? styleLoader.options : miniCssExtractPluginOptions)
-    .end()
-    .use('css-loader')
-    .loader(require.resolve('css-loader'))
-    .options(cssLoaderOptions)
-    .end();
+    const cssLoaderOptionsCopy = { ...cssLoaderOptions, importLoaders: 2 };
 
-  webpackChain.module
-    .rule('scss')
-    .test(/\.scss$/)
-    .oneOf('global')
-    .include.add(globalScssPathList)
-    .end()
-    .use('style-loader')
-    .loader(isDev ? styleLoader.loader : MiniCssExtractPlugin.loader)
-    .options(isDev ? styleLoader.options : miniCssExtractPluginOptions)
-    .end()
-    .use('css-loader')
-    .loader(require.resolve('css-loader'))
-    .options({ ...cssLoaderOptions, importLoaders: 2 })
-    .end()
-    .use('postcss-loader')
-    .loader(require.resolve('postcss-loader'))
-    .options({
-      sourceMap: isSourceMap,
-      postcssOptions: {
-        plugins: [
-          enablePxToRemByCompatibility &&
-            pxtorem({
-              rootValue: 200,
-              unitPrecision: 5,
-              ...pxtoremCustom,
-            }),
-          require('postcss-flexbugs-fixes'),
-          require('postcss-preset-env')({
-            autoprefixer: { flexbox: 'no-2009' },
-            stage: 3,
-          }),
-          postcssNormalize(),
-        ].filter(Boolean),
-      },
-    })
-    .end()
-    .use('sass-loader')
-    .loader(require.resolve('sass-loader'))
-    .options({ sourceMap: isSourceMap })
-    .end();
+    if (modules) {
+      Object.assign(cssLoaderOptionsCopy, {
+        modules: {
+          namedExport: true,
+          localIdentContext: rootPath,
+          getLocalIdent,
+          localIdentName: getCssHashRule(),
+        },
+      });
+    }
 
-  webpackChain.module
-    .rule('scss')
-    .oneOf('module')
-    .exclude.add(globalScssPathList)
-    .end()
-    .use('style-loader')
-    .loader(isDev ? styleLoader.loader : MiniCssExtractPlugin.loader)
-    .options(isDev ? styleLoader.options : miniCssExtractPluginOptions)
-    .end()
-    .use('css-loader')
-    .loader(require.resolve('css-loader'))
-    .options({
-      ...cssLoaderOptions,
-      modules: {
-        namedExport: true,
-        localIdentContext: rootPath,
-        getLocalIdent,
-        localIdentName: getCssHashRule(),
+    const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
+    if (publicPath === './') miniCssExtractPluginOptions.publicPath = '../';
+
+    return [
+      isDev
+        ? styleLoader
+        : {
+            loader: MiniCssExtractPlugin.loader,
+            options: miniCssExtractPluginOptions,
+          },
+      {
+        loader: require.resolve('css-loader'),
+        options: cssLoaderOptionsCopy,
       },
-    })
-    .end()
-    .use('postcss-loader')
-    .loader(require.resolve('postcss-loader'))
-    .options({
-      sourceMap: isSourceMap,
-      postcssOptions: {
-        plugins: [
-          enablePxToRemByCompatibility &&
-            pxtorem({
-              rootValue: 200,
-              unitPrecision: 5,
-              ...pxtoremCustom,
-            }),
-          require('postcss-flexbugs-fixes'),
-          require('postcss-preset-env')({
-            autoprefixer: { flexbox: 'no-2009' },
-            stage: 3,
-          }),
-          postcssNormalize(),
-        ].filter(Boolean),
+      {
+        loader: require.resolve('postcss-loader'),
+        options: {
+          sourceMap: isSourceMap,
+          postcssOptions: {
+            plugins: [
+              enablePxToRemByCompatibility &&
+                pxtorem({
+                  rootValue: 200,
+                  unitPrecision: 5,
+                  propWhiteList: [],
+                  propBlackList: [],
+                  exclude: false,
+                  selectorBlackList: [],
+                  ignoreIdentifier: false,
+                  replace: true,
+                  mediaQuery: false,
+                  minPixelValue: 0,
+                  ...pxtoremCustom,
+                }),
+              require('postcss-flexbugs-fixes'),
+              require('postcss-preset-env')({
+                autoprefixer: {
+                  flexbox: 'no-2009',
+                },
+                stage: 3,
+              }),
+              postcssNormalize(),
+            ].filter(Boolean),
+          },
+        },
       },
-    })
-    .end()
-    .use('sass-loader')
-    .loader(require.resolve('sass-loader'))
-    .options({ sourceMap: isSourceMap })
-    .end();
-}
+      {
+        loader: require.resolve('sass-loader'),
+        options: { sourceMap: isSourceMap },
+      },
+    ];
+  };
+
+  webpackCfg.module.rules.push(
+    {
+      /* Loads CSS stylesheets. It is assumed that CSS stylesheets come only
+       * from dependencies, as we use SCSS inside our own code. */
+      test: /\.css$/,
+      use: [
+        isDev
+          ? styleLoader
+          : {
+              loader: MiniCssExtractPlugin.loader,
+              options: getMiniCssExtractPluginOptions(),
+            },
+        {
+          loader: require.resolve('css-loader'),
+          options: cssLoaderOptions,
+        },
+      ],
+    },
+    {
+      test: /\.scss$/,
+      oneOf: [
+        {
+          exclude: globalScssPathList,
+          use: parseScssModule({ modules: true }),
+        },
+        {
+          include: globalScssPathList,
+          use: parseScssModule({}),
+        },
+      ],
+    }
+  );
+};

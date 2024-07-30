@@ -3,9 +3,16 @@ import type { Configuration } from '@dz-web/esboot';
 import { BundlerWebpackOptions } from '@/types';
 import type { AddFunc } from '@/cfg/types';
 
+import type { MFSU } from '@/cfg/helpers/mfsu';
+
 import { getPlugins, env, presets } from './babelrc.config';
 
-export const addJavaScriptRules: AddFunc = async function (cfg, webpackCfg) {
+export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async function (
+  cfg,
+  webpackCfg,
+  options
+) {
+  const { mfsu } = options!;
   const { rootPath, isDev, alias, bundlerOptions } =
     cfg.config as Configuration<BundlerWebpackOptions>;
 
@@ -43,7 +50,7 @@ export const addJavaScriptRules: AddFunc = async function (cfg, webpackCfg) {
           workerNodeArgs: ['--max-old-space-size=1024'],
           poolTimeout: 2e3,
           poolParallelJobs: 50,
-          name: 'my-pool',
+          name: 'ESBoot-thread-pool',
         },
       },
       {

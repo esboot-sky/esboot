@@ -17,7 +17,8 @@ export interface CustomWebpackConfiguration extends Configuration {
   };
 }
 
-export type AddFunc = (
+export type AddFunc<Options = Record<string, string>> = (
   cfg: ConfigurationInstance,
-  webpackCfg: CustomWebpackConfiguration
+  webpackCfg: CustomWebpackConfiguration,
+  options?: Options extends Record<string, any> ? Options : never
 ) => Promise<void>;

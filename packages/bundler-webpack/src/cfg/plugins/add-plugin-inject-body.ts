@@ -1,23 +1,21 @@
 import { join } from 'path';
-import type { ConfigurationInstance } from '@dz-web/esboot';
 import InjectBodyPlugin from 'inject-body-webpack-plugin';
-import Config from 'webpack-5-chain';
+
+import type { AddFunc } from '@/cfg/types';
 
 const getVersion = (cwd: string) => {
   const pkg = require(join(cwd, 'package.json'));
   return pkg.version;
 };
 
-export async function addInjectBodyPlugin(
-  cfg: ConfigurationInstance,
-  webpackChain: Config
-) {
+export const addInjectBodyPlugin: AddFunc = async function (cfg, webpackCfg) {
   const { isBrowser, ipv4, publicPath, isDev, cwd } = cfg.config;
 
   const isInjectBridgeMock = !isBrowser && isDev;
 
-  webpackChain.plugin('inject-body-plugin').use(InjectBodyPlugin as any, [
-    {
+  webpackCfg.plugins.push(
+    // @ts-ignore
+    new InjectBodyPlugin({
       position: 'start',
       content: `
       <script src="${publicPath}config.js?v=${
@@ -34,7 +32,7 @@ export async function addInjectBodyPlugin(
         <\/script>`
           : ''
       }
-    `,
-    },
-  ]);
-}
+      `,
+    })
+  );
+};
