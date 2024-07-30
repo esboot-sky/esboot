@@ -1,11 +1,10 @@
 import { ConfigurationInstance } from '@dz-web/esboot';
 import { Environment } from '@dz-web/esboot-common';
 
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-
 import { addEntry } from './partials/add-entry';
 import { addOutput } from './partials/add-output';
 import { addResolve } from './partials/add-resolve';
+import { addOnlyDev } from './partials/add-only-dev';
 
 import { createMFSU } from './helpers/mfsu';
 
@@ -54,18 +53,11 @@ export const getWebpackCfg = async (
   // // Plugins
   await addInjectBodyPlugin(cfg, webpackCfg);
   await addCopyPlugin(cfg, webpackCfg);
-  // await addWebpackbarPlugin(cfg, webpackCfg);
+  await addWebpackbarPlugin(cfg, webpackCfg);
 
-  // await addDevServer(cfg, webpackChain);
+  await addDevServer(cfg, webpackCfg, { mfsu });
 
-  // webpackChain.when(isDev, (chain) => {
-  //   chain
-  //     .plugin('ReactRefreshWebpackPlugin')
-  //     .use(ReactRefreshWebpackPlugin)
-  //     .end();
-
-  //   chain.stats('errors-only').infrastructureLogging({ level: 'error' });
-  // });
+  addOnlyDev(cfg, webpackCfg);
 
   return webpackCfg;
 };

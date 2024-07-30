@@ -1,38 +1,42 @@
-import type { ConfigurationInstance } from '@dz-web/esboot';
-import { merge } from '@dz-web/esboot-common/lodash';
+import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 import { ready } from '@dz-web/esboot-common/helpers';
 import kleur from '@dz-web/esboot-common/kleur';
-import Config, { DevServer } from 'webpack-5-chain';
 import { ip } from 'address';
 
-export async function addDevServer(
-  cfg: ConfigurationInstance,
-  webpackChain: Config
+import type { MFSU } from '@/cfg/helpers/mfsu';
+import type { AddFunc } from '@/cfg/types';
+
+export const addDevServer: AddFunc<{ mfsu: MFSU }> = async function (
+  cfg,
+  webpackCfg,
+  options
 ) {
   const {
     isDev,
-    server: { port },
+    server: { port, open, host },
   } = cfg.config;
 
   if (!isDev) return;
 
-  webpackChain.devServer
-    .compress(true)
-    .hot(true)
-    .port(port!)
-    .historyApiFallback({
+  const { mfsu } = options!;
+  const devServer: DevServerConfiguration = {
+    compress: true,
+    open,
+    hot: true,
+    client: {
+      progress: false,
+      logging: 'error',
+    },
+    historyApiFallback: {
       disableDotRule: true,
-    })
-    // .onBeforeSetupMiddleware((devServerInstance) => {
-    //   if (!devServerInstance) {
-    //     throw new Error('webpack-dev-server is not defined');
-    //   }
-    //   devServerInstance.app.use(
-    //     ...(devServer.setupMiddlewares?.(devServerInstance.app._router.stack) ??
-    //       [])
-    //   );
-    // })
-    .onListening((devServerInstance) => {
+    },
+    setupMiddlewares(middlewares: any[]) {
+      middlewares.unshift(...(mfsu?.getMiddlewares() ?? []));
+      return middlewares;
+    },
+    port,
+    host: host || '0.0.0.0',
+    onListening(devServerInstance) {
       if (!devServerInstance) {
         throw new Error('webpack-dev-server is not defined');
       }
@@ -43,5 +47,8 @@ export async function addDevServer(
           .underline()
           .green(`http://${ip()}:${port}`)} \n`
       );
-    });
-}
+    },
+  };
+
+  webpackCfg.devServer = devServer;
+};

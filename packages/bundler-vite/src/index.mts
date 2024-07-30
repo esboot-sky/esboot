@@ -2,19 +2,23 @@ import { createServer } from 'vite';
 import { Bundler } from '@dz-web/esboot';
 import react from '@vitejs/plugin-react';
 
-// import type { BundlerViteOptions } from './Options/types.ts';
+import { BaseBundlerOptions, ConfigurationInstance } from '@dz-web/esboot';
 
 export class BundlerVite implements Bundler {
-  constructor(Options: any) {
-    console.log(Options, '<-- Options');
+  cfg: ConfigurationInstance;
+
+  constructor(options: BaseBundlerOptions) {
+    this.cfg = options.configuration;
   }
 
   async dev() {
+    const { cwd } = this.cfg.config;
+
     console.log(__dirname, '<-- __dirname');
     const server = await createServer({
       plugins: [react()],
       configFile: false,
-      root: process.cwd(),
+      root: cwd,
       resolve: {
         alias: {
           '@': '/src',

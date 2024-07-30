@@ -1,30 +1,27 @@
 import WebpackBar from 'webpackbar';
-import type { ConfigurationInstance } from '@dz-web/esboot';
-import Config from 'webpack-5-chain';
 
-export const addWebpackbarPlugin = async (
-  cfg: ConfigurationInstance,
-  webpackChain: Config
-) => {
+import type { AddFunc } from '@/cfg/types';
+
+export const addWebpackbarPlugin: AddFunc = async function (cfg, webpackCfg) {
   const { analyze } = cfg.config;
 
-  webpackChain
-    .plugin('webpack-bar')
-    .use(WebpackBar, [
-      {
-        name: 'ESBoot',
-        color: 'magenta',
-        fancy: true,
-        basic: true,
-        profile: analyze,
-        reporters: [
-          'fancy',
-          analyze && 'profile',
-          {
-            afterAllDone() {},
+  webpackCfg.plugins.push(
+    new WebpackBar({
+      name: 'ESBoot',
+      color: 'magenta',
+      fancy: true,
+      basic: true,
+      profile: analyze,
+      reporters: [
+        'fancy',
+        analyze && 'profile',
+        {
+          afterAllDone() {
+            // if (!execHooks) afterHooks();
+            // execHooks = true;
           },
-        ].filter(Boolean) as any[],
-      },
-    ])
-    .end();
+        },
+      ].filter(Boolean) as any[],
+    })
+  );
 };

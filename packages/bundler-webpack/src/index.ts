@@ -21,10 +21,8 @@ export class BundlerWebpack implements Bundler {
     const start = async () => {
       console.time('dev');
       const webpackCfg = await getWebpackCfg(this.cfg);
-      
-      console.log(webpackCfg, '<-- webpackCfg');
-      return;
-      // const compiler = Webpack(webpackCfg);
+
+      const compiler = Webpack(webpackCfg);
       // console.timeEnd('dev');
 
       // logBrand();
