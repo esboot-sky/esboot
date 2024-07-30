@@ -1,20 +1,28 @@
 import { join } from 'path';
-import type { ConfigurationInstance } from '@dz-web/esboot';
-import Config from 'webpack-5-chain';
+import type { Configuration } from '@dz-web/esboot';
+import type { AddFunc } from '@/cfg/types';
 
-export const addResolve = async (
-  cfg: ConfigurationInstance,
-  webpackChain: Config
-) => {
+export const addResolve: AddFunc = async function (cfg, webpackCfg) {
   const { alias } = cfg.config;
+  const customAlias: Configuration['alias'] = {};
 
   for (let k in alias) {
     const value = join(process.cwd(), `./${alias[k]}/`);
 
-    webpackChain.resolve.alias.set(k, value);
+    customAlias[k] = value;
   }
 
-  ['.wasm', '.mjs', '.cjs', '.js', '.jsx', '.ts', '.tsx', '.json'].forEach(
-    (v) => webpackChain.resolve.extensions.add(v)
-  );
+  webpackCfg.resolve = {
+    alias: customAlias,
+    extensions: [
+      '.wasm',
+      '.mjs',
+      '.cjs',
+      '.js',
+      '.jsx',
+      '.ts',
+      '.tsx',
+      '.json',
+    ],
+  };
 };

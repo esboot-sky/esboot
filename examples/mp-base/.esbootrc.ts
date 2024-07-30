@@ -5,6 +5,9 @@ import type { BundlerWebpackOptions } from "@dz-web/esboot-bundler-webpack";
 export default defineConfig<BundlerWebpackOptions>({
   bundler: BundlerWebpack as any,
   bundlerOptions: { mfsu: true },
+  server: {
+    port: 8111,
+  }
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

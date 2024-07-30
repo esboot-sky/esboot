@@ -2,10 +2,11 @@ import { readFileSync } from 'fs';
 import { basename, join } from 'path';
 
 import { getExportProps } from '@umijs/ast';
-import type { Configuration, ConfigurationInstance } from '@dz-web/esboot';
+import type { Configuration } from '@dz-web/esboot';
 import { glob } from 'glob';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import Config from 'webpack-5-chain';
+
+import type { AddFunc } from '@/cfg/types';
 
 interface EntryFileExportProps {
   title?: string;
@@ -14,10 +15,7 @@ interface EntryFileExportProps {
   langJsonPicker?: string[];
 }
 
-export const addEntry = async (
-  cfg: ConfigurationInstance,
-  webpackChain: Config
-) => {
+export const addEntry: AddFunc = async function (cfg, webpackCfg) {
   const {
     isSP,
     MPConfiguration,
@@ -53,20 +51,17 @@ export const addEntry = async (
     const tplRelativePath = `template/${template || 'index'}.html`;
     const ensureTpl = join(configRootPath, tplRelativePath);
 
-    webpackChain.entry(chunkName).add(file).end();
-
-    webpackChain
-      .plugin(`html-webpack-plugin-${chunkName}-${index}`)
-      .use(HtmlWebpackPlugin, [
-        {
-          inject: true,
-          chunks: [chunkName],
-          filename: `${chunkName}.html`,
-          title: ensureTitle,
-          template: ensureTpl,
-          hash: true,
-        },
-      ]);
+    webpackCfg.entry[chunkName] = file;
+    webpackCfg.plugins.push(
+      new HtmlWebpackPlugin({
+        inject: true,
+        chunks: [chunkName],
+        filename: `${chunkName}.html`,
+        title: ensureTitle,
+        template: ensureTpl,
+        hash: true,
+      })
+    );
 
     entry[file] = {
       langJsonPicker,
