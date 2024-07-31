@@ -3,8 +3,7 @@
   "version": "3.0.0",
   "description": "",
   "keywords": [
-    "webpack",
-    "react"
+    "webpack"
   ],
   "license": "ISC",
   "author": "Roc",
@@ -28,15 +27,12 @@
   },
   "dependencies": {
     "@dz-web/esboot-common": "workspace:*",
-    "copy-webpack-plugin": "^12.0.2",
-    "webpack": "^5.91.0",
-    "webpack-5-chain": "^8.0.1",
-    "webpack-dev-server": "^5.0.4",
-    "webpackbar": "^6.0.1"
+    "@umijs/ast": "^4.3.6",
+    "glob": "^11.0.0"
   },
   "devDependencies": {
-    "tsup": "^8.0.2",
-    "@dz-web/esboot": "workspace:*"
+    "@dz-web/esboot": "workspace:*",
+    "tsup": "^8.0.2"
   },
   "peerDependencies": {
     "@dz-web/esboot": "workspace:*"

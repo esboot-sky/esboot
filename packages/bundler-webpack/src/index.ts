@@ -1,4 +1,4 @@
-import Webpack, { type Configuration } from 'webpack';
+import Webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { Bundler } from '@dz-web/esboot';
 import { BaseBundlerOptions, ConfigurationInstance } from '@dz-web/esboot';

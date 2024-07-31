@@ -1,8 +1,9 @@
 import { createServer } from 'vite';
 import { Bundler } from '@dz-web/esboot';
-import react from '@vitejs/plugin-react';
 
 import { BaseBundlerOptions, ConfigurationInstance } from '@dz-web/esboot';
+
+import { getDevServer } from "./cfg/get-dev-server.ts";
 
 export class BundlerVite implements Bundler {
   cfg: ConfigurationInstance;
@@ -12,22 +13,11 @@ export class BundlerVite implements Bundler {
   }
 
   async dev() {
-    const { cwd } = this.cfg.config;
+
+    const cfg = getDevServer(this.cfg);
 
     console.log(__dirname, '<-- __dirname');
-    const server = await createServer({
-      plugins: [react()],
-      configFile: false,
-      root: cwd,
-      resolve: {
-        alias: {
-          '@': '/src',
-        },
-      },
-      server: {
-        port: 1337,
-      },
-    });
+    const server = await createServer(cfg);
 
     await server.listen();
     server.printUrls();
