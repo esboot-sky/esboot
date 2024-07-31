@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@dz-web/esboot-common": "workspace:*",
+    "@dz-web/esboot-bundler-common": "workspace:*",
     "@vitejs/plugin-react": "^4.2.1",
     "vite": "^5.3.3",
     "vite-plugin-html": "^3.2.2"

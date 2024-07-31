@@ -1,12 +1,10 @@
 import { readFileSync } from 'fs';
 import { basename, join } from 'path';
+import type { ConfigurationInstance } from '@dz-web/esboot';
 
 import { getExportProps } from '@umijs/ast';
 import type { Configuration } from '@dz-web/esboot';
 import { glob } from 'glob';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-
-import type { AddFunc } from '@/cfg/types';
 
 interface EntryFileExportProps {
   title?: string;
@@ -15,7 +13,17 @@ interface EntryFileExportProps {
   langJsonPicker?: string[];
 }
 
-export const addEntry: AddFunc = async function (cfg, webpackCfg) {
+interface CBParams {
+  title: string;
+  entry: string,
+  chunkName: string;
+  template: string;
+}
+
+export const addEntry = async function (
+  cfg: ConfigurationInstance,
+  cb: (params: CBParams) => void
+) {
   const {
     isSP,
     MPConfiguration,
@@ -47,21 +55,37 @@ export const addEntry: AddFunc = async function (cfg, webpackCfg) {
 
     const fileName = basename(file, '.entry.tsx');
     const chunkName = name || fileName;
+
     const ensureTitle = title || fileName || 'ESboot APP';
     const tplRelativePath = `template/${template || 'index'}.html`;
     const ensureTpl = join(configRootPath, tplRelativePath);
 
-    webpackCfg.entry[chunkName] = file;
-    webpackCfg.plugins.push(
-      new HtmlWebpackPlugin({
-        inject: true,
-        chunks: [chunkName],
-        filename: `${chunkName}.html`,
-        title: ensureTitle,
-        template: ensureTpl,
-        hash: true,
-      })
-    );
+    console.log({
+      fileName,
+      chunks: [chunkName],
+      filename: `${chunkName}.html`,
+      title: ensureTitle,
+      template: ensureTpl,
+      hash: true,
+    });
+
+    cb({
+      title: ensureTitle,
+      entry: file,
+      chunkName,
+      template: ensureTpl,
+    });
+    // webpackCfg.entry[chunkName] = file;
+    // webpackCfg.plugins.push(
+    //   new HtmlWebpackPlugin({
+    //     inject: true,
+    //     chunks: [chunkName],
+    //     filename: `${chunkName}.html`,
+    //     title: ensureTitle,
+    //     template: ensureTpl,
+    //     hash: true,
+    //   })
+    // );
 
     entry[file] = {
       langJsonPicker,

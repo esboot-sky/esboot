@@ -3,7 +3,7 @@ import { Bundler } from '@dz-web/esboot';
 
 import { BaseBundlerOptions, ConfigurationInstance } from '@dz-web/esboot';
 
-import { getDevServer } from "./cfg/get-dev-server.ts";
+import { getDevServer } from './cfg/get-dev-server.mts';
 
 export class BundlerVite implements Bundler {
   cfg: ConfigurationInstance;
@@ -13,10 +13,9 @@ export class BundlerVite implements Bundler {
   }
 
   async dev() {
+    const cfg = await getDevServer(this.cfg);
 
-    const cfg = getDevServer(this.cfg);
-
-    console.log(__dirname, '<-- __dirname');
+    console.log(__dirname, cfg, '<-- __dirname');
     const server = await createServer(cfg);
 
     await server.listen();
@@ -28,5 +27,3 @@ export class BundlerVite implements Bundler {
     console.log(1, '<-- build');
   }
 }
-
-export * from './types.ts';

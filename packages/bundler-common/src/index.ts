@@ -1,1 +1,1 @@
-export const a = 5;
+export { addEntry } from './helpers/add-entry';

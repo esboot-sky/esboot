@@ -1,9 +1,4 @@
-import { readFileSync } from 'fs';
-import { basename, join } from 'path';
-
-import { getExportProps } from '@umijs/ast';
-import type { Configuration } from '@dz-web/esboot';
-import { glob } from 'glob';
+import { addEntry as _addEntry } from '@dz-web/esboot-bundler-common';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 import type { AddFunc } from '@/cfg/types';
