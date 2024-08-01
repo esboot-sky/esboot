@@ -15,7 +15,6 @@ export class BundlerVite implements Bundler {
   async dev() {
     const cfg = await getDevServer(this.cfg);
 
-    console.log(__dirname, cfg, '<-- __dirname');
     const server = await createServer(cfg);
 
     await server.listen();

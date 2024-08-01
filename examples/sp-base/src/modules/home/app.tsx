@@ -1,14 +1,17 @@
 import { Button } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
 
-import './app.scss';
+// import './app.scss';
+import './app.module.scss';
 
 function Test() {
   const navigate = useNavigate();
 
   return (
     <div className="page">
-      Home2322311
+      <div styleName="text" text="43232">
+        module css
+      </div>
       <Button onClick={() => navigate('/test')}>To Test</Button>
       <Outlet />
     </div>

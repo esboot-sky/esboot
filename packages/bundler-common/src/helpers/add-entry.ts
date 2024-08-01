@@ -13,21 +13,20 @@ interface EntryFileExportProps {
   langJsonPicker?: string[];
 }
 
-interface CBParams {
+export interface AddEntryCBParams {
   title: string;
-  entry: string,
+  entry: string;
   chunkName: string;
   template: string;
 }
 
 export const addEntry = async function (
   cfg: ConfigurationInstance,
-  cb: (params: CBParams) => void
+  cb: (params: AddEntryCBParams) => void
 ) {
   const {
     isSP,
     MPConfiguration,
-    configRootPath = '',
     ipv4,
     rootPath,
     server: { port },
@@ -58,34 +57,13 @@ export const addEntry = async function (
 
     const ensureTitle = title || fileName || 'ESboot APP';
     const tplRelativePath = `template/${template || 'index'}.html`;
-    const ensureTpl = join(configRootPath, tplRelativePath);
-
-    console.log({
-      fileName,
-      chunks: [chunkName],
-      filename: `${chunkName}.html`,
-      title: ensureTitle,
-      template: ensureTpl,
-      hash: true,
-    });
 
     cb({
       title: ensureTitle,
       entry: file,
       chunkName,
-      template: ensureTpl,
+      template: tplRelativePath,
     });
-    // webpackCfg.entry[chunkName] = file;
-    // webpackCfg.plugins.push(
-    //   new HtmlWebpackPlugin({
-    //     inject: true,
-    //     chunks: [chunkName],
-    //     filename: `${chunkName}.html`,
-    //     title: ensureTitle,
-    //     template: ensureTpl,
-    //     hash: true,
-    //   })
-    // );
 
     entry[file] = {
       langJsonPicker,
