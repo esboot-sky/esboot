@@ -32,8 +32,8 @@
     "@babel/preset-env": "^7.24.8",
     "@babel/preset-react": "^7.24.7",
     "@dz-web/babel-plugin-react-css-modules": "^6.11.4",
-    "@dz-web/esboot-common": "workspace:*",
     "@dz-web/esboot-bundler-common": "workspace:*",
+    "@dz-web/esboot-common": "workspace:*",
     "@jleonardvp/babel-plugin-module-resolver": "^4.1.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@svgr/webpack": "^8.1.0",
@@ -58,6 +58,7 @@
     "ts-loader": "^9.5.1",
     "webpack": "^5.93.0",
     "webpack-5-chain": "^8.0.2",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-dev-server": "^5.0.4",
     "webpackbar": "^6.0.1"
   },

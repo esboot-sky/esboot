@@ -64,8 +64,9 @@ export interface ConfigurationForMP {
 
 export interface Configuration<BundlerOptions = unknown>
   extends Required<
-    Omit<UserOptions<BundlerOptions>, 'define' | 'copy' | 'sourceMap'>
-  > {
+      Omit<UserOptions<BundlerOptions>, 'define' | 'copy' | 'sourceMap'>
+    >,
+    Pick<UserOptions<BundlerOptions>, 'define' | 'copy' | 'sourceMap'> {
   projectType: PROJECT_TYPE;
   isDev: boolean;
   isSP: boolean;
