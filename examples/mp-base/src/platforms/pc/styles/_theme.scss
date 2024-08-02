@@ -1,0 +1,17 @@
+@import './macos-like-scrollbar';
+
+// 此文件只能存放所有页面公用的主题样式变量，不允许存放其他样式以及页面私有样式
+// 变量应该带前缀，以免碰上变量冲突，隐藏bug
+
+// 默认为白色, js即使出bug了, 类名没挂上，也不会影响页面的展示，保证有白色主题
+// css层级越少，页面性能越好
+:root,
+.dz-theme-light {
+  --dz-bg-color: #f5f5f5;
+  --dz-text-color: #333;
+}
+
+.dz-theme-dark {
+  --dz-bg-color: #222;
+  --dz-text-color: #8a8a8a;
+}

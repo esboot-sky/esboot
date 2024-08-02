@@ -1,0 +1,12 @@
+{
+  "global": {
+    "project": "测试项目名称",
+    "boundaryErrorTitle": "Oops, something went wrong!",
+    "apologize": "Sorry, the application encountered some problems.",
+    "retry": "Retry"
+  },
+  "south-stock-ranking": {},
+  "north-model": {},
+  "test": {},
+  "test2": {}
+}

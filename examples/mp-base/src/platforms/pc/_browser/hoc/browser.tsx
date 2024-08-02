@@ -8,10 +8,7 @@ import { useUserConfig } from '@pc/hooks/use-user-config';
 
 export function withBrowser(Component: FC<any>) {
   return function NativeApp(props: ComponentPropsWithoutRef<typeof Component>) {
-    const {
-      userConfig,
-      setTheme,
-    } = useUserConfig();
+    const { userConfig, setTheme } = useUserConfig();
 
     useEffect(() => {
       if (!userConfig.followSystemPrefersColorSchemeWhenInBrowser) return () => {};

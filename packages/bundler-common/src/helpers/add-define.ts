@@ -1,4 +1,4 @@
-import type { ConfigurationInstance, Configuration } from '@dz-web/esboot';
+import type { ConfigurationInstance } from '@dz-web/esboot';
 
 type AddDefineRes = Record<string, string>;
 export const addDefine = (cfg: ConfigurationInstance): AddDefineRes => {

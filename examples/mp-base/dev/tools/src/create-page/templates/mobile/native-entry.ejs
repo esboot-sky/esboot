@@ -1,0 +1,12 @@
+import App from '@mobile/modules/<%= pageName %>';
+import { store } from '@mobile/modules/<%= pageName %>/model/store';
+import generatePage from '@mobile-native/helpers/generate-page';
+
+generatePage(<App />, {
+  store,
+});
+
+export default {
+  title: 'Mobile-Native',
+  langJsonPicker: ['<%= pageName %>', 'global'],
+};

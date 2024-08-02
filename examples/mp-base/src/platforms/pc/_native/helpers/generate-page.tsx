@@ -14,12 +14,12 @@ import '@pc/styles/index.scss';
 import wrapNative from '@pc-native/hoc/native';
 
 export default function generatePage(App: React.ReactNode, options: GeneratePageOptions): void {
-  const { i18n, store } = options;
+  const { i18n, store, disableStrictMode, disabledLoginExpired } = options;
   let wrapApp: React.ReactNode = App;
 
   bridge.initPlatforms(useBridgeMock ? BridgePlatforms.mock : BridgePlatforms.pc);
   wrapApp = wrapNative(wrapApp, {
-    disabledLoginExpired: options.disabledLoginExpired,
+    disabledLoginExpired,
   });
   wrapApp = wrapReactQuery(wrapApp);
 
@@ -27,7 +27,7 @@ export default function generatePage(App: React.ReactNode, options: GeneratePage
   wrapApp = wrapI18n(wrapApp, i18n);
   wrapApp = wrapRedux(wrapApp, store);
   bridge.ready(() => {
-    mounteReact(wrapApp as React.ReactElement);
+    mounteReact(wrapApp as React.ReactElement, disableStrictMode);
   });
 
   subscribeUserAndCache(store);

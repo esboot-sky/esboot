@@ -1,3 +1,5 @@
+import { get } from 'lodash-es';
+
 export enum CommonServer {
   police = 'police',
 }
@@ -14,7 +16,7 @@ export default new (class StaticConfig {
   }
 
   getConfig(path: string, defaultValue = '') {
-    return this.config?.path ?? defaultValue;
+    return get(this.config, path, defaultValue);
   }
 
   getCommonServer(path = 'commonServer', defaultValue = '') {

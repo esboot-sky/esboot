@@ -1,12 +1,12 @@
-Welcom to ESboot Docs。
+Welcom to ESBoot Docs。
 
 ```tsx
-import { test } from '@src/constants';
+import { DEFAULT_LANGUAGE } from '@src/constants/config';
 
 export default () => (
   <div>
     This is a demo.
-    {test}
+    {DEFAULT_LANGUAGE}
   </div>
 );
 ```

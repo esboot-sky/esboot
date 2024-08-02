@@ -11,7 +11,7 @@ import '@pc/styles/index.scss';
 import wrapBrowser from '@pc-browser/hoc/browser';
 
 export default function generatePage(App: React.ReactNode, options: GeneratePageOptions): void {
-  const { i18n, store } = options;
+  const { i18n, store, disableStrictMode } = options;
   let wrapApp: React.ReactNode = App;
 
   wrapApp = wrapBrowser(wrapApp);
@@ -20,7 +20,7 @@ export default function generatePage(App: React.ReactNode, options: GeneratePage
   wrapApp = wrapTopErrorBoundary(wrapApp, TopErrorBoundaryFallback);
   wrapApp = wrapI18n(wrapApp, i18n);
   wrapApp = wrapRedux(wrapApp, store);
-  mounteReact(wrapApp as React.ReactElement);
+  mounteReact(wrapApp as React.ReactElement, disableStrictMode);
 
   subscribeUserAndCache(store);
 }

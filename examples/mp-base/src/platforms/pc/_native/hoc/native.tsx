@@ -25,13 +25,9 @@ export function withNative(Component: FC<any>, options: IWithNativeOptions = {})
   const mergeOptions = deepMerge(defaultOptions, options);
 
   return function NativeApp(props: ComponentPropsWithoutRef<typeof Component>) {
-    const {
-      setUserConfig,
-    } = useUserConfig();
+    const { setUserConfig } = useUserConfig();
 
-    const {
-      setUserInfo,
-    } = useUserInfo();
+    const { setUserInfo } = useUserInfo();
 
     const queryClient = useQueryClient();
 

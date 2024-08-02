@@ -8,11 +8,15 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { AddFunc } from '@/cfg/types';
 
 export const addEntry: AddFunc = async function (cfg, webpackCfg) {
-  const { configRootPath = '' } = cfg.config;
+  const { configRootPath, MPConfiguration, isSP } = cfg.config;
+  const tplRootPath = isSP
+    ? configRootPath
+    : MPConfiguration!.configRootPathOfPlatfrom;
 
+  console.log(tplRootPath, '<-- tplRootPath');
   await _addEntry(cfg, (params: AddEntryCBParams) => {
     const { chunkName, template, entry, title } = params;
-    const ensureTpl = join(configRootPath, template);
+    const ensureTpl = join(tplRootPath, template);
 
     webpackCfg.entry[chunkName] = entry;
     webpackCfg.plugins.push(
