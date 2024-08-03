@@ -13,7 +13,7 @@ const Index = genericMemo(function Index() {
         }}
         to="/detail"
       >
-        go to detail
+        go to detail22
       </Link>
       <div styleName="w375">
         375 width in 750 design

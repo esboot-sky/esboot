@@ -3,9 +3,8 @@ import { BundlerWebpack } from '@dz-web/esboot-bundler-webpack';
 import type { BundlerWebpackOptions } from "@dz-web/esboot-bundler-webpack";
 
 export default defineConfig<BundlerWebpackOptions>((cfg) => {
-  console.log(cfg, '<-- cfg');
   return {
-    bundler: BundlerWebpack as any,
+    bundler: BundlerWebpack,
     bundlerOptions: { mfsu: false },
     server: {
       port: 8111,
