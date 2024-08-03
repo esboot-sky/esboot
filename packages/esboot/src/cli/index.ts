@@ -42,10 +42,18 @@ export const run = () => {
     .description('Build project')
     .allowUnknownOption(true)
     .action(async () => {
-      // logBrand(config);
-      // cfg.updateCompileTimeCfg({ env: Environment.prod });
-      // cfg.initBundler();
-      // cfg?.bundler?.build();
+      // FIXME: extract logic with dev
+      process.env.NODE_ENV = Environment.prod;
+      cfg.load();
+
+      const { config } = cfg;
+
+      if (config.bundler) {
+        const bundler = new config.bundler({ configuration: cfg });
+
+        logBrand(config);
+        bundler.build();
+      }
     });
 
   program

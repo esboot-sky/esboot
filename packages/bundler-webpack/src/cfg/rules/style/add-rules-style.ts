@@ -1,8 +1,8 @@
 import path from 'path';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const postcssNormalize = require('postcss-normalize');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const pxtorem = require('@alitajs/postcss-plugin-px2rem');
 const {
   getLocalIdent,
@@ -156,4 +156,13 @@ export const addStyleRules: AddFunc = async function (cfg, webpackCfg) {
       ],
     }
   );
+
+  if (!isDev) {
+    webpackCfg.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: 'css/[name].[contenthash:5].css',
+        chunkFilename: 'css/[id].[contenthash:5].css',
+      })
+    );
+  }
 };
