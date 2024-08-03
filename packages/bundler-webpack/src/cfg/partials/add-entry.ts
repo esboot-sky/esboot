@@ -13,7 +13,6 @@ export const addEntry: AddFunc = async function (cfg, webpackCfg) {
     ? configRootPath
     : MPConfiguration!.configRootPathOfPlatfrom;
 
-  console.log(tplRootPath, '<-- tplRootPath');
   await _addEntry(cfg, (params: AddEntryCBParams) => {
     const { chunkName, template, entry, title } = params;
     const ensureTpl = join(tplRootPath, template);

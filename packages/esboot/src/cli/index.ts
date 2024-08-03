@@ -8,6 +8,7 @@ import { loadEnv } from './load-env';
 
 import { prepare } from './services/prepare';
 import { Environment } from '@dz-web/esboot-common';
+import { logBrand } from '@/helpers';
 
 const cwd = process.cwd();
 
@@ -31,6 +32,7 @@ export const run = () => {
       if (config.bundler) {
         const bundler = new config.bundler({ configuration: cfg });
 
+        logBrand(config);
         bundler.dev();
       }
     });
@@ -40,6 +42,7 @@ export const run = () => {
     .description('Build project')
     .allowUnknownOption(true)
     .action(async () => {
+      // logBrand(config);
       // cfg.updateCompileTimeCfg({ env: Environment.prod });
       // cfg.initBundler();
       // cfg?.bundler?.build();

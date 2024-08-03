@@ -15,17 +15,13 @@ export class BundlerWebpack implements Bundler {
 
   async dev() {
     let server: WebpackDevServer;
-    // const webpackCfg = await getWebpackCfg(this.cfg);
-    // console.log(webpackCfg.toConfig(), '<-- dev');
-
     const start = async () => {
       console.time('dev');
       const webpackCfg = await getWebpackCfg(this.cfg);
 
       const compiler = Webpack(webpackCfg);
-      // console.timeEnd('dev');
+      console.timeEnd('dev');
 
-      // logBrand();
       server = new WebpackDevServer(webpackCfg.devServer, compiler);
 
       try {
