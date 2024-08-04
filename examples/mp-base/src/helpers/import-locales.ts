@@ -4,6 +4,8 @@ import zhCN from '@/lang/zh-CN.json';
 import zhTW from '@/lang/zh-TW.json';
 import { i18nMessageDict } from '@/types';
 
+console.log(zhTW, '<-- zhTW');
+
 type NestedObject = { [key: string]: any };
 function flattenObject(obj: NestedObject): NestedObject {
   const result: NestedObject = {};

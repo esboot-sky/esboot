@@ -14,6 +14,7 @@ import { createMFSU } from './helpers/mfsu';
 import { addJavaScriptRules } from './rules/javascript/add-rules-javascript';
 import { addStyleRules } from './rules/style/add-rules-style';
 import { addAssetRules } from './rules/add-rules-asset';
+import { addJSONRules } from './rules/add-rules-json';
 
 import { addInjectBodyPlugin } from './plugins/add-plugin-inject-body';
 import { addCopyPlugin } from './plugins/add-plugin-copy';
@@ -57,6 +58,7 @@ export const getWebpackCfg = async (
   await addJavaScriptRules(cfg, webpackCfg, { mfsu });
   await addStyleRules(cfg, webpackCfg);
   await addAssetRules(cfg, webpackCfg);
+  await addJSONRules(cfg, webpackCfg);
 
   // Plugins
   await addInjectBodyPlugin(cfg, webpackCfg);
