@@ -1,10 +1,9 @@
-import { Environment, PROJECT_TYPE } from '@dz-web/esboot-common/constants';
+import { Environment } from '@dz-web/esboot-common/constants';
 
 import { DEFAULT_DEV_PORT } from '@dz-web/esboot-common/constants';
 import type { Configuration } from './types';
 
 export const defaultCfg: Configuration = {
-  projectType: PROJECT_TYPE.MP,
   isDev: true,
   isSP: false,
   rootPath: '',

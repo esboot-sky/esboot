@@ -6,7 +6,6 @@ import { ip } from 'address';
 import { isFunction, pick, merge } from '@dz-web/esboot-common/lodash';
 import {
   Environment,
-  PROJECT_TYPE,
   PAGE_TYPE,
   PLATFORMS,
   USER_CONFIG_FILE,
@@ -141,12 +140,12 @@ export default new (class Cfg {
       { publicPath: isDev ? '/' : './' },
       userCfg
     );
+    this.#config.isSP ? this.#generateSPCfg() : this.#generateMPCfg();
   };
 
   load = () => {
     const {
       NODE_ENV,
-      ESBOOT_PROJECT_TYPE = PROJECT_TYPE.MP,
       ESBOOT_PLATFORM = PLATFORMS.PC,
       ESBOOT_PAGE_TYPE = PAGE_TYPE.browser,
     } = process.env;
@@ -159,8 +158,6 @@ export default new (class Cfg {
       ipv4,
       rootPath,
       configRootPath,
-      projectType: ESBOOT_PROJECT_TYPE,
-      isSP: ESBOOT_PROJECT_TYPE === PROJECT_TYPE.SP,
       isDev: NODE_ENV === Environment.dev,
       isMobile: ESBOOT_PLATFORM === PLATFORMS.MOBILE,
       isBrowser: ESBOOT_PAGE_TYPE === PAGE_TYPE.browser,
@@ -169,7 +166,6 @@ export default new (class Cfg {
     } satisfies Partial<Configuration>;
     Object.assign(this.#config, cfg);
 
-    cfg.isSP ? this.#generateSPCfg() : this.#generateMPCfg();
     this.loadConfigFile();
   };
 

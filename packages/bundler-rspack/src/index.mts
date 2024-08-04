@@ -1,25 +1,26 @@
-import { rspack } from '@rspack/core';
+export const a = 1;
+// import { rspack } from '@rspack/core';
 
-import { Bundler } from '@dz-web/esboot';
+// import { Bundler } from '@dz-web/esboot';
 
-export class BundlerRSPack implements Bundler {
-  constructor(Options: any) {
-    console.log(Options, '<-- Options');
-  }
+// export class BundlerRSPack implements Bundler {
+//   constructor(Options: any) {
+//     console.log(Options, '<-- Options');
+//   }
 
-  async dev() {
-    const compiler = rspack({});
+//   async dev() {
+//     const compiler = rspack({});
 
-    compiler.run((err, stats) => {
-      // ...
+//     compiler.run((err, stats) => {
+//       // ...
 
-      compiler.close((closeErr) => {
-        // ...
-      });
-    });
-  }
+//       compiler.close((closeErr) => {
+//         // ...
+//       });
+//     });
+//   }
 
-  build() {
-    console.log(1, '<-- build');
-  }
-}
+//   build() {
+//     console.log(1, '<-- build');
+//   }
+// }

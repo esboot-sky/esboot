@@ -32,7 +32,7 @@ export class BundlerWebpack implements Bundler {
       }
     };
 
-    start();
+    await start();
   }
 
   async build() {

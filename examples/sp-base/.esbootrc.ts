@@ -5,6 +5,7 @@ import type { BundlerWebpackOptions } from "@dz-web/esboot-bundler-webpack";
 
 export default defineConfig<BundlerWebpackOptions>({
   // bundler: BundlerVite,
+  isSP: true,
   bundler: BundlerWebpack,
   bundlerOptions: { mfsu: false },
   sourceMap: false,

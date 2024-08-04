@@ -1,6 +1,5 @@
 import {
   Environment,
-  PROJECT_TYPE,
   PLATFORMS,
   PAGE_TYPE,
 } from '@dz-web/esboot-common/constants';
@@ -32,12 +31,13 @@ export interface Px2rem {
 }
 
 export interface UserOptions<BundlerOptions = unknown> {
+  isSP?: boolean;
   bundler: (new (config: BaseBundlerOptions) => Bundler) | null;
   bundlerOptions?: BundlerOptions;
   outputPath?: string;
   publicPath?: string;
   useLangJsonPicker?: boolean;
-  //
+  jsMinifier?: boolean;
   analyze?: boolean;
   alias?: Record<string, string>;
   define?: Record<string, string>;
@@ -62,14 +62,11 @@ export interface ConfigurationForMP {
   contentRootPath: string;
 }
 
+type PreserveAttr = 'define' | 'copy' | 'sourceMap' | 'jsMinifier';
 export interface Configuration<BundlerOptions = unknown>
-  extends Required<
-      Omit<UserOptions<BundlerOptions>, 'define' | 'copy' | 'sourceMap'>
-    >,
-    Pick<UserOptions<BundlerOptions>, 'define' | 'copy' | 'sourceMap'> {
-  projectType: PROJECT_TYPE;
+  extends Required<Omit<UserOptions<BundlerOptions>, PreserveAttr>>,
+    Pick<UserOptions<BundlerOptions>, PreserveAttr> {
   isDev: boolean;
-  isSP: boolean;
   rootPath: string;
   configRootPath: string;
   configJSPath: string;
