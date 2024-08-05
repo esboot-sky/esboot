@@ -6,8 +6,9 @@ import { addOutput } from './partials/add-output';
 import { addResolve } from './partials/add-resolve';
 import { addDevtool } from './partials/add-devtool';
 import { addCache } from './partials/add-cache';
-import { addOptimization } from './partials/add-optimization';
 import { addOnlyDev } from './partials/add-only-dev';
+
+import { addOptimization } from './optimization/add-optimization';
 
 import { createMFSU } from './helpers/mfsu';
 
@@ -52,6 +53,8 @@ export const getWebpackCfg = async (
   await addResolve(cfg, webpackCfg);
   await addDevtool(cfg, webpackCfg);
   await addCache(cfg, webpackCfg);
+
+  // Optimization
   await addOptimization(cfg, webpackCfg);
 
   // Rules

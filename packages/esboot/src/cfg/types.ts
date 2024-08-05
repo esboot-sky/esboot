@@ -37,7 +37,11 @@ export interface UserOptions<BundlerOptions = unknown> {
   outputPath?: string;
   publicPath?: string;
   useLangJsonPicker?: boolean;
+  minimize?: boolean;
   jsMinifier?: boolean;
+  jsMinifierOptions?: Record<string, any>;
+  cssMinifier?: boolean;
+  cssMinifierOptions?: Record<string, any>;
   analyze?: boolean;
   alias?: Record<string, string>;
   define?: Record<string, string>;
@@ -62,7 +66,14 @@ export interface ConfigurationForMP {
   contentRootPath: string;
 }
 
-type PreserveAttr = 'define' | 'copy' | 'sourceMap' | 'jsMinifier';
+type PreserveAttr =
+  | 'define'
+  | 'copy'
+  | 'sourceMap'
+  | 'jsMinifier'
+  | 'jsMinifierOptions'
+  | 'cssMinifierOptions'
+  | 'cssMinifier';
 export interface Configuration<BundlerOptions = unknown>
   extends Required<Omit<UserOptions<BundlerOptions>, PreserveAttr>>,
     Pick<UserOptions<BundlerOptions>, PreserveAttr> {

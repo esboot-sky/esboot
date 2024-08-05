@@ -27,6 +27,7 @@ export const defaultCfg: Configuration = {
   svgrOptions: {},
   isMobile: false,
   isBrowser: true,
+  minimize: true,
   server: {
     open: false,
     port: DEFAULT_DEV_PORT,
