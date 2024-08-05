@@ -11,6 +11,7 @@ import { addOnlyDev } from './partials/add-only-dev';
 import { addOptimization } from './optimization/add-optimization';
 
 import { createMFSU } from './helpers/mfsu';
+import { customConfig } from './helpers/custom-config';
 
 import { addJavaScriptRules } from './rules/javascript/add-rules-javascript';
 import { addStyleRules } from './rules/style/add-rules-style';
@@ -73,6 +74,7 @@ export const getWebpackCfg = async (
   await addDevServer(cfg, webpackCfg, { mfsu });
 
   addOnlyDev(cfg, webpackCfg);
+  customConfig(cfg, webpackCfg);
 
   return webpackCfg;
 };

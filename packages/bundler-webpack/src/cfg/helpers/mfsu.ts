@@ -5,7 +5,7 @@ import { isFunction, noop } from '@dz-web/esboot-common/lodash';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import type { ConfigurationInstance } from '@dz-web/esboot';
 
-import type { BundlerWebpackOptions } from '@/options/types';
+import type { BundlerWebpackOptions } from '@/types';
 
 export type MFSU = _MFSU | null;
 const mfsuCacheDir = join(cacheDir, './mfsu');

@@ -74,4 +74,3 @@ export class BundlerWebpack implements Bundler {
 }
 
 export * from './types';
-export * from './options';

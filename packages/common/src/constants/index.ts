@@ -19,3 +19,16 @@ export enum PAGE_TYPE {
   native = 'native', // Embed
   browser = 'browser',
 }
+
+export enum JsMinifier {
+  terser = 'terser',
+  // esbuild = 'esbuild',
+  swc = 'swc',
+  none = 'none',
+}
+
+export enum CSSMinifier {
+  cssnano = 'cssnano',
+  lightningcss = 'lightningcss',
+  none = 'none',
+}
