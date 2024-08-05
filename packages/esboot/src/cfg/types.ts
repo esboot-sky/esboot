@@ -30,6 +30,13 @@ export interface Px2rem {
   minPixelValue?: number;
 }
 
+export interface Proxy {
+  context: string[];
+  target: string;
+  changeOrigin?: boolean;
+  pathRewrite?: Record<string, string>;
+}
+
 export interface UserOptions<BundlerOptions = unknown> {
   isSP?: boolean;
   bundler: (new (config: BaseBundlerOptions) => Bundler) | null;
@@ -55,6 +62,7 @@ export interface UserOptions<BundlerOptions = unknown> {
     https?: boolean;
     open?: boolean;
     port?: number;
+    proxy?: Proxy[];
   };
 }
 

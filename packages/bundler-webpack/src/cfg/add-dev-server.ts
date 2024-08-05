@@ -13,7 +13,7 @@ export const addDevServer: AddFunc<{ mfsu: MFSU }> = async function (
 ) {
   const {
     isDev,
-    server: { port, open, host },
+    server: { port, open, host, proxy },
   } = cfg.config;
 
   if (!isDev) return;
@@ -49,6 +49,7 @@ export const addDevServer: AddFunc<{ mfsu: MFSU }> = async function (
       );
     },
   };
+  if (proxy) devServer.proxy = proxy;
 
   webpackCfg.devServer = devServer;
 };

@@ -11,7 +11,7 @@ export default defineConfig<BundlerWebpackOptions>({
   sourceMap: false,
   alias: {
     '@@': 'src'
-  }
+  },
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,
