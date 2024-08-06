@@ -1,5 +1,5 @@
 {
-  "name": "@dz-web/esboot-stylelint",
+  "name": "@dz-web/esboot-commitlint",
   "version": "3.0.0",
   "description": "",
   "main": "index.js",
@@ -11,8 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "stylelint-config-standard": "33.0.0",
-    "stylelint-declaration-use-variable": "1.7.3",
-    "stylelint-scss": "5.0.1"
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "stylelint": "15.9.0"
   }
 }

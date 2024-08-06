@@ -4,15 +4,15 @@ import { writeFileSync, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import { info } from '@dz-web/esboot-common/helpers';
 
-import stylelintCfg from '@dz-web/esboot-stylelint';
+import commitlintCfg from '@dz-web/esboot-commitlint';
 
-export function generateStylelintCfg() {
-  const outoutPath = join(cacheDir, 'stylelint/index.js');
+export function generateCommitlintCfg() {
+  const outoutPath = join(cacheDir, 'commitlint/index.js');
 
   ensureFileSync(outoutPath);
   writeFileSync(
     outoutPath,
-    `module.exports=${JSON.stringify(stylelintCfg, null, 2)}`
+    `module.exports=${JSON.stringify(commitlintCfg, null, 2)}`
   );
-  info(`Created Stylelint Config: ${outoutPath}.`);
+  info(`Created Commitlint Config: ${outoutPath}.`);
 }
