@@ -6,7 +6,7 @@ import cfg from '@/cfg';
 import { processPrepare } from './prepare';
 import { loadEnv } from './load-env';
 
-import { prepare } from './services/prepare';
+import { prepare } from './prepare/index';
 import { Environment } from '@dz-web/esboot-common';
 import { logBrand } from '@/helpers';
 
