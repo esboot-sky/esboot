@@ -84,7 +84,7 @@
   },
   "stylelint": {
     "extends": [
-      "@dz-web/esboot/config/stylelint"
+      "./node_modules/.cache/esboot/stylelint"
     ]
   },
   "commitlint": {

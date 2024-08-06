@@ -60,6 +60,7 @@ export const run = () => {
     .command('prepare')
     .description('Prepare esboot project')
     .action(() => {
+      cfg.load();
       prepare();
     });
 

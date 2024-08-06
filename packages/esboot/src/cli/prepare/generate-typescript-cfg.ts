@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join, isAbsolute } from 'path';
 
 import { writeJSONSync, ensureDirSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
@@ -15,12 +15,21 @@ const absListPath = (ref: string[]): string[] => {
 };
 
 export function generateTypeScriptCfg(basePath: string) {
-  const { cwd } = cfg.config;
+  const { cwd, alias } = cfg.config;
   const tsconfigJson = require(
     join(basePath, 'typescript/tsconfig-sample.json')
   );
 
   const _alias: Record<string, string[]> = {};
+
+  for (let k in alias) {
+    const rawValue = alias[k];
+    const isAbsoluteValue = isAbsolute(rawValue);
+    const key = isAbsoluteValue ? k : `${k}/*`;
+    const value = isAbsoluteValue ? rawValue : `${rawValue}/*`;
+
+    _alias[key] = [value];
+  }
 
   tsconfigJson.compilerOptions.baseUrl = cwd;
   tsconfigJson.compilerOptions.paths = _alias;

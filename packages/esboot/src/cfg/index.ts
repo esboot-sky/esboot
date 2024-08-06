@@ -38,13 +38,13 @@ export default new (class Cfg {
         to: './static',
       },
     ] satisfies Configuration['staticPathList'];
-    const alias = {
+    this.#config.alias = {
       '@': 'src',
+      ...this.#config.alias,
     } satisfies Configuration['alias'];
 
     const cfg = {
       configJSPath,
-      alias,
       staticPathList,
     } satisfies Partial<Configuration>;
 
@@ -91,7 +91,7 @@ export default new (class Cfg {
         to: './static',
       },
     ] satisfies Configuration['staticPathList'];
-    const alias = {
+    this.#config.alias = {
       '@mobile-native': 'src/platforms/mobile/_native',
       '@mobile-browser': 'src/platforms/mobile/_browser',
       '@pc-native': 'src/platforms/pc/_native',
@@ -99,6 +99,7 @@ export default new (class Cfg {
       '@mobile': 'src/platforms/mobile',
       '@pc': 'src/platforms/pc',
       '@': 'src',
+      ...this.#config.alias,
     } satisfies Configuration['alias'];
 
     const MPConfiguration = {
@@ -112,7 +113,6 @@ export default new (class Cfg {
     const cfg = {
       configJSPath,
       staticPathList,
-      alias,
       MPConfiguration,
     } satisfies Partial<Configuration>;
 

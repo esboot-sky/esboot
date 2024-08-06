@@ -27,6 +27,7 @@
   "dependencies": {
     "@dz-web/esboot-common": "workspace:*",
     "@dz-web/esboot-stylelint": "workspace:*",
+    "@dz-web/esboot-eslint": "workspace:*",
     "address": "^2.0.2",
     "commander": "^12.0.0",
     "dotenv": "^16.4.5",
