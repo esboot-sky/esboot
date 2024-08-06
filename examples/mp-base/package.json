@@ -89,10 +89,10 @@
   },
   "commitlint": {
     "extends": [
-      "./node_modules/@dz-web/esboot/config/commitlint/index.js"
+      "./node_modules/.cache/esboot/commitlint"
     ]
   },
-  "prettier": "./node_modules/.cache/esboot/prettier/index.json",
+  "prettier": "./node_modules/.cache/esboot/prettier",
   "browserslist": {
     "development": [
       "Chrome >= 100"
