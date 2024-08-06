@@ -59,7 +59,7 @@
       "./node_modules/@dz-web/esboot/config/commitlint/index.js"
     ]
   },
-  "prettier": "@dz-web/esboot/config/prettier/index.json",
+  "prettier": "./node_modules/.cache/esboot/prettier/index.json",
   "browserslist": {
     "development": [
       "last 1 chrome version"
