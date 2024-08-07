@@ -5,17 +5,17 @@ const importExeca = import('execa');
 export async function lint(args: string[] = []) {
   const { execa, ExecaError } = await importExeca;
 
-  await execa(
-    require.resolve('stylelint/bin/stylelint'),
-    ['**/*.scss', ...args],
-    {
-      stdio: 'inherit',
-      shell: true,
-    }
-  );
-
   try {
-    await execa(
+    execa(
+      require.resolve('stylelint/bin/stylelint'),
+      ['**/*.scss', ...args],
+      {
+        stdio: 'inherit',
+        shell: true,
+      }
+    );
+
+    execa(
       // Special case for eslint
       'eslint',
       ['--ext', '.jsx,.js,.ts,.tsx', resolve(process.cwd(), 'src/'), ...args],

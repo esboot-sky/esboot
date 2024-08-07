@@ -1,8 +1,9 @@
 {
-  "name": "esboot-react-mp",
+  "name": "example-mp-base",
   "version": "1.0.0",
   "testVersion": 1,
   "description": "",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "esboot": "esboot",

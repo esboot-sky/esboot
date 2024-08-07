@@ -1,0 +1,11 @@
+70 error Error: Command failed with exit code 1: git add -- packages/eslint-plugin-esboot/package.json packages/common/package.json packages/lint/package.json packages/esboot/package.json packages/bundler-common/package.json packages/bundler-rspack/package.json packages/bundler-vite/package.json packages/bundler-webpack/package.json lerna.json pnpm-lock.yaml
+70 error The following paths are ignored by one of your .gitignore files:
+70 error pnpm-lock.yaml
+70 error hint: Use -f if you really want to add them.
+70 error hint: Turn this message off by running
+70 error hint: "git config advice.addIgnoredFile false"
+70 error     at makeError (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/execa@5.0.0/node_modules/execa/lib/error.js:59:11)
+70 error     at handlePromise (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/execa@5.0.0/node_modules/execa/index.js:114:26)
+70 error     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+70 error     at async VersionCommand.updatePackageVersions (/Users/rocsun/Code/dz-library/esboot/]esboot-next/node_modules/.pnpm/lerna@8.1.7_encoding@0.1.13/node_modules/lerna/dist/index.js:9883:11)
+70 error     at async Promise.all (index 0)
