@@ -4,7 +4,7 @@ import { writeFileSync, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import { info } from '@dz-web/esboot-common/helpers';
 
-import stylelintCfg from '@dz-web/esboot-stylelint';
+import stylelintCfg from '@dz-web/esboot-lint/stylelint';
 
 export function generateStylelintCfg() {
   const outoutPath = join(cacheDir, 'stylelint/index.js');

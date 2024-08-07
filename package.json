@@ -2,15 +2,15 @@
   "name": "esboot",
   "private": true,
   "scripts": {
+    "build": "turbo run build",
+    "dev": "pnpm run dev:base --filter @dz-web/esboot-bundler-webpack",
     "dev:all": "turbo run dev --parallel",
     "dev:base": "turbo run dev --filter @dz-web/esboot-common --filter @dz-web/esboot --filter @dz-web/esboot-bundler-common",
-    "dev": "pnpm run dev:base --filter @dz-web/esboot-bundler-webpack",
     "dev:vite": "pnpm run dev:base --filter @dz-web/esboot-bundler-vite",
-    "build": "turbo run build",
-    "test": "vitest",
-    "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "pub": "lerna publish --force-publish=*"
+    "lint": "turbo run lint",
+    "pub": "lerna publish --force-publish=*",
+    "test": "vitest"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",
@@ -21,9 +21,9 @@
     "vite": "^5.2.11",
     "vitest": "^1.6.0"
   },
+  "packageManager": "pnpm@9.1.0",
   "engines": {
-    "npm": ">=7.0.0",
-    "node": ">=14.0.0"
-  },
-  "packageManager": "pnpm@9.1.0"
+    "node": ">=14.0.0",
+    "npm": ">=7.0.0"
+  }
 }

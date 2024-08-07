@@ -6,7 +6,7 @@ import { writeFileSync, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import { info } from '@dz-web/esboot-common/helpers';
 
-import eslintCfg from '@dz-web/esboot-eslint';
+import eslintCfg from '@dz-web/esboot-lint/eslint';
 
 export function generateESLintCfg() {
   const { alias } = cfg.config;
