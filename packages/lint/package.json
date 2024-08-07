@@ -5,17 +5,16 @@
   "keywords": [],
   "license": "ISC",
   "author": "",
-  "main": "eslint.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup --minify --dts --format esm,cjs",
+    "dev": "tsup --watch --dts --format cjs --onSuccess 'tsc --emitDeclarationOnly --declaration'",
+    "prepublishOnly": "npm run build"
   },
   "files": [
-    "eslint.js",
-    "stylelint.js",
-    "commitlint.js",
-    "prettier.json",
-    "tsconfig.json",
+    "dist",
+    "config",
     "index.d.ts"
   ],
   "dependencies": {
@@ -35,10 +34,53 @@
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "execa": "^9.3.0",
     "prettier": "^3.2.5",
     "stylelint": "15.9.0",
     "stylelint-config-standard": "33.0.0",
     "stylelint-declaration-use-variable": "1.7.3",
     "stylelint-scss": "5.0.1"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "sourceMap": true,
+    "clean": true
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./eslint": {
+      "import": "./config/eslint.js",
+      "default": "./config/eslint.js",
+      "types": "./index.d.ts"
+    },
+    "./stylelint": {
+      "import": "./config/stylelint.js",
+      "default": "./config/stylelint.js",
+      "types": "./index.d.ts"
+    },
+    "./commitlint": {
+      "import": "./config/commitlint.js",
+      "default": "./config/commitlint.js",
+      "types": "./index.d.ts"
+    },
+    "./tsconfig.json": {
+      "import": "./config/tsconfig.json",
+      "default": "./config/tsconfig.json",
+      "types": "./index.d.ts"
+    },
+    "./prettier.json": {
+      "import": "./config/prettier.json",
+      "default": "./config/prettier.json",
+      "types": "./index.d.ts"
+    }
   }
 }

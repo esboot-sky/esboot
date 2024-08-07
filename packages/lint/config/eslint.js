@@ -130,5 +130,5 @@ module.exports = {
   globals: {
     DEBUG: true,
   },
-  ignorePatterns: ['**/*.js', '!src'],
+  ignorePatterns: ['*', '!src', '!src/**'],
 };

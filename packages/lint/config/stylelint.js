@@ -5,10 +5,9 @@ module.exports = {
     require.resolve('stylelint-declaration-use-variable'),
   ],
   customSyntax: require.resolve('postcss-scss'),
-  ignoreFiles: ['node_modules'],
+  ignoreFiles: ['!src/**/*', 'node_modules'],
   rules: {
     'import-notation': 'string',
-    'block-opening-brace-space-before': 'always',
     'at-rule-no-unknown': [
       true,
       {

@@ -1,5 +1,3 @@
-/// <reference types="@dz-web/esboot-lint" />
-
 import {
   Environment,
   PAGE_TYPE,

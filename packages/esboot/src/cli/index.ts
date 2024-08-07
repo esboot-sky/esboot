@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { program } from 'commander';
+import { lint } from '@dz-web/esboot-lint';
 
 import cfg from '@/cfg';
 
@@ -15,26 +16,31 @@ const cwd = process.cwd();
 const pkgPath = join(__dirname, '../../package.json');
 const pkg = require(pkgPath);
 
+function createBundler(environment: Environment) {
+  process.env.NODE_ENV = environment;
+  const { config } = cfg;
+
+  if (config.bundler) {
+    const bundler = new config.bundler({ configuration: cfg });
+    logBrand(config);
+    return bundler;
+  }
+
+  return null;
+}
+
 export const run = () => {
   processPrepare();
   loadEnv({ root: cwd });
+  cfg.load();
 
   program
     .command('dev')
     .description('Start to develop project')
     .allowUnknownOption(true)
     .action(async () => {
-      process.env.NODE_ENV = Environment.dev;
-      cfg.load();
-
-      const { config } = cfg;
-
-      if (config.bundler) {
-        const bundler = new config.bundler({ configuration: cfg });
-
-        logBrand(config);
-        bundler.dev();
-      }
+      const bundler = createBundler(Environment.dev);
+      if (bundler) bundler.dev();
     });
 
   program
@@ -42,25 +48,22 @@ export const run = () => {
     .description('Build project')
     .allowUnknownOption(true)
     .action(async () => {
-      // FIXME: extract logic with dev
-      process.env.NODE_ENV = Environment.prod;
-      cfg.load();
+      const bundler = createBundler(Environment.prod);
+      if (bundler) bundler.build();
+    });
 
-      const { config } = cfg;
-
-      if (config.bundler) {
-        const bundler = new config.bundler({ configuration: cfg });
-
-        logBrand(config);
-        bundler.build();
-      }
+  program
+    .command('lint')
+    .description('Lint project files using ESLint and Stylelint')
+    .allowUnknownOption(true)
+    .action(async () => {
+      lint();
     });
 
   program
     .command('prepare')
     .description('Prepare esboot project')
     .action(() => {
-      cfg.load();
       prepare();
     });
 

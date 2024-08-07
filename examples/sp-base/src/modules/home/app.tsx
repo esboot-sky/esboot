@@ -9,9 +9,7 @@ function Test() {
 
   return (
     <div className="page">
-      <div styleName="text" text="43232">
-        module css
-      </div>
+      <div styleName="text">module css</div>
       <Button onClick={() => navigate('/test')}>To Test</Button>
       <Outlet />
     </div>

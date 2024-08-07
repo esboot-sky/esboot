@@ -1,24 +1,15 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "strict": true,
-    "noImplicitAny": false,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
-    "noUncheckedIndexedAccess": false,
-    "noResolve": false,
-    "removeComments": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./src/*"]
     }
   },
-  "files": ["node_modules/.cache/esboot/typescript/esboot.d.ts"],
-  "exclude": ["**/*.spec.ts"],
-  "include": [".esbootrc.ts", "src/**/*", "globals.d.ts", "node_modules/.cache/esboot/typescript/esboot.d.ts"]
+  "include": ["src"]
 }
