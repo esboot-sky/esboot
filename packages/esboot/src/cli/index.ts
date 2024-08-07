@@ -18,6 +18,7 @@ const pkg = require(pkgPath);
 
 function createBundler(environment: Environment) {
   process.env.NODE_ENV = environment;
+  cfg.load();
   const { config } = cfg;
 
   if (config.bundler) {
@@ -32,7 +33,6 @@ function createBundler(environment: Environment) {
 export const run = () => {
   processPrepare();
   loadEnv({ root: cwd });
-  cfg.load();
 
   program
     .command('dev')
@@ -51,6 +51,8 @@ export const run = () => {
       const bundler = createBundler(Environment.prod);
       if (bundler) bundler.build();
     });
+
+  cfg.load();
 
   program
     .command('lint')
