@@ -32,6 +32,9 @@ yarn-error.log*
 # turbo
 .turbo
 
+# lerna
+lerna-debug.log
+
 dist/
 
 # umi
