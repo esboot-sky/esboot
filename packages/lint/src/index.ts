@@ -1,31 +1,27 @@
 import { resolve } from 'path';
 import { exec } from '@dz-web/esboot-common/execa';
 import {
-  copyFileSync,
+  copySync,
   existsSync,
   ensureDirSync,
 } from '@dz-web/esboot-common/fs-extra';
-import { cacheDir } from '@dz-web/esboot-common';
 
-export async function lint() {
+export async function lint({ cwd }: { cwd: string }) {
   const args = process.argv.slice(3);
   exec(`${require.resolve('stylelint/bin/stylelint')} **/*.scss ${args}`, {
     onError: () => void 0,
   });
   // Special case for eslint
-  exec(
-    `eslint --ext .jsx,.js,.ts,.tsx ${resolve(process.cwd(), 'src')} ${args}`,
-    {
-      onError: () => void 0,
-    }
-  );
+  exec(`eslint --ext .jsx,.js,.ts,.tsx ${resolve(cwd, 'src')} ${args}`, {
+    onError: () => void 0,
+  });
 }
 
-export function huskySetup() {
-  const huskyCfgTarget = resolve(cacheDir, '.husky');
+export function huskySetup({ configRootPath }: { configRootPath: string }) {
+  const huskyCfgTarget = resolve(configRootPath, '.husky');
   if (!existsSync(huskyCfgTarget)) {
     ensureDirSync(huskyCfgTarget);
-    copyFileSync(resolve(__dirname, '../config/.husky'), huskyCfgTarget);
+    copySync(resolve(__dirname, '../config/.husky'), huskyCfgTarget);
   }
-  exec(`${require.resolve('husky/lib/bin')} install ${huskyCfgTarget}`);
+  exec(`${require.resolve('husky/lib/bin')} install config/.husky`);
 }

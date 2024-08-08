@@ -66,7 +66,7 @@ export const run = () => {
     .description('Lint project files using ESLint and Stylelint')
     .allowUnknownOption(true)
     .action(async () => {
-      lint();
+      lint({ cwd: cfg.config.cwd });
     });
 
   program.version(pkg.version);
