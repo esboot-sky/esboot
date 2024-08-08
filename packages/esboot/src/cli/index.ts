@@ -55,18 +55,18 @@ export const run = () => {
   cfg.load();
 
   program
+    .command('prepare')
+    .description('Prepare esboot project')
+    .action(() => {
+      prepare();
+    });
+
+  program
     .command('lint')
     .description('Lint project files using ESLint and Stylelint')
     .allowUnknownOption(true)
     .action(async () => {
       lint();
-    });
-
-  program
-    .command('prepare')
-    .description('Prepare esboot project')
-    .action(() => {
-      prepare();
     });
 
   program.version(pkg.version);

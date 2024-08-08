@@ -15,6 +15,7 @@ export const exec = async (
     const result = await $({
       stdio: 'inherit',
       shell: true,
+      cwd: process.cwd(),
       ...options,
     })`${args}`;
 
