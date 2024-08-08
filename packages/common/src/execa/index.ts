@@ -12,10 +12,14 @@ export const exec = async (
   const { $ } = await importExeca;
 
   try {
-    return $({ stdio: 'inherit', shell: true, ...options })`${args}`;
-  } catch (error) {
-    console.log(onError, 'onError');
+    const result = await $({
+      stdio: 'inherit',
+      shell: true,
+      ...options,
+    })`${args}`;
 
+    return result;
+  } catch (error) {
     if (onError) {
       onError(error);
     } else {
