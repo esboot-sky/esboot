@@ -69,6 +69,6 @@
       "src"
     ],
     "sourceMap": true,
-    "clean": true
+    "clean": false
   }
 }

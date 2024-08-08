@@ -44,6 +44,6 @@
       "src/cli/index.ts"
     ],
     "sourceMap": true,
-    "clean": true
+    "clean": false
   }
 }

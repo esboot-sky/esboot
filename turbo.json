@@ -2,12 +2,35 @@
   "$schema": "https://turborepo.org/schema.json",
   "tasks": {
     "dev": {
-      "outputs": ["dist/**"],
+      "outputs": [
+        "dist/**"
+      ],
       "cache": true
     },
+    "@dz-web/esboot-common#build": {},
+    "@dz-web/esboot-lint#build": {
+      "dependsOn": [
+        "@dz-web/esboot-common#build"
+      ]
+    },
+    "@dz-web/esboot#build": {
+      "dependsOn": [
+        "@dz-web/esboot-lint#build"
+      ]
+    },
+    "@dz-web/esboot-bundler-common#build": {
+      "dependsOn": [
+        "@dz-web/esboot#build"
+      ]
+    },
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**"
+      ]
     },
     "lint": {
       "outputs": []

@@ -1,7 +1,8 @@
 import { resolve } from 'path';
 import { exec } from '@dz-web/esboot-common/execa';
 
-export async function lint(args: string = '') {
+export async function lint() {
+  const args = process.argv.slice(3);
   exec(`${require.resolve('stylelint/bin/stylelint')} **/*.scss ${args}`, {
     onError: () => void 0,
   });

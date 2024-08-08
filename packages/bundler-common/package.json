@@ -23,7 +23,7 @@
       "src"
     ],
     "sourceMap": true,
-    "clean": true
+    "clean": false
   },
   "dependencies": {
     "@dz-web/esboot-common": "workspace:*",
