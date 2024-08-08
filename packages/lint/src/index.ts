@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 import { exec } from '@dz-web/esboot-common/execa';
+import { info } from '@dz-web/esboot-common/helpers';
 import {
   copySync,
   existsSync,
@@ -24,4 +25,32 @@ export function huskySetup({ configRootPath }: { configRootPath: string }) {
     copySync(resolve(__dirname, '../config/.husky'), huskyCfgTarget);
   }
   exec(`${require.resolve('husky/lib/bin')} install config/.husky`);
+}
+
+export async function execGitHooks(options: { type: string; cwd: string }) {
+  const { type, cwd } = options;
+
+  switch (type) {
+    case 'pre-commit':
+      info('Start checking staged files...');
+
+      await exec(`${require.resolve('lint-staged/bin')} --cwd ${cwd}`, {
+        onError: () => process.exit(1),
+      });
+      info('Checking staged files done.');
+      break;
+    case 'commit-msg':
+      info('Start checking commit message...');
+      await exec(
+        `${require.resolve('@commitlint/cli/cli')} --from HEAD~1 --to HEAD --edit $1`,
+        {
+          onError: () => process.exit(1),
+        }
+      );
+      info('Checking commit message done.');
+      break;
+    default:
+      console.log('unknown execGitHooks type');
+      process.exit(1);
+  }
 }

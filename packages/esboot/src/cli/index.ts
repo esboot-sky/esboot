@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { program } from 'commander';
-import { lint } from '@dz-web/esboot-lint';
+import { lint, execGitHooks } from '@dz-web/esboot-lint';
 
 import cfg from '@/cfg';
 
@@ -67,6 +67,14 @@ export const run = () => {
     .allowUnknownOption(true)
     .action(async () => {
       lint({ cwd: cfg.config.cwd });
+    });
+
+  program
+    .command('exec_git_hooks')
+    .description('Execute git hooks')
+    .option('-t, --type <type>', 'type of git hooks')
+    .action(async (options) => {
+      execGitHooks({ type: options.type, cwd: cfg.config.cwd });
     });
 
   program.version(pkg.version);
