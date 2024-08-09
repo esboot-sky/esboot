@@ -378,6 +378,9 @@ importers:
       style-loader:
         specifier: ^4.0.0
         version: 4.0.0(webpack@5.93.0(esbuild@0.23.0))
+      tailwindcss:
+        specifier: ^3.4.9
+        version: 3.4.9(ts-node@10.9.2(@types/node@20.14.13)(typescript@5.5.4))
       terser-webpack-plugin:
         specifier: ^5.3.10
         version: 5.3.10(esbuild@0.23.0)(webpack@5.93.0(esbuild@0.23.0))
@@ -533,9 +536,6 @@ importers:
       eslint-plugin-react-hooks:
         specifier: ^4.6.2
         version: 4.6.2(eslint@8.57.0)
-      execa:
-        specifier: ^9.3.0
-        version: 9.3.0
       husky:
         specifier: ^8.0.3
         version: 8.0.3
@@ -545,6 +545,9 @@ importers:
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
+      prettier-plugin-tailwindcss:
+        specifier: ^0.6.5
+        version: 0.6.5(prettier@3.3.3)
       stylelint:
         specifier: 15.11.0
         version: 15.11.0(typescript@5.5.4)
@@ -12379,6 +12382,61 @@ packages:
       prettier-plugin-svelte:
         optional: true
 
+  prettier-plugin-tailwindcss@0.6.5:
+    resolution:
+      {
+        integrity: sha512-axfeOArc/RiGHjOIy9HytehlC0ZLeMaqY09mm8YCkMzznKiDkwFzOpBvtuhuv3xG5qB73+Mj7OCe2j/L1ryfuQ==,
+      }
+    engines: { node: ">=14.21.3" }
+    peerDependencies:
+      "@ianvs/prettier-plugin-sort-imports": "*"
+      "@prettier/plugin-pug": "*"
+      "@shopify/prettier-plugin-liquid": "*"
+      "@trivago/prettier-plugin-sort-imports": "*"
+      "@zackad/prettier-plugin-twig-melody": "*"
+      prettier: ^3.0
+      prettier-plugin-astro: "*"
+      prettier-plugin-css-order: "*"
+      prettier-plugin-import-sort: "*"
+      prettier-plugin-jsdoc: "*"
+      prettier-plugin-marko: "*"
+      prettier-plugin-organize-attributes: "*"
+      prettier-plugin-organize-imports: "*"
+      prettier-plugin-sort-imports: "*"
+      prettier-plugin-style-order: "*"
+      prettier-plugin-svelte: "*"
+    peerDependenciesMeta:
+      "@ianvs/prettier-plugin-sort-imports":
+        optional: true
+      "@prettier/plugin-pug":
+        optional: true
+      "@shopify/prettier-plugin-liquid":
+        optional: true
+      "@trivago/prettier-plugin-sort-imports":
+        optional: true
+      "@zackad/prettier-plugin-twig-melody":
+        optional: true
+      prettier-plugin-astro:
+        optional: true
+      prettier-plugin-css-order:
+        optional: true
+      prettier-plugin-import-sort:
+        optional: true
+      prettier-plugin-jsdoc:
+        optional: true
+      prettier-plugin-marko:
+        optional: true
+      prettier-plugin-organize-attributes:
+        optional: true
+      prettier-plugin-organize-imports:
+        optional: true
+      prettier-plugin-sort-imports:
+        optional: true
+      prettier-plugin-style-order:
+        optional: true
+      prettier-plugin-svelte:
+        optional: true
+
   prettier@3.3.3:
     resolution:
       {
@@ -14383,10 +14441,10 @@ packages:
       }
     engines: { node: ">=10.0.0" }
 
-  tailwindcss@3.4.7:
+  tailwindcss@3.4.9:
     resolution:
       {
-        integrity: sha512-rxWZbe87YJb4OcSopb7up2Ba4U82BoiSGUdoDr3Ydrg9ckxFS/YWsvhN323GMcddgU65QRy7JndC7ahhInhvlQ==,
+        integrity: sha512-1SEOvRr6sSdV5IDf9iC+NU4dhwdqzF4zKKq3sAbasUWHEM6lsMhX+eNN5gkPx1BvLFEnZQEUFbXnGj8Qlp83Pg==,
       }
     engines: { node: ">=14.0.0" }
     hasBin: true
@@ -17066,7 +17124,7 @@ snapshots:
     dependencies:
       "@dz-web/esboot": link:packages/esboot
       prettier-plugin-tailwindcss: 0.5.14(prettier@3.3.3)
-      tailwindcss: 3.4.7(ts-node@10.9.2(@types/node@20.14.13)(typescript@5.5.4))
+      tailwindcss: 3.4.9(ts-node@10.9.2(@types/node@20.14.13)(typescript@5.5.4))
     transitivePeerDependencies:
       - "@ianvs/prettier-plugin-sort-imports"
       - "@prettier/plugin-pug"
@@ -23721,6 +23779,10 @@ snapshots:
     dependencies:
       prettier: 3.3.3
 
+  prettier-plugin-tailwindcss@0.6.5(prettier@3.3.3):
+    dependencies:
+      prettier: 3.3.3
+
   prettier@3.3.3: {}
 
   pretty-error@4.0.0:
@@ -25128,7 +25190,7 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
 
-  tailwindcss@3.4.7(ts-node@10.9.2(@types/node@20.14.13)(typescript@5.5.4)):
+  tailwindcss@3.4.9(ts-node@10.9.2(@types/node@20.14.13)(typescript@5.5.4)):
     dependencies:
       "@alloc/quick-lru": 5.2.0
       arg: 5.0.2
