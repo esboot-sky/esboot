@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { exec } from '@dz-web/esboot-common/execa';
-import { info } from '@dz-web/esboot-common/helpers';
+import { info, error } from '@dz-web/esboot-common/helpers';
 import {
   copySync,
   existsSync,
@@ -24,7 +24,11 @@ export function huskySetup({ configRootPath }: { configRootPath: string }) {
     ensureDirSync(huskyCfgTarget);
     copySync(resolve(__dirname, '../config/.husky'), huskyCfgTarget);
   }
-  exec(`${require.resolve('husky/lib/bin')} install config/.husky`);
+  exec(`${require.resolve('husky/lib/bin')} install config/.husky`, {
+    onError: (err) => {
+      error(err.message);
+    },
+  });
 }
 
 export async function execGitHooks(options: { type: string; cwd: string }) {
@@ -50,7 +54,7 @@ export async function execGitHooks(options: { type: string; cwd: string }) {
       info('Checking commit message done.');
       break;
     default:
-      console.log('unknown execGitHooks type');
+      info('unknown execGitHooks type');
       process.exit(1);
   }
 }
