@@ -12,7 +12,6 @@
     "build:ci": "yarn run test && esboot build",
     "test": "esboot vitest",
     "bridge-mock": "esboot mock:bridge",
-    "postinstall": "esboot prepare",
     "create-page": "esboot-react-mp-tools create-page"
   },
   "author": "donghs <donghs@dztec.net>",

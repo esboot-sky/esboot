@@ -8,8 +8,7 @@
   "scripts": {
     "dev": "esboot dev",
     "build": "esboot build",
-    "esboot": "esboot",
-    "prepare": "husky"
+    "esboot": "esboot"
   },
   "author": "Roc",
   "license": "ISC",

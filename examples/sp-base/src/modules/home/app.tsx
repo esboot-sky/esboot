@@ -10,6 +10,7 @@ function Test() {
   return (
     <div className="page">
       <div styleName="text">module css</div>
+      <div className="bg-blue-500 p-4 text-white">Hello, Tailwind!</div>
       <Button onClick={() => navigate('/test')}>To Test</Button>
       <Outlet />
     </div>

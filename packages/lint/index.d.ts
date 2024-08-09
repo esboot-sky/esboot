@@ -13,9 +13,9 @@ declare module '@dz-web/esboot-lint/commitlint' {
   export default commitlintCfg;
 }
 
-declare module "@dz-web/esboot-lint/prettier.json" {
-  const value: any;
-  export default value;
+declare module "@dz-web/esboot-lint/prettier" {
+  const prettierCfg: Record<string, any>;
+  export default prettierCfg;
 }
 
 declare module "@dz-web/esboot-lint/tsconfig.json" {

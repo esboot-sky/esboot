@@ -21,6 +21,16 @@ interface ParseScssModuleOpts {
   modules?: boolean;
 }
 
+
+const defaultOpts = {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+
+
 export const addStyleRules: AddFunc = async function (cfg, webpackCfg) {
   const {
     isDev,
@@ -91,6 +101,7 @@ export const addStyleRules: AddFunc = async function (cfg, webpackCfg) {
           sourceMap: isSourceMap,
           postcssOptions: {
             plugins: [
+              require('tailwindcss')(defaultOpts),
               enablePxToRemByCompatibility &&
                 pxtorem({
                   rootValue: 200,

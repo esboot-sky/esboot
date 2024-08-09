@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 export PATH=./node_modules/.bin:$PATH
-esboot exec commitlint --from HEAD~1 --to HEAD --edit $1
+esboot exec_git_hooks --type pre-commit
