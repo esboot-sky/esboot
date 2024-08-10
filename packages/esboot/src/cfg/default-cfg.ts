@@ -28,6 +28,7 @@ export const defaultCfg: Configuration = {
   isMobile: false,
   isBrowser: true,
   minimize: true,
+  useTailwindcss: true,
   server: {
     open: false,
     port: DEFAULT_DEV_PORT,

@@ -1,16 +1,15 @@
 import { defineConfig, type Configuration } from '@dz-web/esboot';
-import { BundlerVite } from '@dz-web/esboot-bundler-vite';
-import { BundlerWebpack } from '@dz-web/esboot-bundler-webpack';
-import type { BundlerWebpackOptions } from "@dz-web/esboot-bundler-webpack";
+import { BundlerVite, type BundlerViteOptions  } from '@dz-web/esboot-bundler-vite';
+// import { BundlerWebpack, type BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
 
-export default defineConfig<BundlerWebpackOptions>({
-  // bundler: BundlerVite,
+export default defineConfig<BundlerViteOptions>({
+  bundler: BundlerVite,
   isSP: true,
-  bundler: BundlerWebpack,
-  bundlerOptions: { mfsu: false },
+  // bundler: BundlerWebpack,
+  bundlerOptions: {  },
   sourceMap: false,
   alias: {
-    '@@': 'src'
+    '@@': 'src',
   },
   // analyze: true,
   // extraBabelIncludes: [

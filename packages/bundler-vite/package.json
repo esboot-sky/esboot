@@ -12,12 +12,12 @@
   ],
   "scripts": {
     "build": "tsup --minify --dts --format esm,cjs",
-    "dev": "tsup --watch --dts --format cjs,esm --onSuccess 'tsc --emitDeclarationOnly --declaration'",
+    "dev": "tsup --watch --dts --format cjs --onSuccess 'tsc --emitDeclarationOnly --declaration'",
     "prepublishOnly": "npm run build"
   },
   "tsup": {
     "entry": [
-      "src"
+      "src/index.mts"
     ],
     "sourceMap": true,
     "clean": false
@@ -26,6 +26,7 @@
     "@dz-web/esboot-bundler-common": "workspace:*",
     "@dz-web/esboot-common": "workspace:*",
     "@vitejs/plugin-react": "^4.2.1",
+    "react-inline-css-module": "^1.1.0",
     "vite": "^5.3.3",
     "vite-plugin-html": "^3.2.2"
   },

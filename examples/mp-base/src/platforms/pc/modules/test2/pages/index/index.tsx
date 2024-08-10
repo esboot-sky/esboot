@@ -15,7 +15,7 @@ const Index = genericMemo(function Index() {
       >
         go to detail
       </Link>
-      <div styleName="w375">
+      <div styleName="w375" className="text-bold text-red-500">
         375 width in 750 design
       </div>
     </div>

@@ -7,6 +7,7 @@ const pxtorem = require('@alitajs/postcss-plugin-px2rem');
 const {
   getLocalIdent,
 } = require('@dz-web/babel-plugin-react-css-modules/utils');
+import { addTailwindCSS } from '@dz-web/esboot-bundler-common';
 
 import type { AddFunc } from '@/cfg/types';
 
@@ -20,16 +21,6 @@ import {
 interface ParseScssModuleOpts {
   modules?: boolean;
 }
-
-
-const defaultOpts = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-};
-
 
 export const addStyleRules: AddFunc = async function (cfg, webpackCfg) {
   const {
@@ -64,6 +55,7 @@ export const addStyleRules: AddFunc = async function (cfg, webpackCfg) {
     sourceMap: isSourceMap,
     ...getCssLoaderOptions(),
   };
+  const tailwindCSS = addTailwindCSS(cfg);
 
   const parseScssModule = (options: ParseScssModuleOpts) => {
     const { modules = false } = options;
@@ -101,7 +93,7 @@ export const addStyleRules: AddFunc = async function (cfg, webpackCfg) {
           sourceMap: isSourceMap,
           postcssOptions: {
             plugins: [
-              require('tailwindcss')(defaultOpts),
+              tailwindCSS,
               enablePxToRemByCompatibility &&
                 pxtorem({
                   rootValue: 200,

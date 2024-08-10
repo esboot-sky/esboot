@@ -3,6 +3,7 @@ import {
   PLATFORMS,
   PAGE_TYPE,
 } from '@dz-web/esboot-common/constants';
+import { type Config as tailwindCSSCofig } from 'tailwindcss';
 
 import { Bundler } from '../bundler';
 import type { BaseBundlerOptions } from '../bundler/types';
@@ -64,6 +65,8 @@ export interface UserOptions<BundlerOptions = unknown> {
     port?: number;
     proxy?: Proxy[];
   };
+  useTailwindcss?: boolean;
+  tailwindcssOptions?: (defaultCfg: tailwindCSSCofig) => tailwindCSSCofig;
 }
 
 export interface ConfigurationForMP {
@@ -81,6 +84,7 @@ type PreserveAttr =
   | 'jsMinifier'
   | 'jsMinifierOptions'
   | 'cssMinifierOptions'
+  | 'tailwindcssOptions'
   | 'cssMinifier';
 export interface Configuration<BundlerOptions = unknown>
   extends Required<Omit<UserOptions<BundlerOptions>, PreserveAttr>>,

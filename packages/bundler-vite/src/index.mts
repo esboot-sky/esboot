@@ -1,6 +1,6 @@
 import { createServer } from 'vite';
 import { Bundler } from '@dz-web/esboot';
-
+import { error } from '@dz-web/esboot-common/helpers';
 import { BaseBundlerOptions, ConfigurationInstance } from '@dz-web/esboot';
 
 import { getDevServer } from './cfg/get-dev-server.mts';
@@ -23,6 +23,8 @@ export class BundlerVite implements Bundler {
   }
 
   build() {
-    console.log(1, '<-- build');
+    error('Not implemented yet, use webpack bundler instead.');
   }
 }
+
+export type { BundlerViteOptions } from './types.mts';
