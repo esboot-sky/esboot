@@ -6,8 +6,6 @@ import { addTailwindCSS } from '@dz-web/esboot-bundler-common';
 import { addEntry } from './partials/add-entry.mts';
 import { addStyle } from './partials/add-style/index.mts';
 
-import reactStyleName from '../plugins/react-style-name/index.mts';
-
 import type { InlineConfig } from 'vite';
 import type { ConfigurationInstance } from '@dz-web/esboot';
 
@@ -16,10 +14,8 @@ export const getDevServer = async (
 ): Promise<InlineConfig> => {
   const { cwd } = cfg.config;
 
-  console.log(reactStyleName, 'reactStyleName');
-  
   const viteCfg: InlineConfig = {
-    plugins: [reactStyleName(), react()],
+    plugins: [react()],
     mode: Environment.dev,
     configFile: false,
     publicDir: 'config',
@@ -31,6 +27,11 @@ export const getDevServer = async (
       },
     },
     css: {
+      preprocessorOptions: {
+        scss: {
+          modules: true,
+        },
+      },
       postcss: {
         plugins: [addTailwindCSS(cfg)].filter(Boolean),
       },

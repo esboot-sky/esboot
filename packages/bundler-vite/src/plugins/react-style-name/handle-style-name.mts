@@ -1,4 +1,5 @@
-import * as fs from 'fs';
+import { resolve } from 'path';
+import { readFileSync } from 'fs';
 
 /**
  * 找出代码中引入的样式文件
@@ -9,18 +10,46 @@ interface StyleImport {
   variable?: string; // 引入模块时指定的变量名
   filepath: string; // 引入的文件路径
 }
-export function findStyleImports(source: string): StyleImport[] {
-  const pattern =
-    /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.(?:css|scss))(?:'|");?/g;
-  return [...source.matchAll(pattern)].map(
-    ([statement, prefixStatement, variable, filepath]) => ({
-      statement,
-      prefixStatement,
-      variable,
-      filepath,
-    })
-  );
-}
+const importPattern =
+  /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.(?:css|scss)(?:\?[^'"]*?)?)(?:'|");?/g;
+
+export const findStyleImports = function (source: string): {
+  imports: StyleImport[];
+  updatedSource: string;
+} {
+  let updatedSource = source;
+  const imports: StyleImport[] = [];
+
+  const matches = source.matchAll(importPattern);
+
+  for (const match of matches) {
+    const [statement, prefixStatement, variable, importPath] = match;
+
+    console.log(importPath, 'importPath');
+    
+    if (!importPath.includes('styles/')) {
+      let newImportPath = importPath;
+      // if (!importPath.includes('?module')) {
+      //   newImportPath = importPath.includes('?')
+      //     ? importPath.replace('?', '?module&')
+      //     : `${importPath}?module`;
+      // }
+
+      const newStatement = statement.replace(importPath, newImportPath);
+      updatedSource = updatedSource.replace(statement, newStatement);
+
+      imports.push({
+        statement: newStatement,
+        prefixStatement,
+        variable,
+        filepath: newImportPath,
+      });
+    }
+  }
+
+  const result = { imports, updatedSource };
+  return result;
+};
 
 /**
  * 给没指定变量名的样式引入补充上变量名
@@ -63,14 +92,18 @@ let transformerSource: string | null = null;
 export function importStyleNameTransformer(source: string, inline = false) {
   if (inline) {
     if (!transformerSource) {
-      const bareSource = fs.readFileSync(
-        require.resolve('react-inline-css-module/dist/TransformStyleNameCreateElement')
+      const bareSource = readFileSync(
+        resolve(
+          __dirname,
+          'plugins/react-style-name/transformStyleNameCreateElement.mjs'
+        )
       );
-      transformerSource = `var TransformStyleNameCreateElement = (function() {
-        var exports = {};
-        ${bareSource};
-        return exports.default;
-      })();`;
+      // transformerSource = `var TransformStyleNameCreateElement = (function() {
+      //   var exports = {};
+      //   ${bareSource};
+      //   return exports.default;
+      // })();`;
+      return bareSource + '\n' + source;
     }
     return transformerSource + '\n' + source;
   } else {

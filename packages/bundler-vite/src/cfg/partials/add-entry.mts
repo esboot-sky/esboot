@@ -23,11 +23,11 @@ export const addEntry: AddFunc = async function (cfg, viteCfg) {
   });
 
   // viteCfg.appType = 'mpa';
-  viteCfg.plugins?.push(
+  viteCfg.plugins!.push(
     createHtmlPlugin({
       minify: true,
       // FIXME: SUPPORT MPA
-      ...pages[0]
+      ...pages[0],
       // pages,
     })
   );

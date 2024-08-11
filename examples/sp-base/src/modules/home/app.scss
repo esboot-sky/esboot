@@ -1,8 +1,13 @@
-.page {
+:global(.page) {
   color: red;
 }
 
 .text {
   color: blue;
+  font-size: 30px;
+}
+
+.text2 {
+  color: green;
   font-size: 30px;
 }

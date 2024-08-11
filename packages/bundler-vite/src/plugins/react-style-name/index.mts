@@ -1,6 +1,5 @@
-// Source https://github.com/anjianshi/react-inline-css-module/tree/master?tab=readme-ov-file
-// Thanks for anjianshi
-//
+import path from 'path';
+import { createFilter } from '@rollup/pluginutils';
 
 import {
   findStyleImports,
@@ -17,6 +16,7 @@ function matchId(id: string) {
   return id.endsWith('tsx');
 }
 
+const filterStyleFiles = createFilter(['**/*.scss'], ['src/styles/**/*.scss']);
 const KEEP_STATEMENT = `console.log(TransformStyleNameCreateElement)`; // 用来保证前一个插件引入的 TransformStyleNameCreateElement() 不会因依赖分析被移除
 
 export default function reactStyleNamePlugin(options: Options = {}) {
@@ -25,12 +25,30 @@ export default function reactStyleNamePlugin(options: Options = {}) {
   return [
     {
       name: 'react-styleName-import',
-      enforce: 'pre',
+      enforce: 'pre' as const,
+      resolveId(source: string, importer: string) {
+        if (source.endsWith('.scss')) {
+          const resolvedPath = path.resolve(path.dirname(importer), source);
+          if (filterStyleFiles(resolvedPath)) {
+            // console.log(
+            //   source,
+            //   filterStyleFiles,
+            //   importer,
+            //   resolvedPath,
+            //   'source'
+            // );
+            // return resolvedPath.replace(/\.scss$/, '.module.scss');
+            return resolvedPath + '?module';
+          }
+        }
+      },
       transform(source: string, id: string) {
-        if (matchId(id) && findStyleImports(source).length) {
+        const { imports, updatedSource } = findStyleImports(source);
+
+        if (matchId(id) && imports.length) {
           return {
             code:
-              importStyleNameTransformer(source, true) +
+              importStyleNameTransformer(updatedSource, true) +
               '\n;\n' +
               KEEP_STATEMENT +
               ';\n',
@@ -41,15 +59,16 @@ export default function reactStyleNamePlugin(options: Options = {}) {
     },
     {
       name: 'react-styleName-transform',
-      enforce: 'post',
+      enforce: 'post' as const,
       transform(source: string, id: string) {
         if (matchId(id)) {
-          const imports = findStyleImports(source);
+          const { imports } = findStyleImports(source);
+
           if (imports.length) {
             const formatted = formatVariableForStyleImports(source, imports);
-            console.log(formatted, 'formatted');
-            
+
             const classVariables = formatted.variables;
+
             source = formatted.source;
 
             source = applyStyleNameTransformer(
@@ -57,6 +76,7 @@ export default function reactStyleNamePlugin(options: Options = {}) {
               classVariables,
               reactVariableName
             );
+
             source = source.replace(KEEP_STATEMENT, '');
 
             return {
