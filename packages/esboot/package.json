@@ -19,8 +19,8 @@
     "bin"
   ],
   "scripts": {
-    "build": "tsup --minify --dts --format esm,cjs",
-    "dev": "tsup --watch --dts --format cjs --onSuccess 'tsc --emitDeclarationOnly --declaration'",
+    "build": "tsup",
+    "dev": "NODE_ENV=development tsup",
     "prepublishOnly": "npm run build",
     "test": "vitest"
   },
@@ -38,13 +38,5 @@
   "devDependencies": {
     "tailwindcss": "^3.4.9",
     "tsup": "^8.0.2"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts",
-      "src/cli/index.ts"
-    ],
-    "sourceMap": true,
-    "clean": false
   }
 }

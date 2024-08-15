@@ -20,6 +20,9 @@ importers:
       prettier:
         specifier: latest
         version: 3.3.3
+      tsup:
+        specifier: ^8.2.4
+        version: 8.2.4(jiti@1.21.6)(postcss@8.4.41)(typescript@5.5.4)(yaml@2.5.0)
       turbo:
         specifier: ^2.0.11
         version: 2.0.12
