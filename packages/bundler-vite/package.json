@@ -11,17 +11,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup --minify --dts --format esm,cjs",
-    "dev": "tsup --watch --dts --format cjs,esm --onSuccess 'tsc --emitDeclarationOnly --declaration'",
-    "prepublishOnly": "npm run build"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.mts",
-      "src/plugins/react-style-name/transformStyleNameCreateElement.ts"
-    ],
-    "sourceMap": true,
-    "clean": false
+    "build": "tsup",
+    "dev": "NODE_ENV=development tsup",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@dz-web/esboot-bundler-common": "workspace:*",
@@ -33,8 +25,7 @@
     "vite-plugin-html": "^3.2.2"
   },
   "devDependencies": {
-    "@dz-web/esboot": "workspace:*",
-    "tsup": "^8.0.2"
+    "@dz-web/esboot": "workspace:*"
   },
   "peerDependencies": {
     "@dz-web/esboot": "workspace:*"

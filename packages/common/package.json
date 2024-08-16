@@ -9,9 +9,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup --minify --dts --format esm,cjs",
-    "dev": "tsup --dts --watch --format esm,cjs --onSuccess 'tsc --emitDeclarationOnly --declaration'",
-    "prepublishOnly": "npm run build",
+    "build": "tsup",
+    "dev": "NODE_ENV=development tsup",
+    "prepublishOnly": "pnpm run build",
     "test": "vitest"
   },
   "exports": {
@@ -60,8 +60,7 @@
     "@types/cross-spawn": "^6.0.6",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.6",
-    "@types/lodash-es": "^4.17.12",
-    "tsup": "^8.0.2"
+    "@types/lodash-es": "^4.17.12"
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
@@ -69,18 +68,6 @@
     "fs-extra": "^11.2.0",
     "kleur": "^4.1.5",
     "lodash": "^4.17.21"
-  },
-  "tsup": {
-    "entry": [
-      "src/constants/index.ts",
-      "src/helpers/index.ts",
-      "src/utils/index.ts",
-      "src/lodash/index.ts",
-      "src/fs-extra/index.ts",
-      "src/kleur/index.ts",
-      "src/execa/index.ts"
-    ],
-    "clean": false
   },
   "keywords": [],
   "author": "",

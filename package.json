@@ -3,14 +3,15 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "pnpm run dev:base --filter @dz-web/esboot-bundler-webpack",
-    "dev:all": "turbo run dev --parallel",
+    "dev": "turbo run dev --parallel",
     "dev:base": "turbo run dev --filter @dz-web/esboot-common --filter @dz-web/esboot-lint --filter @dz-web/esboot --filter @dz-web/esboot-bundler-common",
+    "dev:webpack": "pnpm run dev:base --filter @dz-web/esboot-bundler-webpack",
     "dev:vite": "pnpm run dev:base --filter @dz-web/esboot-bundler-vite",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "pub": "lerna publish --force-publish=*",
-    "test": "vitest"
+    "test": "vitest",
+    "clear": "pnpm -r exec -- rm -rf node_modules && rm -rf node_modules && rm pnpm-lock.yaml"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",

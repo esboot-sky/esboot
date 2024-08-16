@@ -6,7 +6,7 @@ interface Config {
   prod?: Options;
 }
 
-export const defineConfig = (config: Config): Options => {
+export const defineConfig = (config: Config = {}): Options => {
   const { base, dev, prod } = config;
 
   const baseConfig: Options = {

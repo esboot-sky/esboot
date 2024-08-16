@@ -14,16 +14,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup --minify --dts --format esm,cjs",
-    "dev": "tsup --watch --dts --format cjs --onSuccess 'tsc --emitDeclarationOnly --declaration'",
-    "prepublishOnly": "npm run build"
-  },
-  "tsup": {
-    "entry": [
-      "src"
-    ],
-    "sourceMap": true,
-    "clean": false
+    "build": "tsup",
+    "dev": "NODE_ENV=development tsup",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@dz-web/esboot-common": "workspace:*",
@@ -32,8 +25,7 @@
     "tailwindcss": "^3.4.9"
   },
   "devDependencies": {
-    "@dz-web/esboot": "workspace:*",
-    "tsup": "^8.0.2"
+    "@dz-web/esboot": "workspace:*"
   },
   "peerDependencies": {
     "@dz-web/esboot": "workspace:*"
