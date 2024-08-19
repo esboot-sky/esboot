@@ -14,5 +14,5 @@ export const addOnlyDev: AddFunc = async function (cfg, webpackCfg) {
     },
   });
 
-  webpackCfg.plugins.push(new ReactRefreshWebpackPlugin());
+  webpackCfg.plugins.push(new ReactRefreshWebpackPlugin({ overlay: false }));
 };
