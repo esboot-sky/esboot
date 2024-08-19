@@ -26,6 +26,7 @@ export const addDevServer: AddFunc<{ mfsu: MFSU }> = async function (
     client: {
       progress: false,
       logging: 'error',
+      overlay: false,
     },
     historyApiFallback: {
       disableDotRule: true,
