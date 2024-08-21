@@ -1,5 +1,12 @@
+import B from './b';
+
 function Home() {
-  return <div>Test</div>;
+  return (
+    <div>
+      <B></B>
+      Test
+    </div>
+  );
 }
 
 export default Home;

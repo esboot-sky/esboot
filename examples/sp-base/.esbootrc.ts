@@ -1,10 +1,9 @@
 import { defineConfig, type Configuration } from '@dz-web/esboot';
-import { BundlerVite, type BundlerViteOptions as BundlerOptions  } from '@dz-web/esboot-bundler-vite';
-// import { BundlerWebpack, type BundlerWebpackOptions as BundlerOptions } from '@dz-web/esboot-bundler-webpack';
+// import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions  } from '@dz-web/esboot-bundler-vite';
+import { BundlerWebpack as Bundler, type BundlerWebpackOptions as BundlerOptions } from '@dz-web/esboot-bundler-webpack';
 
 export default defineConfig<BundlerOptions>({
-  bundler: BundlerVite,
-  // bundler: BundlerWebpack,
+  bundler: Bundler,
   isSP: true,
   bundlerOptions: {  },
   sourceMap: false,
