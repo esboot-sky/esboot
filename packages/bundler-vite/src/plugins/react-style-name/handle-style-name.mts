@@ -26,7 +26,7 @@ export const findStyleImports = function (source: string): {
     const [statement, prefixStatement, variable, importPath] = match;
 
     console.log(importPath, 'importPath');
-    
+
     if (!importPath.includes('styles/')) {
       let newImportPath = importPath;
       // if (!importPath.includes('?module')) {

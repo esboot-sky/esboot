@@ -30,14 +30,6 @@ export default function reactStyleNamePlugin(options: Options = {}) {
         if (source.endsWith('.scss')) {
           const resolvedPath = path.resolve(path.dirname(importer), source);
           if (filterStyleFiles(resolvedPath)) {
-            // console.log(
-            //   source,
-            //   filterStyleFiles,
-            //   importer,
-            //   resolvedPath,
-            //   'source'
-            // );
-            // return resolvedPath.replace(/\.scss$/, '.module.scss');
             return resolvedPath + '?module';
           }
         }

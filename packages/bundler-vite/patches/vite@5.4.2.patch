@@ -1,0 +1,14 @@
+diff --git a/dist/node/chunks/dep-BzOvws4Y.js b/dist/node/chunks/dep-BzOvws4Y.js
+index 184597a2d7b1acc23556e16264e6677457023e81..c325a58d8a357cac57430058a7ffc18e556f3873 100644
+--- a/dist/node/chunks/dep-BzOvws4Y.js
++++ b/dist/node/chunks/dep-BzOvws4Y.js
+@@ -36016,7 +36016,8 @@ function resolveCSSOptions(options) {
+   }
+   return { ...options, lightningcss: void 0 };
+ }
+-const cssModuleRE = new RegExp(`\\.module${CSS_LANGS_RE.source}`);
++// const cssModuleRE = new RegExp(`\\.module${CSS_LANGS_RE.source}`);
++const cssModuleRE = new RegExp('\\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)\\?module(?:&.*)?$');
+ const directRequestRE = /[?&]direct\b/;
+ const htmlProxyRE = /[?&]html-proxy\b/;
+ const htmlProxyIndexRE = /&index=(\d+)/;
