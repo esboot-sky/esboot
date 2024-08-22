@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-lint",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.5",
   "description": "",
   "keywords": [],
   "license": "ISC",
@@ -46,34 +46,34 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "default": "./dist/index.js"
     },
     "./eslint": {
+      "types": "./index.d.ts",
       "import": "./config/eslint.js",
-      "default": "./config/eslint.js",
-      "types": "./index.d.ts"
+      "default": "./config/eslint.js"
     },
     "./stylelint": {
+      "types": "./index.d.ts",
       "import": "./config/stylelint.js",
-      "default": "./config/stylelint.js",
-      "types": "./index.d.ts"
+      "default": "./config/stylelint.js"
     },
     "./commitlint": {
+      "types": "./index.d.ts",
       "import": "./config/commitlint.js",
-      "default": "./config/commitlint.js",
-      "types": "./index.d.ts"
+      "default": "./config/commitlint.js"
     },
     "./tsconfig.json": {
+      "types": "./index.d.ts",
       "import": "./config/tsconfig.json",
-      "default": "./config/tsconfig.json",
-      "types": "./index.d.ts"
+      "default": "./config/tsconfig.json"
     },
     "./prettier": {
+      "types": "./index.d.ts",
       "import": "./config/prettier.js",
-      "default": "./config/prettier.js",
-      "types": "./index.d.ts"
+      "default": "./config/prettier.js"
     }
   }
 }

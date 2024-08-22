@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-common",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,44 +16,44 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/constants/index.d.ts",
       "import": "./dist/constants/index.mjs",
-      "default": "./dist/constants/index.js",
-      "types": "./dist/constants/index.d.ts"
+      "default": "./dist/constants/index.js"
     },
     "./constants": {
+      "types": "./dist/constants/index.d.ts",
       "import": "./dist/constants/index.mjs",
-      "default": "./dist/constants/index.js",
-      "types": "./dist/constants/index.d.ts"
+      "default": "./dist/constants/index.js"
     },
     "./utils": {
+      "types": "./dist/utils/index.d.ts",
       "import": "./dist/utils/index.mjs",
-      "default": "./dist/utils/index.js",
-      "types": "./dist/utils/index.d.ts"
+      "default": "./dist/utils/index.js"
     },
     "./helpers": {
+      "types": "./dist/helpers/index.d.ts",
       "import": "./dist/helpers/index.mjs",
-      "default": "./dist/helpers/index.js",
-      "types": "./dist/helpers/index.d.ts"
+      "default": "./dist/helpers/index.js"
     },
     "./lodash": {
+      "types": "./dist/lodash/index.d.ts",
       "import": "./dist/lodash/index.mjs",
-      "default": "./dist/lodash/index.js",
-      "types": "./dist/lodash/index.d.ts"
+      "default": "./dist/lodash/index.js"
     },
     "./fs-extra": {
+      "types": "./dist/fs-extra/index.d.ts",
       "import": "./dist/fs-extra/index.mjs",
-      "default": "./dist/fs-extra/index.js",
-      "types": "./dist/fs-extra/index.d.ts"
+      "default": "./dist/fs-extra/index.js"
     },
     "./kleur": {
+      "types": "./dist/kleur/index.d.ts",
       "import": "./dist/kleur/index.mjs",
-      "default": "./dist/kleur/index.js",
-      "types": "./dist/kleur/index.d.ts"
+      "default": "./dist/kleur/index.js"
     },
     "./execa": {
+      "types": "./dist/execa/index.d.ts",
       "import": "./dist/execa/index.mjs",
-      "default": "./dist/execa/index.js",
-      "types": "./dist/execa/index.d.ts"
+      "default": "./dist/execa/index.js"
     }
   },
   "devDependencies": {
