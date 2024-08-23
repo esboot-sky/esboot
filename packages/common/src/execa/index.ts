@@ -1,7 +1,10 @@
 const importExeca = import('execa');
 
 interface ExecOptions {
-  options?: Record<string, any>;
+  options?: {
+    cwd?: string;
+    [key: string]: any;
+  };
   onError?: (error: any) => void;
 }
 

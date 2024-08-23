@@ -10,6 +10,7 @@ import { loadEnv } from './load-env';
 import { prepare } from './prepare/index';
 import { Environment } from '@dz-web/esboot-common';
 import { logBrand } from '@/helpers';
+import { preview } from './preview';
 
 const cwd = process.cwd();
 
@@ -66,7 +67,15 @@ export const run = () => {
     .description('Lint project files using ESLint and Stylelint')
     .allowUnknownOption(true)
     .action(async () => {
-      lint({ cwd: cfg.config.cwd });
+      lint({ cwd });
+    });
+
+  program
+    .command('preview')
+    .description('Preview the distribution content')
+    .allowUnknownOption(true)
+    .action(async () => {
+      preview(cfg.config);
     });
 
   program
@@ -74,7 +83,7 @@ export const run = () => {
     .description('Execute git hooks')
     .option('-t, --type <type>', 'type of git hooks')
     .action(async (options) => {
-      execGitHooks({ type: options.type, cwd: cfg.config.cwd });
+      execGitHooks({ type: options.type, cwd });
     });
 
   program.version(pkg.version);
