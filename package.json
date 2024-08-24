@@ -11,7 +11,7 @@
     "lint": "turbo run lint",
     "pub": "lerna publish --force-publish=*",
     "test": "vitest",
-    "clear": "pnpm -r exec -- rm -rf node_modules && rm -rf node_modules && rm pnpm-lock.yaml"
+    "clean": "pnpm -r exec -- rm -rf node_modules && rm -rf node_modules && rm pnpm-lock.yaml"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",
@@ -30,7 +30,7 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "vite@5.4.2": "patches/vite@5.4.2.patch"
+      "vite@5.4.2": "./packages/bundler-vite/patches/vite@5.4.2.patch"
     }
   }
 }

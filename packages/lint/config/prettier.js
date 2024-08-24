@@ -7,5 +7,11 @@ module.exports = {
   tabWidth: 2,
   trailingComma: 'all',
   endOfLine: 'lf',
-  plugins: [require.resolve('prettier-plugin-tailwindcss')],
+  endingPosition: 'absolute-with-indent',
+  customFunctions: ['clsx', 'cn', 'cva'],
+  plugins: [
+    require.resolve('prettier-plugin-tailwindcss'),
+    require.resolve('prettier-plugin-classnames'),
+    require.resolve('prettier-plugin-merge'),
+  ],
 };

@@ -10,7 +10,11 @@ function Test() {
   return (
     <div className="page">
       <div styleName="text">module css1</div>
-      <div className="bg-blue-500 p-4 text-white">Hello, TailwindCSS!</div>
+      <div
+        className="mb-[20px] flex items-center justify-between bg-blue-500 bg-violet-500 p-4 text-[36px] font-semibold text-white hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 active:bg-violet-700"
+      >
+        Hello, TailwindCSS!
+      </div>
       <Button onClick={() => navigate('/test')}>To Test</Button>
       <div styleName="text2">module2 css323</div>
       <A />
