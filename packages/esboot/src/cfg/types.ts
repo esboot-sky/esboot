@@ -61,6 +61,7 @@ export interface UserOptions<BundlerOptions = unknown> {
   server?: {
     host?: string;
     https?: boolean;
+    http2?: boolean;
     open?: boolean;
     port?: number;
     proxy?: Proxy[];

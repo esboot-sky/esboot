@@ -10,6 +10,9 @@ export default defineConfig<BundlerOptions>({
   alias: {
     '@@': 'src',
   },
+  server: {
+    http2: true,
+  },
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

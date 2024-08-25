@@ -6,6 +6,12 @@ import { ip } from 'address';
 import type { MFSU } from '@/cfg/helpers/mfsu';
 import type { AddFunc } from '@/cfg/types';
 
+const getServerType = (https: boolean, http2: boolean) => {
+  if (http2) return 'spdy';
+  if (https) return 'https';
+  return 'http';
+};
+
 export const addDevServer: AddFunc<{ mfsu: MFSU }> = async function (
   cfg,
   webpackCfg,
@@ -13,12 +19,14 @@ export const addDevServer: AddFunc<{ mfsu: MFSU }> = async function (
 ) {
   const {
     isDev,
-    server: { port, open, host, proxy },
+    server: { port, open, host, proxy, http2, https },
   } = cfg.config;
 
   if (!isDev) return;
 
   const { mfsu } = options!;
+  const isHttps = !!https || !!http2;
+
   const devServer: DevServerConfiguration = {
     compress: true,
     open,
@@ -32,10 +40,13 @@ export const addDevServer: AddFunc<{ mfsu: MFSU }> = async function (
       disableDotRule: true,
     },
     setupMiddlewares(middlewares: any[]) {
-      middlewares.unshift(...(mfsu?.getMiddlewares() ?? []));
+      if (mfsu) {
+        middlewares.unshift(...(mfsu.getMiddlewares() ?? []));
+      }
       return middlewares;
     },
     port,
+    server: getServerType(!!https, !!http2),
     host: host || '0.0.0.0',
     onListening(devServerInstance) {
       if (!devServerInstance) {
@@ -46,7 +57,7 @@ export const addDevServer: AddFunc<{ mfsu: MFSU }> = async function (
       ready(
         `started server on [::]:${port}, url: ${kleur
           .underline()
-          .green(`http://${ip()}:${port}`)} \n`
+          .green(`${isHttps ? 'https' : 'http'}://${ip()}:${port}`)} \n`
       );
     },
   };
