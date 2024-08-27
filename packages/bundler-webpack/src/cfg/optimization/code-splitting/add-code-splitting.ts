@@ -10,7 +10,7 @@ import { granularChunks } from './granular-chunks';
 export const addCodeSplitting: AddFunc = async function (cfg, webpackCfg) {
   const { bundlerOptions } = cfg.config;
   const { codeSplitting } = bundlerOptions as BundlerWebpackOptions;
-  const { jsStrategy, jsStrategyOptions } = codeSplitting || {};
+  const { jsStrategy, jsStrategyOptions = {} } = codeSplitting || {};
 
   let splitChunks = {};
 
@@ -31,6 +31,7 @@ export const addCodeSplitting: AddFunc = async function (cfg, webpackCfg) {
             test: /[\\/]node_modules[\\/]/,
           },
         },
+        ...jsStrategyOptions,
       };
       break;
   }
