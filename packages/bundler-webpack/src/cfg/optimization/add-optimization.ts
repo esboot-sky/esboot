@@ -1,5 +1,6 @@
 import { addJSMinimizer } from './add-js-minimizer';
 import { addCSSMinimizer } from './add-css-minimizer';
+import { addCodeSplitting } from './code-splitting/add-code-splitting';
 
 import type { AddFunc } from '@/cfg/types';
 
@@ -20,4 +21,5 @@ export const addOptimization: AddFunc = async function (cfg, webpackCfg) {
   if (!minimize) return;
   await addJSMinimizer(cfg, webpackCfg);
   await addCSSMinimizer(cfg, webpackCfg);
+  await addCodeSplitting(cfg, webpackCfg);
 };
