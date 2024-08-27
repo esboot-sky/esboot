@@ -1,10 +1,5 @@
-import { ConfigProvider } from 'antd';
 import { Outlet } from 'react-router-dom';
 
-const App = () => (
-  <ConfigProvider>
-    <Outlet />
-  </ConfigProvider>
-);
+const App = () => <Outlet />;
 
 export default App;

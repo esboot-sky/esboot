@@ -11,7 +11,7 @@ export type MFSU = _MFSU | null;
 const mfsuCacheDir = join(cacheDir, './mfsu');
 export const createMFSU = (cfg: ConfigurationInstance): MFSU => {
   const { bundlerOptions, isDev, cwd } = cfg.config;
-  const { mfsu, mfsuOptions } = bundlerOptions as BundlerWebpackOptions;
+  const { mfsu = true, mfsuOptions } = bundlerOptions as BundlerWebpackOptions;
 
   let mfsuInstance: MFSU = null;
   if (isDev && mfsu) {

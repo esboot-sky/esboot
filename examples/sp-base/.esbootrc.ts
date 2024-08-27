@@ -10,12 +10,9 @@ export default defineConfig<BundlerOptions>({
   bundler: Bundler,
   isSP: true,
   bundlerOptions: {
-    // codeSplitting: {
-    //   jsStrategy: CodeSplittingType.granularChunks,
-    //   jsStrategyOptions: {
-    //     frameworkBundles: ['react-dom', 'react'],
-    //   },
-    // },
+    codeSplitting: {
+      jsStrategy: CodeSplittingType.granularChunks,
+    },
   },
   sourceMap: false,
   alias: {

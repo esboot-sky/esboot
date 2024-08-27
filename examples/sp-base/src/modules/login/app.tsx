@@ -1,4 +1,3 @@
-import { Button } from 'antd';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,7 +17,9 @@ function Login() {
       </button>
       登录
       <p>{status ? 'open' : 'close'}</p>
-      <Button onClick={() => navigate('/')}>To Home</Button>
+      <button onClick={() => navigate('/')} type="button">
+        To Home
+      </button>
     </div>
   );
 }

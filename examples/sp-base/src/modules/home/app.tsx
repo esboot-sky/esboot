@@ -1,4 +1,3 @@
-import { Button } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
 
 import A from './a';
@@ -16,7 +15,9 @@ function Test() {
       >
         Hello, TailwindCSS!
       </div>
-      <Button onClick={() => navigate('/test')}>To Test</Button>
+      <button onClick={() => navigate('/test')} type="button">
+        To Test
+      </button>
       <div>module2 css323</div>
       <A />
       <Outlet />

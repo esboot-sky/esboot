@@ -47,7 +47,9 @@ export type BundlerWebpackOptions = {
   customConfig?: CustomConfig;
   codeSplitting?: {
     jsStrategy: CodeSplittingType;
-    jsStrategyOptions: jsStrategyForGranularChunksOptions | Record<string, any>;
+    jsStrategyOptions?:
+      | jsStrategyForGranularChunksOptions
+      | Record<string, any>;
   };
 } & Pick<DevServerConfiguration, 'https' | 'http2' | 'proxy' | 'port'> &
   Pick<CustomWebpackConfiguration, 'externals'>;

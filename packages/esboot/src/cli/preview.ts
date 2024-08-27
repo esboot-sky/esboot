@@ -6,10 +6,9 @@ export const preview = async (config: Configuration) => {
   const {
     cwd,
     outputPath,
-    server: { port },
   } = config;
 
-  exec(`pnpx http-server ${outputPath} -p ${port} -c-1 -g -b`, {
+  exec(`pnpx http-server ${outputPath} -p 9000 -c-1 -g -b`, {
     options: {
       cwd,
     },

@@ -1,10 +1,10 @@
 import loadable from '@loadable/component';
 import { createHashRouter } from 'react-router-dom';
 
-import { listenLoginExpired } from '@/global-events';
-
 import Detail from './pages/detail/detail';
 import Index from './pages/index';
+
+// import { listenLoginExpired } from '@/global-events';
 
 const NotFound = loadable(() => import('./pages/not-found/not-found'));
 
@@ -30,6 +30,6 @@ window.__router__ = router;
 
 export default router;
 
-listenLoginExpired(() => {
-  console.log('spa 登录过期, 退出登录并跳转到登录页');
-});
+// listenLoginExpired(() => {
+//   console.log('spa 登录过期, 退出登录并跳转到登录页');
+// });

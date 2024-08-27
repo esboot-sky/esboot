@@ -37,17 +37,17 @@ export default function (this: any, source: string): string {
   const { rootPath, entry } = options.config as Configuration;
   const module = this._module;
 
-  if (resolve(rootPath, 'lang') === module.context) {
-    try {
-      const chunk = module.resourceResolveData.context.issuer;
-      console.log(module.chunks, '<-- chunk');
-      const { langJsonPicker } = entry[chunk] || {};
+  // if (resolve(rootPath, 'lang') === module.context) {
+  //   try {
+  //     const chunk = module.resourceResolveData.context.issuer;
+  //     console.log(module.chunks, '<-- chunk');
+  //     const { langJsonPicker } = entry[chunk] || {};
 
-      if (langJsonPicker) {
-        jsonData = langPickFn(jsonData, langJsonPicker);
-      }
-    } catch (err) {}
-  }
+  //     if (langJsonPicker) {
+  //       jsonData = langPickFn(jsonData, langJsonPicker);
+  //     }
+  //   } catch (err) {}
+  // }
 
   return `export default ${JSON.stringify(jsonData)}`;
 }

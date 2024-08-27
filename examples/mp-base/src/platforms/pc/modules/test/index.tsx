@@ -7,10 +7,5 @@ import router from './router';
 CacheStore.setItem('test', 'hello world');
 
 export default function RouterApp() {
-  return (
-    <RouterProvider
-      router={router}
-      fallbackElement={<div>*</div>}
-    />
-  );
+  return <RouterProvider router={router} fallbackElement={<div>*</div>} />;
 }
