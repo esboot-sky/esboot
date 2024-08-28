@@ -29,4 +29,6 @@ export const addEntry: AddFunc = async function (cfg, webpackCfg) {
       })
     );
   });
+
+  console.log(webpackCfg.entry, '<-- webpackCfg.entry');
 };

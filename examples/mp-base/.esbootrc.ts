@@ -1,6 +1,6 @@
 import { defineConfig } from '@dz-web/esboot';
 import { BundlerWebpack } from '@dz-web/esboot-bundler-webpack';
-import type { BundlerWebpackOptions } from "@dz-web/esboot-bundler-webpack";
+import type { BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
 
 export default defineConfig<BundlerWebpackOptions>((cfg) => {
   return {
@@ -10,9 +10,12 @@ export default defineConfig<BundlerWebpackOptions>((cfg) => {
     server: {
       port: 8111,
     },
+    minify: false,
+    sourceMap: true,
+    useLangJsonPicker: false,
     define: {
-      'process.env.isMobile': cfg.isMobile as any,
-      'process.env.isBrowser': cfg.isBrowser as any,
+      'process.env.isMobile': String(cfg.isMobile),
+      'process.env.isBrowser': String(cfg.isBrowser),
     },
     // analyze: true,
     // extraBabelIncludes: [

@@ -1,4 +1,5 @@
 import type { AddFunc } from '@/cfg/types';
+import { DEFAULT_ANALYZE_PORT } from '@dz-web/esboot-common';
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -12,7 +13,7 @@ export const addBundleAnalyzerPlugin: AddFunc = async function (
     webpackCfg.plugins.push(
       new BundleAnalyzerPlugin({
         analyzerMode: 'server',
-        analyzerPort: process.env.ANALYZE_PORT || 8888,
+        analyzerPort: process.env.ANALYZE_PORT || DEFAULT_ANALYZE_PORT,
         openAnalyzer: false,
         logLevel: 'info',
         defaultSizes: 'parsed',

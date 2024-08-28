@@ -19,7 +19,11 @@ export const addCache: AddFunc = async function (cfg, webpackCfg) {
     type: 'filesystem',
     cacheDirectory: webpackCacheDir,
     buildDependencies: {
-      config: [USER_CONFIG_FILE, resolve(cwd, './pnpm-lock.yaml')],
+      config: [
+        USER_CONFIG_FILE,
+        resolve(cwd, './pnpm-lock.yaml'),
+        resolve(cwd, './package.json'),
+      ],
     },
   };
 };

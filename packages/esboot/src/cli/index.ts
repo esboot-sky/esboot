@@ -11,6 +11,7 @@ import { prepare } from './prepare/index';
 import { Environment } from '@dz-web/esboot-common';
 import { logBrand } from '@/helpers';
 import { preview } from './preview';
+import { mockBridge } from './mock/bridge';
 
 const cwd = process.cwd();
 
@@ -76,6 +77,15 @@ export const run = () => {
     .allowUnknownOption(true)
     .action(async () => {
       preview(cfg.config);
+    });
+
+  program
+    .command('mock:bridge')
+    .description('Start bridge mock')
+    .option('-f, --file <char>')
+    .option('-s, --sampleFile <char>')
+    .action(async (options) => {
+      mockBridge(options, cfg.config);
     });
 
   program

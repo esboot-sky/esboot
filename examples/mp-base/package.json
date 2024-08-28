@@ -95,7 +95,7 @@
   "prettier": "./node_modules/.cache/esboot/prettier",
   "browserslist": {
     "development": [
-      "Chrome >= 100"
+      "last 1 versions"
     ],
     "pc-native-production": [
       "Chrome >= 67"

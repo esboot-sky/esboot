@@ -5,7 +5,10 @@ export * from './environment';
 export const USER_CONFIG_FILE = resolve(process.cwd(), './.esbootrc.ts');
 
 export const DEFAULT_OUTPUT_PATH = 'dist';
+
 export const DEFAULT_DEV_PORT = 8100;
+export const DEFAULT_ANALYZE_PORT = 8101;
+export const DEFAULT_PREVIEW_PORT = 8102;
 
 export const cacheDir = resolve(process.cwd(), 'node_modules/.cache/esboot');
 export const webpackCacheDir = join(cacheDir, 'webpack-cache');

@@ -36,6 +36,7 @@
     "zod": "^3.23.6"
   },
   "devDependencies": {
+    "@dz-web/bridge-mock": "^1.2.8",
     "tailwindcss": "^3.4.9"
   }
 }
