@@ -76,5 +76,14 @@ export const getWebpackCfg = async (
   addOnlyDev(cfg, webpackCfg);
   customConfig(cfg, webpackCfg);
 
+  if (mfsu && isDev) {
+    await mfsu.setWebpackConfig({
+      config: webpackCfg,
+      depConfig: {},
+    });
+
+    return webpackCfg;
+  }
+
   return webpackCfg;
 };

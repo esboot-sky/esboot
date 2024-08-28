@@ -25,6 +25,7 @@ export const createMFSU = (cfg: ConfigurationInstance): MFSU => {
       depBuildConfig: {},
       buildDepWithESBuild: true,
       startBuildWorker: noop as any,
+      strategy: 'normal',
       ...defaultMfsuOpts,
       cwd,
       tmpBase: mfsuCacheDir,

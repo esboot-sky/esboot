@@ -18,6 +18,10 @@ function Test() {
       <button onClick={() => navigate('/test')} type="button">
         To Test
       </button>
+
+      <h3 className="overflow-hidden text-ellipsis whitespace-nowrap font-[500] text-[var(--dz-course-item-title-color)]">
+        {1}
+      </h3>
       <div>module2 css323</div>
       <A />
       <Outlet />
