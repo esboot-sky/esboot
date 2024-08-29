@@ -1,4 +1,3 @@
-import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 import { CustomWebpackConfiguration } from '@/cfg/types';
 import type { Configuration as ESBootConfiguration } from '@dz-web/esboot';
 
@@ -51,5 +50,4 @@ export type BundlerWebpackOptions = {
       | jsStrategyForGranularChunksOptions
       | Record<string, any>;
   };
-} & Pick<DevServerConfiguration, 'https' | 'http2' | 'proxy' | 'port'> &
-  Pick<CustomWebpackConfiguration, 'externals'>;
+};

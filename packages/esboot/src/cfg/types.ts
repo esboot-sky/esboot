@@ -3,7 +3,7 @@ import {
   PLATFORMS,
   PAGE_TYPE,
 } from '@dz-web/esboot-common/constants';
-import { type Config as tailwindCSSCofig } from 'tailwindcss';
+import { type Config as tailwindCSSConfig } from 'tailwindcss';
 
 import { Bundler } from '../bundler';
 import type { BaseBundlerOptions } from '../bundler/types';
@@ -66,8 +66,9 @@ export interface UserOptions<BundlerOptions = unknown> {
     port?: number;
     proxy?: Proxy[];
   };
+  externals?: Record<string, string>;
   useTailwindcss?: boolean;
-  tailwindcssOptions?: (defaultCfg: tailwindCSSCofig) => tailwindCSSCofig;
+  tailwindcssOptions?: (defaultCfg: tailwindCSSConfig) => tailwindCSSConfig;
 }
 
 export interface ConfigurationForMP {
