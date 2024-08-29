@@ -48,7 +48,7 @@ importers:
         version: 1.0.3(@dz-web/axios@0.0.6(axios@1.7.5))(axios@1.7.5)
       '@dz-web/bridge':
         specifier: ^2.2.10
-        version: 2.2.15
+        version: 2.2.16
       '@dz-web/cache':
         specifier: ^2.0.0
         version: 2.0.0
@@ -473,7 +473,7 @@ importers:
     devDependencies:
       '@dz-web/bridge-mock':
         specifier: ^1.2.8
-        version: 1.2.8
+        version: 1.2.9
       tailwindcss:
         specifier: ^3.4.9
         version: 3.4.10(ts-node@10.9.2(@types/node@20.16.2)(typescript@5.5.4))
@@ -1925,41 +1925,41 @@ packages:
       postcss: ^8
 
   '@dz-web/axios-middlewares@1.0.3':
-    resolution: {integrity: sha512-SDG5is9yAJauJ5iT50kQ7/FrL+rcRXu4NQDUyCld/J1jJYdRcRwtoPrQg80Jvtun43eC9vrTE8CtiwkF0IYWpA==}
+    resolution: {integrity: sha512-dwmbT59wF8Ggsje7t1B6svQD3rIRvoDguxpNZ20cI7q61EsTrz1PeV6pzrxBoj7NQEdrmQlXs7cRbCd5+s6YpA==}
     peerDependencies:
       '@dz-web/axios': '*'
       axios: '*'
 
   '@dz-web/axios@0.0.6':
-    resolution: {integrity: sha512-12Is2Haj28aNs8UAJRpQzp2PHlLQT3U7v1uy23+NfWvZfv2rNLveIRS0vNMhDEm0J3P8Jg9zRJoC8N4KTfZjHQ==}
+    resolution: {integrity: sha512-qsT2mnOp/DVWTNjaoTv2oxQ17QWDofYHjeGuDXDiAzXyA7VR+ogGFyXSci43dzedzBPaOicRa1QJPhRl75SoiQ==}
     peerDependencies:
       axios: '*'
 
   '@dz-web/babel-plugin-react-css-modules@6.11.4':
-    resolution: {integrity: sha512-DSfoKtLKKQ4XAFSgDIApUBycK4yqYxAIlqTHxox3Hb31Vw5cl4khSWd6aZ2wn82rlOzjwVQapWaxyEIslhVcUg==}
+    resolution: {integrity: sha512-KDL4QFe/EQGCRyVflCN5BnmZYbKTomoPF0TyuWpuhTWMU2ycvE8iEu2tJ52Xi5gixidsAyA41G9AG3hXGOY+aw==}
     engines: {node: '>=16'}
     peerDependencies:
       css-loader: ^6
       postcss: ^8
       webpack: ^5
 
-  '@dz-web/bridge-mock@1.2.8':
-    resolution: {integrity: sha512-bRdhiWarqGMfVuXXvVOr4TqHMJodGLZFjIxTkpBnxWuSQsU321l7mWn75m+/zj1V2dqUHq3dOOLBUYH2oVgofw==}
+  '@dz-web/bridge-mock@1.2.9':
+    resolution: {integrity: sha512-SfGsh7GOhLRI6Q4ZVFERjmexr82rwT2UNshzr5ojb6kTsRLDz8O15vtz862U2tfSZ6znKdzTJJGpoCDEToIrrQ==}
     hasBin: true
 
-  '@dz-web/bridge@2.2.15':
-    resolution: {integrity: sha512-KgAWABom0bUkjuvgVhpjX2Pm2RYAn+oUSNNM4M06hD0mOkfaOdGlNXyfY2mugFv9eMHu0DO5VdMIFUdGXEfg0w==}
+  '@dz-web/bridge@2.2.16':
+    resolution: {integrity: sha512-V0I3Ljc1aHFN/VdxtZua0Bqzq5Ybq3RagBMSNOEIHbJ8MekmDYanIo3tgVHKLaWIoWC+WfaRgMuqv+iTMdKnmg==}
 
   '@dz-web/cache@2.0.0':
     resolution: {integrity: sha512-l6pn9pAXRC/7nmPmoNMn4KG/e2KIJLkbgOAUzgXdF6gJ2ZYViICEo0p0UyshlnwQTcEsv1+fYv8LYGWveACw3w==}
 
   '@dz-web/esboot-plugin-tailwindcss@0.2.0':
-    resolution: {integrity: sha512-NOhDKmpwU+agymQ8XdxPVa7HcclSe0rgLS7JQVr7WBRbbJczBcrYWQWPSnmD219GIthcgrOsklN7OeLe5vBuUQ==}
+    resolution: {integrity: sha512-ICWOxbp4nDpwbeBXieWKzsf/eG02uB/L6bgv8o4NW/DeDfGashUFTkhsmrydANDbCL6yltTT2wvCpKUYkbUPzA==}
     peerDependencies:
       '@dz-web/esboot': '*'
 
   '@dz-web/esboot-plugin-vitest@1.1.7':
-    resolution: {integrity: sha512-FW8ScMD5ZJyxcrF9QLm/LxOG3UtByVZfDbT6MUwYTpgKDJyz1FI1zu+NxCS5L8/z+WZECjljv+tq/WNwAP00nA==}
+    resolution: {integrity: sha512-H04UsZ7uYa2xi2Go8MOCf8hPG+OE7MXDg06Y9/YPKiPQ/VVT/qExPFoH8Anc0vV9M/f/txNszfyPjvwGbFiV+g==}
     peerDependencies:
       '@dz-web/esboot': '*'
 
@@ -1968,10 +1968,10 @@ packages:
     hasBin: true
 
   '@dz-web/esboot-utils@2.10.8':
-    resolution: {integrity: sha512-uWiw9TYZdeSg+RNWUjTj2KLM0oH+QrCI4pSQ6VTroWpiCbgOufbFG5mqS+cXEfJI7oEdnTwNIm8YZNAVC84Yhg==}
+    resolution: {integrity: sha512-2IH3n9wCt5VRMDELU7qgXLAn9VvMZMAR38+Zf2uvfAQlgYMkQDOBgg5ehZDA9TyCN5/5mNVvZFkuDDQz6EQeGQ==}
 
   '@dz-web/o-orange@4.3.0':
-    resolution: {integrity: sha512-FtU8xzqPB7hsMRMtN5rCvUsVDB5HEpEw87jBecNn1t2ENqdTLvXzm0OkrE1DkL+BJ8LOIkFm8I9wjedYzgqLxQ==}
+    resolution: {integrity: sha512-vgXK4wGbHVJzN6AHJyfjKNsJQkWMPzNaTSz0rovrpagtWDMcS1o0ovPHMahdKuFid85Iy1yUe+1/6gUM5rSlaw==}
 
   '@emnapi/core@1.2.0':
     resolution: {integrity: sha512-E7Vgw78I93we4ZWdYCb4DGAwRROGkMIXk7/y87UmANR+J6qsWusmC3gLt0H+O0KOt5e6O38U8oJamgbudrES/w==}
@@ -2836,15 +2836,15 @@ packages:
     resolution: {integrity: sha512-y7efHHwghQfk28G2z3tlZ67pLG0XdfYbcVG26r7YIXALRsrVQcTq4/tdenSmdOrEsNahIYA/eh8aEVROWGFUDg==}
     engines: {node: ^16.14.0 || >=18.0.0}
 
-  '@nrwl/devkit@19.6.3':
-    resolution: {integrity: sha512-zrAboArNfrEMjimBl/0YeM08HfjqOEG/VHdCHKO+5QMDg65w7vDJ2flwyNhlmnMl8BMJSy9fNo6PNGhboOf3+w==}
+  '@nrwl/devkit@19.6.4':
+    resolution: {integrity: sha512-jpr+T5/+21W/fwAMB6zDLZKO+ReYAfOOMIeM8CpeBi/r9nWmjGXaXN9YKwEOYS1fath62Y5ldGK4yZUttv1tkw==}
 
   '@nrwl/tao@19.6.3':
     resolution: {integrity: sha512-j4vPU87yBhTrdyPFSNhlUkN29w4BQ+M14khT8PFGe+Y26gHMxNRNXNFUCwtVARYAc6IwxS8Uvlwy7AwXG2ETPA==}
     hasBin: true
 
-  '@nx/devkit@19.6.3':
-    resolution: {integrity: sha512-/d8Z5/Cy/H/1rIHxW3VjeK5dlvHwRxRj8rCm8/sj5Pz3GmGX03uuEK+J/p+VlP3gP8dAYMgZu3ImeqTAu6rBtw==}
+  '@nx/devkit@19.6.4':
+    resolution: {integrity: sha512-mBitFwb/gcz8MR7STt7KQG0vf+QcsasDXiSYcf3OWpc6lGE5wn1q5jg6Iabp49Bd/mdHXVLQnP1aV5A+QqFIOQ==}
     peerDependencies:
       nx: '>= 17 <= 20'
 
@@ -2877,28 +2877,24 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@nx/nx-linux-arm64-musl@19.6.3':
     resolution: {integrity: sha512-o/99DBgafbjiJ4e9KFxaldvtlZta/FdzEiQQW+SQQ0JGSYlLCZZ8tIT6t3edV7cmG+gQLNMwolJzgpY53O9wjA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@nx/nx-linux-x64-gnu@19.6.3':
     resolution: {integrity: sha512-ppp0NBOhwJ39U1vR7h8jhFSfiur6CZPSUYjXsV44BlaNGc1wHZ+7FDXhzOTokgTNWHavYgYOJuVan5LtTLKJkA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@nx/nx-linux-x64-musl@19.6.3':
     resolution: {integrity: sha512-H7xgsT5OTtVYCXjXBLZu28v+rIInhbUggrgVJ2iQJFGBT2A2qmvGmDJdcDz8+K90ku1f4VuWmm8i+TEyDEcBuQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@nx/nx-win32-arm64-msvc@19.6.3':
     resolution: {integrity: sha512-o9O6lSmx67zUnqOtlDC4YpC++fiUkixgIsQEG8J/2jdNgAATqOtERcqCNra/uke/Q94Vht2tVXjXF3uj92APhw==}
@@ -3108,55 +3104,46 @@ packages:
     resolution: {integrity: sha512-sWWgdQ1fq+XKrlda8PsMCfut8caFwZBmhYeoehJ05FdI0YZXk6ZyUjWLrIgbR/VgiGycrFKMMgp7eJ69HOF2pQ==}
     cpu: [arm]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.21.1':
     resolution: {integrity: sha512-9OIiSuj5EsYQlmwhmFRA0LRO0dRRjdCVZA3hnmZe1rEwRk11Jy3ECGGq3a7RrVEZ0/pCsYWx8jG3IvcrJ6RCew==}
     cpu: [arm]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.21.1':
     resolution: {integrity: sha512-0kuAkRK4MeIUbzQYu63NrJmfoUVicajoRAL1bpwdYIYRcs57iyIV9NLcuyDyDXE2GiZCL4uhKSYAnyWpjZkWow==}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.21.1':
     resolution: {integrity: sha512-/6dYC9fZtfEY0vozpc5bx1RP4VrtEOhNQGb0HwvYNwXD1BBbwQ5cKIbUVVU7G2d5WRE90NfB922elN8ASXAJEA==}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-powerpc64le-gnu@4.21.1':
     resolution: {integrity: sha512-ltUWy+sHeAh3YZ91NUsV4Xg3uBXAlscQe8ZOXRCVAKLsivGuJsrkawYPUEyCV3DYa9urgJugMLn8Z3Z/6CeyRQ==}
     cpu: [ppc64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-gnu@4.21.1':
     resolution: {integrity: sha512-BggMndzI7Tlv4/abrgLwa/dxNEMn2gC61DCLrTzw8LkpSKel4o+O+gtjbnkevZ18SKkeN3ihRGPuBxjaetWzWg==}
     cpu: [riscv64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-s390x-gnu@4.21.1':
     resolution: {integrity: sha512-z/9rtlGd/OMv+gb1mNSjElasMf9yXusAxnRDrBaYB+eS1shFm6/4/xDH1SAISO5729fFKUkJ88TkGPRUh8WSAA==}
     cpu: [s390x]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.21.1':
     resolution: {integrity: sha512-kXQVcWqDcDKw0S2E0TmhlTLlUgAmMVqPrJZR+KpH/1ZaZhLSl23GZpQVmawBQGVhyP5WXIsIQ/zqbDBBYmxm5w==}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.21.1':
     resolution: {integrity: sha512-CbFv/WMQsSdl+bpX6rVbzR4kAjSSBuDgCqb1l4J68UYsQNalz5wOqLGYj4ZI0thGpyX5kc+LLZ9CL+kpqDovZA==}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.21.1':
     resolution: {integrity: sha512-3Q3brDgA86gHXWHklrwdREKIrIbxC0ZgU8lwpj0eEKGBQH+31uPqr0P2v11pn0tSIxHvcdOWxa4j+YvLNx1i6g==}
@@ -3187,25 +3174,21 @@ packages:
     resolution: {integrity: sha512-/24UytJXrK+7CsucDb30GCKYIJ8nG6ceqbJyOtsJv9zeArNLHkxrYGSyjHJIpQfwVN17BPP4RNOi+yIZ3ZgDyA==}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@rspack/binding-linux-arm64-musl@0.7.5':
     resolution: {integrity: sha512-6RcxG42mLM01Pa6UYycACu/Nu9qusghAPUJumb8b8x5TRIDEtklYC5Ck6Rmagm+8E0ucMude2E/D4rMdIFcS3A==}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@rspack/binding-linux-x64-gnu@0.7.5':
     resolution: {integrity: sha512-R0Lu4CJN2nWMW7WzPBuCIju80cQPpcaqwKJDj/quwQySpJJZ6c5qGwB8mntqjxIzZDrNH6u0OkpiUTbvWZj8ww==}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@rspack/binding-linux-x64-musl@0.7.5':
     resolution: {integrity: sha512-dDgi/ThikMy1m4llxPeEXDCA2I8F8ezFS/eCPLZGU2/J1b4ALwDjuRsMmo+VXSlFCKgIt98V6h1woeg7nu96yg==}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@rspack/binding-win32-arm64-msvc@0.7.5':
     resolution: {integrity: sha512-nEF4cUdLfgEK6FrgJSJhUlr2/7LY1tmqBNQCFsCjtDtUkQbJIEo1b8edT94G9tJcQoFE4cD+Re30yBYbQO2Thg==}
@@ -3504,7 +3487,7 @@ packages:
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
   '@types/dz-web@1.0.2':
-    resolution: {integrity: sha512-tvIPfbbXPXpFjG7dpXZKEgYwRjf3NUHzitLzSRBdy/yqlxdzaOHeA/t/la10D3rBPonSiIJJtCfE7FaVEDiP2A==}
+    resolution: {integrity: sha512-1uda+X3VuCTepdBd1JXNfhq0ZWceELRzIonv7NNlHyJsu2XMafGPfDXUxrdzk/LGKsgbV5BAG9tTHYBuKdHXFQ==}
 
   '@types/estree-jsx@1.0.5':
     resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
@@ -6106,7 +6089,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -13857,7 +13840,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@dz-web/bridge-mock@1.2.8':
+  '@dz-web/bridge-mock@1.2.9':
     dependencies:
       chalk: 2.4.2
       chokidar: 1.7.0
@@ -13872,7 +13855,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@dz-web/bridge@2.2.15':
+  '@dz-web/bridge@2.2.16':
     dependencies:
       query-string: 8.2.0
 
@@ -14520,7 +14503,7 @@ snapshots:
       '@npmcli/arborist': 7.5.4
       '@npmcli/package-json': 5.2.0
       '@npmcli/run-script': 8.1.0
-      '@nx/devkit': 19.6.3(nx@19.6.3)
+      '@nx/devkit': 19.6.4(nx@19.6.3)
       '@octokit/plugin-enterprise-rest': 6.0.1
       '@octokit/rest': 19.0.11(encoding@0.1.13)
       aproba: 2.0.0
@@ -14805,9 +14788,9 @@ snapshots:
       - bluebird
       - supports-color
 
-  '@nrwl/devkit@19.6.3(nx@19.6.3)':
+  '@nrwl/devkit@19.6.4(nx@19.6.3)':
     dependencies:
-      '@nx/devkit': 19.6.3(nx@19.6.3)
+      '@nx/devkit': 19.6.4(nx@19.6.3)
     transitivePeerDependencies:
       - nx
 
@@ -14820,9 +14803,9 @@ snapshots:
       - '@swc/core'
       - debug
 
-  '@nx/devkit@19.6.3(nx@19.6.3)':
+  '@nx/devkit@19.6.4(nx@19.6.3)':
     dependencies:
-      '@nrwl/devkit': 19.6.3(nx@19.6.3)
+      '@nrwl/devkit': 19.6.4(nx@19.6.3)
       ejs: 3.1.10
       enquirer: 2.3.6
       ignore: 5.3.2
@@ -19862,7 +19845,7 @@ snapshots:
       '@npmcli/arborist': 7.5.4
       '@npmcli/package-json': 5.2.0
       '@npmcli/run-script': 8.1.0
-      '@nx/devkit': 19.6.3(nx@19.6.3)
+      '@nx/devkit': 19.6.4(nx@19.6.3)
       '@octokit/plugin-enterprise-rest': 6.0.1
       '@octokit/rest': 19.0.11(encoding@0.1.13)
       aproba: 2.0.0
