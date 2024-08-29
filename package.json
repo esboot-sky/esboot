@@ -8,14 +8,21 @@
     "dev:webpack": "pnpm run dev:base --filter @dz-web/esboot-bundler-webpack",
     "dev:vite": "pnpm run dev:base --filter @dz-web/esboot-bundler-vite",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "lint": "turbo run lint",
+    "lint:turbo": "turbo run lint",
+    "lint": "eslint packages/**/src/**/*.ts",
     "pub": "lerna publish --force-publish=*",
     "test": "vitest",
     "clean": "pnpm -r exec -- rm -rf node_modules && rm -rf node_modules && rm pnpm-lock.yaml"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "@vitest/ui": "^1.6.0",
+    "eslint": "^9.9.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
     "lerna": "^8.1.2",
     "prettier": "latest",
     "tsup": "^8.2.4",
@@ -25,7 +32,7 @@
   },
   "packageManager": "pnpm@9.1.0",
   "engines": {
-    "node": ">=14.0.0",
+    "node": ">=18.0.0",
     "npm": ">=7.0.0"
   },
   "pnpm": {
