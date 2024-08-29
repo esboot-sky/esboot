@@ -3,7 +3,9 @@ import WebpackBar from 'webpackbar';
 import type { AddFunc } from '@/cfg/types';
 
 export const addWebpackbarPlugin: AddFunc = async function (cfg, webpackCfg) {
-  const { analyze } = cfg.config;
+  const { analyze, isCIBuild } = cfg.config;
+
+  if (isCIBuild) return;
 
   webpackCfg.plugins.push(
     new WebpackBar({

@@ -148,14 +148,17 @@ export default new (class Cfg {
       NODE_ENV,
       ESBOOT_PLATFORM = PLATFORMS.PC,
       ESBOOT_PAGE_TYPE = PAGE_TYPE.browser,
+      ESBOOT_IS_CI_BUILD = '0',
     } = process.env;
     const { cwd } = this.#config;
+    const isCIBuild = ESBOOT_IS_CI_BUILD === '1';
     const rootPath = resolve(cwd, './src');
     const configRootPath = resolve(cwd, `./config`);
     const ipv4 = ip();
     const cfg = {
       cwd,
       ipv4,
+      isCIBuild,
       rootPath,
       configRootPath,
       isDev: NODE_ENV === Environment.dev,

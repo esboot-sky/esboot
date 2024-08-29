@@ -91,6 +91,7 @@ export interface Configuration<BundlerOptions = unknown>
   extends Required<Omit<UserOptions<BundlerOptions>, PreserveAttr>>,
     Pick<UserOptions<BundlerOptions>, PreserveAttr> {
   isDev: boolean;
+  isCIBuild: boolean;
   rootPath: string;
   configRootPath: string;
   configJSPath: string;

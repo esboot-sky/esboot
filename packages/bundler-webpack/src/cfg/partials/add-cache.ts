@@ -6,9 +6,9 @@ import {
 import type { AddFunc } from '@/cfg/types';
 
 export const addCache: AddFunc = async function (cfg, webpackCfg) {
-  const { isDev, cwd } = cfg.config;
+  const { isDev, isCIBuild, cwd } = cfg.config;
 
-  if (isDev) return;
+  if (isDev || isCIBuild) return;
 
   webpackCfg.optimization = {
     runtimeChunk: 'single',

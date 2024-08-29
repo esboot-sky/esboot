@@ -53,7 +53,7 @@ export const getWebpackCfg = async (
   await addOutput(cfg, webpackCfg);
   await addResolve(cfg, webpackCfg);
   await addDevtool(cfg, webpackCfg);
-  // await addCache(cfg, webpackCfg);
+  await addCache(cfg, webpackCfg);
 
   // Optimization
   await addOptimization(cfg, webpackCfg);

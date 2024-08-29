@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "esboot dev",
-    "build": "esboot build",
+    "build": "ESBOOT_IS_CI_BUILD=1 esboot build",
     "esboot": "esboot",
     "postinstall": "esboot prepare"
   },
