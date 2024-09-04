@@ -1,25 +1,65 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { loadEnv, cfg } from '@dz-web/esboot';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  const sidebarProvider = new ESBootSidebarProvider(
+    vscode.workspace.workspaceFolders
+  );
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "esboot" is now active!');
+  console.log(42323432, '<-- 42323432');
+  vscode.window.registerTreeDataProvider('ESBoot', sidebarProvider);
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('esboot.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from esboot!');
-	});
+  context.subscriptions.push(
+    vscode.commands.registerCommand('ESBoot.refresh', () => {
+      sidebarProvider.refresh();
+    })
+  );
+}
 
-	context.subscriptions.push(disposable);
+class ESBootSidebarProvider implements vscode.TreeDataProvider<ESBootTreeItem> {
+  private _onDidChangeTreeData: vscode.EventEmitter<
+    ESBootTreeItem | undefined | void
+  > = new vscode.EventEmitter<ESBootTreeItem | undefined | void>();
+  readonly onDidChangeTreeData: vscode.Event<
+    ESBootTreeItem | undefined | void
+  > = this._onDidChangeTreeData.event;
+
+  constructor(
+    private workspaceFolders: readonly vscode.WorkspaceFolder[] | undefined
+  ) {
+    if (workspaceFolders) {
+      const cwd = workspaceFolders[0].uri.fsPath;
+      loadEnv({ root: cwd });
+      cfg.load({ cwd });
+
+      console.log(cfg.config, '<-- process.');
+    }
+  }
+
+  refresh(): void {
+    this._onDidChangeTreeData.fire();
+  }
+
+  getTreeItem(element: ESBootTreeItem): vscode.TreeItem {
+    return element;
+  }
+
+  getChildren(element?: ESBootTreeItem): Thenable<ESBootTreeItem[]> {
+    if (element) {
+      return Promise.resolve([]);
+    } else {
+      return Promise.resolve([
+        new ESBootTreeItem('Item 12'),
+        new ESBootTreeItem('Item 2'),
+      ]);
+    }
+  }
+}
+
+class ESBootTreeItem extends vscode.TreeItem {
+  constructor(public readonly label: string) {
+    super(label);
+  }
 }
 
 // This method is called when your extension is deactivated

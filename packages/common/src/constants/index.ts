@@ -2,7 +2,8 @@ import { resolve, join } from 'path';
 
 export * from './environment';
 
-export const USER_CONFIG_FILE = resolve(process.cwd(), './.esbootrc.ts');
+export const getUserConfigFile = (path: string) =>
+  resolve(path || process.cwd(), './.esbootrc.ts');
 
 export const DEFAULT_OUTPUT_PATH = 'dist';
 

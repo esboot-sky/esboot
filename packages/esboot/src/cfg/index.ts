@@ -8,7 +8,7 @@ import {
   Environment,
   PAGE_TYPE,
   PLATFORMS,
-  USER_CONFIG_FILE,
+  getUserConfigFile,
 } from '@dz-web/esboot-common/constants';
 import { error } from '@dz-web/esboot-common/helpers';
 
@@ -120,8 +120,11 @@ export default new (class Cfg {
   };
 
   loadConfigFile = (reload = false) => {
-    const filePath = USER_CONFIG_FILE;
+    const filePath = getUserConfigFile(this.#config.cwd);
+
     if (!existsSync(filePath)) {
+      console.log('filePath', filePath);
+      
       error(`User config file not found: ${filePath}`);
       exit(1);
     }
@@ -131,6 +134,8 @@ export default new (class Cfg {
     }
 
     const { default: getCfg } = require(filePath);
+    console.log(getCfg, '<-- getCfg');
+    
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
 
     const { isDev } = this.#config;
@@ -143,13 +148,18 @@ export default new (class Cfg {
     this.#config.isSP ? this.#generateSPCfg() : this.#generateMPCfg();
   };
 
-  load = () => {
+  load = (options: { cwd?: string } = {}) => {
     const {
       NODE_ENV,
       ESBOOT_PLATFORM = PLATFORMS.PC,
       ESBOOT_PAGE_TYPE = PAGE_TYPE.browser,
       ESBOOT_IS_CI_BUILD = '0',
     } = process.env;
+
+    if (options.cwd) {
+      this.#config.cwd = options.cwd;
+    }
+
     const { cwd } = this.#config;
     const isCIBuild = ESBOOT_IS_CI_BUILD === '1';
     const rootPath = resolve(cwd, './src');
