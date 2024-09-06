@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/eslint-plugin-esboot",
-  "version": "3.0.0-alpha.5",
+  "version": "3.0.0-alpha.9",
   "description": "",
   "main": "lib/index.js",
   "files": [
@@ -11,5 +11,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
 }

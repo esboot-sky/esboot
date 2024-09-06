@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-bundler-rspack",
-  "version": "3.0.0-alpha.5",
+  "version": "3.0.0-alpha.9",
   "description": "",
   "license": "ISC",
   "author": "Roc",
@@ -24,5 +24,6 @@
   },
   "peerDependencies": {
     "@dz-web/esboot": "workspace:*"
-  }
+  },
+  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
 }

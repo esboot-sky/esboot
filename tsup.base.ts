@@ -17,17 +17,17 @@ export const defineConfig = (config: Config = {}): Options => {
   };
 
   const devConfig: Options = {
-    ...baseConfig,
     watch: true,
     format: ['cjs'],
     sourcemap: true,
+    ...baseConfig,
     ...dev,
   };
 
   const prodConfig: Options = {
-    ...baseConfig,
     minify: true,
     format: ['cjs', 'esm'],
+    ...baseConfig,
     ...prod,
   };
 

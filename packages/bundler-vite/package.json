@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-bundler-vite",
-  "version": "3.0.0-alpha.5",
+  "version": "3.0.0-alpha.9",
   "description": "",
   "license": "ISC",
   "author": "Roc",
@@ -21,9 +21,9 @@
     "@dz-web/esboot-common": "workspace:*",
     "@rollup/pluginutils": "^5.1.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "react-inline-css-module": "^1.1.0",
-    "vite": "5.4.2",
-    "vite-plugin-html": "^3.2.2"
+    "vite": "5.4.3-esboot.0",
+    "vite-plugin-html": "^3.2.2",
+    "vite-plugin-svgr": "^4.2.0"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*"
@@ -31,10 +31,17 @@
   "peerDependencies": {
     "@dz-web/esboot": "workspace:*"
   },
-  "pnpm": {
-    "patchedDependencies": {
-      "vite@5.4.2": "./patches/vite@5.4.2.patch"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
     },
-    "allowNonAppliedPatches": true
-  }
+    "./transformStyleNameCreateElement": {
+      "types": "./dist/plugins/react-style-name/transformStyleNameCreateElement.d.ts",
+      "import": "./dist/plugins/react-style-name/transformStyleNameCreateElement.mjs",
+      "default": "./dist/plugins/react-style-name/transformStyleNameCreateElement.js"
+    }
+  },
+  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
 }

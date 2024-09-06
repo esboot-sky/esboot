@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import {
-  USER_CONFIG_FILE,
+  getUserConfigFile,
   webpackCacheDir,
 } from '@dz-web/esboot-common/constants';
 import type { AddFunc } from '@/cfg/types';
@@ -20,7 +20,7 @@ export const addCache: AddFunc = async function (cfg, webpackCfg) {
     cacheDirectory: webpackCacheDir,
     buildDependencies: {
       config: [
-        USER_CONFIG_FILE,
+        getUserConfigFile(cwd),
         resolve(cwd, './pnpm-lock.yaml'),
         resolve(cwd, './package.json'),
       ],

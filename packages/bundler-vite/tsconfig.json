@@ -5,9 +5,9 @@
     "rootDir": "./src",
     "emitDeclarationOnly": true,
     "allowImportingTsExtensions": true,
-  },
-  "path": {
-    "@/*": ["./src/*"]
+    "paths": {
+      "@/*": ["./src/*"]
+    },
   },
   "include": ["src"]
 }

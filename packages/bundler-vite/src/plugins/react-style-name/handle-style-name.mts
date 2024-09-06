@@ -25,8 +25,6 @@ export const findStyleImports = function (source: string): {
   for (const match of matches) {
     const [statement, prefixStatement, variable, importPath] = match;
 
-    console.log(importPath, 'importPath');
-
     if (!importPath.includes('styles/')) {
       let newImportPath = importPath;
       // if (!importPath.includes('?module')) {
@@ -90,28 +88,34 @@ function makeVariableName() {
  */
 let transformerSource: string | null = null;
 export function importStyleNameTransformer(source: string, inline = false) {
-  if (inline) {
-    if (!transformerSource) {
-      const bareSource = readFileSync(
-        resolve(
-          __dirname,
-          'plugins/react-style-name/transformStyleNameCreateElement.mjs'
-        )
-      );
-      // transformerSource = `var TransformStyleNameCreateElement = (function() {
-      //   var exports = {};
-      //   ${bareSource};
-      //   return exports.default;
-      // })();`;
-      return bareSource + '\n' + source;
-    }
-    return transformerSource + '\n' + source;
-  } else {
-    return (
-      "import TransformStyleNameCreateElement from 'react-inline-css-module/dist/TransformStyleNameCreateElement';\n" +
-      source
-    );
-  }
+  return (
+    "import { TransformStyleNameCreateElement } from '@dz-web/esboot-bundler-vite/transformStyleNameCreateElement';\n" +
+    source
+  );
+
+  // if (inline) {
+  //   if (!transformerSource) {
+  //     const bareSource = readFileSync(
+  //       resolve(
+  //         __dirname,
+  //         'plugins/react-style-name/transformStyleNameCreateElement.mjs'
+  //       )
+  //     );
+
+  //     transformerSource = `var TransformStyleNameCreateElement = (function() {
+  //       var exports = {};
+  //       ${bareSource.toString()};
+  //       return exports.TransformStyleNameCreateElement;
+  //     })();`;
+  //     return bareSource + '\n' + source;
+  //   }
+  //   return transformerSource + '\n' + source;
+  // } else {
+  //   return (
+  //     "import { TransformStyleNameCreateElement } from '@dz-web/esboot-bundler-vite/transformStyleNameCreateElement';\n" +
+  //     source
+  //   );
+  // }
 }
 
 /**
