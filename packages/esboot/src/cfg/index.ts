@@ -134,7 +134,6 @@ export default new (class Cfg {
     }
 
     const { default: getCfg } = require(filePath);
-    console.log(getCfg, '<-- getCfg');
     
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
 

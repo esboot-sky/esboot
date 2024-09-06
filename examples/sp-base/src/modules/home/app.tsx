@@ -6,6 +6,9 @@ import './app.scss';
 function Test() {
   const navigate = useNavigate();
 
+  console.log(window.GLOBAL_CONFIG);
+
+
   return (
     <div className="page">
       <div styleName="text">module css1</div>
@@ -16,7 +19,7 @@ function Test() {
         Hello, TailwindCSS!
       </div>
       <button onClick={() => navigate('/test')} type="button">
-        To Test
+        To Test122333456456
       </button>
 
       <h3 className="overflow-hidden text-ellipsis whitespace-nowrap font-[500] text-[var(--dz-course-item-title-color)]">

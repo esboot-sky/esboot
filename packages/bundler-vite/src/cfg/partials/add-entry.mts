@@ -4,7 +4,7 @@ import {
   type AddEntryCBParams,
 } from '@dz-web/esboot-bundler-common';
 
-import type { AddFunc } from '../types.mts';
+import type { AddFunc } from '@/cfg/types.mts';
 
 export const addEntry: AddFunc = async function (cfg, viteCfg) {
   const pages: any[] = [];
@@ -16,7 +16,11 @@ export const addEntry: AddFunc = async function (cfg, viteCfg) {
       template: `/config/${template}`,
       inject: {
         data: {
-          title,
+          htmlWebpackPlugin: {
+            options: {
+              title,
+            },
+          },
         },
       },
     });
