@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-lint",
-  "version": "3.0.0-alpha.6",
+  "version": "3.0.0-alpha.7",
   "description": "",
   "keywords": [],
   "license": "ISC",
@@ -77,5 +77,6 @@
       "import": "./config/prettier.js",
       "default": "./config/prettier.js"
     }
-  }
+  },
+  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
 }

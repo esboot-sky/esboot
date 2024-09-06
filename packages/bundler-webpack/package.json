@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-bundler-webpack",
-  "version": "3.0.0-alpha.6",
+  "version": "3.0.0-alpha.7",
   "description": "",
   "keywords": [
     "webpack",
@@ -61,5 +61,6 @@
   },
   "peerDependencies": {
     "@dz-web/esboot": "workspace:*"
-  }
+  },
+  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
 }

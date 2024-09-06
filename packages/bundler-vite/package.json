@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-bundler-vite",
-  "version": "3.0.0-alpha.6",
+  "version": "3.0.0-alpha.7",
   "description": "",
   "license": "ISC",
   "author": "Roc",
@@ -42,5 +42,6 @@
       "import": "./dist/plugins/react-style-name/transformStyleNameCreateElement.mjs",
       "default": "./dist/plugins/react-style-name/transformStyleNameCreateElement.js"
     }
-  }
+  },
+  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
 }
