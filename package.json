@@ -34,10 +34,5 @@
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=7.0.0"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "vite@5.4.2": "./packages/bundler-vite/patches/vite@5.4.2.patch"
-    }
   }
 }
