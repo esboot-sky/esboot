@@ -8,11 +8,12 @@ import { addEntry } from './partials/add-entry.mts';
 import { addStyle } from './partials/add-style/index.mts';
 import { addResolve } from './partials/add-resolve.mts';
 import { addCompatHtmlPlugin } from './partials/add-compat-html-plugin/index.mts';
+import { addDevServer } from './partials/add-dev-server.mts';
 
 import type { InlineConfig } from 'vite';
 import type { ConfigurationInstance } from '@dz-web/esboot';
 
-export const getDevServer = async (
+export const getDevCfg = async (
   cfg: ConfigurationInstance
 ): Promise<InlineConfig> => {
   const { cwd } = cfg.config;
@@ -42,11 +43,9 @@ export const getDevServer = async (
         plugins: [addTailwindCSS(cfg)].filter(Boolean),
       },
     },
-    server: {
-      port: 1337,
-    },
   };
 
+  await addDevServer(cfg, viteCfg);
   await addResolve(cfg, viteCfg);
   await addEntry(cfg, viteCfg);
   await addStyle(cfg, viteCfg);

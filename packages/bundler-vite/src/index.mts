@@ -3,7 +3,7 @@ import { Bundler } from '@dz-web/esboot';
 import { error } from '@dz-web/esboot-common/helpers';
 import { BaseBundlerOptions, ConfigurationInstance } from '@dz-web/esboot';
 
-import { getDevServer } from './cfg/get-dev-server.mts';
+import { getDevCfg } from './cfg/get-dev-cfg.mts';
 
 export class BundlerVite implements Bundler {
   cfg: ConfigurationInstance;
@@ -13,7 +13,7 @@ export class BundlerVite implements Bundler {
   }
 
   async dev() {
-    const cfg = await getDevServer(this.cfg);
+    const cfg = await getDevCfg(this.cfg);
 
     const server = await createServer(cfg);
 
