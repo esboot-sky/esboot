@@ -17,12 +17,11 @@ export const addDevServer: AddFunc = async function (cfg, viteCfg, options) {
 
   if (!isDev) return;
 
-  const isHttps = !!https || !!http2;
-
   viteCfg.server = {
     port,
     open,
     host,
+    strictPort: true,
     // proxy,
     // https,
     // http2,
