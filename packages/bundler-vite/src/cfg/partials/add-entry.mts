@@ -7,11 +7,13 @@ import {
 import type { AddFunc } from '@/cfg/types.mts';
 
 export const addEntry: AddFunc = async function (cfg, viteCfg) {
+  const { cwd } = cfg.config;
+
   const pages: any[] = [];
   await _addEntry(cfg, (v: AddEntryCBParams) => {
     const { chunkName, entry, title, template } = v;
     pages.push({
-      entry,
+      entry: entry.replace(cwd, ''),
       filename: `${chunkName}.html`,
       template: `/config/${template}`,
       inject: {
