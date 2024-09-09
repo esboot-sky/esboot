@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "dev": "NODE_ENV=development tsup",
+    "dev": "cross-env NODE_ENV=development tsup",
     "prepublishOnly": "pnpm run build",
     "test": "vitest"
   },

@@ -11,6 +11,7 @@ const getServerType = (https: boolean, http2: boolean) => {
 
 export const addDevServer: AddFunc = async function (cfg, viteCfg, options) {
   const {
+    cwd,
     isDev,
     server: { port, open, host, proxy, http2, https },
   } = cfg.config;
@@ -25,6 +26,9 @@ export const addDevServer: AddFunc = async function (cfg, viteCfg, options) {
     // proxy,
     // https,
     // http2,
+    fs: {
+      allow: [cwd, '..'],
+    },
   };
 
   // webpackCfg.devServer = devServer;
