@@ -12,11 +12,13 @@ import { addDevServer } from './partials/add-dev-server.mts';
 
 import type { InlineConfig } from 'vite';
 import type { ConfigurationInstance } from '@dz-web/esboot';
+import type { BundlerViteOptions } from '../types.mts';
 
 export const getDevCfg = async (
   cfg: ConfigurationInstance
 ): Promise<InlineConfig> => {
-  const { cwd } = cfg.config;
+  const { cwd, bundlerOptions = {} } = cfg.config;
+  const { customConfig } = bundlerOptions as BundlerViteOptions;
 
   const viteCfg: InlineConfig = {
     plugins: [
@@ -52,5 +54,5 @@ export const getDevCfg = async (
 
   await addCompatHtmlPlugin(cfg, viteCfg);
 
-  return viteCfg;
+  return customConfig ? customConfig(viteCfg, cfg.config) : viteCfg;
 };

@@ -1,5 +1,11 @@
+import type { InlineConfig } from 'vite';
+import type { Configuration as ESBootConfiguration } from '@dz-web/esboot';
+
+export type CustomConfig = (
+  config: InlineConfig,
+  cfg: ESBootConfiguration
+) => InlineConfig;
+
 export type BundlerViteOptions = {
-  output?: string;
-  format?: 'esm' | 'cjs';
-  minify?: boolean;
+  customConfig?: CustomConfig;
 };

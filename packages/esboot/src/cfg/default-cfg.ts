@@ -13,6 +13,7 @@ export const defaultCfg: Configuration = {
   ipv4: 'localhost',
   version: '',
   entry: {},
+  externals: {},
   cwd: process.cwd(),
   staticPathList: [],
   bundler: null,
@@ -29,7 +30,9 @@ export const defaultCfg: Configuration = {
   isBrowser: true,
   minimize: true,
   useTailwindcss: true,
+  isCIBuild: false,
   server: {
+    host: '0.0.0.0',
     open: false,
     port: DEFAULT_DEV_PORT,
   },

@@ -1,26 +1,48 @@
-export const a = 1;
-// import { rspack } from '@rspack/core';
+import { rspack } from '@rspack/core';
 
-// import { Bundler } from '@dz-web/esboot';
+import {
+  Bundler,
+  BaseBundlerOptions,
+  ConfigurationInstance,
+} from '@dz-web/esboot';
 
-// export class BundlerRSPack implements Bundler {
-//   constructor(Options: any) {
-//     console.log(Options, '<-- Options');
-//   }
+import { getRspackCfg } from './cfg';
 
-//   async dev() {
-//     const compiler = rspack({});
+export class BundlerRspack implements Bundler {
+  cfg: ConfigurationInstance;
 
-//     compiler.run((err, stats) => {
-//       // ...
+  constructor(options: BaseBundlerOptions) {
+    this.cfg = options.configuration;
+  }
 
-//       compiler.close((closeErr) => {
-//         // ...
-//       });
-//     });
-//   }
+  async dev() {
+    const rspackCfg = await getRspackCfg(this.cfg);
+    const compiler = rspack(rspackCfg);
+    const watching = compiler.watch(
+      {
+        // Example
+        aggregateTimeout: 300,
+        poll: undefined,
+      },
+      (err, stats) => {
+        // Print watch/build result here...
+        console.log(stats);
+      },
+    );
+  }
 
-//   build() {
-//     console.log(1, '<-- build');
-//   }
-// }
+  async build() {
+    const rspackCfg = await getRspackCfg(this.cfg);
+    const compiler = rspack(rspackCfg);
+    
+    compiler.run((err, stats) => {
+      // ...
+    
+      compiler.close(closeErr => {
+        // ...
+      });
+    });
+  }
+}
+
+export type { BundlerRspackOptions } from './types.ts';

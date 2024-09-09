@@ -9,7 +9,7 @@ import type { AddFunc } from '@/cfg/types.mts';
 export const addEntry: AddFunc = async function (cfg, viteCfg) {
   const { cwd, MPConfiguration, isSP } = cfg.config;
   const configRootPathOfPageType = isSP
-    ? '/config'
+    ? 'config'
     : MPConfiguration!.configRootPathOfPageType;
 
   const pages: any[] = [];
@@ -32,7 +32,6 @@ export const addEntry: AddFunc = async function (cfg, viteCfg) {
     });
   });
 
-  // console.log('pages', pages);
-  // viteCfg.appType = 'mpa';
+  viteCfg.appType = 'mpa';
   viteCfg.plugins!.push(createHtmlPlugin(isSP ? { ...pages[0] } : { pages }));
 };
