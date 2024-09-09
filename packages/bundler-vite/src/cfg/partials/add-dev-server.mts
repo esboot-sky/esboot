@@ -26,10 +26,5 @@ export const addDevServer: AddFunc = async function (cfg, viteCfg, options) {
     // proxy,
     // https,
     // http2,
-    fs: {
-      allow: [cwd, '..'],
-    },
   };
-
-  // webpackCfg.devServer = devServer;
 };

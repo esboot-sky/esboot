@@ -8,6 +8,6 @@ generatePage(<App />, {
 
 export default {
   title: 'pc-browser',
-  template: 'disable-rem',
+  // template: 'disable-rem',
   langJsonPicker: ['test', 'global'],
 };
