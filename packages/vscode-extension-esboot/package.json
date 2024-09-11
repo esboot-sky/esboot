@@ -11,15 +11,25 @@
     "Other"
   ],
   "activationEvents": [
-    "workspaceContains:.esbootrc.ts",
-    "onView:myView"
+    "workspaceContains:.esbootrc.ts"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "esboot.helloWorld",
-        "title": "Hello World"
+        "command": "ESBoot.refreshSidebar",
+        "title": "Refresh ESBoot Sidebar",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "ESBoot.selectPlatform",
+        "title": "Select Platform",
+        "icon": "$(platform)"
+      },
+      {
+        "command": "ESBoot.selectPageType",
+        "title": "Select Page Type",
+        "icon": "$(page-type)"
       }
     ],
     "viewsContainers": {
@@ -36,6 +46,15 @@
         {
           "id": "ESBoot",
           "name": "ToolBar"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "ESBoot.refreshSidebar",
+          "when": "view == ESBoot",
+          "group": "navigation"
         }
       ]
     }
@@ -56,6 +75,7 @@
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot-common": "workspace:*",
     "@types/mocha": "^10.0.7",
     "@types/node": "20.x",
     "@types/vscode": "^1.92.0",
