@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { loadEnv, cfg } from '@dz-web/esboot';
 
 import { activateSidebar } from './sidebar';
 

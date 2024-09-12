@@ -3,9 +3,11 @@
   "private": true,
   "displayName": "esboot",
   "description": "esboot toolkit",
-  "version": "3.0.0-alpha.6",
+  "version": "3.0.3",
+  "publisher": "moonlitusun",
+  "icon": "media/logo.png",
   "engines": {
-    "vscode": "^1.92.0"
+    "vscode": "^1.61.0"
   },
   "categories": [
     "Other"
@@ -18,17 +20,17 @@
     "commands": [
       {
         "command": "ESBoot.refreshSidebar",
-        "title": "Refresh ESBoot Sidebar",
+        "title": "ESBoot: Refresh Sidebar",
         "icon": "$(refresh)"
       },
       {
         "command": "ESBoot.selectPlatform",
-        "title": "Select Platform",
+        "title": "ESBoot: Select Platform",
         "icon": "$(platform)"
       },
       {
         "command": "ESBoot.selectPageType",
-        "title": "Select Page Type",
+        "title": "ESBoot: Select Page Type",
         "icon": "$(page-type)"
       }
     ],
@@ -60,25 +62,28 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "pnpm run package",
+    "vscode:prepublish": "echo 1",
     "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
     "watch": "npm-run-all -p watch:*",
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "package": "pnpm run check-types && node esbuild.js --production && vsce package --no-dependencies",
+    "publish": "vsce publish --no-dependencies",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "check-types": "tsc --noEmit",
-    "lint": "eslint src --ext ts",
+    "lint": "eslint src",
     "test": "vscode-test"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",
     "@dz-web/esboot-common": "workspace:*",
+    "@dz-web/esboot-bundler-common": "workspace:*",
+    "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.7",
     "@types/node": "20.x",
-    "@types/vscode": "^1.92.0",
+    "@types/vscode": "^1.61.0",
     "@typescript-eslint/eslint-plugin": "^7.14.1",
     "@typescript-eslint/parser": "^7.11.0",
     "@vscode/test-cli": "^0.0.9",
@@ -88,5 +93,8 @@
     "npm-run-all": "^4.1.5",
     "typescript": "^5.4.5"
   },
-  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
+  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f",
+  "dependencies": {
+    "fs-extra": "^11.2.0"
+  }
 }

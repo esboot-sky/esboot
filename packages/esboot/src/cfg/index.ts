@@ -119,35 +119,7 @@ export default new (class Cfg {
     Object.assign(this.#config, cfg);
   };
 
-  loadConfigFile = (reload = false) => {
-    const filePath = getUserConfigFile(this.#config.cwd);
-
-    if (!existsSync(filePath)) {
-      console.log('filePath', filePath);
-      
-      error(`User config file not found: ${filePath}`);
-      exit(1);
-    }
-
-    if (reload) {
-      delete require.cache[require.resolve(filePath)];
-    }
-
-    const { default: getCfg } = require(filePath);
-    
-    const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
-
-    const { isDev } = this.#config;
-
-    this.#config = merge(
-      this.#config,
-      { publicPath: isDev ? '/' : './' },
-      userCfg
-    );
-    this.#config.isSP ? this.#generateSPCfg() : this.#generateMPCfg();
-  };
-
-  load = (options: { cwd?: string } = {}) => {
+  loadEnv = (options: { cwd?: string } = {}) => {
     const {
       NODE_ENV,
       ESBOOT_PLATFORM = PLATFORMS.PC,
@@ -177,7 +149,38 @@ export default new (class Cfg {
       ...pick(pkg, ['version']),
     } satisfies Partial<Configuration>;
     Object.assign(this.#config, cfg);
+  };
 
+  loadConfigFile = (reload = false) => {
+    const filePath = getUserConfigFile(this.#config.cwd);
+
+    if (!existsSync(filePath)) {
+      console.log('filePath', filePath);
+
+      error(`User config file not found: ${filePath}`);
+      exit(1);
+    }
+
+    if (reload) {
+      delete require.cache[require.resolve(filePath)];
+    }
+
+    const { default: getCfg } = require(filePath);
+
+    const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
+
+    const { isDev } = this.#config;
+
+    this.#config = merge(
+      this.#config,
+      { publicPath: isDev ? '/' : './' },
+      userCfg
+    );
+    this.#config.isSP ? this.#generateSPCfg() : this.#generateMPCfg();
+  };
+
+  load = (options: { cwd?: string } = {}) => {
+    this.loadEnv(options);
     this.loadConfigFile();
   };
 
