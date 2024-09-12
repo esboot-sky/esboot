@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { refreshInfo } from '../utils';
 import { ESBootSidebarProvider } from './provider';
+import { TreeItemType } from './constants';
 
 export function activateSidebar(context: vscode.ExtensionContext) {
   refreshInfo();
@@ -10,17 +11,40 @@ export function activateSidebar(context: vscode.ExtensionContext) {
 
   const treeView = vscode.window.createTreeView('ESBoot', {
     treeDataProvider: sidebarProvider,
-    canSelectMany: false
+    canSelectMany: false,
   });
 
-  treeView.onDidChangeSelection(event => {
+  treeView.onDidChangeSelection((event) => {
     if (event.selection.length > 0) {
       const selectedItem = event.selection[0];
-      const label = selectedItem.label.replace(/^[▶ ]+/, '').trim(); // 移除前面的箭头和空格
-      if (selectedItem.type === 'platform' && sidebarProvider.platforms.includes(label)) {
-        sidebarProvider.selectPlatform(label);
-      } else if (selectedItem.type === 'pageType' && sidebarProvider.pageTypes.includes(label)) {
-        sidebarProvider.selectPageType(label);
+      console.log(selectedItem, 'selectedItem');
+
+      const label = selectedItem.label.replace(/^[▶ ]+/, '').trim();
+
+      switch (selectedItem.type) {
+        case TreeItemType.PLATFORM:
+          if (
+            sidebarProvider.platforms.includes(label) &&
+            sidebarProvider.selectedPlatform !== label
+          ) {
+            sidebarProvider.selectPlatform(label);
+            vscode.window.showInformationMessage(`Platform selected: ${label}`);
+          }
+          break;
+        case TreeItemType.PAGE_TYPE:
+          if (
+            sidebarProvider.pageTypes.includes(label) &&
+            sidebarProvider.selectedPageType !== label
+          ) {
+            sidebarProvider.selectPageType(label);
+            vscode.window.showInformationMessage(`PageType selected: ${label}`);
+          }
+          break;
+        case TreeItemType.PAGE:
+          if (sidebarProvider.fullPages.includes(label)) {
+            sidebarProvider.selectPage(label);
+          }
+          break;
       }
     }
   });
@@ -74,9 +98,7 @@ export function activateSidebar(context: vscode.ExtensionContext) {
             picked: isCurrent,
           };
         });
-      const result = await vscode.window.showQuickPick(
-        quickPickItems,
-        {
+      const result = await vscode.window.showQuickPick(quickPickItems, {
         placeHolder: 'Select an option',
         title: 'Select Page Type',
       });
@@ -87,6 +109,34 @@ export function activateSidebar(context: vscode.ExtensionContext) {
             `Page Type selected: ${result.label}`
           );
         }
+      }
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('ESBoot.selectPages', async () => {
+      const quickPickItems: vscode.QuickPickItem[] =
+        sidebarProvider.fullPages.map((page) => {
+          const isCurrent = sidebarProvider.selectedPages.includes(page);
+
+          return {
+            label: page,
+            description: '',
+            picked: isCurrent,
+          };
+        });
+
+      const results = await vscode.window.showQuickPick(quickPickItems, {
+        placeHolder: 'Select an option',
+        title: 'Select Pages',
+        canPickMany: true,
+      });
+
+      if (results) {
+        sidebarProvider.selectedPages = results.map((item) => item.label);
+        vscode.window.showInformationMessage(
+          `Selected pages: ${sidebarProvider.selectedPages.join(', ')}`
+        );
       }
     })
   );

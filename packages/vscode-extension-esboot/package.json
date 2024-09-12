@@ -32,6 +32,11 @@
         "command": "ESBoot.selectPageType",
         "title": "ESBoot: Select Page Type",
         "icon": "$(page-type)"
+      },
+      {
+        "command": "ESBoot.selectPages",
+        "title": "ESBoot: Select Pages",
+        "icon": "$(pages)"
       }
     ],
     "viewsContainers": {
