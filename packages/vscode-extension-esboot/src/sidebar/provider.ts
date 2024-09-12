@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import fse from 'fs-extra';
+import { join } from 'path';
 import { addEntry } from '@dz-web/esboot-bundler-common';
 import { cfg } from '@dz-web/esboot';
 import { PLATFORMS, PAGE_TYPE } from '@dz-web/esboot-common';
@@ -67,25 +67,42 @@ export class ESBootSidebarProvider
     this._currPagesKeys.clear();
     this._fullPages.length = 0;
 
-    const { ESBOOT_CONTENT_PATTERN = '*' } = process.env;
+    const { ESBOOT_CONTENT_PATTERN = '*', ESBOOT_CONTENT_PATH = '' } =
+      process.env;
     const isFull = ESBOOT_CONTENT_PATTERN === '*';
-
-    if (!isFull) {
-      await addEntry(cfg, (params) => {
-        this._currPagesKeys.set(params.chunkName, true);
-      });
-    }
+    const contentPath = join(
+      'platforms',
+      this.selectedPlatform || '',
+      `_${this.selectedPageType}`
+    );
 
     await addEntry(
       cfg,
       (params) => {
         console.log('params', params);
         this._fullPages.push(params.chunkName);
+        if (isFull) {
+          this._currPagesKeys.set(params.chunkName, true);
+        }
       },
       {
+        contentPath,
         pattern: '*',
       }
     );
+
+    if (!isFull) {
+      await addEntry(
+        cfg,
+        (params) => {
+          this._currPagesKeys.set(params.chunkName, true);
+        },
+        {
+          contentPath: join(contentPath, ESBOOT_CONTENT_PATH),
+          pattern: ESBOOT_CONTENT_PATTERN,
+        }
+      );
+    }
 
     console.log('this._fullPages', this._fullPages, this._currPagesKeys);
     this._onDidChangeTreeData.fire();
@@ -100,7 +117,7 @@ export class ESBootSidebarProvider
       switch (element.label) {
         case 'Platform':
           return Promise.resolve(this.getPlatformItems());
-        case 'Page Type':
+        case 'PageType':
           return Promise.resolve(this.getPageTypeItems());
         case 'Pages':
           return Promise.resolve(this.getPageItems());
@@ -112,13 +129,10 @@ export class ESBootSidebarProvider
           vscode.TreeItemCollapsibleState.Expanded
         ),
         new ESBootTreeItem(
-          'Page Type',
+          'PageType',
           vscode.TreeItemCollapsibleState.Expanded
         ),
-        new ESBootTreeItem(
-          'Pages',
-          vscode.TreeItemCollapsibleState.Expanded
-        ),
+        new ESBootTreeItem('Pages', vscode.TreeItemCollapsibleState.Expanded),
       ]);
     }
     return Promise.resolve([]);

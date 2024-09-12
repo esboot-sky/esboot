@@ -24,6 +24,7 @@ export const addEntry = async function (
   cfg: ConfigurationInstance,
   cb: (params: AddEntryCBParams) => void,
   options: {
+    contentPath?: string;
     pattern?: string;
   } = {}
 ) {
@@ -40,14 +41,14 @@ export const addEntry = async function (
     contentRootPath = MPConfiguration.contentRootPath;
   }
 
-  const { pattern } = options;
+  const { pattern, contentPath } = options;
   const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } =
     process.env;
 
   const files = await glob(
     `/**/${pattern || ESBOOT_CONTENT_PATTERN}.entry.tsx`,
     {
-      root: join(contentRootPath, ESBOOT_CONTENT_PATH),
+      root: join(contentRootPath, contentPath || ESBOOT_CONTENT_PATH),
       ignore: ['**/node_modules/**', '**/test/**'],
     }
   );
