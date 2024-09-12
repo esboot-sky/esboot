@@ -8,6 +8,25 @@ export function activateSidebar(context: vscode.ExtensionContext) {
   const sidebarProvider = new ESBootSidebarProvider();
   vscode.window.registerTreeDataProvider('ESBoot', sidebarProvider);
 
+  const treeView = vscode.window.createTreeView('ESBoot', {
+    treeDataProvider: sidebarProvider,
+    canSelectMany: false
+  });
+
+  treeView.onDidChangeSelection(event => {
+    if (event.selection.length > 0) {
+      const selectedItem = event.selection[0];
+      const label = selectedItem.label.replace(/^[▶ ]+/, '').trim(); // 移除前面的箭头和空格
+      if (selectedItem.type === 'platform' && sidebarProvider.platforms.includes(label)) {
+        sidebarProvider.selectPlatform(label);
+      } else if (selectedItem.type === 'pageType' && sidebarProvider.pageTypes.includes(label)) {
+        sidebarProvider.selectPageType(label);
+      }
+    }
+  });
+
+  context.subscriptions.push(treeView);
+
   context.subscriptions.push(
     vscode.commands.registerCommand('ESBoot.refreshSidebar', () => {
       sidebarProvider.refresh();

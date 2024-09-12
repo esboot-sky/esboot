@@ -96,29 +96,27 @@ export class ESBootSidebarProvider
   }
 
   getChildren(element?: ESBootTreeItem): Thenable<ESBootTreeItem[]> {
-    console.log('getChildren', element);
-
     if (element) {
       switch (element.label) {
-        case 'Select Platform':
+        case 'Platform':
           return Promise.resolve(this.getPlatformItems());
-        case 'Select Page Type':
+        case 'Page Type':
           return Promise.resolve(this.getPageTypeItems());
-        case 'Select Pages':
+        case 'Pages':
           return Promise.resolve(this.getPageItems());
       }
     } else {
       return Promise.resolve([
         new ESBootTreeItem(
-          'Select Platform',
+          'Platform',
           vscode.TreeItemCollapsibleState.Expanded
         ),
         new ESBootTreeItem(
-          'Select Page Type',
+          'Page Type',
           vscode.TreeItemCollapsibleState.Expanded
         ),
         new ESBootTreeItem(
-          'Select Pages',
+          'Pages',
           vscode.TreeItemCollapsibleState.Expanded
         ),
       ]);
@@ -134,7 +132,7 @@ export class ESBootSidebarProvider
           vscode.TreeItemCollapsibleState.None,
           {
             command: 'ESBoot.selectPlatform',
-            title: 'Select Platform',
+            title: 'Platform',
             arguments: [platform],
           },
           this.selectedPlatform === platform
@@ -152,7 +150,7 @@ export class ESBootSidebarProvider
           vscode.TreeItemCollapsibleState.None,
           {
             command: 'ESBoot.selectPageType',
-            title: 'Select Page Type',
+            title: 'Page Type',
             arguments: [pageType],
           },
           this.selectedPageType === pageType
@@ -170,7 +168,7 @@ export class ESBootSidebarProvider
           vscode.TreeItemCollapsibleState.None,
           {
             command: 'ESBoot.selectPage',
-            title: 'Select Page',
+            title: 'Page',
             arguments: [page],
           },
           this._currPagesKeys.has(page)
