@@ -2,20 +2,29 @@ import { resolve } from 'path';
 import type { AddFunc } from '@/cfg/types';
 
 export const addJSONRules: AddFunc = async function (cfg, webpackCfg) {
-  const { useLangJsonPicker, isSP } = cfg.config;
+  const { useLangJsonPicker, isSP, entry } = cfg.config;
 
   if (!useLangJsonPicker || isSP) return;
 
-  webpackCfg.module.rules.push({
-    test: /\.json$/,
-    type: 'javascript/auto',
+  const list = Object.values(entry).map((item) => ({
+    issuerLayer: item.chunkName,
     use: [
       {
         loader: resolve(__dirname, 'loaders/lang-json-picker/index.js'),
         options: {
+          layer: item.chunkName,
           config: cfg.config,
         },
       },
     ],
+  }));
+
+  webpackCfg.experiments = {
+    layers: true,
+  };
+  webpackCfg.module.rules.push({
+    test: /\.json$/,
+    type: 'javascript/auto',
+    oneOf: list,
   });
 };

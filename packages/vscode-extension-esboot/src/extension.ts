@@ -10,7 +10,6 @@ export function activate(context: vscode.ExtensionContext) {
   const cfgPath = path.join(root, '.esbootrc.ts');
   if (!fse.existsSync(cfgPath)) return;
 
-  // .esbootrc.ts 是否包含isSP: true
   const content = fse.readFileSync(cfgPath, 'utf8');
   const isSP = content.includes('isSP: true');
   if (isSP) return;

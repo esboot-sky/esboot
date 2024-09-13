@@ -17,7 +17,10 @@ export const addEntry: AddFunc = async function (cfg, webpackCfg) {
     const { chunkName, template, entry, title } = params;
     const ensureTpl = join(tplRootPath, template);
 
-    webpackCfg.entry[chunkName] = entry;
+    webpackCfg.entry[chunkName] = {
+      import: entry,
+      layer: chunkName,
+    };
     webpackCfg.plugins.push(
       new HtmlWebpackPlugin({
         chunks: [chunkName],

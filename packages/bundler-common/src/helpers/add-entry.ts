@@ -73,11 +73,12 @@ export const addEntry = async function (
       template: tplRelativePath,
     });
 
-    entry[file] = {
+    entry[chunkName] = {
       langJsonPicker,
       tpl: tplRelativePath,
       chunkName,
       fileName,
+      entry: file,
       title: ensureTitle,
       url: `http://${ipv4}:${port}/${chunkName}.html`,
     };

@@ -14,6 +14,7 @@ interface Entry {
   fileName: string;
   title: string;
   url: string;
+  entry: string;
   langJsonPicker?: string[];
 }
 

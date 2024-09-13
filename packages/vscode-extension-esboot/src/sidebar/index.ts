@@ -17,7 +17,6 @@ export function activateSidebar(context: vscode.ExtensionContext) {
   treeView.onDidChangeSelection((event) => {
     if (event.selection.length > 0) {
       const selectedItem = event.selection[0];
-      console.log(selectedItem, 'selectedItem');
 
       const label = selectedItem.label.replace(/^[▶ ]+/, '').trim();
 
@@ -164,10 +163,13 @@ export function activateSidebar(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('esboot.selectSinglePageByContext', async (item: ESBootTreeItem) => {
-      if (item) {
-        sidebarProvider.selectSinglePage(item.label);
+    vscode.commands.registerCommand(
+      'esboot.selectSinglePageByContext',
+      async (item: ESBootTreeItem) => {
+        if (item) {
+          sidebarProvider.selectSinglePage(item.label);
+        }
       }
-    })
+    )
   );
 }
