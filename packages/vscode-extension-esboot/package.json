@@ -3,7 +3,7 @@
   "private": true,
   "displayName": "esboot",
   "description": "esboot toolkit",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "publisher": "moonlitusun",
   "icon": "media/logo.png",
   "engines": {
@@ -19,39 +19,50 @@
   "contributes": {
     "commands": [
       {
-        "command": "ESBoot.refreshSidebar",
+        "command": "esboot.refreshSidebar",
         "title": "ESBoot: Refresh Sidebar",
         "icon": "$(refresh)"
       },
       {
-        "command": "ESBoot.selectPlatform",
+        "command": "esboot.selectPlatform",
         "title": "ESBoot: Select Platform",
         "icon": "$(platform)"
       },
       {
-        "command": "ESBoot.selectPageType",
+        "command": "esboot.selectPageType",
         "title": "ESBoot: Select Page Type",
         "icon": "$(page-type)"
       },
       {
-        "command": "ESBoot.selectPages",
+        "command": "esboot.selectPages",
         "title": "ESBoot: Select Pages",
         "icon": "$(pages)"
+      },
+      {
+        "command": "esboot.selectSinglePage",
+        "title": "ESBoot: Select Single Page",
+        "icon": "$(page)"
+      },
+      {
+        "command": "esboot.selectSinglePageByContext",
+        "title": "Single Select",
+        "icon": "$(page)",
+        "when": "never"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "ESBoot",
+          "id": "esboot",
           "title": "ESBoot",
           "icon": "media/logo.svg"
         }
       ]
     },
     "views": {
-      "ESBoot": [
+      "esboot": [
         {
-          "id": "ESBoot",
+          "id": "esboot",
           "name": "ToolBar"
         }
       ]
@@ -59,8 +70,15 @@
     "menus": {
       "view/title": [
         {
-          "command": "ESBoot.refreshSidebar",
-          "when": "view == ESBoot",
+          "command": "esboot.refreshSidebar",
+          "when": "view == esboot",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "esboot.selectSinglePageByContext",
+          "when": "view == esboot && viewItem == page",
           "group": "navigation"
         }
       ]

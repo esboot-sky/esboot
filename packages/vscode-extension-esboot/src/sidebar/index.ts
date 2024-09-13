@@ -1,15 +1,15 @@
 import * as vscode from 'vscode';
 import { refreshInfo } from '../utils';
-import { ESBootSidebarProvider } from './provider';
+import { ESBootSidebarProvider, ESBootTreeItem } from './provider';
 import { TreeItemType } from './constants';
 
 export function activateSidebar(context: vscode.ExtensionContext) {
   refreshInfo();
 
   const sidebarProvider = new ESBootSidebarProvider();
-  vscode.window.registerTreeDataProvider('ESBoot', sidebarProvider);
+  vscode.window.registerTreeDataProvider('esboot', sidebarProvider);
 
-  const treeView = vscode.window.createTreeView('ESBoot', {
+  const treeView = vscode.window.createTreeView('esboot', {
     treeDataProvider: sidebarProvider,
     canSelectMany: false,
   });
@@ -42,7 +42,7 @@ export function activateSidebar(context: vscode.ExtensionContext) {
           break;
         case TreeItemType.PAGE:
           if (sidebarProvider.fullPages.includes(label)) {
-            sidebarProvider.selectPage(label);
+            sidebarProvider.toggleSinglePage(label);
           }
           break;
       }
@@ -52,14 +52,14 @@ export function activateSidebar(context: vscode.ExtensionContext) {
   context.subscriptions.push(treeView);
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('ESBoot.refreshSidebar', () => {
+    vscode.commands.registerCommand('esboot.refreshSidebar', () => {
       sidebarProvider.refresh();
       vscode.window.showInformationMessage('ESBoot sidebar refreshed');
     })
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('ESBoot.selectPlatform', async () => {
+    vscode.commands.registerCommand('esboot.selectPlatform', async () => {
       const quickPickItems: vscode.QuickPickItem[] =
         sidebarProvider.platforms.map((platform) => {
           const isCurrent = sidebarProvider.selectedPlatform === platform;
@@ -87,7 +87,7 @@ export function activateSidebar(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('ESBoot.selectPageType', async () => {
+    vscode.commands.registerCommand('esboot.selectPageType', async () => {
       const quickPickItems: vscode.QuickPickItem[] =
         sidebarProvider.pageTypes.map((pageType) => {
           const isCurrent = sidebarProvider.selectedPageType === pageType;
@@ -114,7 +114,7 @@ export function activateSidebar(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('ESBoot.selectPages', async () => {
+    vscode.commands.registerCommand('esboot.selectPages', async () => {
       const quickPickItems: vscode.QuickPickItem[] =
         sidebarProvider.fullPages.map((page) => {
           const isCurrent = sidebarProvider.selectedPages.includes(page);
@@ -132,11 +132,41 @@ export function activateSidebar(context: vscode.ExtensionContext) {
         canPickMany: true,
       });
 
-      if (results) {
-        sidebarProvider.selectedPages = results.map((item) => item.label);
+      if (results && results.length > 0) {
+        sidebarProvider.selectPages(results.map((item) => item.label));
         vscode.window.showInformationMessage(
           `Selected pages: ${sidebarProvider.selectedPages.join(', ')}`
         );
+      }
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('esboot.selectSinglePage', async () => {
+      const quickPickItems: vscode.QuickPickItem[] =
+        sidebarProvider.fullPages.map((page) => {
+          return {
+            label: page,
+            description: '',
+          };
+        });
+
+      const result = await vscode.window.showQuickPick(quickPickItems, {
+        placeHolder: 'Select an option',
+        title: 'Select Page',
+      });
+
+      if (result) {
+        sidebarProvider.selectSinglePage(result.label);
+        vscode.window.showInformationMessage(`Page selected: ${result.label}`);
+      }
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('esboot.selectSinglePageByContext', async (item: ESBootTreeItem) => {
+      if (item) {
+        sidebarProvider.selectSinglePage(item.label);
       }
     })
   );

@@ -6,7 +6,7 @@ import { PLATFORMS, PAGE_TYPE } from '@dz-web/esboot-common';
 import { refreshInfo, modifyEnv } from '../utils';
 import { TreeItemType } from './constants';
 
-class ESBootTreeItem extends vscode.TreeItem {
+export class ESBootTreeItem extends vscode.TreeItem {
   public selected: boolean;
   public type: TreeItemType;
 
@@ -84,7 +84,6 @@ export class ESBootSidebarProvider
     await addEntry(
       cfg,
       (params) => {
-        console.log('params', params);
         this.fullPages.push(params.chunkName);
         if (isFull) {
           this.selectedPages.push(params.chunkName);
@@ -109,7 +108,6 @@ export class ESBootSidebarProvider
       );
     }
 
-    console.log('this._fullPages', this.fullPages, this.selectedPages);
     this._onDidChangeTreeData.fire();
   };
 
@@ -123,17 +121,18 @@ export class ESBootSidebarProvider
       treeItem.iconPath = new vscode.ThemeIcon('circle-filled');
     }
 
+    treeItem.contextValue = element.type;
     return treeItem;
   }
 
   getChildren(element?: ESBootTreeItem): Thenable<ESBootTreeItem[]> {
     if (element) {
       switch (element.type) {
-        case 'platform':
+        case TreeItemType.PLATFORM:
           return Promise.resolve(this.getPlatformItems());
-        case 'pageType':
+        case TreeItemType.PAGE_TYPE:
           return Promise.resolve(this.getPageTypeItems());
-        case 'page':
+        case TreeItemType.PAGE:
           return Promise.resolve(this.getPageItems());
       }
     } else {
@@ -149,7 +148,7 @@ export class ESBootSidebarProvider
           TreeItemType.PAGE_TYPE
         ),
         new ESBootTreeItem(
-          `Pages(${this.fullPages.length})`,
+          `Pages(${this.selectedPages.length}/${this.fullPages.length})`,
           vscode.TreeItemCollapsibleState.Expanded,
           TreeItemType.PAGE
         ),
@@ -165,7 +164,7 @@ export class ESBootSidebarProvider
           platform,
           vscode.TreeItemCollapsibleState.None,
           TreeItemType.PLATFORM,
-          platform === this.selectedPlatform // 检查当前平台是否被选中
+          platform === this.selectedPlatform
         )
     );
   }
@@ -183,15 +182,15 @@ export class ESBootSidebarProvider
   }
 
   private getPageItems = (): ESBootTreeItem[] => {
-    return this.fullPages.map(
-      (page) =>
-        new ESBootTreeItem(
-          page,
-          vscode.TreeItemCollapsibleState.None,
-          TreeItemType.PAGE,
-          this.selectedPages.includes(page)
-        )
-    );
+    return this.fullPages.map((page) => {
+      const item = new ESBootTreeItem(
+        page,
+        vscode.TreeItemCollapsibleState.None,
+        TreeItemType.PAGE,
+        this.selectedPages.includes(page)
+      );
+      return item;
+    });
   };
 
   selectPlatform(platform: string): void {
@@ -214,14 +213,7 @@ export class ESBootSidebarProvider
     this.refresh();
   }
 
-  selectPage(page: string): void {
-    if (this.selectedPages.includes(page)) {
-      if (this.selectedPages.length === 1) return;
-      this.selectedPages = this.selectedPages.filter((p) => p !== page);
-    } else {
-      this.selectedPages.push(page);
-    }
-
+  createPageEnv(): void {
     let pattern = '*';
 
     if (this.selectedPages.length !== 0) {
@@ -234,5 +226,26 @@ export class ESBootSidebarProvider
 
     modifyEnv('ESBOOT_CONTENT_PATTERN', pattern);
     this.refresh();
+  }
+
+  selectPages(pages: string[]): void {
+    this.selectedPages = pages;
+    this.createPageEnv();
+  }
+
+  selectSinglePage(page: string): void {
+    this.selectedPages = [page];
+    this.createPageEnv();
+  }
+
+  toggleSinglePage(page: string): void {
+    if (this.selectedPages.includes(page)) {
+      if (this.selectedPages.length === 1) return;
+      this.selectedPages = this.selectedPages.filter((p) => p !== page);
+    } else {
+      this.selectedPages.push(page);
+    }
+
+    this.createPageEnv();
   }
 }
