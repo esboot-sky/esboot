@@ -12,7 +12,6 @@ export const addJSONRules: AddFunc = async function (cfg, webpackCfg) {
       {
         loader: resolve(__dirname, 'loaders/lang-json-picker/index.js'),
         options: {
-          layer: item.chunkName,
           config: cfg.config,
         },
       },
