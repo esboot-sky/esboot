@@ -4,7 +4,7 @@ import { MFSU as _MFSU } from '@umijs/mfsu';
 import { isFunction, noop } from '@dz-web/esboot-common/lodash';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import type { ConfigurationInstance } from '@dz-web/esboot';
-
+import type { AddFunc, CustomWebpackConfiguration } from '@/cfg/types';
 import type { BundlerWebpackOptions } from '@/types';
 
 export type MFSU = _MFSU | null;
@@ -35,4 +35,32 @@ export const createMFSU = (cfg: ConfigurationInstance): MFSU => {
   }
 
   return mfsuInstance;
+};
+
+export const wrapCfgWithMfsu: (
+  ...args: Parameters<AddFunc<{ mfsu: MFSU }>>
+) => Promise<CustomWebpackConfiguration> = async (cfg, webpackCfg, options) => {
+  const { isDev, useLangJsonPicker } = cfg.config;
+  const { mfsu } = options!;
+
+  if (!mfsu || !isDev) return webpackCfg;
+
+  if (useLangJsonPicker) {
+    for (const key of Object.keys(webpackCfg.entry)) {
+      // EntryDescription
+      if (
+        typeof webpackCfg.entry[key] === 'object' &&
+        'import' in webpackCfg.entry[key]
+      ) {
+        webpackCfg.entry[key] = webpackCfg.entry[key].import ?? '';
+      }
+    }
+  }
+
+  await mfsu.setWebpackConfig({
+    config: webpackCfg,
+    depConfig: {},
+  });
+
+  return webpackCfg;
 };

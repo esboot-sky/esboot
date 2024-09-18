@@ -11,7 +11,7 @@ export default defineConfig<BundlerOptions>((cfg) => {
     isSP: false,
     bundler: Bundler,
     // bundlerOptions: {},
-    bundlerOptions: { mfsu: false },
+    bundlerOptions: { mfsu: true },
     server: {
       port: 8111,
     },

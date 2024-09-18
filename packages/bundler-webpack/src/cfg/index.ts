@@ -11,7 +11,7 @@ import { addOnlyDev } from './partials/add-only-dev';
 
 import { addOptimization } from './optimization/add-optimization';
 
-import { createMFSU } from './helpers/mfsu';
+import { createMFSU, wrapCfgWithMfsu } from './helpers/mfsu';
 import { customConfig } from './helpers/custom-config';
 
 import { addJavaScriptRules } from './rules/javascript/add-rules-javascript';
@@ -64,7 +64,7 @@ export const getWebpackCfg = async (
   await addJavaScriptRules(cfg, webpackCfg, { mfsu });
   await addStyleRules(cfg, webpackCfg);
   await addAssetRules(cfg, webpackCfg);
-  await addJSONRules(cfg, webpackCfg);
+  await addJSONRules(cfg, webpackCfg, { mfsu });
 
   // Plugins
   await addInjectBodyPlugin(cfg, webpackCfg);
@@ -78,14 +78,5 @@ export const getWebpackCfg = async (
   addOnlyDev(cfg, webpackCfg);
   customConfig(cfg, webpackCfg);
 
-  if (mfsu && isDev) {
-    await mfsu.setWebpackConfig({
-      config: webpackCfg,
-      depConfig: {},
-    });
-
-    return webpackCfg;
-  }
-
-  return webpackCfg;
+  return wrapCfgWithMfsu(cfg, webpackCfg, { mfsu });
 };
