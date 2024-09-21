@@ -16,11 +16,11 @@
   "dependencies": {
     "@dz-web/axios": "^0.0.6",
     "@dz-web/axios-middlewares": "^1.0.3",
+    "@dz-web/esboot-browser": "workspace:*",
     "@loadable/component": "^5.16.4",
     "@tanstack/react-query": "^5.49.2",
     "ahooks": "^3.8.0",
     "axios": "^1.7.2",
-    "clsx": "^2.1.1",
     "lodash-es": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

@@ -15,3 +15,6 @@ export const addDefine = (cfg: ConfigurationInstance): AddDefineRes => {
     ...customDefine,
   };
 };
+
+
+

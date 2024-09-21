@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "dev:browser": "turbo run dev --filter @dz-web/esboot-browser",
     "dev:base": "turbo run dev --filter @dz-web/esboot-common --filter @dz-web/esboot-lint --filter @dz-web/esboot --filter @dz-web/esboot-bundler-common",
     "dev:webpack": "pnpm run dev:base --filter @dz-web/esboot-bundler-webpack",
     "dev:vite": "pnpm run dev:base --filter @dz-web/esboot-bundler-vite",

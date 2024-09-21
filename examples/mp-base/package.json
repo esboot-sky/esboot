@@ -19,6 +19,7 @@
   "dependencies": {
     "@dz-web/axios": "^0.0.6",
     "@dz-web/axios-middlewares": "^1.0.3",
+    "@dz-web/esboot-browser": "workspace:*",
     "@dz-web/bridge": "^2.2.10",
     "@dz-web/cache": "^2.0.0",
     "@dz-web/o-orange": "^4.3.0",

@@ -9,6 +9,7 @@ module.exports = {
   ],
   rules: {
     // your rules
+    "no-trailing-spaces": "error"
   },
   overrides: [
     {

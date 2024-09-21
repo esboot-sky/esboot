@@ -50,7 +50,7 @@ export const getWebpackCfg = async (
   const mfsu = createMFSU(cfg);
 
   // Partial
-  await addEntry(cfg, webpackCfg);
+  await addEntry(cfg, webpackCfg, { mfsu });
   await addOutput(cfg, webpackCfg);
   await addResolve(cfg, webpackCfg);
   await addDevtool(cfg, webpackCfg);

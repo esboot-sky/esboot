@@ -10,7 +10,7 @@ import {
 export default defineConfig<BundlerOptions>({
   bundler: Bundler,
   isSP: true,
-  bundlerOptions: {},
+  bundlerOptions: { mfsu: false },
   // bundlerOptions: {
   //   codeSplitting: {
   //     jsStrategy: CodeSplittingType.granularChunks,

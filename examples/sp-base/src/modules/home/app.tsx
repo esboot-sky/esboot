@@ -1,3 +1,4 @@
+import { cn, abcs } from '@dz-web/esboot-browser';
 import { useNavigate, Outlet } from 'react-router-dom';
 
 import A from './a';
@@ -6,8 +7,11 @@ import './app.scss';
 function Test() {
   const navigate = useNavigate();
 
-  console.log(window.GLOBAL_CONFIG);
+  console.log(cn);
 
+  // const b = abcs;
+
+  // console.log(b);
 
   return (
     <div className="page">
@@ -22,9 +26,7 @@ function Test() {
         To Test122333456456
       </button>
 
-      <h3 className="overflow-hidden text-ellipsis whitespace-nowrap font-[500] text-[var(--dz-course-item-title-color)]">
-        {1}
-      </h3>
+      <h3 className={cn('font-[500] text-[blue]')}>{1}</h3>
       <div>module2 css323</div>
       <A />
       <Outlet />
