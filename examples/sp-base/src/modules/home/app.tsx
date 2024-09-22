@@ -1,4 +1,4 @@
-import { cn, abcs } from '@dz-web/esboot-browser';
+import { cn } from '@dz-web/esboot-browser';
 import { useNavigate, Outlet } from 'react-router-dom';
 
 import A from './a';
