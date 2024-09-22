@@ -3,7 +3,7 @@ import B from './b';
 function Home() {
   return (
     <div>
-      <B></B>
+      <B />
       Test
     </div>
   );

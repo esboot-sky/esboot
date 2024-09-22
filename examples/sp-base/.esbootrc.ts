@@ -8,6 +8,20 @@ import {
 // import { BundlerRspack as Bundler, type BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
 
 export default defineConfig<BundlerOptions>({
+  plugins: [
+    {
+      key: 'test',
+      onActivated: () => {
+        console.log('test plugin onActivated');
+      },
+      modifyConfig: (config, patch) => {
+        console.log('modifyBundlerConfig', config);
+        patch({
+          publicPath: '/tetett/'
+        });
+      },
+    },
+  ],
   bundler: Bundler,
   isSP: true,
   bundlerOptions: { mfsu: false },
