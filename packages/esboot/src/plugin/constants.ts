@@ -6,4 +6,5 @@ export enum PluginHooks {
   modifyStylelintConfig = 'modifyStylelintConfig',
   modifyEslintConfig = 'modifyEslintConfig',
   modifyBundlerConfig = 'modifyBundlerConfig',
+  afterCompile = 'afterCompile',
 }

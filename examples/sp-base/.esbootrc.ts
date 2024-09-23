@@ -15,10 +15,36 @@ export default defineConfig<BundlerOptions>({
         console.log('test plugin onActivated');
       },
       modifyConfig: (config, patch) => {
-        console.log('modifyBundlerConfig', config);
+        // console.log('modifyBundlerConfig', config);
         patch({
-          publicPath: '/tetett/'
+          publicPath: '/tetett/',
         });
+      },
+      registerCommands: (cfg) => {
+        return [
+          {
+            name: 'test',
+            description: 'testlkjsjdfklsjdlkf',
+            options: ['-f, --file <char>', '-s, --sampleFile <char>'],
+            action: (options) => {
+              console.log('tes234324234t', options);
+            },
+          },
+        ];
+      },
+    },
+    {
+      key: 'test2',
+      registerCommands: () => {
+        return [
+          {
+            name: 'test2',
+            description: 'test2',
+            action: () => {
+              console.log('test2');
+            },
+          },
+        ];
       },
     },
   ],

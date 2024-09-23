@@ -1,14 +1,23 @@
-interface Command {
+import { program } from 'commander';
+export interface Command {
   name: string;
   description?: string;
-  options?: string;
-  details?: string;
-  alias?: string | string[];
+  options?: string[];
   action: (...args: any[]) => void;
 }
 
-export function registerCommands(command: Command[]) {
-  const commands = Array.isArray(command) ? command : [command];
+export function registerCommands(commands: Command[]) {
+  commands.forEach((command) => {
+    const { name, description, options, action } = command;
 
-  console.log(commands);
+    const cmd = program.command(name);
+
+    if (Array.isArray(options)) {
+      options.forEach((option) => {
+        cmd.option(option);
+      });
+    }
+
+    cmd.description(description || name).action(action);
+  });
 }

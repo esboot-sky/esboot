@@ -1,6 +1,8 @@
 import type { Configuration } from '@/cfg/types';
 import { PluginHooks } from './constants';
+import { registerCommands, type Command } from './register-commands';
 import type { Plugin } from './type';
+
 export const pluginHooksDict: Record<PluginHooks, any[]> = {
   [PluginHooks.registerCommands]: [],
   [PluginHooks.modifyConfig]: [],
@@ -9,6 +11,7 @@ export const pluginHooksDict: Record<PluginHooks, any[]> = {
   [PluginHooks.modifyStylelintConfig]: [],
   [PluginHooks.modifyEslintConfig]: [],
   [PluginHooks.modifyBundlerConfig]: [],
+  [PluginHooks.afterCompile]: [],
 };
 
 export const preparePlugins = (cfg: Configuration) => {
@@ -35,5 +38,16 @@ export const callPluginHooks = <T extends PluginHooks>(
   hook: T,
   ...args: Parameters<Required<Plugin>[T]>
 ) => {
-  pluginHooksDict[hook].forEach((fn) => fn(...args));
+  switch (hook) {
+    case PluginHooks.registerCommands:
+      const commands: Command[] = [];
+      pluginHooksDict[hook].forEach((fn) => {
+        commands.push(...fn(...args));
+      });
+
+      registerCommands(commands);
+      break;
+    default:
+      pluginHooksDict[hook].forEach((fn) => fn(...args));
+  }
 };

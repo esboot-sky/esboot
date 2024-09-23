@@ -21,16 +21,24 @@ const cwd = process.cwd();
 const pkgPath = join(__dirname, '../../package.json');
 const pkg = require(pkgPath);
 
-function createBundler(environment: Environment) {
-  process.env.NODE_ENV = environment;
+function loadCfg() {
   cfg.load();
   preparePlugins(cfg.config);
-
   callPluginHooks<PluginHooks.modifyConfig>(
     PluginHooks.modifyConfig,
     cfg.config,
     cfg.patch
   );
+
+  callPluginHooks<PluginHooks.registerCommands>(
+    PluginHooks.registerCommands,
+    cfg.config
+  );
+}
+
+function createBundler(environment: Environment) {
+  process.env.NODE_ENV = environment;
+  loadCfg();
   const { config } = cfg;
 
   if (config.bundler) {
@@ -45,6 +53,11 @@ function createBundler(environment: Environment) {
 export const run = () => {
   processPrepare();
   loadEnv({ root: cwd });
+
+  const cmd = process.argv[2];
+  if (!['lint', 'exec_git_hooks'].includes(cmd)) {
+    loadCfg();
+  }
 
   program
     .command('dev')
@@ -68,17 +81,7 @@ export const run = () => {
     .command('prepare')
     .description('Prepare esboot project')
     .action(() => {
-      cfg.load();
-
       prepare();
-    });
-
-  program
-    .command('lint')
-    .description('Lint project files using ESLint and Stylelint')
-    .allowUnknownOption(true)
-    .action(async () => {
-      lint({ cwd });
     });
 
   program
@@ -86,7 +89,6 @@ export const run = () => {
     .description('Preview the distribution content')
     .allowUnknownOption(true)
     .action(async () => {
-      cfg.load();
       preview(cfg.config);
     });
 
@@ -96,8 +98,15 @@ export const run = () => {
     .option('-f, --file <char>')
     .option('-s, --sampleFile <char>')
     .action(async (options) => {
-      cfg.load();
       mockBridge(options, cfg.config);
+    });
+
+  program
+    .command('lint')
+    .description('Lint project files using ESLint and Stylelint')
+    .allowUnknownOption(true)
+    .action(async () => {
+      lint({ cwd });
     });
 
   program

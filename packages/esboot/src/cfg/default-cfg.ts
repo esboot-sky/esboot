@@ -36,4 +36,5 @@ export const defaultCfg: Configuration = {
     open: false,
     port: DEFAULT_DEV_PORT,
   },
+  plugins: [],
 };

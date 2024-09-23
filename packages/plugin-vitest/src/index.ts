@@ -7,9 +7,6 @@ import { getAbsolutePath } from '@@/helpers/path';
 export const alias = {
   vitest: getAbsolutePath('vitest'),
   '@testing-library/react': getAbsolutePath('@testing-library/react'),
-  '@testing-library/react-hooks': getAbsolutePath(
-    '@testing-library/react-hooks'
-  ),
   '@testing-library/user-event': getAbsolutePath('@testing-library/user-event'),
 };
 
