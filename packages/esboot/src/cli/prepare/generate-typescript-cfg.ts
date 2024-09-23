@@ -6,6 +6,7 @@ import { cacheDir } from '@dz-web/esboot-common/constants';
 import { info } from '@dz-web/esboot-common/helpers';
 
 import cfg from '@/cfg';
+import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
 
 const absListPath = (ref: string[]): string[] => {
   const { cwd } = cfg.config;
@@ -33,6 +34,12 @@ export function generateTypeScriptCfg() {
   tsconfigJson.exclude = absListPath(tsconfigJson.exclude);
   tsconfigJson.include = absListPath(tsconfigJson.include);
   tsconfigJson.files = absListPath(tsconfigJson.files);
+
+  callPluginHookOfModifyLintConfig(
+    PluginHooks.modifyTypescriptConfig,
+    cfg.config,
+    tsconfigJson
+  );
 
   const folderPath = join(cacheDir, 'typescript');
   const outoutPath = join(folderPath, 'tsconfig.json');

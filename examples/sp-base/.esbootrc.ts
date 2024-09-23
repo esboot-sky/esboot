@@ -14,11 +14,11 @@ export default defineConfig<BundlerOptions>({
       onActivated: () => {
         console.log('test plugin onActivated');
       },
-      modifyConfig: (config, patch) => {
+      modifyConfig: (config) => {
         // console.log('modifyBundlerConfig', config);
-        patch({
+        return {
           publicPath: '/tetett/',
-        });
+        };
       },
       registerCommands: (cfg) => {
         return [
@@ -31,6 +31,29 @@ export default defineConfig<BundlerOptions>({
             },
           },
         ];
+      },
+      modifyTypescriptConfig: (cfg, result) => {
+        return {
+          compilerOptions: {
+            baseUrl: 'src42323',
+            // baseUrl: cfg.compilerOptions.baseUrl,
+          },
+        };
+      },
+      modifyPrettierConfig: (cfg, result) => {
+        return {
+          printWidth: 1000,
+        };
+      },
+      modifyStylelintConfig: (cfg, result) => {
+        return {
+          printWidth: 1000,
+        };
+      },
+      modifyEslintConfig: (cfg, result) => {
+        return {
+          printWidth: 1000,
+        };
       },
     },
     {

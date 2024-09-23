@@ -13,8 +13,11 @@ import { logBrand } from '@/helpers';
 import { preview } from './preview';
 import { mockBridge } from './mock/bridge';
 
-import { callPluginHooks, preparePlugins } from '@/plugin';
-import { PluginHooks } from '@/plugin/constants';
+import { preparePlugins } from '@/plugin';
+import {
+  callPluginHookOfModifyConfig,
+  callPluginHookOfRegisterCommands,
+} from '@/plugin';
 
 const cwd = process.cwd();
 
@@ -24,16 +27,8 @@ const pkg = require(pkgPath);
 function loadCfg() {
   cfg.load();
   preparePlugins(cfg.config);
-  callPluginHooks<PluginHooks.modifyConfig>(
-    PluginHooks.modifyConfig,
-    cfg.config,
-    cfg.patch
-  );
-
-  callPluginHooks<PluginHooks.registerCommands>(
-    PluginHooks.registerCommands,
-    cfg.config
-  );
+  callPluginHookOfModifyConfig(cfg.config, cfg.patch);
+  callPluginHookOfRegisterCommands(cfg.config);
 }
 
 function createBundler(environment: Environment) {
@@ -55,7 +50,7 @@ export const run = () => {
   loadEnv({ root: cwd });
 
   const cmd = process.argv[2];
-  if (!['lint', 'exec_git_hooks'].includes(cmd)) {
+  if (!['lint', 'exec_git_hooks', 'dev', 'build'].includes(cmd)) {
     loadCfg();
   }
 

@@ -3,18 +3,34 @@ import cfg from '@/cfg';
 import { PluginHooks } from './constants';
 import type { Command } from './register-commands';
 
+type NormalLintConfig = Record<string, any>;
 export interface Plugin {
   key: string;
   onActivated?: (cfg: Configuration) => void;
   [PluginHooks.modifyConfig]?: (
     config: Configuration,
     patch: (typeof cfg)['patch']
-  ) => void;
+  ) => Partial<Configuration>;
   [PluginHooks.registerCommands]?: (cfg: Configuration) => Command[];
-  [PluginHooks.modifyTypescriptConfig]?: (config: Record<string, any>) => void;
-  [PluginHooks.modifyPrettierConfig]?: (config: Record<string, any>) => void;
-  [PluginHooks.modifyStylelintConfig]?: (config: Record<string, any>) => void;
-  [PluginHooks.modifyEslintConfig]?: (config: Record<string, any>) => void;
-  [PluginHooks.modifyBundlerConfig]?: (config: Record<string, any>) => void;
+  [PluginHooks.modifyTypescriptConfig]?: (
+    cfg: Configuration,
+    tsconfig: NormalLintConfig
+  ) => Partial<NormalLintConfig>;
+  [PluginHooks.modifyPrettierConfig]?: (
+    cfg: Configuration,
+    prettierConfig: NormalLintConfig
+  ) => Partial<NormalLintConfig>;
+  [PluginHooks.modifyStylelintConfig]?: (
+    cfg: Configuration,
+    stylelintConfig: NormalLintConfig
+  ) => Partial<NormalLintConfig>;
+  [PluginHooks.modifyEslintConfig]?: (
+    cfg: Configuration,
+    eslintConfig: NormalLintConfig
+  ) => Partial<NormalLintConfig>;
+  [PluginHooks.modifyBundlerConfig]?: (
+    cfg: Configuration,
+    bundlerConfig: NormalLintConfig
+  ) => Partial<NormalLintConfig>;
   [PluginHooks.afterCompile]?: () => void;
 }

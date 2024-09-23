@@ -1,7 +1,7 @@
 import type { Configuration } from '@/cfg/types';
 import { PluginHooks } from './constants';
-import { registerCommands, type Command } from './register-commands';
-import type { Plugin } from './type';
+// import { registerCommands, type Command } from './register-commands';
+// import type { Plugin } from './type';
 
 export const pluginHooksDict: Record<PluginHooks, any[]> = {
   [PluginHooks.registerCommands]: [],
@@ -34,20 +34,5 @@ export const preparePlugins = (cfg: Configuration) => {
   });
 };
 
-export const callPluginHooks = <T extends PluginHooks>(
-  hook: T,
-  ...args: Parameters<Required<Plugin>[T]>
-) => {
-  switch (hook) {
-    case PluginHooks.registerCommands:
-      const commands: Command[] = [];
-      pluginHooksDict[hook].forEach((fn) => {
-        commands.push(...fn(...args));
-      });
-
-      registerCommands(commands);
-      break;
-    default:
-      pluginHooksDict[hook].forEach((fn) => fn(...args));
-  }
-};
+export * from './hooks-action';
+export * from './constants';
