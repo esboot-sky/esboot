@@ -1,8 +1,8 @@
 import { join, resolve } from 'path';
-import type { Plugin } from '@dz-web/esboot';
+import { PluginHooks, type Plugin } from '@dz-web/esboot';
 import { runExec } from '@dz-web/esboot-utils';
 
-import { getAbsolutePath } from '@@/helpers/path';
+import { getAbsolutePath } from '@/helpers/path';
 
 export const alias = {
   vitest: getAbsolutePath('vitest'),
@@ -13,29 +13,51 @@ export const alias = {
 export default (): Plugin => {
   return {
     key: 'plugin-vitest',
-    registerCommands: (program) => {
-      program
-        .command('vitest')
-        .description('Start vitest')
-        .allowUnknownOption(true)
-        .action(async (_, p) => {
-          runExec(join(__dirname, '../'), [
-            'vitest',
-            '-r',
-            process.cwd(),
-            // '--dir',
-            // 'src',
-            '-c',
-            resolve(__dirname, '../config/vitest.config.ts'),
-            ...p.args,
-          ]);
-        });
+    [PluginHooks.registerCommands]: () => {
+      return [
+        {
+          name: 'vitest',
+          description: 'Start vitest',
+          action: async (_, p) => {
+            runExec(join(__dirname, '../'), [
+              'vitest',
+              '-r',
+              process.cwd(),
+              '-c',
+              resolve(__dirname, '../config/vitest.config.ts'),
+              ...p.args,
+            ]);
+          },
+        },
+      ];
     },
-    afterCommandOfGenerateAlias: () => ({
-      alias,
-      tsConfig: {
+    [PluginHooks.modifyTypescriptConfig]: () => {
+      return {
         include: [getAbsolutePath('@testing-library/jest-dom')],
-      },
-    }),
+      };
+    },
+    // program
+    //   .command('vitest')
+    //   .description('Start vitest')
+    //   .allowUnknownOption(true)
+    //   .action(async (_, p) => {
+    //     runExec(join(__dirname, '../'), [
+    //       'vitest',
+    //       '-r',
+    //       process.cwd(),
+    //       // '--dir',
+    //       // 'src',
+    //       '-c',
+    //       resolve(__dirname, '../config/vitest.config.ts'),
+    //       ...p.args,
+    //     ]);
+    //   });
+    // },
+    // afterCommandOfGenerateAlias: () => ({
+    //   alias,
+    //   tsConfig: {
+    //     include: [getAbsolutePath('@testing-library/jest-dom')],
+    //   },
+    // }),
   };
 };

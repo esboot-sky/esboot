@@ -1,4 +1,5 @@
 import { merge } from '@dz-web/esboot-common/lodash';
+import cfg from '@/cfg';
 import { PluginHooks } from './constants';
 import { pluginHooksDict } from './index';
 import { registerCommands, type Command } from './register-commands';
@@ -19,10 +20,10 @@ export function callPluginHookOfModifyLintConfig(
 export const callPluginHookOfModifyConfig = (
   ...args: Parameters<Required<Plugin>[PluginHooks.modifyConfig]>
 ) => {
-  const [config, patch] = args;
+  const [config] = args;
 
   pluginHooksDict[PluginHooks.modifyConfig].forEach((fn) => {
-    patch(fn(config));
+    cfg.patch(fn(config));
   });
 };
 
@@ -33,8 +34,6 @@ export const callPluginHookOfRegisterCommands = (
   pluginHooksDict[PluginHooks.registerCommands].forEach((fn) => {
     commands.push(...fn(...args));
   });
-
-  console.log(commands, 'commands');
 
   registerCommands(commands);
 };

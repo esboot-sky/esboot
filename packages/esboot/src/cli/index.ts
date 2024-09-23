@@ -27,7 +27,7 @@ const pkg = require(pkgPath);
 function loadCfg() {
   cfg.load();
   preparePlugins(cfg.config);
-  callPluginHookOfModifyConfig(cfg.config, cfg.patch);
+  callPluginHookOfModifyConfig(cfg.config);
   callPluginHookOfRegisterCommands(cfg.config);
 }
 

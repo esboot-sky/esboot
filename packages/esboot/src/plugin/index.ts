@@ -1,7 +1,5 @@
 import type { Configuration } from '@/cfg/types';
 import { PluginHooks } from './constants';
-// import { registerCommands, type Command } from './register-commands';
-// import type { Plugin } from './type';
 
 export const pluginHooksDict: Record<PluginHooks, any[]> = {
   [PluginHooks.registerCommands]: [],

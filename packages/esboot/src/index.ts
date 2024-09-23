@@ -6,3 +6,6 @@ export * from './cli/load-env';
 
 export * from './bundler';
 export * from './bundler/types';
+
+export * from './plugin/type';
+export * from './plugin/constants';
