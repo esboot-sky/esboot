@@ -15,6 +15,8 @@ export const pluginHooksDict: Record<PluginHooks, any[]> = {
 export const preparePlugins = (cfg: Configuration) => {
   const { plugins = [] } = cfg;
 
+  console.log(23, 'preparePlugins');
+  
   plugins.forEach((plugin) => {
     const { key, onActivated, ...hooks } = plugin;
 
@@ -30,6 +32,8 @@ export const preparePlugins = (cfg: Configuration) => {
       }
     }
   });
+
+  console.log(pluginHooksDict, 'preparePlugins');
 };
 
 export * from './hooks-action';

@@ -1,4 +1,5 @@
 import { ConfigurationInstance } from './types';
+import { callPluginHookOfModifyBundlerConfig } from '@/plugin';
 
 export abstract class Bundler {
   cfg: ConfigurationInstance;
@@ -9,4 +10,9 @@ export abstract class Bundler {
 
   abstract dev(): void;
   abstract build(): void;
+
+  public onModifyBundlerConfig<T>(config: T): T {
+    callPluginHookOfModifyBundlerConfig<T>(this.cfg.config, config);
+    return config;
+  }
 }

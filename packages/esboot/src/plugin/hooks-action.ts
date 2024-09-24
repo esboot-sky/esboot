@@ -38,11 +38,13 @@ export const callPluginHookOfRegisterCommands = (
   registerCommands(commands);
 };
 
-export const callPluginHookOfModifyTypescriptConfig = (
-  hook: PluginHooks,
-  ...args: Parameters<Required<Plugin>[PluginHooks.modifyTypescriptConfig]>
+export const callPluginHookOfModifyBundlerConfig = <T>(
+  cfg: Configuration,
+  bundlerConfig: T
 ) => {
-  pluginHooksDict[hook].forEach((fn) => {
-    fn(...args);
+  console.log(pluginHooksDict, 'pluginHooksDict[PluginHooks.modifyBundlerConfig]');
+  
+  pluginHooksDict[PluginHooks.modifyBundlerConfig].forEach((fn) => {
+    fn(cfg, bundlerConfig);
   });
 };

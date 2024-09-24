@@ -1,27 +1,28 @@
 import Webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { Bundler } from '@dz-web/esboot';
-import { BaseBundlerOptions, ConfigurationInstance } from '@dz-web/esboot';
+import { BaseBundlerOptions } from '@dz-web/esboot';
 import { error } from '@dz-web/esboot-common/helpers';
 import kleur from '@dz-web/esboot-common/kleur';
 
 import { getWebpackCfg } from './cfg';
+import type { CustomWebpackConfiguration } from '@/cfg/types';
 
-export class BundlerWebpack implements Bundler {
-  cfg: ConfigurationInstance;
-
+export class BundlerWebpack extends Bundler {
   constructor(options: BaseBundlerOptions) {
-    this.cfg = options.configuration;
+    super(options);
   }
 
   async dev() {
     let server: WebpackDevServer;
     const start = async () => {
-      console.time('dev');
-      const webpackCfg = await getWebpackCfg(this.cfg);
+      console.time('Create config');
+      const webpackCfg = this.onModifyBundlerConfig<CustomWebpackConfiguration>(
+        await getWebpackCfg(this.cfg)
+      );
+      console.timeEnd('Create config');
 
       const compiler = Webpack(webpackCfg);
-      console.timeEnd('dev');
 
       server = new WebpackDevServer(webpackCfg.devServer, compiler);
 

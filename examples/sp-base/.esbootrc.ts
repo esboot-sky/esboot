@@ -1,10 +1,6 @@
-import { defineConfig, type Configuration } from '@dz-web/esboot';
+import { defineConfig, type Configuration, PluginHooks } from '@dz-web/esboot';
 // import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions  } from '@dz-web/esboot-bundler-vite';
-import {
-  BundlerWebpack as Bundler,
-  CodeSplittingType,
-  type BundlerWebpackOptions as BundlerOptions,
-} from '@dz-web/esboot-bundler-webpack';
+import { BundlerWebpack as Bundler, CodeSplittingType, type BundlerWebpackOptions as BundlerOptions } from '@dz-web/esboot-bundler-webpack';
 // import { BundlerRspack as Bundler, type BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
 
 export default defineConfig<BundlerOptions>({
@@ -14,13 +10,13 @@ export default defineConfig<BundlerOptions>({
       onActivated: () => {
         console.log('test plugin onActivated');
       },
-      modifyConfig: (config) => {
+      [PluginHooks.modifyConfig]: (config) => {
         // console.log('modifyBundlerConfig', config);
         return {
-          publicPath: '/tetett/',
+          // publicPath: '/tetett/',
         };
       },
-      registerCommands: (cfg) => {
+      [PluginHooks.registerCommands]: (cfg) => {
         return [
           {
             name: 'test',
@@ -32,28 +28,34 @@ export default defineConfig<BundlerOptions>({
           },
         ];
       },
-      modifyTypescriptConfig: (cfg, result) => {
+      [PluginHooks.modifyTypescriptConfig]: (cfg, result) => {
         return {
           compilerOptions: {
-            baseUrl: 'src42323',
-            // baseUrl: cfg.compilerOptions.baseUrl,
+            baseUrl: 'src',
           },
         };
       },
-      modifyPrettierConfig: (cfg, result) => {
+      [PluginHooks.modifyPrettierConfig]: (cfg, result) => {
         return {
           printWidth: 1000,
         };
       },
-      modifyStylelintConfig: (cfg, result) => {
+      [PluginHooks.modifyStylelintConfig]: (cfg, result) => {
         return {
           printWidth: 1000,
         };
       },
-      modifyEslintConfig: (cfg, result) => {
+      [PluginHooks.modifyEslintConfig]: (cfg, result) => {
         return {
           printWidth: 1000,
         };
+      },
+      [PluginHooks.modifyBundlerConfig]: (cfg, result) => {
+        console.log(result, 'result');
+
+        return {
+          publicPath: '/tetett/',
+        } as Partial<Record<string, any>>;
       },
     },
     {
@@ -84,6 +86,7 @@ export default defineConfig<BundlerOptions>({
     '@@': 'src',
   },
   server: {
+    port: 4000,
     http2: false,
   },
   // analyze: true,
