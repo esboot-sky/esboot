@@ -34,10 +34,13 @@ export class BundlerWebpack extends Bundler {
     };
 
     await start();
+    this.onAfterCompile();
   }
 
   async build() {
-    const webpackCfg = await getWebpackCfg(this.cfg);
+    const webpackCfg = this.onModifyBundlerConfig<CustomWebpackConfiguration>(
+      await getWebpackCfg(this.cfg)
+    );
     const compiler = Webpack(webpackCfg);
 
     const handler: Parameters<typeof compiler.run>[0] = async (err, stats) => {
@@ -67,7 +70,9 @@ export class BundlerWebpack extends Bundler {
       // if (stats?.hasWarnings()) {
       // }
 
-      compiler.close(() => {});
+      compiler.close(() => {
+        this.onAfterCompile();
+      });
     };
 
     compiler.watch({}, handler);

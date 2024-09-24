@@ -17,6 +17,7 @@ import { preparePlugins } from '@/plugin';
 import {
   callPluginHookOfModifyConfig,
   callPluginHookOfRegisterCommands,
+  pluginHooksDict,
 } from '@/plugin';
 
 const cwd = process.cwd();
@@ -37,7 +38,10 @@ function createBundler(environment: Environment) {
   const { config } = cfg;
 
   if (config.bundler) {
-    const bundler = new config.bundler({ configuration: cfg });
+    const bundler = new config.bundler({
+      configuration: cfg,
+      pluginHooksDict,
+    });
     logBrand(config);
     return bundler;
   }

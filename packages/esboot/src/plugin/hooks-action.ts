@@ -12,7 +12,7 @@ export function callPluginHookOfModifyLintConfig(
   cfg: Configuration,
   result: Record<string, any>
 ) {
-  pluginHooksDict[hook].forEach((fn) => {
+  pluginHooksDict.getListener(hook).forEach((fn) => {
     result = merge(result, fn(cfg, result));
   });
 }
@@ -22,7 +22,7 @@ export const callPluginHookOfModifyConfig = (
 ) => {
   const [config] = args;
 
-  pluginHooksDict[PluginHooks.modifyConfig].forEach((fn) => {
+  pluginHooksDict.getListener(PluginHooks.modifyConfig).forEach((fn) => {
     cfg.patch(fn(config));
   });
 };
@@ -31,7 +31,7 @@ export const callPluginHookOfRegisterCommands = (
   ...args: Parameters<Required<Plugin>[PluginHooks.registerCommands]>
 ) => {
   const commands: Command[] = [];
-  pluginHooksDict[PluginHooks.registerCommands].forEach((fn) => {
+  pluginHooksDict.getListener(PluginHooks.registerCommands).forEach((fn) => {
     commands.push(...fn(...args));
   });
 
@@ -39,12 +39,20 @@ export const callPluginHookOfRegisterCommands = (
 };
 
 export const callPluginHookOfModifyBundlerConfig = <T>(
+  dict: typeof pluginHooksDict,
   cfg: Configuration,
   bundlerConfig: T
 ) => {
-  console.log(pluginHooksDict, 'pluginHooksDict[PluginHooks.modifyBundlerConfig]');
-  
-  pluginHooksDict[PluginHooks.modifyBundlerConfig].forEach((fn) => {
+  dict.getListener(PluginHooks.modifyBundlerConfig).forEach((fn) => {
     fn(cfg, bundlerConfig);
+  });
+};
+
+export const callPluginHookOfAfterCompile = (
+  dict: typeof pluginHooksDict,
+  cfg: Configuration
+) => {
+  dict.getListener(PluginHooks.afterCompile).forEach((fn) => {
+    fn(cfg);
   });
 };

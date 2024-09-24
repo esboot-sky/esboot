@@ -26,9 +26,9 @@ export interface Plugin {
     cfg: Configuration,
     eslintConfig: NormalConfig
   ) => Partial<NormalConfig>;
-  [PluginHooks.modifyBundlerConfig]?: <T extends NormalConfig>(
+  [PluginHooks.modifyBundlerConfig]?: (
     cfg: Configuration,
-    bundlerConfig: T
-  ) => Partial<T>;
-  [PluginHooks.afterCompile]?: () => void;
+    bundlerConfig: NormalConfig
+  ) => void;
+  [PluginHooks.afterCompile]?: (cfg: Configuration) => void;
 }

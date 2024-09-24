@@ -46,6 +46,4 @@ export const addEntry: AddFunc<{ mfsu: MFSU }> = async function (
       })
     );
   });
-
-  console.log(webpackCfg.entry, '<-- webpackCfg.entry');
 };

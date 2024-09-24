@@ -1,11 +1,13 @@
-import { defineConfig, type Configuration, PluginHooks } from '@dz-web/esboot';
+import { defineConfig, PluginHooks, type Configuration, definePlugin } from '@dz-web/esboot';
 // import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions  } from '@dz-web/esboot-bundler-vite';
 import { BundlerWebpack as Bundler, CodeSplittingType, type BundlerWebpackOptions as BundlerOptions } from '@dz-web/esboot-bundler-webpack';
 // import { BundlerRspack as Bundler, type BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
+import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
 export default defineConfig<BundlerOptions>({
   plugins: [
-    {
+    pluginVitest(),
+    definePlugin({
       key: 'test',
       onActivated: () => {
         console.log('test plugin onActivated');
@@ -51,14 +53,13 @@ export default defineConfig<BundlerOptions>({
         };
       },
       [PluginHooks.modifyBundlerConfig]: (cfg, result) => {
-        console.log(result, 'result');
-
-        return {
-          publicPath: '/tetett/',
-        } as Partial<Record<string, any>>;
+        result.output.publicPath = '/modu';
       },
-    },
-    {
+      [PluginHooks.afterCompile]: (cfg) => {
+        console.log(cfg.entry);
+      },
+    }),
+    definePlugin({
       key: 'test2',
       registerCommands: () => {
         return [
@@ -71,7 +72,7 @@ export default defineConfig<BundlerOptions>({
           },
         ];
       },
-    },
+    }),
   ],
   bundler: Bundler,
   isSP: true,

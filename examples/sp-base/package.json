@@ -9,7 +9,8 @@
     "dev": "esboot dev",
     "build": "ESBOOT_IS_CI_BUILD=1 esboot build",
     "esboot": "esboot",
-    "postinstall": "esboot prepare"
+    "postinstall": "esboot prepare",
+    "test": "vitest"
   },
   "author": "Roc",
   "license": "ISC",
@@ -33,6 +34,7 @@
     "@dz-web/esboot-bundler-vite": "workspace:*",
     "@dz-web/esboot-bundler-webpack": "workspace:*",
     "@dz-web/esboot-bundler-rspack": "workspace:*",
+    "@dz-web/esboot-plugin-vitest": "workspace:*",
     "@types/dz-web": "^1.0.1",
     "@types/node": "^20.14.9",
     "@types/react": "18.3.3",
