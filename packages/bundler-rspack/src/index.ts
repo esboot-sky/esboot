@@ -1,20 +1,10 @@
 import { rspack } from '@rspack/core';
 
-import {
-  Bundler,
-  BaseBundlerOptions,
-  ConfigurationInstance,
-} from '@dz-web/esboot';
+import { Bundler } from '@dz-web/esboot';
 
 import { getRspackCfg } from './cfg';
 
-export class BundlerRspack implements Bundler {
-  cfg: ConfigurationInstance;
-
-  constructor(options: BaseBundlerOptions) {
-    this.cfg = options.configuration;
-  }
-
+export class BundlerRspack extends Bundler {
   async dev() {
     const rspackCfg = await getRspackCfg(this.cfg);
     const compiler = rspack(rspackCfg);
@@ -27,18 +17,18 @@ export class BundlerRspack implements Bundler {
       (err, stats) => {
         // Print watch/build result here...
         console.log(stats);
-      },
+      }
     );
   }
 
   async build() {
     const rspackCfg = await getRspackCfg(this.cfg);
     const compiler = rspack(rspackCfg);
-    
+
     compiler.run((err, stats) => {
       // ...
-    
-      compiler.close(closeErr => {
+
+      compiler.close((closeErr) => {
         // ...
       });
     });
