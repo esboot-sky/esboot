@@ -12,9 +12,10 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint:turbo": "turbo run lint",
     "lint": "eslint packages/**/src/**/*.ts",
-    "pub": "lerna publish --force-publish=*",
+    "pub": "lerna publish --force-publish=* --no-private --ignore-changes pnpm-lock.yaml",
     "test": "vitest",
-    "clean": "pnpm -r exec -- rm -rf node_modules && rm -rf node_modules && rm pnpm-lock.yaml"
+    "clean:dep": "pnpm -r exec -- rm -rf node_modules && rm -rf node_modules && rm pnpm-lock.yaml",
+    "clean:dist": "pnpm -r exec -- rm -rf dist"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",

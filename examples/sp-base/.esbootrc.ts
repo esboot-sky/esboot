@@ -8,7 +8,7 @@ export default defineConfig<BundlerOptions>({
   plugins: [
     pluginVitest(),
     definePlugin({
-      key: 'test',
+      key: 'test1',
       onActivated: () => {
         console.log('test plugin onActivated');
       },
@@ -21,7 +21,7 @@ export default defineConfig<BundlerOptions>({
       [PluginHooks.registerCommands]: (cfg) => {
         return [
           {
-            name: 'test',
+            name: 'test1',
             description: 'testlkjsjdfklsjdlkf',
             options: ['-f, --file <char>', '-s, --sampleFile <char>'],
             action: (options) => {

@@ -16,7 +16,7 @@ function transform(opts: { code: string; filename: string; implementor: any }) {
     return implementor.transformSync(code, {
       sourcefile: filename,
       loader: ext.slice(1),
-      target: 'es2019',
+      target: 'es2021',
       format: 'cjs',
       logLevel: 'error',
     }).code;

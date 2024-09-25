@@ -5,6 +5,7 @@ export * from './environment';
 export const getUserConfigFile = (path: string) =>
   resolve(path || process.cwd(), './.esbootrc.ts');
 
+export const isWins = process.platform === 'win32';
 export const DEFAULT_OUTPUT_PATH = 'dist';
 
 export const DEFAULT_DEV_PORT = 8100;
