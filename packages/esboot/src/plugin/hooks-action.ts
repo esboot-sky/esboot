@@ -41,10 +41,11 @@ export const callPluginHookOfRegisterCommands = (
 export const callPluginHookOfModifyBundlerConfig = <T>(
   dict: typeof pluginHooksDict,
   cfg: Configuration,
-  bundlerConfig: T
+  bundlerConfig: T,
+  bundlerName: string
 ) => {
   dict.getListener(PluginHooks.modifyBundlerConfig).forEach((fn) => {
-    fn(cfg, bundlerConfig);
+    fn(cfg, bundlerConfig, bundlerName);
   });
 };
 

@@ -52,8 +52,9 @@ export default defineConfig<BundlerOptions>({
           printWidth: 1000,
         };
       },
-      [PluginHooks.modifyBundlerConfig]: (cfg, result) => {
-        result.output.publicPath = '/modu';
+      [PluginHooks.modifyBundlerConfig]: (cfg, bundlerConfig, bundlerName) => {
+        console.log(bundlerName, 'name');
+        bundlerConfig.output.publicPath = '/modu';
       },
       [PluginHooks.afterCompile]: (cfg) => {
         console.log(cfg.entry);

@@ -17,11 +17,14 @@ export abstract class Bundler {
   abstract dev(): void;
   abstract build(): void;
 
+  abstract getName(): string;
+
   public onModifyBundlerConfig<T>(config: T): T {
     callPluginHookOfModifyBundlerConfig<T>(
       this.pluginHooksDict,
       this.cfg.config,
-      config
+      config,
+      this.getName()
     );
 
     return config;

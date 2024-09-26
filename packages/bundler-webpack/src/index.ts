@@ -9,8 +9,14 @@ import { getWebpackCfg } from './cfg';
 import type { CustomWebpackConfiguration } from '@/cfg/types';
 
 export class BundlerWebpack extends Bundler {
+  name = 'webpack';
+
   constructor(options: BaseBundlerOptions) {
     super(options);
+  }
+
+  getName() {
+    return this.name;
   }
 
   async dev() {

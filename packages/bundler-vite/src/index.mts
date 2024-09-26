@@ -1,10 +1,20 @@
 import { createServer } from 'vite';
-import { Bundler } from '@dz-web/esboot';
+import { Bundler, BaseBundlerOptions } from '@dz-web/esboot';
 import { error } from '@dz-web/esboot-common/helpers';
 
 import { getDevCfg } from './cfg/get-dev-cfg.mts';
 
 export class BundlerVite extends Bundler {
+  name = 'vite';
+
+  constructor(options: BaseBundlerOptions) {
+    super(options);
+  }
+
+  getName() {
+    return this.name;
+  }
+
   async dev() {
     const cfg = await getDevCfg(this.cfg);
 

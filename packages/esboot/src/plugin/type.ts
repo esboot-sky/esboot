@@ -28,7 +28,8 @@ export interface Plugin {
   ) => Partial<NormalConfig>;
   [PluginHooks.modifyBundlerConfig]?: (
     cfg: Configuration,
-    bundlerConfig: NormalConfig
+    bundlerConfig: NormalConfig,
+    bundlerName: string
   ) => void;
   [PluginHooks.afterCompile]?: (cfg: Configuration) => void;
 }
