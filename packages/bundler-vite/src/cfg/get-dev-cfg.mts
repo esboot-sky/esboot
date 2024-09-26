@@ -15,7 +15,8 @@ import type { ConfigurationInstance } from '@dz-web/esboot';
 import type { BundlerViteOptions } from '../types.mts';
 
 export const getDevCfg = async (
-  cfg: ConfigurationInstance
+  cfg: ConfigurationInstance,
+  mode: Environment
 ): Promise<InlineConfig> => {
   const { cwd, bundlerOptions = {} } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerViteOptions;
@@ -30,7 +31,7 @@ export const getDevCfg = async (
         exclude: '**/*.svg?url',
       }),
     ],
-    mode: Environment.dev,
+    mode,
     configFile: false,
     publicDir: 'config',
     root: cwd,
@@ -49,7 +50,10 @@ export const getDevCfg = async (
 
   await addDevServer(cfg, viteCfg);
   await addResolve(cfg, viteCfg);
-  await addEntry(cfg, viteCfg);
+
+  if (mode !== Environment.test) {
+    await addEntry(cfg, viteCfg);
+  }
   await addStyle(cfg, viteCfg);
 
   await addCompatHtmlPlugin(cfg, viteCfg);
