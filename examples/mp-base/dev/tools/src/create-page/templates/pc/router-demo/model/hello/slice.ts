@@ -1,7 +1,7 @@
 /**
  * 页面redux module模板
  */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import type { RootState } from '../store';
 
@@ -30,9 +30,7 @@ export const slice = createSlice({
   },
 });
 
-export const {
-  increase,
-} = slice.actions;
+export const { increase } = slice.actions;
 
 export const selectCount = (state: RootState) => state.hello.count;
 

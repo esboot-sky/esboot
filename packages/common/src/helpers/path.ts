@@ -1,5 +1,5 @@
 import { pathExistsSync } from 'fs-extra';
-import { join, dirname } from 'path';
+import { join, dirname } from 'node:path';
 
 import { isWins } from '../constants';
 
