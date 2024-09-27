@@ -4,7 +4,8 @@ function Home() {
   return (
     <div>
       <B />
-      Test
+
+      <p>close</p>
     </div>
   );
 }

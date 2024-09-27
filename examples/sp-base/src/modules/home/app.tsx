@@ -16,17 +16,13 @@ function Test() {
   return (
     <div className="page">
       <div styleName="text">module css1</div>
-      <div
-        className="mb-[20px] flex items-center justify-between bg-blue-500 bg-violet-500 p-4 text-[36px] font-semibold
-          text-white hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 active:bg-violet-700"
-      >
-        Hello, TailwindCSS!
-      </div>
+      <div className="mb-[20px] flex items-center justify-between bg-blue-500 bg-violet-500 p-4 text-[36px] font-semibold text-white hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 active:bg-violet-700">Hello, TailwindCSS!</div>
       <button onClick={() => navigate('/test')} type="button">
         To Test122333456456
       </button>
 
       <h3 className={cn('font-[500] text-[blue]')}>{1}</h3>
+      <p>close</p>
       <div>module2 css323</div>
       <A />
       <Outlet />

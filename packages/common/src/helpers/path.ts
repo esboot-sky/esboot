@@ -1,6 +1,21 @@
+import { pathExistsSync } from 'fs-extra';
 import { join, dirname } from 'path';
 
 import { isWins } from '../constants';
+
+export function joinExecPath(currPath: string, path: string) {
+  // pnpm
+  const pnpmPath = join(currPath, path);
+  if (pathExistsSync(pnpmPath)) return pnpmPath;
+
+  // bun
+  const bunPath = join(process.cwd(), path);
+  return bunPath;
+}
+
+export function searchCommand(currPath: string, command: string) {
+  return joinExecPath(currPath, `./node_modules/.bin/${command}`);
+}
 
 const hyphen = isWins ? '\\' : '/';
 

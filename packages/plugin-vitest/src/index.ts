@@ -1,6 +1,9 @@
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 import { PluginHooks, type Plugin } from '@dz-web/esboot';
-import { getAbsolutePath as baseGetAbsolutePath } from '@dz-web/esboot-common/helpers';
+import {
+  getAbsolutePath as baseGetAbsolutePath,
+  searchCommand,
+} from '@dz-web/esboot-common/helpers';
 import { exec } from '@dz-web/esboot-common/execa';
 
 const getAbsolutePath = (p: string) => baseGetAbsolutePath(p, require.resolve);
@@ -24,7 +27,7 @@ export default (): Plugin => {
           allowUnknownOption: true,
           action: async (_, p) => {
             exec(
-              `vitest -r ${cwd} -c ${resolve(__dirname, '../config/vitest.config.ts')} ${p.args.join(' ')}`
+              `${searchCommand(join(__dirname, '../'), 'vitest')} -r ${cwd} -c ${resolve(__dirname, '../config/vitest.config.ts')} ${p.args.join(' ')}`
             );
           },
         },
