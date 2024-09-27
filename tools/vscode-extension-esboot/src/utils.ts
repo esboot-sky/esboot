@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import fse from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import { loadEnv, cfg } from '@dz-web/esboot';
 
 export const root = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath!;

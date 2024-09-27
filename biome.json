@@ -1,13 +1,17 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.9.2/schema.json",
 	"vcs": {
-		"enabled": false,
+		"enabled": true,
 		"clientKind": "git",
-		"useIgnoreFile": false
+		"useIgnoreFile": true
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"ignore": [
+			"node_modules",
+			"dist",
+			"*.log"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -24,9 +28,23 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": false,
-			"javascript": {
-				"semicolons": "asNeeded"
+			"recommended": true,
+			"complexity": {
+				"noForEach": "error",
+				"noStaticOnlyClass": "error",
+				"noUselessSwitchCase": "error",
+				"useFlatMap": "error"
+			},
+			"style": {
+				"noNegationElse": "off",
+				"useForOf": "error",
+				"useNodejsImportProtocol": "error",
+				"useNumberNamespace": "error"
+			},
+			"suspicious": {
+				"noDoubleEquals": "error",
+				"noThenProperty": "error",
+				"useIsArray": "error"
 			}
 		}
 	},

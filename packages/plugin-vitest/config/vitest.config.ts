@@ -11,6 +11,7 @@ export default async () => {
   const { defineConfig, configDefaults, mergeConfig } = await import(
     'vitest/config'
   );
+
   const root = process.cwd();
 
   processPrepare();
