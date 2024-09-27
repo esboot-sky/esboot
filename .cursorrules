@@ -1,0 +1,5 @@
+This is a node monorepo project.
+Use typescript to write code.
+Use vitest to write test case.
+Use Biome to lint code.
+Use Prettier to format code.
