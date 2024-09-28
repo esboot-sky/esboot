@@ -8,5 +8,4 @@ console.log(b);
 
 export function a() {
   console.log(b, 'b');
-  
 }
