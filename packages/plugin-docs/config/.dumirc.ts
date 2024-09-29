@@ -23,23 +23,26 @@ const themeConfig = {
   features: [
     {
       title: '⚡ Lightning Fast',
-      description: 'ESBoot offers blazing-fast performance with optimized configurations, allowing developers to focus on building great components and documentation.',
+      description:
+        'ESBoot offers blazing-fast performance with optimized configurations, allowing developers to focus on building great components and documentation.',
     },
     {
       title: '🚀 Easy to Use',
-      description: 'With a convention-based directory structure and sensible defaults, ESBoot enables developers to get started quickly with zero learning curve.',
+      description:
+        'With a convention-based directory structure and sensible defaults, ESBoot enables developers to get started quickly with zero learning curve.',
     },
     {
       title: '🔧 Highly Extensible',
-      description: 'ESBoot provides a flexible architecture that allows easy customization and extension to meet the specific needs of your project.',
+      description:
+        'ESBoot provides a flexible architecture that allows easy customization and extension to meet the specific needs of your project.',
     },
   ],
 };
 
 export default {
   alias: {
-    '@': resolve(__dirname, '../src'),
-    'dumi-theme-lobehub': resolve(__dirname, '../src'),
+    '@': resolve(process.cwd(), '../src'),
+    'dumi-theme-lobehub': resolve(process.cwd(), '../src'),
   },
   codeSplitting: {
     jsStrategy: 'granularChunks',
