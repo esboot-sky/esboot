@@ -1,12 +1,12 @@
-import {
+import type {
   Environment,
   PLATFORMS,
   PAGE_TYPE,
 } from '@dz-web/esboot-common/constants';
-import { type Plugin } from '@/plugin/type';
-import { type Config as tailwindCSSConfig } from 'tailwindcss';
+import type { Plugin } from '@/plugin/type';
+import type { Config as tailwindCSSConfig } from 'tailwindcss';
 
-import { Bundler } from '../bundler';
+import type { Bundler } from '../bundler';
 import type { BaseBundlerOptions } from '../bundler/types';
 
 interface Entry {

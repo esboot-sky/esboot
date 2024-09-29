@@ -1,4 +1,4 @@
-import { resolve, join } from 'path';
+import { resolve, join } from 'node:path';
 import { PluginHooks, type Plugin } from '@dz-web/esboot';
 import {
   getAbsolutePath as baseGetAbsolutePath,
