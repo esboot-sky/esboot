@@ -16,7 +16,7 @@ export default (): Plugin => {
           action: async () => {
             process.env.APP_ROOT = './docs';
             exec(
-              `pnpm --package=@dz-web/dumi dlx docs-dumi dev --config ${join(
+              `pnpm --package=@dz-web/dumi@latest dlx docs-dumi dev --config ${join(
                 'node_modules/.cache/esboot/dumi/.dumirc.ts'
               )}`
             );
