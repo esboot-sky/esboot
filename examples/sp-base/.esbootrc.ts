@@ -3,9 +3,11 @@ import { defineConfig, PluginHooks, type Configuration, definePlugin } from '@dz
 import { BundlerWebpack as Bundler, CodeSplittingType, type BundlerWebpackOptions as BundlerOptions } from '@dz-web/esboot-bundler-webpack';
 // import { BundlerRspack as Bundler, type BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
 import pluginVitest from '@dz-web/esboot-plugin-vitest';
+import pluginDocs from '@dz-web/esboot-plugin-docs';
 
 export default defineConfig<BundlerOptions>({
   plugins: [
+    pluginDocs(),
     pluginVitest(),
     definePlugin({
       key: 'test1',

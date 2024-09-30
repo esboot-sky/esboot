@@ -34,7 +34,7 @@ export class BundlerWebpack extends Bundler {
 
       try {
         await server.start();
-      } catch (err) {
+      } catch (err: any) {
         error(err);
       }
     };

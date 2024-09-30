@@ -1,6 +1,8 @@
+# Intro
+
 Welcom to ESboot Docs。
 
-```tsx
+```tsx | pure
 import { test } from '@src/constants';
 
 export default () => (
