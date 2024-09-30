@@ -1,4 +1,4 @@
-import { resolve } from 'node:path';
+const { resolve } = require('path');
 
 const isWin = process.platform === 'win32';
 
@@ -39,7 +39,7 @@ const themeConfig = {
   ],
 };
 
-export default {
+exports.default = {
   alias: {
     '@': resolve(process.cwd(), '../src'),
     'dumi-theme-lobehub': resolve(process.cwd(), '../src'),
@@ -55,6 +55,7 @@ export default {
   mfsu: isWin ? undefined : {},
   npmClient: 'pnpm',
   ssr: false,
+  hash: true,
   styles: [
     `html, body { background: transparent;  }
 
