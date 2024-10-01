@@ -1,8 +1,9 @@
 import { ConfigurationInstance, BaseBundlerOptions } from './types';
 import {
   callPluginHookOfModifyBundlerConfig,
-  callPluginHookOfAfterCompile,
+  callPluginHookOfOnlyExec,
   pluginHooksDict,
+  PluginHooks,
 } from '@/plugin';
 
 export abstract class Bundler {
@@ -31,6 +32,10 @@ export abstract class Bundler {
   }
 
   public onAfterCompile() {
-    callPluginHookOfAfterCompile(this.pluginHooksDict, this.cfg.config);
+    callPluginHookOfOnlyExec(
+      PluginHooks.afterCompile,
+      this.pluginHooksDict,
+      this.cfg.config
+    );
   }
 }

@@ -1,10 +1,11 @@
 import type { Configuration } from '@/cfg/types';
 import { PluginHooks } from './constants';
-import { type Plugin } from './type';
+import type { Plugin } from './type';
 
 export const pluginHooksDict = new (class PluginHooksDict {
   state: Record<PluginHooks, any[]> = {
     [PluginHooks.registerCommands]: [],
+    [PluginHooks.prepare]: [],
     [PluginHooks.modifyConfig]: [],
     [PluginHooks.modifyTypescriptConfig]: [],
     [PluginHooks.modifyPrettierConfig]: [],
@@ -43,7 +44,7 @@ export const preparePlugins = (cfg: Configuration) => {
       if (pluginHooksDict.hasHookType(key as PluginHooks)) {
         pluginHooksDict.addListener(
           key as PluginHooks,
-          hooks[key as PluginHooks]
+          hooks[key as PluginHooks] as any
         );
       }
     }

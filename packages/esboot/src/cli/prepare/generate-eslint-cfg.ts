@@ -14,7 +14,7 @@ export function generateESLintCfg() {
   const { alias } = cfg.config;
   const _alias: [string, string][] = [];
 
-  for (let k in alias) {
+  for (const k in alias) {
     const value = `${alias[k]}/`;
 
     _alias.push([k, value]);

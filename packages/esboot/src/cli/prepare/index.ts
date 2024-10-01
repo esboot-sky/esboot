@@ -1,6 +1,10 @@
 import { huskySetup } from '@dz-web/esboot-lint';
 import cfg from '@/cfg';
-
+import {
+  callPluginHookOfOnlyExec,
+  PluginHooks,
+  pluginHooksDict,
+} from '@/plugin';
 import { generateTypeScriptCfg } from './generate-typescript-cfg';
 import { generateStylelintCfg } from './generate-stylelint-cfg';
 import { generateESLintCfg } from './generate-eslint-cfg';
@@ -17,4 +21,6 @@ export function prepare() {
   generateESLintCfg();
   generateCommitlintCfg();
   generateTypeScriptTypes();
+
+  callPluginHookOfOnlyExec(PluginHooks.prepare, pluginHooksDict, cfg.config);
 }

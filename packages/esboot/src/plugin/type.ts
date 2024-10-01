@@ -32,4 +32,5 @@ export interface Plugin {
     bundlerName: string
   ) => void;
   [PluginHooks.afterCompile]?: (cfg: Configuration) => void;
+  [PluginHooks.prepare]?: (cfg: Configuration) => void;
 }
