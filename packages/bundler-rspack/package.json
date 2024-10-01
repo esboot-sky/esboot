@@ -18,8 +18,13 @@
   "dependencies": {
     "@dz-web/esboot-bundler-common": "workspace:*",
     "@dz-web/esboot-common": "workspace:*",
-    "@rspack/core": "^1.0.3",
-    "@rspack/dev-server": "^1.0.3"
+    "@rspack/core": "^1.0.8",
+    "@rspack/dev-server": "^1.0.7",
+    "@rspack/plugin-react-refresh": "^1.0.0",
+    "@svgr/webpack": "^8.1.0",
+    "react-refresh": "^0.14.2",
+    "sass-embedded": "^1.79.4",
+    "sass-loader": "^16.0.1"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*"

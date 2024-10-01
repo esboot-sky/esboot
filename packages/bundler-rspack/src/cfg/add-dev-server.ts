@@ -11,7 +11,7 @@ const getServerType = (https: boolean, http2: boolean) => {
   return 'http';
 };
 
-export const addDevServer: AddFunc = async function (cfg, rspackCfg) {
+export const addDevServer: AddFunc = async (cfg, rspackCfg) => {
   const {
     isDev,
     server: { port, open, host, proxy, http2, https },

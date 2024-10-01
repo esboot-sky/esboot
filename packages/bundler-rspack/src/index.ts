@@ -1,8 +1,8 @@
-// import { rspack } from '@rspack/core';
+import { rspack } from '@rspack/core';
 
-import { Bundler, BaseBundlerOptions } from '@dz-web/esboot';
+import { Bundler, type BaseBundlerOptions } from '@dz-web/esboot';
 
-// import { getRspackCfg } from './cfg';
+import { getRspackCfg } from './cfg';
 
 export class BundlerRspack extends Bundler {
   name = 'rspack';
@@ -16,19 +16,23 @@ export class BundlerRspack extends Bundler {
   }
 
   async dev() {
-    // const rspackCfg = await getRspackCfg(this.cfg);
-    // const compiler = rspack(rspackCfg);
-    // const watching = compiler.watch(
-    //   {
-    //     // Example
-    //     aggregateTimeout: 300,
-    //     poll: undefined,
-    //   },
-    //   (err, stats) => {
-    //     // Print watch/build result here...
-    //     console.log(stats);
-    //   }
-    // );
+    const rspackCfg = await getRspackCfg(this.cfg);
+    console.log(rspackCfg);
+    const compiler = rspack(rspackCfg);
+    const watching = compiler.watch(
+      {
+        // Example
+        aggregateTimeout: 300,
+        poll: undefined,
+      },
+      (err, stats) => {
+        if (err) {
+          console.error(err);
+        }
+        // Print watch/build result here...
+        // console.log(stats);
+      }
+    );
   }
 
   async build() {

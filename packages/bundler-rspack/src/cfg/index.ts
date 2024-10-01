@@ -6,7 +6,8 @@ import { addEntry } from './partials/add-entry';
 import { addOutput } from './partials/add-output';
 import { addResolve } from './partials/add-resolve';
 import { addDevtool } from './partials/add-devtool';
-
+import { addReact } from './partials/add-react';
+import { addStyle } from './partials/add-style';
 import { addDevServer } from './add-dev-server';
 import { customConfig } from './custom-config';
 
@@ -31,6 +32,8 @@ export const getRspackCfg = async (
   };
 
   // Partial
+  await addReact(cfg, rspackCfg);
+  await addStyle(cfg, rspackCfg);
   await addEntry(cfg, rspackCfg);
   await addOutput(cfg, rspackCfg);
   await addResolve(cfg, rspackCfg);
