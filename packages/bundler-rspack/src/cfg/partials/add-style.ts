@@ -3,6 +3,9 @@ import type { AddFunc } from '@/cfg/types';
 export const addStyle: AddFunc = async (cfg, rspackCfg) => {
   const { isDev } = cfg.config;
 
+  rspackCfg.experiments = {
+    css: true,
+  };
   rspackCfg.module.rules.push({
     test: /\.(sass|scss)$/,
     use: [

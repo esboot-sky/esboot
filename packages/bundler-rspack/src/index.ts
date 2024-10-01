@@ -1,4 +1,5 @@
 import { rspack } from '@rspack/core';
+import { RspackDevServer } from '@rspack/dev-server';
 
 import { Bundler, type BaseBundlerOptions } from '@dz-web/esboot';
 
@@ -17,7 +18,18 @@ export class BundlerRspack extends Bundler {
 
   async dev() {
     const rspackCfg = await getRspackCfg(this.cfg);
-    console.log(rspackCfg);
+    const compiler = rspack(rspackCfg);
+
+    const devServer = new RspackDevServer(rspackCfg.devServer, compiler);
+
+    devServer.start();
+    // devServer.listen(8080, 'localhost', () => {
+    //   console.log('dev server listening on port 8080');
+    // });
+  }
+
+  async build() {
+    const rspackCfg = await getRspackCfg(this.cfg);
     const compiler = rspack(rspackCfg);
     const watching = compiler.watch(
       {
@@ -33,17 +45,6 @@ export class BundlerRspack extends Bundler {
         // console.log(stats);
       }
     );
-  }
-
-  async build() {
-    // const rspackCfg = await getRspackCfg(this.cfg);
-    // const compiler = rspack(rspackCfg);
-    // compiler.run((err, stats) => {
-    //   // ...
-    //   compiler.close((closeErr) => {
-    //     // ...
-    //   });
-    // });
   }
 }
 
