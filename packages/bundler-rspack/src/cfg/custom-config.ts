@@ -10,4 +10,3 @@ export const customConfig: AddFunc = async (cfg, rspackCfg) => {
 
   rspackCfg = customConfig(rspackCfg, cfg.config);
 };
-

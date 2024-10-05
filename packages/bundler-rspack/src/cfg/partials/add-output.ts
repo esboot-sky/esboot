@@ -3,7 +3,7 @@ import { DEFAULT_OUTPUT_PATH } from '@dz-web/esboot-common/constants';
 
 import type { AddFunc } from '@/cfg/types';
 
-export const addOutput: AddFunc = async function (cfg, rspackCfg) {
+export const addOutput: AddFunc = async (cfg, rspackCfg) => {
   const { cwd, isDev, publicPath, outputPath } = cfg.config;
 
   rspackCfg.output = {

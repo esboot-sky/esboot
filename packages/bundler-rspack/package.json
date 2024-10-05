@@ -22,6 +22,9 @@
     "@rspack/dev-server": "^1.0.7",
     "@rspack/plugin-react-refresh": "^1.0.0",
     "@svgr/webpack": "^8.1.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "postcss-loader": "^8.1.1",
     "react-refresh": "^0.14.2",
     "sass-embedded": "^1.79.4",
     "sass-loader": "^16.0.1"

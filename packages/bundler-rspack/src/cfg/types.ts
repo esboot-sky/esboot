@@ -12,9 +12,8 @@ export interface CustomRspackConfiguration extends Configuration {
   module: {
     rules: RuleSetRule[];
   };
-  devServer: {
-    [index: string]: any;
-  };
+  experiments: Required<Pick<Configuration, 'experiments'>>['experiments'];
+  devServer: Required<Pick<Configuration, 'devServer'>>['devServer'];
 }
 
 export type AddFunc<Options = Record<string, string>> = (

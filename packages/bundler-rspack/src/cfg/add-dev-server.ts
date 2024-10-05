@@ -1,7 +1,7 @@
 import type { Configuration as DevServerConfiguration } from '@rspack/dev-server';
 import { ready } from '@dz-web/esboot-common/helpers';
 import kleur from '@dz-web/esboot-common/kleur';
-// import { ip } from 'address';
+import { logDevServer } from '@dz-web/esboot-bundler-common';
 
 import type { AddFunc } from '@/cfg/types';
 
@@ -27,35 +27,34 @@ export const addDevServer: AddFunc = async (cfg, rspackCfg) => {
     open,
     hot: true,
     client: {
-      logging: 'info',
+      progress: false,
+      logging: 'error',
+      overlay: false,
     },
-    // client: {
-    //   progress: false,
-    //   logging: 'error',
-    //   overlay: false,
-    // },
     historyApiFallback: {
       disableDotRule: true,
     },
-    // setupMiddlewares(middlewares: any[]) {
-    //   return middlewares;
+    setupMiddlewares(middlewares: any[]) {
+      return middlewares;
+    },
+    // watchFiles: {
+    //   paths: ['src/**/*', '.esbootrc.ts', '.env', '.env.local'],
+    //   options: {
+    //     usePolling: true,
+    //   },
     // },
     port,
-    // server: getServerType(!!https, !!http2),
+    server: getServerType(!!https, !!http2),
     host: host || '0.0.0.0',
-    // onListening(devServer) {
-    //   if (!devServer) {
-    //     throw new Error('@rspack/dev-server is not defined');
-    //   }
+    onListening(devServer) {
+      if (!devServer) {
+        throw new Error('@rspack/dev-server is not defined');
+      }
 
-    //   // const port = devServer?.server?.address().port ?? 0;
-    //   const port = 0;
-    //   ready(
-    //     `started server on [::]:${port}, url: ${kleur
-    //       .underline()
-    //       .green(`${isHttps ? 'https' : 'http'}://:${port}`)} \n`
-    //   );
-    // },
+      // @ts-ignore
+      const port = devServer.server?.address()?.port ?? 0;
+      logDevServer(port, isHttps);
+    },
   };
   if (proxy) devServer.proxy = proxy;
 

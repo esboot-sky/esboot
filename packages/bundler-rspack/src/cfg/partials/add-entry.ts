@@ -7,7 +7,7 @@ const rspack = require('@rspack/core');
 
 import type { AddFunc } from '@/cfg/types';
 
-export const addEntry: AddFunc = async function (cfg, rspackCfg) {
+export const addEntry: AddFunc = async (cfg, rspackCfg) => {
   const { configRootPath, MPConfiguration, isSP } = cfg.config;
   const tplRootPath = isSP
     ? configRootPath

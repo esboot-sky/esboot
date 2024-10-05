@@ -22,7 +22,7 @@ interface ParseScssModuleOpts {
   modules?: boolean;
 }
 
-export const addStyleRules: AddFunc = async function (cfg, webpackCfg) {
+export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
   const {
     isDev,
     isSP,
