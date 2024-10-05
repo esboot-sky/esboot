@@ -9,11 +9,15 @@ import { addDevtool } from './partials/add-devtool';
 import { addReact } from './partials/add-react';
 import { addStyle } from './partials/add-style';
 import { addDevServer } from './add-dev-server';
-import { customConfig } from './custom-config';
-import { addOnlyDev } from './partials/add-only-dev';
+import { addCache } from './partials/add-cache';
+import { addExternals } from './partials/add-externals';
+
 // Rules
 import { addAssetRules } from './rules/add-rules-assets';
 import type { CustomRspackConfiguration } from './types';
+
+import { customConfig } from './custom-config';
+import { addOnlyDev } from './partials/add-only-dev';
 
 export const getRspackCfg = async (
   cfg: ConfigurationInstance
@@ -35,17 +39,19 @@ export const getRspackCfg = async (
   };
 
   // Partial
-  await addReact(cfg, rspackCfg);
-  await addStyle(cfg, rspackCfg);
   await addEntry(cfg, rspackCfg);
   await addOutput(cfg, rspackCfg);
   await addResolve(cfg, rspackCfg);
   await addDevtool(cfg, rspackCfg);
-  await addDevServer(cfg, rspackCfg);
+  await addCache(cfg, rspackCfg);
+  await addExternals(cfg, rspackCfg);
 
   // Rules
+  await addReact(cfg, rspackCfg);
+  await addStyle(cfg, rspackCfg);
   await addAssetRules(cfg, rspackCfg);
 
+  await addDevServer(cfg, rspackCfg);
   await addOnlyDev(cfg, rspackCfg);
 
   // Custom
