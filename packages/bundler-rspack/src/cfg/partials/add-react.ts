@@ -49,11 +49,6 @@ export const addReact: AddFunc = async (cfg, rspackCfg) => {
         },
       },
       type: 'javascript/auto',
-    },
-    {
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: [require.resolve('@svgr/webpack')],
     }
   );
 

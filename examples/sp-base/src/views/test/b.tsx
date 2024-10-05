@@ -1,6 +1,6 @@
 import IconV from '@/images/v.svg?url';
 
-function A() {
+function B() {
   return (
     <div>
       B

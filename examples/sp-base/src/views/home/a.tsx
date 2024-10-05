@@ -3,7 +3,7 @@ import IconV from '@/images/v.svg';
 function A() {
   return (
     <div>
-      {/* <IconV /> */}
+      <IconV />
     </div>
   );
 }

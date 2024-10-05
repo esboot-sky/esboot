@@ -11,7 +11,8 @@ import { addStyle } from './partials/add-style';
 import { addDevServer } from './add-dev-server';
 import { customConfig } from './custom-config';
 import { addOnlyDev } from './partials/add-only-dev';
-
+// Rules
+import { addAssetRules } from './rules/add-rules-assets';
 import type { CustomRspackConfiguration } from './types';
 
 export const getRspackCfg = async (
@@ -41,6 +42,10 @@ export const getRspackCfg = async (
   await addResolve(cfg, rspackCfg);
   await addDevtool(cfg, rspackCfg);
   await addDevServer(cfg, rspackCfg);
+
+  // Rules
+  await addAssetRules(cfg, rspackCfg);
+
   await addOnlyDev(cfg, rspackCfg);
 
   // Custom

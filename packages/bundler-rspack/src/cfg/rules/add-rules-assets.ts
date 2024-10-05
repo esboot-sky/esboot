@@ -9,10 +9,10 @@ const parser = {
 };
 const filename = 'images/[name].[hash:8][ext]';
 
-export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
+export const addAssetRules: AddFunc = async (cfg, rspackCfg) => {
   const { svgr, svgrOptions = {} } = cfg.config;
 
-  webpackCfg.module.rules.push({
+  rspackCfg.module.rules.push({
     test: /\.(jpg|gif|png|ico)$/,
     type: 'asset',
     parser,
@@ -22,7 +22,7 @@ export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
   });
 
   if (svgr) {
-    webpackCfg.module.rules.push(
+    rspackCfg.module.rules.push(
       {
         test: /\.svg$/i,
         type: 'asset',
@@ -53,7 +53,7 @@ export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
       }
     );
   } else {
-    webpackCfg.module.rules.push(
+    rspackCfg.module.rules.push(
       {
         test: /\.(svg)$/,
         type: 'asset',
