@@ -52,6 +52,7 @@
     "@dz-web/esboot": "workspace:*",
     "@dz-web/esboot-bundler-vite": "workspace:*",
     "@dz-web/esboot-bundler-webpack": "workspace:*",
+    "@dz-web/esboot-bundler-rspack": "workspace:*",
     "@dz-web/esboot-plugin-vitest": "workspace:*",
     "@dz-web/esboot-react-mp-tools": "file:./dev/tools",
     "@types/dz-web": "^1.0.2",

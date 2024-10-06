@@ -7,10 +7,13 @@ import { addOutput } from './partials/add-output';
 import { addResolve } from './partials/add-resolve';
 import { addDevtool } from './partials/add-devtool';
 import { addReact } from './partials/add-react';
-import { addStyle } from './partials/add-style';
+import { addStyleRules } from './rules/add-rules-style';
 import { addDevServer } from './add-dev-server';
 import { addCache } from './partials/add-cache';
 import { addExternals } from './partials/add-externals';
+
+// Plugins
+import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
 
 // Rules
 import { addAssetRules } from './rules/add-rules-assets';
@@ -48,8 +51,11 @@ export const getRspackCfg = async (
 
   // Rules
   await addReact(cfg, rspackCfg);
-  await addStyle(cfg, rspackCfg);
+  await addStyleRules(cfg, rspackCfg);
   await addAssetRules(cfg, rspackCfg);
+
+  // Plugins
+  await addPluginModifyHtml(cfg, rspackCfg);
 
   await addDevServer(cfg, rspackCfg);
   await addOnlyDev(cfg, rspackCfg);

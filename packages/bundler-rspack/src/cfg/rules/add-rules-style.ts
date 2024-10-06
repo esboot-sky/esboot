@@ -1,7 +1,7 @@
 import { addTailwindCSS } from '@dz-web/esboot-bundler-common';
 import type { AddFunc } from '@/cfg/types';
 
-export const addStyle: AddFunc = async (cfg, rspackCfg) => {
+export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
   const { isDev } = cfg.config;
 
   rspackCfg.experiments.css = true;
