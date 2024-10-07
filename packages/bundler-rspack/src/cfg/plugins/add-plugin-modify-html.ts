@@ -12,81 +12,57 @@ const getVersion = (cwd: string) => {
 export const addPluginModifyHtml: AddFunc = async (cfg, rspackCfg) => {
   const { isBrowser, ipv4, publicPath, isDev, cwd } = cfg.config;
 
-  const version = getVersion(cwd);
+  const version = process.env.BUILD_VERSION || getVersion(cwd);
   const isInjectBridgeMock = !isBrowser && isDev;
 
-  rspackCfg.plugins.push(
-    {
-      apply: (compiler: Compiler) => {
-        compiler.hooks.compilation.tap(
-          pluginName,
-          (compilation: Compilation) => {
-            const hooks = HtmlRspackPlugin.getCompilationHooks(compilation);
+  rspackCfg.plugins.push({
+    apply: (compiler: Compiler) => {
+      compiler.hooks.compilation.tap(pluginName, (compilation: Compilation) => {
+        const hooks = HtmlRspackPlugin.getCompilationHooks(compilation);
 
-            hooks.alterAssetTagGroups.tap(pluginName, (data) => {
-              // data.assetTags.scripts.unshift({
-              //   tagName: 'script',
-              //   voidTag: true,
-              //   attributes: {
-              //     defer: true,
-              //     src: `${publicPath}config.js?v=${version}`,
-              //   },
-              // });
+        // hooks.alterAssetTagGroups.tap(pluginName, (data, cb) => {
+        //   // data.assetTags.scripts.unshift({
+        //   //   tagName: 'script',
+        //   //   voidTag: true,
+        //   //   attributes: {
+        //   //     defer: true,
+        //   //     src: `${publicPath}config.js?v=${version}`,
+        //   //   },
+        //   // });
 
-              if (true) {
-                data.headTags.unshift({
-                  tagName: 'script',
-                  voidTag: false,
-                  attributes: {
-                    // src: 'http://127.0.0.1:3000/bridge.js',
-                    defer: true,
-                  },
-                  innerHTML:
-                    'const a = 1; console.log("This is an inline script");',
-                });
-              }
-              return data;
-            });
+        //   if (true) {
+        //     data.headTags.push({
+        //       tagName: 'script',
+        //       voidTag: false,
+        //       attributes: {
+        //         src: false,
+        //         defer: true,
+        //       },
+        //       innerHTML:
+        //         'const a = 1; console.log("This is an inline script");',
+        //     });
+        //   }
 
-            // hooks.alterAssetTagGroups.tapPromise(pluginName, async (data) => {
-            //   console.log('alterAssetTagGroups');
-            //   console.log(data, 'data');
+        //   cb(null, data);
+        // });
 
-            //   return data;
-            // });
+        hooks.beforeEmit.tap(pluginName, (data) => {
+          const importCfgScript = `<script src="${publicPath}config.js?v=${version}">
+              <\/script>`;
+          const injectBridgeMockScript = isInjectBridgeMock
+            ? `<script>
+              window.brigeMockHost = "http://${process.env.BRIDGE_MOCK_HOST || ipv4}";
+              window.brigeMockPort = ${process.env.BRIDGE_MOCK_PORT || 3000};
+              <\/script>`
+            : '';
+          data.html = data.html.replace(
+            '<body>',
+            `<body>${importCfgScript}${injectBridgeMockScript}`
+          );
 
-            hooks.afterTemplateExecution.tap(
-              pluginName,
-              (data) => {
-                console.log('afterTemplateExecution');
-                console.log(data, 'data32');
-
-                return data;
-              }
-            );
-          }
-        );
-      },
-    }
-    // @ts-ignore
-    // HtmlModifyPlugin({
-    //   position: 'start',
-    //   content: `
-    //   <script src="${publicPath}config.js?v=${
-    //     // jenkins version
-    //     process.env.BUILD_VERSION || getVersion(cwd)
-    //   }">
-    //   <\/script>
-
-    //   ${
-    //     isInjectBridgeMock
-    //       ? `<script>
-    //     window.brigeMockHost = "http://${process.env.BRIDGE_MOCK_HOST || ipv4}";
-    //     window.brigeMockPort = ${process.env.BRIDGE_MOCK_PORT || 3000};
-    //     <\/script>`
-    //       : ''
-    //   }
-    //   `,
-    // })
-  );
+          return data;
+        });
+      });
+    },
+  });
 };
