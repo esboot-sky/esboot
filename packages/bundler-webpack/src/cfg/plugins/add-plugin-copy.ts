@@ -3,7 +3,7 @@ import { pathExistsSync } from '@dz-web/esboot-common/fs-extra';
 
 import type { AddFunc } from '@/cfg/types';
 
-export const addCopyPlugin: AddFunc = async function (cfg, webpackCfg) {
+export const addCopyPlugin: AddFunc = async (cfg, webpackCfg) => {
   const { staticPathList } = cfg.config;
 
   const filteredStaticPathList = staticPathList.filter((item) =>

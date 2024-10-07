@@ -1,4 +1,5 @@
 import { rspack } from '@rspack/core';
+import { error, warn } from '@dz-web/esboot-common/helpers';
 import { RspackDevServer } from '@rspack/dev-server';
 
 import { Bundler, type BaseBundlerOptions } from '@dz-web/esboot';
@@ -31,20 +32,34 @@ export class BundlerRspack extends Bundler {
   async build() {
     const rspackCfg = await getRspackCfg(this.cfg);
     const compiler = rspack(rspackCfg);
-    const watching = compiler.watch(
-      {
-        // Example
-        aggregateTimeout: 300,
-        poll: undefined,
-      },
-      (err, stats) => {
-        if (err) {
-          console.error(err);
-        }
-        // Print watch/build result here...
-        // console.log(stats);
+
+    compiler.run((err, stats) => {
+      if (err) {
+        console.error(err.stack || err);
+        return;
       }
-    );
+
+      const info = stats?.toJson();
+
+      if (stats?.hasErrors()) {
+        for (const err of info?.errors ?? []) {
+          error(err.message);
+        }
+      }
+
+      if (stats?.hasWarnings()) {
+        for (const _warn of info?.warnings ?? []) {
+          warn(_warn.message);
+        }
+      }
+
+      compiler.close((closeErr) => {
+        if (closeErr) {
+          console.error(closeErr);
+          process.exit(1);
+        }
+      });
+    });
   }
 }
 

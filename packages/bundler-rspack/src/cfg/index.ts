@@ -14,6 +14,7 @@ import { addExternals } from './partials/add-externals';
 
 // Plugins
 import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
+import { addCopyPlugin } from './plugins/add-plugin-copy';
 
 // Rules
 import { addAssetRules } from './rules/add-rules-assets';
@@ -56,6 +57,7 @@ export const getRspackCfg = async (
 
   // Plugins
   await addPluginModifyHtml(cfg, rspackCfg);
+  await addCopyPlugin(cfg, rspackCfg);
 
   await addDevServer(cfg, rspackCfg);
   await addOnlyDev(cfg, rspackCfg);
