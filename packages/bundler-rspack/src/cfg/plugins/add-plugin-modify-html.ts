@@ -55,10 +55,12 @@ export const addPluginModifyHtml: AddFunc = async (cfg, rspackCfg) => {
               window.brigeMockPort = ${process.env.BRIDGE_MOCK_PORT || 3000};
               <\/script>`
             : '';
-          data.html = data.html.replace(
-            '<body>',
-            `<body>${importCfgScript}${injectBridgeMockScript}`
-          );
+          data.html = data.html
+            .replace(
+              '<body>',
+              `<body>${importCfgScript}${injectBridgeMockScript}`
+            )
+            .replace('<title>', `<title>${data.plugin.options.title}`);
 
           return data;
         });
