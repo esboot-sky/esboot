@@ -9,6 +9,8 @@
     "dev:webpack": "pnpm run dev:base --filter @dz-web/esboot-bundler-webpack",
     "dev:vite": "pnpm run dev:base --filter @dz-web/esboot-bundler-vite",
     "dev:rspack": "pnpm run dev:base --filter @dz-web/esboot-bundler-rspack",
+    "dev:sp": "cd examples/sp-base && pnpm run dev",
+    "dev:mp": "cd examples/mp-base && pnpm run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint:turbo": "turbo run lint",
     "lint": "eslint packages/**/src/**/*.ts",
