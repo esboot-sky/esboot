@@ -16,6 +16,8 @@ import { addExternals } from './partials/add-externals';
 import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
 import { addCopyPlugin } from './plugins/add-plugin-copy';
 import { addDefinePlugin } from './plugins/add-plugin-define';
+import { addProcessbarPlugin } from './plugins/add-plugin-processbar';
+
 // Rules
 import { addAssetRules } from './rules/add-rules-assets';
 import type { CustomRspackConfiguration } from './types';
@@ -62,6 +64,7 @@ export const getRspackCfg = async (
   await addDevServer(cfg, rspackCfg);
   await addOnlyDev(cfg, rspackCfg);
   await addDefinePlugin(cfg, rspackCfg);
+  await addProcessbarPlugin(cfg, rspackCfg);
 
   // Custom
   await customConfig(cfg, rspackCfg);
