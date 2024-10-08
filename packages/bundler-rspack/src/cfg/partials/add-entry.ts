@@ -8,16 +8,31 @@ import { HtmlRspackPlugin } from '@rspack/core';
 import type { AddFunc } from '@/cfg/types';
 
 export const addEntry: AddFunc = async (cfg, rspackCfg) => {
-  const { configRootPath, MPConfiguration, isSP, isDev, publicPath } = cfg.config;
+  const {
+    configRootPath,
+    MPConfiguration,
+    isSP,
+    isDev,
+    publicPath,
+    useLangJsonPicker,
+  } = cfg.config;
   const tplRootPath = isSP
     ? configRootPath
     : MPConfiguration!.configRootPathOfPlatfrom;
 
+  const enableLangJsonPicker = useLangJsonPicker && !isSP;
   await _addEntry(cfg, (params: AddEntryCBParams) => {
     const { chunkName, template, entry, title } = params;
     const ensureTpl = join(tplRootPath, template);
 
-    rspackCfg.entry[chunkName] = entry;
+    if (enableLangJsonPicker) {
+      rspackCfg.entry[chunkName] = {
+        import: entry,
+        layer: chunkName,
+      };
+    } else {
+      rspackCfg.entry[chunkName] = entry;
+    }
     rspackCfg.plugins.push(
       new HtmlRspackPlugin({
         publicPath,

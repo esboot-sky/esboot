@@ -8,11 +8,11 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { MFSU } from '@/cfg/helpers/mfsu';
 import type { AddFunc } from '@/cfg/types';
 
-export const addEntry: AddFunc<{ mfsu: MFSU }> = async function (
+export const addEntry: AddFunc<{ mfsu: MFSU }> = async (
   cfg,
   webpackCfg,
   options
-) {
+) => {
   const { configRootPath, MPConfiguration, isSP, useLangJsonPicker } =
     cfg.config;
   const tplRootPath = isSP
