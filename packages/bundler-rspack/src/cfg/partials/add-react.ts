@@ -23,9 +23,6 @@ export const addReact: AddFunc = async (cfg, rspackCfg) => {
             },
           },
         },
-        env: {
-          targets: 'Chrome >= 48',
-        },
       },
     },
     {
