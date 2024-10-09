@@ -2,7 +2,8 @@ import { supportedLanguage } from '@/constants/config';
 import enUS from '@/lang/en-US.json';
 import zhCN from '@/lang/zh-CN.json';
 import zhTW from '@/lang/zh-TW.json';
-import { i18nMessageDict } from '@/types';
+
+import type { i18nMessageDict } from '@/types';
 
 console.log(zhTW, '<-- zhTW');
 
@@ -11,14 +12,14 @@ function flattenObject(obj: NestedObject): NestedObject {
   const result: NestedObject = {};
 
   function recurse(currentObj: NestedObject, currentPath: string) {
-    Object.keys(currentObj).forEach((key) => {
+    for (const key of Object.keys(currentObj)) {
       const newPath = currentPath ? `${currentPath}.${key}` : key;
       if (typeof currentObj[key] === 'object' && currentObj[key] !== null && !Array.isArray(currentObj[key])) {
         recurse(currentObj[key], newPath);
       } else {
         result[newPath] = currentObj[key];
       }
-    });
+    }
   }
 
   recurse(obj, '');

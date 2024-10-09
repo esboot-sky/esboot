@@ -21,6 +21,7 @@ import { addProcessbarPlugin } from './plugins/add-plugin-processbar';
 // Rules
 import { addAssetRules } from './rules/add-rules-assets';
 import { addJSONRules } from './rules/add-rules-json';
+import { addJavaScriptRules } from './rules/add-rules-javascript';
 
 import type { CustomRspackConfiguration } from './types';
 
@@ -59,15 +60,17 @@ export const getRspackCfg = async (
   await addStyleRules(cfg, rspackCfg);
   await addAssetRules(cfg, rspackCfg);
   await addJSONRules(cfg, rspackCfg);
+  await addJavaScriptRules(cfg, rspackCfg);
 
   // Plugins
   await addPluginModifyHtml(cfg, rspackCfg);
   await addCopyPlugin(cfg, rspackCfg);
-
-  await addDevServer(cfg, rspackCfg);
-  await addOnlyDev(cfg, rspackCfg);
   await addDefinePlugin(cfg, rspackCfg);
   await addProcessbarPlugin(cfg, rspackCfg);
+
+  // Only Dev
+  await addDevServer(cfg, rspackCfg);
+  await addOnlyDev(cfg, rspackCfg);
 
   // Custom
   await customConfig(cfg, rspackCfg);

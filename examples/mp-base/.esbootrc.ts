@@ -12,6 +12,7 @@ export default (cfg) => defineConfig<BundlerOptions>({
     port: 14000,
     http2: false,
   },
+  // useLangJsonPicker: false,
   define: {
     'process.env.isMobile': JSON.stringify(cfg.isMobile),
     'process.env.isBrowser': JSON.stringify(cfg.isBrowser),

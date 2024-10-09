@@ -26,7 +26,6 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
         },
       },
     ],
-    // set to 'css/auto' if you want to support '*.module.(scss|sass)' as CSS Modules, otherwise set type to 'css'
     type: 'css/auto',
   });
 };

@@ -1,20 +1,20 @@
 import type { AddFunc } from '@/cfg/types';
+import type { SwcLoaderOptions } from '@rspack/core';
 import ReactRefreshPlugin from '@rspack/plugin-react-refresh';
 
 export const addReact: AddFunc = async (cfg, rspackCfg) => {
   const { isDev } = cfg.config;
 
-  rspackCfg.module.rules.push(
-    {
-      test: /\.(j|t)s$/,
-      exclude: [/[\\/]node_modules[\\/]/],
+  rspackCfg.module.rules.push({
+    test: /\.tsx$/,
+    use: {
       loader: 'builtin:swc-loader',
       options: {
         jsc: {
           parser: {
             syntax: 'typescript',
+            tsx: true,
           },
-          externalHelpers: true,
           transform: {
             react: {
               runtime: 'automatic',
@@ -23,31 +23,10 @@ export const addReact: AddFunc = async (cfg, rspackCfg) => {
             },
           },
         },
-      },
+      } satisfies SwcLoaderOptions,
     },
-    {
-      test: /\.tsx$/,
-      use: {
-        loader: 'builtin:swc-loader',
-        options: {
-          jsc: {
-            parser: {
-              syntax: 'typescript',
-              tsx: true,
-            },
-            transform: {
-              react: {
-                runtime: 'automatic',
-                development: isDev,
-                refresh: isDev,
-              },
-            },
-          },
-        },
-      },
-      type: 'javascript/auto',
-    }
-  );
+    type: 'javascript/auto',
+  });
 
   if (isDev) {
     rspackCfg.plugins.push(new ReactRefreshPlugin());

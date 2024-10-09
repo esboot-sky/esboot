@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 interface AnyObject {
   [key: string]: any;
@@ -7,7 +7,7 @@ interface AnyObject {
 function langPickFn(obj: AnyObject, paths: string[]): AnyObject {
   const result: AnyObject = {};
 
-  paths.forEach((path) => {
+  for (const path of paths) {
     const keys = path.split('.');
     let current = obj;
     let temp = result;
@@ -25,13 +25,14 @@ function langPickFn(obj: AnyObject, paths: string[]): AnyObject {
         current = current ? current[key] : undefined;
       }
     });
-  });
+  }
 
   return result;
 }
 
 export default function (this: any, source: string): string {
   let jsonData = JSON.parse(source);
+  console.log('jsonData', jsonData);
   const options = this.getOptions() || {};
   const { rootPath, entry } = options.config;
   const module = this._module;
