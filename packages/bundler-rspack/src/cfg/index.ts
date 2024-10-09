@@ -11,6 +11,9 @@ import { addDevServer } from './add-dev-server';
 import { addCache } from './partials/add-cache';
 import { addExternals } from './partials/add-externals';
 
+// Optimization
+import { addOptimization } from './optimization/add-optimization';
+
 // Plugins
 import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
 import { addCopyPlugin } from './plugins/add-plugin-copy';
@@ -61,6 +64,9 @@ export const getRspackCfg = async (
   await addAssetRules(cfg, rspackCfg);
   await addJSONRules(cfg, rspackCfg);
   await addJavaScriptRules(cfg, rspackCfg);
+
+  // Optimization
+  await addOptimization(cfg, rspackCfg);
 
   // Plugins
   await addPluginModifyHtml(cfg, rspackCfg);

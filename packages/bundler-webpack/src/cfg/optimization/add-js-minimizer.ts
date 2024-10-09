@@ -1,10 +1,9 @@
 import TerserPlugin from 'terser-webpack-plugin';
 import { merge } from '@dz-web/esboot-common/lodash';
-// import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
 import type { AddFunc } from '@/cfg/types';
 
-export const addJSMinimizer: AddFunc = async function (cfg, webpackCfg) {
+export const addJSMinimizer: AddFunc = async (cfg, webpackCfg) => {
   const { jsMinifier = true, jsMinifierOptions = {} } = cfg.config;
 
   if (!jsMinifier) return;
@@ -15,7 +14,7 @@ export const addJSMinimizer: AddFunc = async function (cfg, webpackCfg) {
     },
   };
 
-  let minifier;
+  let minifier: TerserPlugin;
 
   switch (jsMinifier) {
     default:
