@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path';
 import InjectBodyPlugin from 'inject-body-webpack-plugin';
 
 import type { AddFunc } from '@/cfg/types';
@@ -8,7 +8,7 @@ const getVersion = (cwd: string) => {
   return pkg.version;
 };
 
-export const addInjectBodyPlugin: AddFunc = async function (cfg, webpackCfg) {
+export const addInjectBodyPlugin: AddFunc = async (cfg, webpackCfg) => {
   const { isBrowser, ipv4, publicPath, isDev, cwd } = cfg.config;
 
   const isInjectBridgeMock = !isBrowser && isDev;

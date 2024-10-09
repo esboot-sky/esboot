@@ -1,7 +1,5 @@
 const { resolve } = require('path');
-
 const isWin = process.platform === 'win32';
-
 const themeConfig = {
   actions: [
     {
@@ -41,8 +39,8 @@ const themeConfig = {
 
 exports.default = {
   alias: {
-    '@': resolve(process.cwd(), '../src'),
-    'dumi-theme-lobehub': resolve(process.cwd(), '../src'),
+    '@': resolve(process.cwd(), './src'),
+    'dumi-theme-lobehub': resolve(process.cwd(), './src'),
   },
   codeSplitting: {
     jsStrategy: 'granularChunks',

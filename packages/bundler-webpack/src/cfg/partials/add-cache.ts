@@ -1,11 +1,11 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import {
   getUserConfigFile,
   webpackCacheDir,
 } from '@dz-web/esboot-common/constants';
 import type { AddFunc } from '@/cfg/types';
 
-export const addCache: AddFunc = async function (cfg, webpackCfg) {
+export const addCache: AddFunc = async (cfg, webpackCfg) => {
   const { isDev, isCIBuild, cwd } = cfg.config;
 
   if (isDev || isCIBuild) return;

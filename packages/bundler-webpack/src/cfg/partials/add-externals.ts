@@ -1,6 +1,6 @@
 import type { AddFunc } from '@/cfg/types';
 
-export const addExternals: AddFunc = async function (cfg, webpackCfg) {
+export const addExternals: AddFunc = async (cfg, webpackCfg) => {
   const { externals } = cfg.config;
 
   if (externals) {

@@ -1,9 +1,9 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { DEFAULT_OUTPUT_PATH } from '@dz-web/esboot-common/constants';
 
 import type { AddFunc } from '@/cfg/types';
 
-export const addOutput: AddFunc = async function (cfg, webpackCfg) {
+export const addOutput: AddFunc = async (cfg, webpackCfg) => {
   const { cwd, isDev, publicPath, outputPath } = cfg.config;
 
   webpackCfg.output = {

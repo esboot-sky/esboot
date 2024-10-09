@@ -4,7 +4,7 @@ import { addCodeSplitting } from './code-splitting/add-code-splitting';
 
 import type { AddFunc } from '@/cfg/types';
 
-export const addOptimization: AddFunc = async function (cfg, webpackCfg) {
+export const addOptimization: AddFunc = async (cfg, webpackCfg) => {
   const { isDev, minimize } = cfg.config;
 
   if (isDev) return;

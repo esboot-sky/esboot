@@ -3,11 +3,11 @@ import type { AddFunc } from '@/cfg/types';
 
 import type { MFSU } from '@/cfg/helpers/mfsu';
 
-export const addJSONRules: AddFunc<{ mfsu: MFSU }> = async function (
+export const addJSONRules: AddFunc<{ mfsu: MFSU }> = async (
   cfg,
   webpackCfg,
   options
-) {
+) => {
   const { useLangJsonPicker, isSP, entry } = cfg.config;
   const { mfsu } = options!;
 

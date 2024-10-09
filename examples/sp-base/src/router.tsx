@@ -2,10 +2,10 @@ import loadable from '@loadable/component';
 import { createBrowserRouter } from 'react-router-dom';
 
 import App from './app';
-import HomeRouters from './modules/home/router';
+import HomeRouters from '@/views/home/router';
 
-const Login = loadable(() => import('./modules/login/app'));
-const NotFound = loadable(() => import('./modules/misc/not-found/not-found'));
+const Login = loadable(() => import('@/views/login/app'));
+const NotFound = loadable(() => import('@/views/misc/not-found/not-found'));
 
 const router = createBrowserRouter([
   {

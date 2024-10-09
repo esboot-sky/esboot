@@ -134,7 +134,7 @@ export default new (class Cfg {
     const { cwd } = this.#config;
     const isCIBuild = ESBOOT_IS_CI_BUILD === '1';
     const rootPath = resolve(cwd, './src');
-    const configRootPath = resolve(cwd, `./config`);
+    const configRootPath = resolve(cwd, './config');
     const ipv4 = ip();
     const cfg = {
       cwd,

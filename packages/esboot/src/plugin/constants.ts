@@ -1,5 +1,6 @@
 export enum PluginHooks {
   registerCommands = 'registerCommands',
+  prepare = 'prepare',
   modifyConfig = 'modifyConfig',
   modifyTypescriptConfig = 'modifyTypescriptConfig',
   modifyPrettierConfig = 'modifyPrettierConfig',

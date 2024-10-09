@@ -2,7 +2,7 @@ import type { AddFunc } from '@/cfg/types';
 
 const DEFAULT_DEVTOOL = 'cheap-module-source-map';
 
-export const addDevtool: AddFunc = async function (cfg, rspackCfg) {
+export const addDevtool: AddFunc = async (cfg, rspackCfg) => {
   const { isDev, sourceMap } = cfg.config;
 
   if (sourceMap) {

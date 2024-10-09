@@ -1,4 +1,4 @@
-import { ConfigurationInstance } from '@dz-web/esboot';
+import type { ConfigurationInstance } from '@dz-web/esboot';
 import { Environment } from '@dz-web/esboot-common';
 
 import { addEntry } from './partials/add-entry';

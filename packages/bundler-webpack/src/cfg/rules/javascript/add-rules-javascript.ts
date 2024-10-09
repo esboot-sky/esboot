@@ -1,17 +1,17 @@
 import type { Configuration } from '@dz-web/esboot';
 
-import { BundlerWebpackOptions } from '@/types';
+import type { BundlerWebpackOptions } from '@/types';
 import type { AddFunc } from '@/cfg/types';
 
 import type { MFSU } from '@/cfg/helpers/mfsu';
 
 import { getPlugins, env, presets } from './babelrc.config';
 
-export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async function (
+export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
   cfg,
   webpackCfg,
   options
-) {
+) => {
   const { mfsu } = options!;
   const { rootPath, isDev, alias, bundlerOptions } =
     cfg.config as Configuration<BundlerWebpackOptions>;

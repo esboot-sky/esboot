@@ -1,7 +1,5 @@
 import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
-import { ready } from '@dz-web/esboot-common/helpers';
-import kleur from '@dz-web/esboot-common/kleur';
-import { ip } from 'address';
+import { logDevServer } from '@dz-web/esboot-bundler-common';
 
 import type { MFSU } from '@/cfg/helpers/mfsu';
 import type { AddFunc } from '@/cfg/types';
@@ -12,11 +10,11 @@ const getServerType = (https: boolean, http2: boolean) => {
   return 'http';
 };
 
-export const addDevServer: AddFunc<{ mfsu: MFSU }> = async function (
+export const addDevServer: AddFunc<{ mfsu: MFSU }> = async (
   cfg,
   webpackCfg,
   options
-) {
+) => {
   const {
     isDev,
     server: { port, open, host, proxy, http2, https },
@@ -54,11 +52,7 @@ export const addDevServer: AddFunc<{ mfsu: MFSU }> = async function (
       }
 
       const { port } = devServerInstance.server?.address() as any;
-      ready(
-        `started server on [::]:${port}, url: ${kleur
-          .underline()
-          .green(`${isHttps ? 'https' : 'http'}://${ip()}:${port}`)} \n`
-      );
+      logDevServer(port, isHttps);
     },
   };
   if (proxy) devServer.proxy = proxy;

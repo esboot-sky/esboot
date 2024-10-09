@@ -49,11 +49,12 @@ export const callPluginHookOfModifyBundlerConfig = <T>(
   });
 };
 
-export const callPluginHookOfAfterCompile = (
+export const callPluginHookOfOnlyExec = (
+  name: PluginHooks,
   dict: typeof pluginHooksDict,
   cfg: Configuration
 ) => {
-  dict.getListener(PluginHooks.afterCompile).forEach((fn) => {
+  dict.getListener(name).forEach((fn) => {
     fn(cfg);
   });
 };

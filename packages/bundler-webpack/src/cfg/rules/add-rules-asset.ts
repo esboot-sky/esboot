@@ -9,7 +9,7 @@ const parser = {
 };
 const filename = 'images/[name].[hash:8][ext]';
 
-export const addAssetRules: AddFunc = async function (cfg, webpackCfg) {
+export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
   const { svgr, svgrOptions = {} } = cfg.config;
 
   webpackCfg.module.rules.push({

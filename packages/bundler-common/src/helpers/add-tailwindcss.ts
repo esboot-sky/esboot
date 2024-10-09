@@ -1,6 +1,6 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
 import { isFunction } from '@dz-web/esboot-common/lodash';
-import { type Config } from 'tailwindcss';
+import type { Config } from 'tailwindcss';
 
 const defaultTailwindCSSOpts: Config = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],

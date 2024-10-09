@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
@@ -22,7 +22,7 @@ interface ParseScssModuleOpts {
   modules?: boolean;
 }
 
-export const addStyleRules: AddFunc = async function (cfg, webpackCfg) {
+export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
   const {
     isDev,
     isSP,
@@ -72,9 +72,6 @@ export const addStyleRules: AddFunc = async function (cfg, webpackCfg) {
         },
       });
     }
-
-    const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
-    if (publicPath === './') miniCssExtractPluginOptions.publicPath = '../';
 
     return [
       isDev
