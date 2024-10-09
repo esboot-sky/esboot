@@ -7,7 +7,6 @@ import { addOutput } from './partials/add-output';
 import { addResolve } from './partials/add-resolve';
 import { addDevtool } from './partials/add-devtool';
 import { addReact } from './partials/add-react';
-import { addStyleRules } from './rules/add-rules-style';
 import { addDevServer } from './add-dev-server';
 import { addCache } from './partials/add-cache';
 import { addExternals } from './partials/add-externals';
@@ -20,6 +19,7 @@ import { addProcessbarPlugin } from './plugins/add-plugin-processbar';
 
 // Rules
 import { addAssetRules } from './rules/add-rules-assets';
+import { addStyleRules } from './rules/style/add-rules-style';
 import { addJSONRules } from './rules/add-rules-json';
 import { addJavaScriptRules } from './rules/add-rules-javascript';
 

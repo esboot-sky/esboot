@@ -16,6 +16,7 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
+    "@alitajs/postcss-plugin-px2rem": "^0.0.1",
     "@dz-web/esboot-bundler-common": "workspace:*",
     "@dz-web/esboot-common": "workspace:*",
     "@rspack/core": "^1.0.8",
@@ -23,11 +24,17 @@
     "@rspack/plugin-react-refresh": "^1.0.0",
     "@svgr/webpack": "^8.1.0",
     "autoprefixer": "^10.4.20",
+    "css-loader": "^7.1.2",
     "postcss": "^8.4.47",
     "postcss-loader": "^8.1.1",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-normalize": "^13.0.0",
+    "postcss-preset-env": "^10.0.3",
+    "postcss-scss": "^4.0.9",
     "react-refresh": "^0.14.2",
     "sass-embedded": "^1.79.4",
-    "sass-loader": "^16.0.1"
+    "sass-loader": "^16.0.1",
+    "style-loader": "^4.0.0"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*"

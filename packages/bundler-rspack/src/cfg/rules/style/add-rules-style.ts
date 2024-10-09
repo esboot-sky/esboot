@@ -1,15 +1,7 @@
 import path from 'node:path';
+import { CssExtractRspackPlugin as MiniCssExtractPlugin } from '@rspack/core';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
-const postcssNormalize = require('postcss-normalize');
-const pxtorem = require('@alitajs/postcss-plugin-px2rem');
-const {
-  getLocalIdent,
-} = require('@dz-web/babel-plugin-react-css-modules/utils');
 import { addTailwindCSS } from '@dz-web/esboot-bundler-common';
-
-import type { AddFunc } from '@/cfg/types';
 
 import {
   getCssHashRule,
@@ -18,11 +10,16 @@ import {
   getCssLoaderOptions,
 } from './utils';
 
+import type { AddFunc } from '@/cfg/types';
+
+const postcssNormalize = require('postcss-normalize');
+const pxtorem = require('@alitajs/postcss-plugin-px2rem');
+
 interface ParseScssModuleOpts {
   modules?: boolean;
 }
 
-export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
+export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
   const {
     isDev,
     isSP,
@@ -67,7 +64,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
         modules: {
           namedExport: true,
           localIdentContext: rootPath,
-          getLocalIdent,
+          // getLocalIdent,
           localIdentName: getCssHashRule(),
         },
       });
@@ -119,12 +116,16 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
       },
       {
         loader: require.resolve('sass-loader'),
-        options: { sourceMap: isSourceMap },
+        options: {
+          sourceMap: isSourceMap,
+          api: 'modern-compiler',
+          implementation: require.resolve('sass-embedded'),
+        },
       },
     ];
   };
 
-  webpackCfg.module.rules.push(
+  rspackCfg.module.rules.push(
     {
       /* Loads CSS stylesheets. It is assumed that CSS stylesheets come only
        * from dependencies, as we use SCSS inside our own code. */
@@ -158,7 +159,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
   );
 
   if (!isDev) {
-    webpackCfg.plugins.push(
+    rspackCfg.plugins.push(
       new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:5].css',
         chunkFilename: 'css/[id].[contenthash:5].css',

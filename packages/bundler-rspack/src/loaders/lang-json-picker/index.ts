@@ -32,7 +32,6 @@ function langPickFn(obj: AnyObject, paths: string[]): AnyObject {
 
 export default function (this: any, source: string): string {
   let jsonData = JSON.parse(source);
-  console.log('jsonData', jsonData);
   const options = this.getOptions() || {};
   const { rootPath, entry } = options.config;
   const module = this._module;
