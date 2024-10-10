@@ -15,7 +15,7 @@ function Test() {
 
   return (
     <div className="page">
-      <div styleName="text">module css12343242</div>
+      <div styleName="text text2">module css12343242</div>
       <div
         className="mb-[20px] flex items-center justify-between bg-blue-500 bg-violet-500 p-4 text-[36px] font-semibold
           text-white hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 active:bg-violet-700"
