@@ -20,6 +20,7 @@ import { addAssetRules } from './rules/add-rules-asset';
 import { addJSONRules } from './rules/add-rules-json';
 
 import { addInjectBodyPlugin } from './plugins/add-plugin-inject-body';
+import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
 import { addCopyPlugin } from './plugins/add-plugin-copy';
 import { addDefinePlugin } from './plugins/add-plugin-define';
 import { addWebpackbarPlugin } from './plugins/add-plugin-webpackbar';
@@ -67,7 +68,8 @@ export const getWebpackCfg = async (
   await addJSONRules(cfg, webpackCfg, { mfsu });
 
   // Plugins
-  await addInjectBodyPlugin(cfg, webpackCfg);
+  await addPluginModifyHtml(cfg, webpackCfg);
+  // await addInjectBodyPlugin(cfg, webpackCfg);
   await addCopyPlugin(cfg, webpackCfg);
   await addDefinePlugin(cfg, webpackCfg);
   await addWebpackbarPlugin(cfg, webpackCfg);

@@ -22,7 +22,7 @@ export const presets = [
 export const getPlugins = (alias: Configuration['alias']) => {
   const customAlias: Configuration['alias'] = {};
 
-  for (let k in alias) {
+  for (const k in alias) {
     const value = path.resolve(process.cwd(), `./${alias[k]}/`);
 
     customAlias[k] = value;

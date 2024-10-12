@@ -2,6 +2,9 @@ import path from 'node:path';
 import { CssExtractRspackPlugin as MiniCssExtractPlugin } from '@rspack/core';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
 import { addTailwindCSS } from '@dz-web/esboot-bundler-common';
+const {
+  getLocalIdent,
+} = require('@dz-web/babel-plugin-react-css-modules/utils');
 
 import {
   getCssHashRule,
@@ -64,7 +67,7 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
         modules: {
           namedExport: true,
           localIdentContext: rootPath,
-          // getLocalIdent,
+          getLocalIdent,
           localIdentName: getCssHashRule(),
         },
       });

@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@alitajs/postcss-plugin-px2rem": "^0.0.1",
+    "@dz-web/babel-plugin-react-css-modules": "^6.11.4",
     "@dz-web/esboot-bundler-common": "workspace:*",
     "@dz-web/esboot-common": "workspace:*",
     "@rspack/core": "^1.0.8",
@@ -26,8 +27,8 @@
     "autoprefixer": "^10.4.20",
     "css-loader": "^7.1.2",
     "postcss": "^8.4.47",
-    "postcss-loader": "^8.1.1",
     "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^8.1.1",
     "postcss-normalize": "^13.0.0",
     "postcss-preset-env": "^10.0.3",
     "postcss-scss": "^4.0.9",
