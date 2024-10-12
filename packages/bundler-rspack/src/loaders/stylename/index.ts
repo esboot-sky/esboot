@@ -1,48 +1,64 @@
+import { join, dirname } from 'node:path';
 import { getCssHashRule } from '@/cfg/rules/style/utils';
 
 const {
   generateScopedNameFactory,
 } = require('@dz-web/babel-plugin-react-css-modules/utils');
 
-console.log(generateScopedNameFactory, 'generateScopedNameFactory');
+import { findStyleImports } from './utils';
 
+// FIXME: refactor by rust
 const generateScopedName = generateScopedNameFactory(getCssHashRule());
-const importPattern =
-  /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.(?:css|scss)(?:\?[^'"]*?)?)(?:'|");?/g;
-
 export default function (this: any, source: string): string {
-  // get resourcePath
-  const matches = source.matchAll(importPattern);
-
-  for (const match of matches) {
-    const [statement, prefixStatement, variable, importPath] = match;
-
-    console.log(statement, prefixStatement, variable, importPath, 'match');
+  let { imports, updatedSource } = findStyleImports(source);
+  if (imports.length === 0) {
+    return source;
   }
 
-  // match .scss file
-  const isScssFile = this.resourcePath.match(/\.scss$/);
+  if (imports.length > 1) {
+    throw new Error(
+      `Only support one style import, please check your code ${this.resourcePath}.`
+    );
+  }
 
-  // console.log('resourcePath', resourcePath);
-  const className = source.match(/className:\s*"([^"]+)"/)?.[1];
-  console.log(className, 'className');
+  const { statement, prefixStatement, variable, filepath } = imports[0];
+  const stylePath = join(dirname(this.resourcePath), filepath);
 
-  const replacedSource = source.replace(
+  console.log(stylePath, 'stylePath');
+
+  // // console.log('resourcePath', resourcePath);
+  // const className = source.match(/className:\s*"([^"]+)"/)?.[1];
+  // console.log(className, 'className');
+  const classNameList: string[] = [];
+
+  console.log(source, 'source');
+  updatedSource = source.replace(
     /styleName:\s*"([^"]+)"/g,
     (match, styleNames) => {
-      const hashedClassNames = styleNames
+      const classNames = styleNames
         .split(/\s+/)
         .map((styleName: string) => {
-          const value = generateScopedName(styleName, '/Users/rocsun/Code/dz-library/esboot-sky/esboot-next/examples/sp-base/src/views/home/app.scss');
+          const value = generateScopedName(styleName, stylePath);
 
-          console.log(value, resourcePath, styleName, 'value');
+          classNameList.push(value);
           return value;
         })
         .join(' ');
 
-      return `styleName: "${hashedClassNames}"`;
+      console.log(classNames, 'classNames');
+
+      return '';
     }
   );
 
-  return replacedSource;
+  updatedSource = source.replace(
+    /className:\s*"([^"]+)"/g,
+    (match, classNames) => {
+      return `className: "${classNames} ${classNameList.join(' ')}"`;
+    }
+  );
+
+  console.log(classNameList, 'classNameList');
+
+  return updatedSource;
 }

@@ -1,6 +1,3 @@
-import { resolve } from 'path';
-import { readFileSync } from 'fs';
-
 /**
  * 找出代码中引入的样式文件
  */
@@ -13,10 +10,12 @@ interface StyleImport {
 const importPattern =
   /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.(?:css|scss)(?:\?[^'"]*?)?)(?:'|");?/g;
 
-export const findStyleImports = function (source: string): {
+export const findStyleImports = (
+  source: string
+): {
   imports: StyleImport[];
   updatedSource: string;
-} {
+} => {
   let updatedSource = source;
   const imports: StyleImport[] = [];
 
@@ -26,7 +25,7 @@ export const findStyleImports = function (source: string): {
     const [statement, prefixStatement, variable, importPath] = match;
 
     if (!importPath.includes('styles/')) {
-      let newImportPath = importPath;
+      const newImportPath = importPath;
       // if (!importPath.includes('?module')) {
       //   newImportPath = importPath.includes('?')
       //     ? importPath.replace('?', '?module&')
