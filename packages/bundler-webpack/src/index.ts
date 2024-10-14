@@ -86,3 +86,4 @@ export class BundlerWebpack extends Bundler {
 }
 
 export * from './types';
+export * from './helpers/babel-import-plugin';

@@ -28,5 +28,5 @@ export const injectHtml = (
 
   return html
     .replace('<body>', `<body>${importCfgScript}${injectBridgeMockScript}`)
-    .replace('<head>', `<head><title>${title}13231</title>`);
+    .replace('<head>', `<head><title>${title}</title>`);
 };

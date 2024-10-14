@@ -12,13 +12,10 @@ export default defineConfig<BundlerOptions>((cfg) => ({
       rootValue: cfg.isMobile ? 32 : 16,
     },
     extraBabelIncludes: [
-      /tailwind-merge/i,
       /filter-obj/i,
       /immer/i,
-      /zustand/i,
       /query-string/i,
       /react-intl/i,
-      /common/i,
       /d3-/i,
       /@tanstack/i,
       /@react-spring/i,

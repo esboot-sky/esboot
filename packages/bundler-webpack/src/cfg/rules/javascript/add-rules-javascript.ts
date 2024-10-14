@@ -1,3 +1,4 @@
+import os from 'node:os';
 import type { Configuration } from '@dz-web/esboot';
 
 import type { BundlerWebpackOptions } from '@/types';
@@ -22,44 +23,66 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
     extraBabelIncludes = [],
   } = bundlerOptions;
 
-  webpackCfg.module.rules.push({
-    test: /\.(t|j)sx?|mjs$/,
-    include: [rootPath, ...extraBabelIncludes].filter(Boolean),
-    // 暂时不开，不然include的时候不能用正则
-    exclude: /\.*.json$/,
-    use: [
-      {
-        loader: require.resolve('babel-loader'),
-        options: {
-          cacheDirectory: !isDev,
-          presets: [...extraBabelPresets, ...presets].filter(Boolean),
-          env,
-          plugins: [
-            ...extraBabelPlugins,
-            ...getPlugins(alias),
-            ...(mfsu?.getBabelPlugins() ?? []),
-            isDev && require.resolve('react-refresh/babel'),
-          ].filter(Boolean),
+  const babelLoader = require.resolve('babel-loader');
+  const threadLoader = {
+    loader: require.resolve('thread-loader'),
+    options: {
+      workers: os.cpus().length,
+      workerParallelJobs: 50,
+      workerNodeArgs: ['--max-old-space-size=1024'],
+      poolTimeout: 2e3,
+      poolParallelJobs: 50,
+      name: 'ESBoot-Thread-Pool',
+    },
+  };
+  const tsLoader = {
+    loader: require.resolve('ts-loader'),
+    options: {
+      happyPackMode: true,
+      transpileOnly: true,
+    },
+  };
+  const getBabelLoaderOptions = (isExtra = false) => {
+    return {
+      cacheDirectory: !isDev,
+      presets: [...extraBabelPresets, ...presets].filter(Boolean),
+      env,
+      plugins: [
+        ...extraBabelPlugins,
+        ...getPlugins(alias),
+        ...(mfsu?.getBabelPlugins() ?? []),
+        isDev && !isExtra && require.resolve('react-refresh/babel'),
+      ].filter(Boolean),
+    };
+  };
+
+  webpackCfg.module.rules.push(
+    {
+      test: /\.tsx?$/,
+      include: [rootPath],
+      exclude: [/node_modules/],
+      use: [
+        {
+          loader: babelLoader,
+          options: getBabelLoaderOptions(),
         },
-      },
-      {
-        loader: require.resolve('thread-loader'),
-        options: {
-          workers: 4,
-          workerParallelJobs: 50,
-          workerNodeArgs: ['--max-old-space-size=1024'],
-          poolTimeout: 2e3,
-          poolParallelJobs: 50,
-          name: 'ESBoot-thread-pool',
+        threadLoader,
+        tsLoader,
+      ],
+    },
+    {
+      test: /\.(js|mjs|cjs)$/,
+      include: [...extraBabelIncludes].filter(Boolean),
+      exclude: [rootPath, /\.json$/],
+      use: [
+        {
+          loader: babelLoader,
+          options: {
+            ...getBabelLoaderOptions(true),
+          },
         },
-      },
-      {
-        loader: require.resolve('ts-loader'),
-        options: {
-          happyPackMode: true,
-          transpileOnly: true,
-        },
-      },
-    ],
-  });
+        threadLoader,
+      ],
+    }
+  );
 };

@@ -37,10 +37,11 @@ export type CustomConfig = (
   cfg: ESBootConfiguration
 ) => CustomWebpackConfiguration;
 
+export type BabelPlugin = [string, Record<string, any>];
 export type BundlerWebpackOptions = {
   mfsu?: boolean;
   mfsuOptions?: (cfg: MFSUOpts) => MFSUOpts;
-  extraBabelPlugins?: string[];
+  extraBabelPlugins?: BabelPlugin[];
   extraBabelPresets?: string[];
   extraBabelIncludes?: Array<string | RegExp>;
   customConfig?: CustomConfig;
