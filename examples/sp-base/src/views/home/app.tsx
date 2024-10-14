@@ -1,17 +1,12 @@
 import { cn } from '@dz-web/esboot-browser';
+import { Button } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
 
-import A from './a';
+// import A from './a';
 import './app.scss';
 
 function Test() {
   const navigate = useNavigate();
-
-  console.log(cn);
-
-  // const b = abcs;
-
-  // console.log(b);
 
   return (
     <div className="page">
@@ -31,7 +26,8 @@ function Test() {
       <h3 className={cn('font-[500] text-[blue]')}>{1}</h3>
       <p>close</p>
       <div>module2 css323</div>
-      <A />
+
+      <Button>123</Button>
       <Outlet />
     </div>
   );

@@ -81,6 +81,7 @@ export default defineConfig<BundlerOptions>({
   ],
   bundler: Bundler,
   isSP: true,
+  analyze: true,
   bundlerOptions: {
     mfsu: false,
     codeSplitting: {

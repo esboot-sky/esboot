@@ -56,7 +56,7 @@ export default defineConfig<BundlerOptions>((cfg) => ({
   plugins: [
     vitestPlugin(),
     definePlugin({
-      key: 'log',
+      key: 'logger',
       [PluginHooks.afterCompile]: (cfg) => {
         console.log(cfg.entry);
       },

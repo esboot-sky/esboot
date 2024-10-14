@@ -29,7 +29,6 @@ export const getPlugins = (alias: Configuration['alias']) => {
   }
 
   return [
-    [require('@babel/plugin-syntax-dynamic-import')],
     [
       require.resolve('@jleonardvp/babel-plugin-module-resolver'),
       {

@@ -22,7 +22,6 @@
   "dependencies": {
     "@alitajs/postcss-plugin-px2rem": "^0.0.1",
     "@babel/core": "^7.22.17",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.22.15",
     "@babel/preset-react": "^7.22.15",
     "@dz-web/babel-plugin-react-css-modules": "^6.11.4",
