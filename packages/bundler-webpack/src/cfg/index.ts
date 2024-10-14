@@ -19,7 +19,6 @@ import { addStyleRules } from './rules/style/add-rules-style';
 import { addAssetRules } from './rules/add-rules-asset';
 import { addJSONRules } from './rules/add-rules-json';
 
-import { addInjectBodyPlugin } from './plugins/add-plugin-inject-body';
 import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
 import { addCopyPlugin } from './plugins/add-plugin-copy';
 import { addDefinePlugin } from './plugins/add-plugin-define';
@@ -46,6 +45,7 @@ export const getWebpackCfg = async (
     module: {
       rules: [],
     },
+    experiments: {},
   };
 
   const mfsu = createMFSU(cfg);
@@ -69,7 +69,6 @@ export const getWebpackCfg = async (
 
   // Plugins
   await addPluginModifyHtml(cfg, webpackCfg);
-  // await addInjectBodyPlugin(cfg, webpackCfg);
   await addCopyPlugin(cfg, webpackCfg);
   await addDefinePlugin(cfg, webpackCfg);
   await addWebpackbarPlugin(cfg, webpackCfg);

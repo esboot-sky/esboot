@@ -1,7 +1,7 @@
 import Webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { Bundler } from '@dz-web/esboot';
-import { BaseBundlerOptions } from '@dz-web/esboot';
+import type { BaseBundlerOptions } from '@dz-web/esboot';
 import { error } from '@dz-web/esboot-common/helpers';
 import kleur from '@dz-web/esboot-common/kleur';
 

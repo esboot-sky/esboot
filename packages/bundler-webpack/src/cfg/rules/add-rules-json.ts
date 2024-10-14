@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import type { AddFunc } from '@/cfg/types';
 
 import type { MFSU } from '@/cfg/helpers/mfsu';
@@ -25,9 +25,7 @@ export const addJSONRules: AddFunc<{ mfsu: MFSU }> = async (
     ],
   }));
 
-  webpackCfg.experiments = {
-    layers: true,
-  };
+  webpackCfg.experiments.layers = true;
   webpackCfg.module.rules.push({
     test: /\.json$/,
     type: 'javascript/auto',

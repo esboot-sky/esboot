@@ -1,7 +1,5 @@
 import { defineConfig, PluginHooks, type Configuration, definePlugin } from '@dz-web/esboot';
-// import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions  } from '@dz-web/esboot-bundler-vite';
-// import { BundlerWebpack as Bundler, CodeSplittingType, type BundlerWebpackOptions as BundlerOptions } from '@dz-web/esboot-bundler-webpack';
-import { BundlerRspack as Bundler, type BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
+import { BundlerWebpack as Bundler, type BundlerWebpackOptions as BundlerOptions, CodeSplittingType } from '@dz-web/esboot-bundler-webpack';
 import pluginVitest from '@dz-web/esboot-plugin-vitest';
 import pluginDocs from '@dz-web/esboot-plugin-docs';
 
@@ -79,12 +77,11 @@ export default defineConfig<BundlerOptions>({
   ],
   bundler: Bundler,
   isSP: true,
-  bundlerOptions: { mfsu: false },
-  // bundlerOptions: {
-  //   codeSplitting: {
-  //     jsStrategy: CodeSplittingType.granularChunks,
-  //   },
-  // },
+  bundlerOptions: {
+    codeSplitting: {
+      jsStrategy: CodeSplittingType.granularChunks,
+    },
+  },
   sourceMap: false,
   alias: {
     '@@': 'src',
@@ -92,6 +89,10 @@ export default defineConfig<BundlerOptions>({
   server: {
     port: 4000,
     http2: false,
+  },
+  define: {
+    'process.env.isMobile': JSON.stringify(cfg.isMobile),
+    'process.env.isBrowser': JSON.stringify(cfg.isBrowser),
   },
   // analyze: true,
   // extraBabelIncludes: [

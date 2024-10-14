@@ -20,7 +20,7 @@ export const addEntry: AddFunc<{ mfsu: MFSU }> = async (
     : MPConfiguration!.configRootPathOfPlatfrom;
   const { mfsu } = options!;
 
-  const enableLangJsonPicker = useLangJsonPicker && !isSP && mfsu;
+  const enableLangJsonPicker = useLangJsonPicker && !isSP && !mfsu;
 
   await _addEntry(cfg, (params: AddEntryCBParams) => {
     const { chunkName, template, entry, title } = params;
