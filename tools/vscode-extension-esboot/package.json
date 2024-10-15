@@ -3,7 +3,7 @@
   "private": true,
   "displayName": "ESBoot",
   "description": "ESBoot toolkit",
-  "version": "3.0.0-alpha.13",
+  "version": "3.1.2",
   "publisher": "moonlitusun",
   "icon": "media/logo.png",
   "engines": {
@@ -48,6 +48,12 @@
         "title": "Single Select",
         "icon": "$(page)",
         "when": "never"
+      },
+      {
+        "command": "esboot.openEntryFileByContext",
+        "title": "Open File",
+        "icon": "$(file)",
+        "when": "never"
       }
     ],
     "viewsContainers": {
@@ -76,6 +82,11 @@
         }
       ],
       "view/item/context": [
+        {
+          "command": "esboot.openEntryFileByContext",
+          "when": "view == esboot && viewItem == page",
+          "group": "navigation"
+        },
         {
           "command": "esboot.selectSinglePageByContext",
           "when": "view == esboot && viewItem == page",
