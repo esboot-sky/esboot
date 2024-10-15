@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join, relative } from 'node:path';
 import { exec } from '@dz-web/esboot-common/execa';
 
 import type { Configuration } from '@/cfg/types';
@@ -16,11 +16,15 @@ export async function mockBridge(
 
   const folderPath = join(rootPath, 'bridge');
 
-  const filePath = file || join(folderPath, 'bridge-mock.js');
-  const samplePath = sampleFile || join(folderPath, 'bridge-mock-sample.js');
+  const filePath = file
+    ? relative(cwd, file)
+    : relative(cwd, join(folderPath, 'bridge-mock.js'));
+  const samplePath = sampleFile
+    ? relative(cwd, sampleFile)
+    : join(folderPath, 'bridge-mock-sample.js');
 
   exec(
-    `${require.resolve('@dz-web/bridge-mock/bin')} -f ${filePath} -s ${samplePath}`,
+    `${require.resolve('@dz-web/bridge-mock/bin')} -f "${filePath}" -s "${samplePath}"`,
     {
       options: {
         cwd,
