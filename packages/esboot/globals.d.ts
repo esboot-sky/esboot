@@ -1,4 +1,4 @@
-import {
+import type {
   Environment,
   PAGE_TYPE,
   PLATFORMS,
@@ -16,5 +16,3 @@ declare global {
     }
   }
 }
-
-export {};

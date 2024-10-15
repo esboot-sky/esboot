@@ -12,7 +12,7 @@
     "postinstall": "esboot prepare",
     "test": "esboot vitest"
   },
-  "sideEffects": ["*.css", "*.less"],
+  "sideEffects": false,
   "author": "Roc",
   "license": "ISC",
   "dependencies": {

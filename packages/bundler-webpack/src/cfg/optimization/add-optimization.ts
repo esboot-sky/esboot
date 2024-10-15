@@ -13,7 +13,7 @@ export const addOptimization: AddFunc = async (cfg, webpackCfg) => {
     // splitChunks,
     emitOnErrors: true,
     usedExports: true,
-    sideEffects: false,
+    sideEffects: true,
     minimize,
     minimizer: [],
   };
