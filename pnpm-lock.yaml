@@ -398,13 +398,13 @@ importers:
         specifier: ^0.0.1
         version: 0.0.1
       "@babel/core":
-        specifier: ^7.22.17
+        specifier: ^7.25.8
         version: 7.25.8
       "@babel/preset-env":
-        specifier: ^7.22.15
+        specifier: ^7.25.8
         version: 7.25.8(@babel/core@7.25.8)
       "@babel/preset-react":
-        specifier: ^7.22.15
+        specifier: ^7.25.7
         version: 7.25.7(@babel/core@7.25.8)
       "@dz-web/babel-plugin-react-css-modules":
         specifier: ^6.11.4
@@ -425,10 +425,10 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0(typescript@5.6.3)
       "@umijs/mfsu":
-        specifier: ^4.3.20
-        version: 4.3.26
+        specifier: ^4.3.27
+        version: 4.3.27
       babel-loader:
-        specifier: ^9.1.3
+        specifier: ^9.2.1
         version: 9.2.1(@babel/core@7.25.8)(webpack@5.95.0(esbuild@0.23.1))
       babel-plugin-import:
         specifier: ^1.13.8
@@ -437,7 +437,7 @@ importers:
         specifier: ^12.0.2
         version: 12.0.2(webpack@5.95.0(esbuild@0.23.1))
       core-js:
-        specifier: ^3.32.2
+        specifier: ^3.38.1
         version: 3.38.1
       css-loader:
         specifier: ^7.1.2
@@ -458,10 +458,10 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1(@rspack/core@1.0.10)(postcss@8.4.47)(typescript@5.6.3)(webpack@5.95.0(esbuild@0.23.1))
       postcss-normalize:
-        specifier: ^13.0.0
+        specifier: ^13.0.1
         version: 13.0.1(browserslist@4.24.0)(postcss@8.4.47)
       postcss-preset-env:
-        specifier: ^10.0.3
+        specifier: ^10.0.7
         version: 10.0.7(postcss@8.4.47)
       postcss-scss:
         specifier: ^4.0.9
@@ -470,10 +470,10 @@ importers:
         specifier: ^0.14.2
         version: 0.14.2
       sass:
-        specifier: ^1.79.1
+        specifier: ^1.79.5
         version: 1.79.5
       sass-loader:
-        specifier: ^16.0.1
+        specifier: ^16.0.2
         version: 16.0.2(@rspack/core@1.0.10)(sass-embedded@1.79.5)(sass@1.79.5)(webpack@5.95.0(esbuild@0.23.1))
       style-loader:
         specifier: ^4.0.0
@@ -482,13 +482,13 @@ importers:
         specifier: ^5.3.10
         version: 5.3.10(esbuild@0.23.1)(webpack@5.95.0(esbuild@0.23.1))
       thread-loader:
-        specifier: ^4.0.3
+        specifier: ^4.0.4
         version: 4.0.4(webpack@5.95.0(esbuild@0.23.1))
       ts-loader:
         specifier: ^9.5.1
         version: 9.5.1(typescript@5.6.3)(webpack@5.95.0(esbuild@0.23.1))
       webpack:
-        specifier: ^5.94.0
+        specifier: ^5.95.0
         version: 5.95.0(esbuild@0.23.1)
       webpack-bundle-analyzer:
         specifier: ^4.10.2
@@ -503,6 +503,9 @@ importers:
       "@dz-web/esboot":
         specifier: workspace:*
         version: link:../esboot
+      react-refresh-typescript:
+        specifier: ^2.0.9
+        version: 2.0.9(react-refresh@0.14.2)(typescript@5.6.3)
 
   packages/common:
     dependencies:
@@ -7268,6 +7271,13 @@ packages:
       }
     hasBin: true
 
+  "@umijs/bundler-esbuild@4.3.27":
+    resolution:
+      {
+        integrity: sha512-pibT0RAabzxEo9ZXpR9pkG10jFmsgB0iNi49x8GHsJVEmPr33fTzBVyqoI0he5PHIhYuXMhsvN3loP2O6VOjcg==,
+      }
+    hasBin: true
+
   "@umijs/bundler-mako@0.9.0":
     resolution:
       {
@@ -7278,6 +7288,12 @@ packages:
     resolution:
       {
         integrity: sha512-rBzMgk32+cnVw9T8zOVT+i9vfJb6gamvx4aTPFBPa9325T/qVll1SNPq4AdmNYYMqLJCAVgqDhd5E8g+B8nLqQ==,
+      }
+
+  "@umijs/bundler-utils@4.3.27":
+    resolution:
+      {
+        integrity: sha512-3qGC0Uhq3HCEAeOKjnQVT9CJftV8ZNXK7xcX0DENK8tMCCAE6SLHNCrVZNvQ/MO+Njgkp3Kgc6vVEhE3OvfLtQ==,
       }
 
   "@umijs/bundler-vite@4.3.26":
@@ -7498,6 +7514,12 @@ packages:
         integrity: sha512-2jboQgDn6Kr0bkfQLOGZY1juRmcrIt2UyKsgdK4p8sp1x4XYz9y3HWtw9ZLynRWS0bCJzxDLiGxxiSPCcg2I8g==,
       }
 
+  "@umijs/mfsu@4.3.27":
+    resolution:
+      {
+        integrity: sha512-efyg3CWUJcKBCd7MbtdPMtbr/ijoGtgsaFmrRuJbf3dajtV7kh+QVyLcnCIqmAyCJv9DJzN6VqXlSOkg99loSQ==,
+      }
+
   "@umijs/plugin-run@4.3.26":
     resolution:
       {
@@ -7570,6 +7592,12 @@ packages:
     resolution:
       {
         integrity: sha512-W9IEniRpBX8C7VRyfGKv6+Fzz4ATCoE+icQq8YPvketNLe2RfJJA3fgQ7ZUK5yUvRg3ZBFWL8YeNlxgSg/NKXw==,
+      }
+
+  "@umijs/utils@4.3.27":
+    resolution:
+      {
+        integrity: sha512-jPKXR4GnRavWprXUfUKQzUvH1urK7qhZhNrKRP8v9kkEiI9CSz3Dl95TdcmEKhZuZrx7HzO5B9gS21G7Up+W2g==,
       }
 
   "@umijs/zod2ts@4.3.26":
@@ -20110,6 +20138,15 @@ packages:
       redux:
         optional: true
 
+  react-refresh-typescript@2.0.9:
+    resolution:
+      {
+        integrity: sha512-chAnOO4vpxm/3WkgOVmti+eN8yUtkJzeGkOigV6UA9eDFz12W34e/SsYe2H5+RwYJ3+sfSZkVbiXcG1chEBxlg==,
+      }
+    peerDependencies:
+      react-refresh: 0.10.x || 0.11.x || 0.12.x || 0.13.x || 0.14.x
+      typescript: ^4.8 || ^5.0
+
   react-refresh@0.14.0:
     resolution:
       {
@@ -28969,6 +29006,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  "@umijs/bundler-esbuild@4.3.27":
+    dependencies:
+      "@umijs/bundler-utils": 4.3.27
+      "@umijs/utils": 4.3.27
+      enhanced-resolve: 5.9.3
+      postcss: 8.4.47
+      postcss-flexbugs-fixes: 5.0.2(postcss@8.4.47)
+      postcss-preset-env: 7.5.0(postcss@8.4.47)
+    transitivePeerDependencies:
+      - supports-color
+
   "@umijs/bundler-mako@0.9.0":
     dependencies:
       "@umijs/bundler-utils": 4.3.26
@@ -28989,6 +29037,16 @@ snapshots:
   "@umijs/bundler-utils@4.3.26":
     dependencies:
       "@umijs/utils": 4.3.26
+      esbuild: 0.21.4
+      regenerate: 1.4.2
+      regenerate-unicode-properties: 10.1.1
+      spdy: 4.0.2
+    transitivePeerDependencies:
+      - supports-color
+
+  "@umijs/bundler-utils@4.3.27":
+    dependencies:
+      "@umijs/utils": 4.3.27
       esbuild: 0.21.4
       regenerate: 1.4.2
       regenerate-unicode-properties: 10.1.1
@@ -29193,6 +29251,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  "@umijs/mfsu@4.3.27":
+    dependencies:
+      "@umijs/bundler-esbuild": 4.3.27
+      "@umijs/bundler-utils": 4.3.27
+      "@umijs/utils": 4.3.27
+      enhanced-resolve: 5.9.3
+      is-equal: 1.7.0
+    transitivePeerDependencies:
+      - supports-color
+
   "@umijs/plugin-run@4.3.26":
     dependencies:
       tsx: 3.12.2
@@ -29308,6 +29376,11 @@ snapshots:
   "@umijs/ui@3.0.1": {}
 
   "@umijs/utils@4.3.26":
+    dependencies:
+      chokidar: 3.5.3
+      pino: 7.11.0
+
+  "@umijs/utils@4.3.27":
     dependencies:
       chokidar: 3.5.3
       pino: 7.11.0
@@ -38327,6 +38400,11 @@ snapshots:
       "@types/react-dom": 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       redux: 4.2.1
+
+  react-refresh-typescript@2.0.9(react-refresh@0.14.2)(typescript@5.6.3):
+    dependencies:
+      react-refresh: 0.14.2
+      typescript: 5.6.3
 
   react-refresh@0.14.0: {}
 
