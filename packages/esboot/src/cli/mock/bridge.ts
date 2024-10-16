@@ -24,7 +24,7 @@ export async function mockBridge(
     : join(folderPath, 'bridge-mock-sample.js');
 
   exec(
-    `${require.resolve('@dz-web/bridge-mock/bin')} -f "${filePath}" -s "${samplePath}"`,
+    `node ${require.resolve('@dz-web/bridge-mock/bin')} -f "${filePath}" -s "${samplePath}"`,
     {
       options: {
         cwd,

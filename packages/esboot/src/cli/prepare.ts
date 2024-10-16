@@ -4,7 +4,7 @@ import { FRAMEWORK_NAME, MIN_NODE_VERSION } from '@/constants/node';
 import { register, clearFiles } from '@/helpers/register';
 
 function checkNodeVersion() {
-  const v = parseInt(process.version.slice(1));
+  const v = Number.parseInt(process.version.slice(1));
   if (v < MIN_NODE_VERSION) {
     console.error(
       `Your node version ${v} is not supported, please upgrade to ${MIN_NODE_VERSION}.`
