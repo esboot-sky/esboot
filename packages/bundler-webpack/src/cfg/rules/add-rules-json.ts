@@ -1,17 +1,15 @@
 import { resolve } from 'node:path';
 import type { AddFunc } from '@/cfg/types';
 
-import type { MFSU } from '@/cfg/helpers/mfsu';
-
-export const addJSONRules: AddFunc<{ mfsu: MFSU }> = async (
+export const addJSONRules: AddFunc<{ enableLangJsonPicker: boolean }> = async (
   cfg,
   webpackCfg,
   options
 ) => {
-  const { useLangJsonPicker, isSP, entry } = cfg.config;
-  const { mfsu } = options!;
+  const { entry } = cfg.config;
+  const { enableLangJsonPicker } = options!;
 
-  if (!useLangJsonPicker || isSP || mfsu) return;
+  if (!enableLangJsonPicker) return;
 
   const list = Object.values(entry).map((item) => ({
     issuerLayer: item.chunkName,

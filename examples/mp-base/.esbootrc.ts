@@ -11,16 +11,16 @@ export default defineConfig<BundlerOptions>((cfg) => ({
       // 设计稿为默认750, 浏览器以375为基准，16px是为了方便使用tailwindcss, 32px对应750px设计稿中的16px
       rootValue: cfg.isMobile ? 32 : 16,
     },
-    extraBabelIncludes: [
-      /filter-obj/i,
-      /immer/i,
-      /query-string/i,
-      /react-intl/i,
-      /d3-/i,
-      /@tanstack/i,
-      /@react-spring/i,
-      /@floating-ui/i,
-    ],
+    // extraBabelIncludes: [
+    //   /filter-obj/i,
+    //   /immer/i,
+    //   /query-string/i,
+    //   /react-intl/i,
+    //   /d3-/i,
+    //   /@tanstack/i,
+    //   /@react-spring/i,
+    //   /@floating-ui/i,
+    // ],
     codeSplitting: {
       jsStrategy: CodeSplittingType.granularChunks,
       jsStrategyOptions: {
@@ -52,6 +52,9 @@ export default defineConfig<BundlerOptions>((cfg) => ({
   define: {
     'process.env.isMobile': JSON.stringify(cfg.isMobile),
     'process.env.isBrowser': JSON.stringify(cfg.isBrowser),
+  },
+  server: {
+    port: 8081,
   },
   plugins: [
     vitestPlugin(),
