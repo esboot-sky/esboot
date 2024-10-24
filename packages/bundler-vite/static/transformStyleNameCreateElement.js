@@ -1,14 +1,9 @@
-interface StyleProps {
-  className?: string;
-  styleName?: string;
-}
-
-export function TransformStyleNameCreateElement<Props extends StyleProps>(
-  origCreateElement: (name: string, props: any, ...extra: any[]) => any,
-  classVariables: { [name: string]: string }[],
-  name: string,
-  rawProps: Props,
-  ...extra: any[]
+function TransformStyleNameCreateElement(
+  origCreateElement,
+  classVariables,
+  name,
+  rawProps,
+  ...extra
 ) {
   const props = { ...rawProps };
 
@@ -24,5 +19,6 @@ export function TransformStyleNameCreateElement<Props extends StyleProps>(
 
     delete props.styleName;
   }
+
   return origCreateElement(name, props, ...extra);
 }

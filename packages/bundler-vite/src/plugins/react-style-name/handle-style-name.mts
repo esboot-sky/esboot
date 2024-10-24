@@ -1,6 +1,5 @@
-/**
- * 找出代码中引入的样式文件
- */
+import { resolve } from 'node:path';
+import { readFileSync } from '@dz-web/esboot-common/fs-extra';
 interface StyleImport {
   statement: string; // 引入了样式文件的语句
   prefixStatement: string; // 引入语句前面的修饰符（空格、换行符等）
@@ -26,11 +25,6 @@ export const findStyleImports = (
 
     if (!importPath.includes('styles/')) {
       const newImportPath = importPath;
-      // if (!importPath.includes('?module')) {
-      //   newImportPath = importPath.includes('?')
-      //     ? importPath.replace('?', '?module&')
-      //     : `${importPath}?module`;
-      // }
 
       const newStatement = statement.replace(importPath, newImportPath);
       updatedSource = updatedSource.replace(statement, newStatement);
@@ -85,36 +79,19 @@ function makeVariableName() {
  *  为 false 则用 import 的形式引入
  * (Vite 下用 inline 的形式性能更好)
  */
-let transformerSource: string | null = null;
-export function importStyleNameTransformer(source: string, inline = false) {
-  return (
-    "import { TransformStyleNameCreateElement } from '@dz-web/esboot-bundler-vite/transformStyleNameCreateElement';\n" +
-    source
-  );
+let transformerSource: string;
+export function importStyleNameTransformer(source: string, inline = true) {
+  if (inline) {
+    if (!transformerSource) {
+      transformerSource = readFileSync(
+        resolve(__dirname, '../static/transformStyleNameCreateElement.js')
+      ).toString();
+    }
 
-  // if (inline) {
-  //   if (!transformerSource) {
-  //     const bareSource = readFileSync(
-  //       resolve(
-  //         __dirname,
-  //         'plugins/react-style-name/transformStyleNameCreateElement.mjs'
-  //       )
-  //     );
+    return `${transformerSource} \n ${source}`;
+  }
 
-  //     transformerSource = `var TransformStyleNameCreateElement = (function() {
-  //       var exports = {};
-  //       ${bareSource.toString()};
-  //       return exports.TransformStyleNameCreateElement;
-  //     })();`;
-  //     return bareSource + '\n' + source;
-  //   }
-  //   return transformerSource + '\n' + source;
-  // } else {
-  //   return (
-  //     "import { TransformStyleNameCreateElement } from '@dz-web/esboot-bundler-vite/transformStyleNameCreateElement';\n" +
-  //     source
-  //   );
-  // }
+  return `import { TransformStyleNameCreateElement } from '@dz-web/esboot-bundler-vite/transformStyleNameCreateElement'; \n ${source}`;
 }
 
 /**

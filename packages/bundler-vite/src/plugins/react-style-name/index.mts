@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { createFilter } from '@rollup/pluginutils';
 
 import {
@@ -17,7 +17,7 @@ function matchId(id: string) {
 }
 
 const filterStyleFiles = createFilter(['**/*.scss'], ['src/styles/**/*.scss']);
-const KEEP_STATEMENT = `console.log(TransformStyleNameCreateElement)`; // 用来保证前一个插件引入的 TransformStyleNameCreateElement() 不会因依赖分析被移除
+const KEEP_STATEMENT = 'console.log(TransformStyleNameCreateElement)'; // 用来保证前一个插件引入的 TransformStyleNameCreateElement() 不会因依赖分析被移除
 
 export default function reactStyleNamePlugin(options: Options = {}) {
   const { reactVariableName = 'React' } = options;
@@ -30,7 +30,7 @@ export default function reactStyleNamePlugin(options: Options = {}) {
         if (source.endsWith('.scss')) {
           const resolvedPath = path.resolve(path.dirname(importer), source);
           if (filterStyleFiles(resolvedPath)) {
-            return resolvedPath + '?module';
+            return `${resolvedPath}?module`;
           }
         }
       },
@@ -40,10 +40,8 @@ export default function reactStyleNamePlugin(options: Options = {}) {
         if (matchId(id) && imports.length) {
           return {
             code:
-              importStyleNameTransformer(updatedSource, true) +
-              '\n;\n' +
-              KEEP_STATEMENT +
-              ';\n',
+              `${importStyleNameTransformer(updatedSource)}\n;\n` +
+              `${KEEP_STATEMENT};\n`,
             map: null,
           };
         }
@@ -59,17 +57,11 @@ export default function reactStyleNamePlugin(options: Options = {}) {
           if (imports.length) {
             const formatted = formatVariableForStyleImports(source, imports);
 
-            const classVariables = formatted.variables;
-
-            source = formatted.source;
-
             source = applyStyleNameTransformer(
-              source,
-              classVariables,
+              formatted.source,
+              formatted.variables,
               reactVariableName
-            );
-
-            source = source.replace(KEEP_STATEMENT, '');
+            ).replace(KEEP_STATEMENT, '');
 
             return {
               code: source,

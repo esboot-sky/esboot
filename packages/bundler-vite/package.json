@@ -9,7 +9,8 @@
   "module": "dist/index.mjs",
   "files": [
     "dist",
-    "patches"
+    "patches",
+    "static"
   ],
   "scripts": {
     "build": "tsup",
