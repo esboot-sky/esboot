@@ -172,4 +172,21 @@ export function activateSidebar(context: vscode.ExtensionContext) {
       }
     )
   );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'esboot.openEntryFileByContext',
+      async (item: ESBootTreeItem) => {
+        if (item) {
+          const entryPath = sidebarProvider.pageDict[item.label]?.entry;
+
+          if (entryPath) {
+            vscode.workspace.openTextDocument(entryPath).then((doc) => {
+              vscode.window.showTextDocument(doc);
+            });
+          }
+        }
+      }
+    )
+  );
 }

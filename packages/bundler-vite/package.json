@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-bundler-vite",
-  "version": "3.0.0-beta.2",
+  "version": "3.0.4",
   "description": "",
   "license": "ISC",
   "author": "Roc",
@@ -9,7 +9,8 @@
   "module": "dist/index.mjs",
   "files": [
     "dist",
-    "patches"
+    "patches",
+    "static"
   ],
   "scripts": {
     "build": "tsup",

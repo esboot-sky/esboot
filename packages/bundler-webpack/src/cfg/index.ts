@@ -19,7 +19,7 @@ import { addStyleRules } from './rules/style/add-rules-style';
 import { addAssetRules } from './rules/add-rules-asset';
 import { addJSONRules } from './rules/add-rules-json';
 
-import { addInjectBodyPlugin } from './plugins/add-plugin-inject-body';
+import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
 import { addCopyPlugin } from './plugins/add-plugin-copy';
 import { addDefinePlugin } from './plugins/add-plugin-define';
 import { addWebpackbarPlugin } from './plugins/add-plugin-webpackbar';
@@ -32,7 +32,7 @@ import type { CustomWebpackConfiguration } from '@/cfg/types';
 export const getWebpackCfg = async (
   cfg: ConfigurationInstance
 ): Promise<CustomWebpackConfiguration> => {
-  const { isDev } = cfg.config;
+  const { useLangJsonPicker, isSP, isDev } = cfg.config;
 
   const webpackCfg: CustomWebpackConfiguration = {
     mode: isDev ? Environment.dev : Environment.prod,
@@ -45,12 +45,14 @@ export const getWebpackCfg = async (
     module: {
       rules: [],
     },
+    experiments: {},
   };
 
   const mfsu = createMFSU(cfg);
+  const enableLangJsonPicker = useLangJsonPicker && !isSP && !mfsu && !isDev;
 
   // Partial
-  await addEntry(cfg, webpackCfg, { mfsu });
+  await addEntry(cfg, webpackCfg, { enableLangJsonPicker });
   await addOutput(cfg, webpackCfg);
   await addResolve(cfg, webpackCfg);
   await addDevtool(cfg, webpackCfg);
@@ -64,10 +66,10 @@ export const getWebpackCfg = async (
   await addJavaScriptRules(cfg, webpackCfg, { mfsu });
   await addStyleRules(cfg, webpackCfg);
   await addAssetRules(cfg, webpackCfg);
-  await addJSONRules(cfg, webpackCfg, { mfsu });
+  await addJSONRules(cfg, webpackCfg, { enableLangJsonPicker });
 
   // Plugins
-  await addInjectBodyPlugin(cfg, webpackCfg);
+  await addPluginModifyHtml(cfg, webpackCfg);
   await addCopyPlugin(cfg, webpackCfg);
   await addDefinePlugin(cfg, webpackCfg);
   await addWebpackbarPlugin(cfg, webpackCfg);

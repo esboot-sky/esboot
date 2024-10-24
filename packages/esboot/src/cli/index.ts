@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path';
 import { program } from 'commander';
 import { lint, execGitHooks } from '@dz-web/esboot-lint';
 

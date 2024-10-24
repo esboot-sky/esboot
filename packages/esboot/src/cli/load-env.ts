@@ -1,5 +1,5 @@
-import { join } from 'path';
-import { existsSync } from 'fs';
+import { join } from 'node:path';
+import { existsSync } from 'node:fs';
 import dotEnv from 'dotenv';
 import dotEnvExpand from 'dotenv-expand';
 
@@ -19,7 +19,7 @@ export function loadEnv({ root }: { root: string }) {
 
   const willLoadEnvs = [envFile, `${envFile}.local`];
 
-  willLoadEnvs.forEach((envFilePath) => {
+  for (const envFilePath of willLoadEnvs) {
     load(envFilePath);
-  });
+  }
 }

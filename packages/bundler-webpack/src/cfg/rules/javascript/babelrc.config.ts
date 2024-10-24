@@ -1,10 +1,10 @@
-import path from 'path';
+import path from 'node:path';
 import type { Configuration } from '@dz-web/esboot';
 import { getCssHashRule } from '../style/utils';
 
 export const presets = [
   [
-    require('@babel/preset-env'),
+    require.resolve('@babel/preset-env'),
     {
       modules: false,
       useBuiltIns: 'usage',
@@ -12,7 +12,7 @@ export const presets = [
     },
   ],
   [
-    require('@babel/preset-react'),
+    require.resolve('@babel/preset-react'),
     {
       runtime: 'automatic',
     },
@@ -22,7 +22,7 @@ export const presets = [
 export const getPlugins = (alias: Configuration['alias']) => {
   const customAlias: Configuration['alias'] = {};
 
-  for (let k in alias) {
+  for (const k in alias) {
     const value = path.resolve(process.cwd(), `./${alias[k]}/`);
 
     customAlias[k] = value;
@@ -37,7 +37,7 @@ export const getPlugins = (alias: Configuration['alias']) => {
       },
     ],
     [
-      require('@dz-web/babel-plugin-react-css-modules'),
+      require.resolve('@dz-web/babel-plugin-react-css-modules'),
       {
         filetypes: {
           '.scss': {

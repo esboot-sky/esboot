@@ -36,6 +36,7 @@ export class ESBootSidebarProvider
   public selectedPageType: string | null = null;
   public fullPages: string[] = [];
   public selectedPages: string[] = [];
+  public pageDict: Record<string, any> = {};
 
   public platforms: string[] = [];
   public pageTypes: string[] = [];
@@ -71,6 +72,7 @@ export class ESBootSidebarProvider
 
     this.selectedPages.length = 0;
     this.fullPages.length = 0;
+    this.pageDict = {};
 
     const { ESBOOT_CONTENT_PATTERN = '*', ESBOOT_CONTENT_PATH = '' } =
       process.env;
@@ -85,6 +87,7 @@ export class ESBootSidebarProvider
       cfg,
       (params) => {
         this.fullPages.push(params.chunkName);
+        this.pageDict[params.chunkName] = params;
         if (isFull) {
           this.selectedPages.push(params.chunkName);
         }
