@@ -8,7 +8,7 @@ export function writeMultiPlatform(cfg: Configuration) {
 
   if (isSP) return;
 
-  const { platform, pageType } = cfg.MPConfiguration!;
+  const { platform, pageType } = cfg.MPConfiguration;
 
   outputFileSync(
     join(rootPath, './helpers/multi-platforms.ts'),

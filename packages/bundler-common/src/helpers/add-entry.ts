@@ -20,14 +20,14 @@ export interface AddEntryCBParams {
   template: string;
 }
 
-export const addEntry = async function (
+export const addEntry = async (
   cfg: ConfigurationInstance,
   cb: (params: AddEntryCBParams) => void,
   options: {
     contentPath?: string;
     pattern?: string;
   } = {}
-) {
+) => {
   const {
     isSP,
     MPConfiguration,

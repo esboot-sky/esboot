@@ -11,9 +11,10 @@ export const addEntry: AddFunc<{
   enableLangJsonPicker: boolean;
 }> = async (cfg, webpackCfg, options) => {
   const { configRootPath, MPConfiguration, isSP } = cfg.config;
-  const tplRootPath = isSP
-    ? configRootPath
-    : MPConfiguration!.configRootPathOfPlatfrom;
+  let tplRootPath = configRootPath;
+  if (!isSP && MPConfiguration) {
+    tplRootPath = MPConfiguration.configRootPathOfPlatfrom;
+  }
   const { enableLangJsonPicker } = options!;
 
   await _addEntry(cfg, (params: AddEntryCBParams) => {

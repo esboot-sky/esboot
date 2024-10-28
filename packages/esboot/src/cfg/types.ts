@@ -91,26 +91,29 @@ type PreserveAttr =
   | 'cssMinifierOptions'
   | 'tailwindcssOptions'
   | 'cssMinifier';
-export interface Configuration<BundlerOptions = unknown>
-  extends Required<Omit<UserOptions<BundlerOptions>, PreserveAttr>>,
-    Pick<UserOptions<BundlerOptions>, PreserveAttr> {
-  isDev: boolean;
-  isCIBuild: boolean;
-  rootPath: string;
-  configRootPath: string;
-  configJSPath: string;
-  ipv4: string;
-  version: string;
-  cwd: string;
-  env: Environment;
-  entry: Record<string, Entry>;
-  isMobile: boolean;
-  isBrowser: boolean;
-  staticPathList: {
-    from: string;
-    to: string;
-  }[];
-  alias: Record<string, string>;
-  MPConfiguration?: ConfigurationForMP;
-  sourceMap?: UserOptions['sourceMap'];
-}
+
+export type Configuration<BundlerOptions = unknown> = {
+  [K in PreserveAttr]: UserOptions<BundlerOptions>[K];
+} & Omit<UserOptions<BundlerOptions>, PreserveAttr> & {
+    isDev: boolean;
+    isCIBuild: boolean;
+    rootPath: string;
+    configRootPath: string;
+    configJSPath: string;
+    ipv4: string;
+    version: string;
+    cwd: string;
+    env: Environment;
+    entry: Record<string, Entry>;
+    isMobile: boolean;
+    isBrowser: boolean;
+    staticPathList: {
+      from: string;
+      to: string;
+    }[];
+    alias: Record<string, string>;
+    sourceMap?: UserOptions['sourceMap'];
+  } & (
+    | { isSP: true; MPConfiguration?: never }
+    | { isSP: false; MPConfiguration: ConfigurationForMP }
+  );

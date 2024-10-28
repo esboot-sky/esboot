@@ -12,7 +12,7 @@ export async function mockBridge(
 
   const rootPath = isSP
     ? configRootPath
-    : MPConfiguration!.configRootPathOfPlatfrom;
+    : MPConfiguration.configRootPathOfPlatfrom;
 
   const folderPath = join(rootPath, 'bridge');
 

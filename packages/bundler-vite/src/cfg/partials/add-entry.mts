@@ -6,11 +6,13 @@ import {
 
 import type { AddFunc } from '@/cfg/types.mts';
 
-export const addEntry: AddFunc = async function (cfg, viteCfg) {
+export const addEntry: AddFunc = async (cfg, viteCfg) => {
   const { cwd, MPConfiguration, isSP } = cfg.config;
-  const configRootPathOfPageType = isSP
-    ? 'config'
-    : MPConfiguration!.configRootPathOfPageType;
+  let configRootPathOfPageType = 'config';
+
+  if (!isSP && MPConfiguration) {
+    configRootPathOfPageType = MPConfiguration.configRootPathOfPageType;
+  }
 
   const pages: any[] = [];
   await _addEntry(cfg, (v: AddEntryCBParams) => {
