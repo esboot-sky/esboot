@@ -14,3 +14,6 @@ export * from './bundler/types';
 export * from './plugin/type';
 export * from './plugin/constants';
 export { definePlugin } from './plugin';
+
+// Scripts
+export * from './scripts/write-multi-platform';

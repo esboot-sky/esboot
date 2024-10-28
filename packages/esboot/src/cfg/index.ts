@@ -1,6 +1,6 @@
-import { resolve, join } from 'path';
-import { existsSync } from 'fs';
-import { exit } from 'process';
+import { resolve, join } from 'node:path';
+import { existsSync } from 'node:fs';
+import { exit } from 'node:process';
 import { ip } from 'address';
 
 import { isFunction, pick, merge } from '@dz-web/esboot-common/lodash';

@@ -13,6 +13,8 @@ import { logBrand } from '@/helpers';
 import { preview } from './preview';
 import { mockBridge } from './mock/bridge';
 
+import { writeMultiPlatform } from '@/scripts/write-multi-platform';
+
 import { preparePlugins } from '@/plugin';
 import {
   callPluginHookOfModifyConfig,
@@ -43,6 +45,7 @@ function createBundler(environment: Environment) {
       pluginHooksDict,
     });
     logBrand(config);
+    writeMultiPlatform(cfg.config);
     return bundler;
   }
 
