@@ -1,5 +1,5 @@
-import { readFileSync } from 'fs';
-import { basename, join } from 'path';
+import { readFileSync } from 'node:fs';
+import { basename, join } from 'node:path';
 import type { ConfigurationInstance } from '@dz-web/esboot';
 
 import { getExportProps } from '@umijs/ast';

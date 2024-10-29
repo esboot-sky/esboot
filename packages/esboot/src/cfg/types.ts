@@ -93,8 +93,8 @@ type PreserveAttr =
   | 'cssMinifier';
 
 export type Configuration<BundlerOptions = unknown> = {
-  [K in PreserveAttr]: UserOptions<BundlerOptions>[K];
-} & Omit<UserOptions<BundlerOptions>, PreserveAttr> & {
+  [K in PreserveAttr]: Required<UserOptions<BundlerOptions>[K]>;
+} & Omit<Required<UserOptions<BundlerOptions>>, PreserveAttr> & {
     isDev: boolean;
     isCIBuild: boolean;
     rootPath: string;
