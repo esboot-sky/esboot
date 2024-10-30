@@ -14,7 +14,7 @@ export const addResolve: AddFunc = async (cfg, webpackCfg) => {
 
   webpackCfg.resolve = {
     alias: customAlias,
-    mainFields: ['module', 'main'],
+    mainFields: ['module', 'browser', 'main'],
     extensions: [
       '.wasm',
       '.mjs',
