@@ -76,7 +76,8 @@
       "types": "./index.d.ts",
       "import": "./config/prettier.js",
       "default": "./config/prettier.js"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
 }
