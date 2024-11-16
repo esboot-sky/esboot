@@ -1,9 +1,9 @@
-import { join } from 'path';
+import { join } from 'node:path';
 
 import prettierConfig from '@dz-web/esboot-lint/prettier';
-import { writeJSONSync, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
+import { writeJSON, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
-import { info } from '@dz-web/esboot-common/helpers';
+import { info, error } from '@dz-web/esboot-common/helpers';
 
 import cfg from '@/cfg';
 import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
@@ -17,9 +17,13 @@ export function generatePrettierCfg() {
 
   const outputPath = join(cacheDir, 'prettier/index.json');
   ensureFileSync(outputPath);
-  writeJSONSync(outputPath, prettierConfig, {
+  writeJSON(outputPath, prettierConfig, {
     spaces: 2,
-  });
-
-  info(`Created Prettier Config: ${outputPath}.`);
+  })
+    .then(() => {
+      info(`Created Prettier Config: ${outputPath}.`);
+    })
+    .catch((err) => {
+      error(err);
+    });
 }

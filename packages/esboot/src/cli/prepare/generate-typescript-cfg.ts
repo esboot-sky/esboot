@@ -1,9 +1,9 @@
-import { join, isAbsolute } from 'path';
+import { join, isAbsolute } from 'node:path';
 
 import tsconfigJson from '@dz-web/esboot-lint/tsconfig.json';
-import { writeJSONSync, ensureDirSync } from '@dz-web/esboot-common/fs-extra';
+import { writeJSON, ensureDirSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
-import { info } from '@dz-web/esboot-common/helpers';
+import { info, error } from '@dz-web/esboot-common/helpers';
 
 import cfg from '@/cfg';
 import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
@@ -20,7 +20,7 @@ export function generateTypeScriptCfg() {
   const { cwd, alias } = cfg.config;
   const _alias: Record<string, string[]> = {};
 
-  for (let k in alias) {
+  for (const k in alias) {
     const rawValue = alias[k];
     const isAbsoluteValue = isAbsolute(rawValue);
     const key = isAbsoluteValue ? k : `${k}/*`;
@@ -46,9 +46,13 @@ export function generateTypeScriptCfg() {
 
   ensureDirSync(folderPath);
 
-  writeJSONSync(outoutPath, tsconfigJson, {
+  writeJSON(outoutPath, tsconfigJson, {
     spaces: 2,
-  });
-
-  info(`Created Typescript Config: ${outoutPath}.`);
+  })
+    .then(() => {
+      info(`Created Typescript Config: ${outoutPath}.`);
+    })
+    .catch((err) => {
+      error(err);
+    });
 }

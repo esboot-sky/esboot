@@ -1,10 +1,10 @@
-import { join } from 'path';
+import { join } from 'node:path';
 
 import cfg from '@/cfg';
 
-import { writeFileSync, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
+import { writeFile, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
-import { info } from '@dz-web/esboot-common/helpers';
+import { info, error } from '@dz-web/esboot-common/helpers';
 
 import eslintCfg from '@dz-web/esboot-lint/eslint';
 
@@ -30,10 +30,14 @@ export function generateESLintCfg() {
 
   const outputPath = join(cacheDir, 'eslint/index.js');
   ensureFileSync(outputPath);
-  writeFileSync(
+  writeFile(
     outputPath,
     `module.exports = ${JSON.stringify(eslintCfg, null, 2)}`
-  );
-
-  info(`Created ESLint Config: ${outputPath}.`);
+  )
+    .then(() => {
+      info(`Created ESLint Config: ${outputPath}.`);
+    })
+    .catch((err) => {
+      error(err);
+    });
 }

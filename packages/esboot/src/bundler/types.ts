@@ -1,5 +1,6 @@
 import { pluginHooksDict } from '../plugin';
-import configuration from '../cfg';
+
+import type configuration from '../cfg';
 
 export type ConfigurationInstance = typeof configuration;
 

@@ -12,7 +12,7 @@ function Login() {
 
   return (
     <div>
-      <button onClick={clickHandler} type="button">
+      <button onClick={clickHandler} type="button" className="mt-3 bg-red-500">
         Toggle
       </button>
       登录

@@ -1,10 +1,10 @@
-import { ConfigurationInstance, BaseBundlerOptions } from './types';
 import {
   callPluginHookOfModifyBundlerConfig,
   callPluginHookOfOnlyExec,
   pluginHooksDict,
   PluginHooks,
 } from '@/plugin';
+import type { ConfigurationInstance, BaseBundlerOptions } from './types';
 
 export abstract class Bundler {
   cfg: ConfigurationInstance;

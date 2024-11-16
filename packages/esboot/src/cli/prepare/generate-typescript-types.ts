@@ -1,8 +1,8 @@
-import { join } from 'path';
+import { join } from 'node:path';
 
-import { writeFileSync } from '@dz-web/esboot-common/fs-extra';
+import { writeFile } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
-import { info } from '@dz-web/esboot-common/helpers';
+import { info, error } from '@dz-web/esboot-common/helpers';
 
 import cfg from '@/cfg';
 
@@ -31,6 +31,11 @@ export function generateTypeScriptTypes() {
   if (!types) return;
 
   const outputPath = join(cacheDir, 'typescript/esboot.d.ts');
-  writeFileSync(outputPath, types);
-  info(`Created Type File: ${outputPath}.`);
+  writeFile(outputPath, types)
+    .then(() => {
+      info(`Created Type File: ${outputPath}.`);
+    })
+    .catch((err) => {
+      error(err);
+    });
 }

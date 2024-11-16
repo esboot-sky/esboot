@@ -1,8 +1,8 @@
-import { join } from 'path';
+import { join } from 'node:path';
 
-import { writeFileSync, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
+import { writeFile, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
-import { info } from '@dz-web/esboot-common/helpers';
+import { info, error } from '@dz-web/esboot-common/helpers';
 import stylelintCfg from '@dz-web/esboot-lint/stylelint';
 
 import cfg from '@/cfg';
@@ -18,9 +18,14 @@ export function generateStylelintCfg() {
   );
 
   ensureFileSync(outoutPath);
-  writeFileSync(
+  writeFile(
     outoutPath,
     `module.exports=${JSON.stringify(stylelintCfg, null, 2)}`
-  );
-  info(`Created Stylelint Config: ${outoutPath}.`);
+  )
+    .then(() => {
+      info(`Created Stylelint Config: ${outoutPath}.`);
+    })
+    .catch((err) => {
+      error(err);
+    });
 }
