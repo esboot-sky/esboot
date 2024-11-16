@@ -1,10 +1,9 @@
-@import './normalize';
+@use './normalize';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* stylelint-disable-next-line selector-max-id */
 html,
 body,
 #root {

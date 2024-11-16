@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
-import { test, expect } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
+import { test, expect } from 'vitest';
 
 import App from './app';
 

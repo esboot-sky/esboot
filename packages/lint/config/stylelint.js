@@ -33,12 +33,16 @@ module.exports = {
       },
     ],
     'scss/dollar-variable-pattern': '^(([a-z]+)-*)+$',
-    'selector-max-id': [
-      0,
+    "selector-max-id": [
+      1,
       {
-        ignoreContextFunctionalPseudoClasses: [':not', '/^:(h|H)as$/'],
-      },
+        "ignoreContextFunctionalPseudoClasses": [
+          ":not",
+          "/^:(h|H)as$/"
+        ]
+      }
     ],
+    "selector-id-pattern": "^root$",
     'max-nesting-depth': 3,
     'at-rule-empty-line-before': [
       'always',

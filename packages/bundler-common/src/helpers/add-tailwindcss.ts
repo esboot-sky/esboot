@@ -13,7 +13,7 @@ const defaultTailwindCSSOpts: Config = {
   plugins: [],
 };
 
-export function addTailwindCSS(cfg: ConfigurationInstance): Config | false {
+export function addTailwindCSS(cfg: ConfigurationInstance) {
   const { useTailwindcss, tailwindcssOptions } = cfg.config;
 
   if (!useTailwindcss) return false;

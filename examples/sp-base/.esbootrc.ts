@@ -87,25 +87,10 @@ export default defineConfig<BundlerOptions>({
       jsStrategy: CodeSplittingType.granularChunks,
     },
   },
-  sourceMap: false,
-  alias: {
-    '@@': 'src',
-  },
   server: {
     port: 4200,
     http2: false,
   },
-  useTailwindcss: true,
-  tailwindcssOptions: (defaultTailwindCSSOpts) => ({
-    ...defaultTailwindCSSOpts,
-    theme: {
-      extend: {
-        colors: {
-          'primary-color': '#1DA57A',
-        },
-      },
-    },
-  }),
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

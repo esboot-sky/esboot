@@ -3,19 +3,36 @@ import {
   addEntry as _addEntry,
   type AddEntryCBParams,
 } from '@dz-web/esboot-bundler-common';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+import HtmlWebpackPlugin, { type Options } from 'html-webpack-plugin';
 
 import type { AddFunc } from '@/cfg/types';
 
 export const addEntry: AddFunc<{
   enableLangJsonPicker: boolean;
 }> = async (cfg, webpackCfg, options) => {
-  const { configRootPath, MPConfiguration, isSP } = cfg.config;
+  const { configRootPath, MPConfiguration, isSP, isDev } = cfg.config;
   let tplRootPath = configRootPath;
   if (!isSP && MPConfiguration) {
     tplRootPath = MPConfiguration.configRootPathOfPlatfrom;
   }
   const { enableLangJsonPicker } = options!;
+  const htmlPluginCfg: Options = {
+    inject: true,
+    hash: true,
+  };
+  if (!isDev) {
+    htmlPluginCfg.minify = {
+      collapseWhitespace: true,
+      removeComments: true,
+      removeRedundantAttributes: true,
+      useShortDoctype: true,
+      removeEmptyAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      keepClosingSlash: true,
+      minifyJS: true,
+      minifyCSS: true,
+    };
+  }
 
   await _addEntry(cfg, (params: AddEntryCBParams) => {
     const { chunkName, template, entry, title } = params;
@@ -36,8 +53,7 @@ export const addEntry: AddFunc<{
         filename: `${chunkName}.html`,
         title,
         template: ensureTpl,
-        inject: true,
-        hash: true,
+        ...htmlPluginCfg,
       })
     );
   });

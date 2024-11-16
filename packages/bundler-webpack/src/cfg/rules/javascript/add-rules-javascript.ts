@@ -60,7 +60,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
     {
       test: /\.tsx?$/,
       include: [rootPath],
-      exclude: [/node_modules/],
+      exclude: [/node_modules/, /config\.js$/],
       use: [
         {
           loader: babelLoader,
