@@ -31,6 +31,7 @@ export const defaultCfg: Configuration = {
   minimize: true,
   useTailwindcss: true,
   isCIBuild: false,
+  legacy: false,
   server: {
     host: '0.0.0.0',
     open: false,

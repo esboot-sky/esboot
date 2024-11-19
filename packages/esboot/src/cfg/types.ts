@@ -68,6 +68,7 @@ export interface UserOptions<BundlerOptions = unknown> {
     port?: number;
     proxy?: Proxy[];
   };
+  legacy?: boolean;
   externals?: Record<string, string>;
   useTailwindcss?: boolean;
   tailwindcssOptions?: (defaultCfg: tailwindCSSConfig) => tailwindCSSConfig;
@@ -85,11 +86,11 @@ export interface ConfigurationForMP {
 type PreserveAttr =
   | 'define'
   | 'copy'
-  | 'sourceMap'
   | 'jsMinifier'
   | 'jsMinifierOptions'
   | 'cssMinifierOptions'
   | 'tailwindcssOptions'
+  | 'legacy'
   | 'cssMinifier';
 
 export type Configuration<BundlerOptions = unknown> = {
@@ -112,7 +113,6 @@ export type Configuration<BundlerOptions = unknown> = {
       to: string;
     }[];
     alias: Record<string, string>;
-    sourceMap?: UserOptions['sourceMap'];
   } & (
     | { isSP: true; MPConfiguration?: never }
     | { isSP: false; MPConfiguration: ConfigurationForMP }
