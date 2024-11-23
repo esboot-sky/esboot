@@ -3,10 +3,13 @@ import { refreshInfo } from '../utils';
 import { ESBootSidebarProvider, ESBootTreeItem } from './provider';
 import { TreeItemType } from './constants';
 
-export function activateSidebar(context: vscode.ExtensionContext) {
+export function activateSidebar(
+  context: vscode.ExtensionContext,
+  options: { isSP?: boolean }
+) {
   refreshInfo();
 
-  const sidebarProvider = new ESBootSidebarProvider();
+  const sidebarProvider = new ESBootSidebarProvider(options);
   vscode.window.registerTreeDataProvider('esboot', sidebarProvider);
 
   const treeView = vscode.window.createTreeView('esboot', {
@@ -59,6 +62,10 @@ export function activateSidebar(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand('esboot.selectPlatform', async () => {
+      if (options.isSP) {
+        return;
+      }
+
       const quickPickItems: vscode.QuickPickItem[] =
         sidebarProvider.platforms.map((platform) => {
           const isCurrent = sidebarProvider.selectedPlatform === platform;

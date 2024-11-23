@@ -41,7 +41,10 @@ export class ESBootSidebarProvider
   public platforms: string[] = [];
   public pageTypes: string[] = [];
 
-  constructor() {
+  private isSP: boolean;
+
+  constructor(options: { isSP?: boolean }) {
+    this.isSP = options.isSP || false;
     this.refresh();
   }
 
@@ -77,11 +80,13 @@ export class ESBootSidebarProvider
     const { ESBOOT_CONTENT_PATTERN = '*', ESBOOT_CONTENT_PATH = '' } =
       process.env;
     const isFull = ESBOOT_CONTENT_PATTERN === '*';
-    const contentPath = join(
-      'platforms',
-      this.selectedPlatform || '',
-      `_${this.selectedPageType}`
-    );
+    const contentPath = this.isSP
+      ? ''
+      : join(
+          'platforms',
+          this.selectedPlatform || '',
+          `_${this.selectedPageType}`
+        );
 
     await addEntry(
       cfg,
@@ -137,14 +142,20 @@ export class ESBootSidebarProvider
           return Promise.resolve(this.getPageTypeItems());
         case TreeItemType.PAGE:
           return Promise.resolve(this.getPageItems());
+        default:
+          return Promise.resolve([]);
       }
-    } else {
-      return Promise.resolve([
-        new ESBootTreeItem(
-          'Platform',
-          vscode.TreeItemCollapsibleState.Expanded,
-          TreeItemType.PLATFORM
-        ),
+    }
+
+    return Promise.resolve(
+      [
+        this.isSP
+          ? undefined
+          : new ESBootTreeItem(
+              'Platform',
+              vscode.TreeItemCollapsibleState.Expanded,
+              TreeItemType.PLATFORM
+            ),
         new ESBootTreeItem(
           'PageType',
           vscode.TreeItemCollapsibleState.Expanded,
@@ -155,9 +166,8 @@ export class ESBootSidebarProvider
           vscode.TreeItemCollapsibleState.Expanded,
           TreeItemType.PAGE
         ),
-      ]);
-    }
-    return Promise.resolve([]);
+      ].filter(Boolean) as ESBootTreeItem[]
+    );
   }
 
   private getPlatformItems(): ESBootTreeItem[] {
@@ -228,7 +238,8 @@ export class ESBootSidebarProvider
     }
 
     modifyEnv('ESBOOT_CONTENT_PATTERN', pattern);
-    this.refresh();
+
+    this._onDidChangeTreeData.fire();
   }
 
   selectPages(pages: string[]): void {

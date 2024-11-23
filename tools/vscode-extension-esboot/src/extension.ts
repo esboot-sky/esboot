@@ -11,11 +11,11 @@ export function activate(context: vscode.ExtensionContext) {
   if (!fse.existsSync(cfgPath)) return;
 
   const content = fse.readFileSync(cfgPath, 'utf8');
+  // TODO: load file content
   const isSP = content.includes('isSP: true');
-  if (isSP) return;
 
   console.log('ESBoot activated');
-  activateSidebar(context);
+  activateSidebar(context, { isSP });
 }
 
 export function deactivate() {}
