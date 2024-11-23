@@ -33,7 +33,6 @@ export function generateTypeScriptCfg() {
   tsconfigJson.compilerOptions.paths = _alias;
   tsconfigJson.exclude = absListPath(tsconfigJson.exclude);
   tsconfigJson.include = absListPath(tsconfigJson.include);
-  tsconfigJson.files = absListPath(tsconfigJson.files);
 
   callPluginHookOfModifyLintConfig(
     PluginHooks.modifyTypescriptConfig,
