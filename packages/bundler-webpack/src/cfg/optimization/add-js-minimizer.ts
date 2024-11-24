@@ -22,6 +22,7 @@ export const addJSMinimizer: AddFunc = async (cfg, webpackCfg) => {
         minify: TerserPlugin.terserMinify,
         parallel: true,
         terserOptions: merge(terserMinifyOptions, jsMinifierOptions),
+        exclude: /config\.js$/,
       });
   }
 
