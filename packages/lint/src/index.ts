@@ -9,7 +9,7 @@ import {
 
 export async function lint({ cwd }: { cwd: string }) {
   const args = process.argv.slice(3);
-  exec(`${require.resolve('stylelint/bin/stylelint')} **/*.scss ${args}`, {
+  exec(`node ${require.resolve('stylelint/bin/stylelint')} **/*.scss ${args}`, {
     onError: () => void 0,
   });
   // Special case for eslint
@@ -24,7 +24,7 @@ export function huskySetup({ configRootPath }: { configRootPath: string }) {
     ensureDirSync(huskyCfgTarget);
     copySync(resolve(__dirname, '../config/.husky'), huskyCfgTarget);
   }
-  exec(`${require.resolve('husky/lib/bin')} install config/.husky`, {
+  exec(`node ${require.resolve('husky/lib/bin')} install config/.husky`, {
     onError: (err) => {
       error(err.message);
     },
@@ -38,7 +38,7 @@ export async function execGitHooks(options: { type: string; cwd: string }) {
     case 'pre-commit':
       info('Start checking staged files...');
 
-      await exec(`${require.resolve('lint-staged/bin')} --cwd ${cwd}`, {
+      await exec(`node ${require.resolve('lint-staged/bin')} --cwd ${cwd}`, {
         onError: () => process.exit(1),
       });
       info('Checking staged files done.');
@@ -46,7 +46,7 @@ export async function execGitHooks(options: { type: string; cwd: string }) {
     case 'commit-msg':
       info('Start checking commit message...');
       await exec(
-        `${require.resolve('@commitlint/cli/cli')} --from HEAD~1 --to HEAD --edit $1`,
+        `node ${require.resolve('@commitlint/cli')} --from HEAD~1 --to HEAD --edit $1`,
         {
           onError: () => process.exit(1),
         }
