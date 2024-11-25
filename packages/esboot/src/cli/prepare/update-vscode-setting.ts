@@ -25,6 +25,8 @@ export function updateVSCodeSetting() {
           'i18n-ally.localesPaths': ['src/lang'],
           'tailwindCSS.experimental.configFile':
             'node_modules/.cache/esboot/tailwindcss.config.js',
+          'stylelint.snippet': ['css', 'less', 'postcss', 'scss'],
+          'stylelint.validate': ['css', 'less', 'postcss', 'scss'],
         }),
         {
           spaces: 2,
