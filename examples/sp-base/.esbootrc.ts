@@ -88,7 +88,7 @@ export default defineConfig<BundlerOptions>({
     },
   },
   server: {
-    port: 4200,
+    port: 4300,
     http2: false,
   },
   // analyze: true,

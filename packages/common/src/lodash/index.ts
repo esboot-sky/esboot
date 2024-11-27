@@ -1,1 +1,1 @@
-export { isFunction, isUndefined, omit, pick, merge, noop } from 'lodash';
+export { isFunction, isUndefined, omit, pick, merge, noop, debounce } from 'lodash';

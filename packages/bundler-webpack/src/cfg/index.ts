@@ -22,8 +22,9 @@ import { addJSONRules } from './rules/add-rules-json';
 import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
 import { addCopyPlugin } from './plugins/add-plugin-copy';
 import { addDefinePlugin } from './plugins/add-plugin-define';
-import { addWebpackbarPlugin } from './plugins/add-plugin-webpackbar';
+// import { addWebpackbarPlugin } from './plugins/add-plugin-webpackbar';
 import { addBundleAnalyzerPlugin } from './plugins/add-plugin-bundle-analyzer';
+import { addProcessbarPlugin } from './plugins/add-plugin-processbar';
 
 import { addDevServer } from './add-dev-server';
 
@@ -72,7 +73,8 @@ export const getWebpackCfg = async (
   await addPluginModifyHtml(cfg, webpackCfg);
   await addCopyPlugin(cfg, webpackCfg);
   await addDefinePlugin(cfg, webpackCfg);
-  await addWebpackbarPlugin(cfg, webpackCfg);
+  // await addWebpackbarPlugin(cfg, webpackCfg);
+  await addProcessbarPlugin(cfg, webpackCfg);
   await addBundleAnalyzerPlugin(cfg, webpackCfg);
 
   await addDevServer(cfg, webpackCfg, { mfsu });

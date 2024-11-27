@@ -1,8 +1,8 @@
 import Webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { Bundler } from '@dz-web/esboot';
-import type { BaseBundlerOptions } from '@dz-web/esboot';
 import { error } from '@dz-web/esboot-common/helpers';
+// import { watchOnFileChange } from '@dz-web/esboot-bundler-common';
 import kleur from '@dz-web/esboot-common/kleur';
 
 import { getWebpackCfg } from './cfg';
@@ -10,10 +10,6 @@ import type { CustomWebpackConfiguration } from '@/cfg/types';
 
 export class BundlerWebpack extends Bundler {
   name = 'webpack';
-
-  constructor(options: BaseBundlerOptions) {
-    super(options);
-  }
 
   getName() {
     return this.name;
@@ -34,10 +30,15 @@ export class BundlerWebpack extends Bundler {
 
       try {
         await server.start();
-      } catch (err: any) {
-        error(err);
+      } catch (err: unknown) {
+        error((err as Error).message);
       }
     };
+
+    // watchOnFileChange(this.cfg, async () => {
+    //   await server.stop();
+    //   await start();
+    // });
 
     await start();
     this.onAfterCompile();

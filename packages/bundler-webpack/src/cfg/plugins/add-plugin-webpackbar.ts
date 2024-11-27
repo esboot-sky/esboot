@@ -2,6 +2,7 @@ import WebpackBar from 'webpackbar';
 
 import type { AddFunc } from '@/cfg/types';
 
+// @deprecated
 export const addWebpackbarPlugin: AddFunc = async (cfg, webpackCfg) => {
   const { analyze, isCIBuild } = cfg.config;
 
@@ -17,12 +18,6 @@ export const addWebpackbarPlugin: AddFunc = async (cfg, webpackCfg) => {
       reporters: [
         'fancy',
         analyze && 'profile',
-        {
-          afterAllDone() {
-            // if (!execHooks) afterHooks();
-            // execHooks = true;
-          },
-        },
       ].filter(Boolean) as any[],
     })
   );
