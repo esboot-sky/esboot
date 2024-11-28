@@ -42,14 +42,21 @@ export const addEntry = async (
   }
 
   const { pattern, contentPath } = options;
-  const { ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_PATTERN = '*' } =
-    process.env;
+  const {
+    ESBOOT_CONTENT_PATH = '',
+    ESBOOT_CONTENT_PATTERN = '*',
+    ESBOOT_CONTENT_IGNORE = '',
+  } = process.env;
+
+  const ignoreList = ESBOOT_CONTENT_IGNORE
+    ? ESBOOT_CONTENT_IGNORE.split(',').map((v) => `**/${v}.entry.tsx`)
+    : [];
 
   const files = await glob(
     `/**/${pattern || ESBOOT_CONTENT_PATTERN}.entry.tsx`,
     {
       root: join(contentRootPath, contentPath || ESBOOT_CONTENT_PATH),
-      ignore: ['**/node_modules/**', '**/test/**'],
+      ignore: ['**/node_modules/**', '**/test/**', ...ignoreList],
     }
   );
 

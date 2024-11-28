@@ -11,6 +11,7 @@ declare global {
       ESBOOT_PLATFORM: PLATFORMS;
       ESBOOT_PAGE_TYPE: PAGE_TYPE;
       ESBOOT_CONTENT_PATTERN: string;
+      ESBOOT_CONTENT_IGNORE: string;
       ESBOOT_IS_CI_BUILD: string;
       NODE_ENV: Environment;
     }
