@@ -26,6 +26,7 @@ export const addEntry = async (
   options: {
     contentPath?: string;
     pattern?: string;
+    ignore?: string;
   } = {}
 ) => {
   const {
@@ -41,11 +42,11 @@ export const addEntry = async (
     contentRootPath = MPConfiguration.contentRootPath;
   }
 
-  const { pattern, contentPath } = options;
+  const { pattern, contentPath, ignore = '' } = options;
   const {
     ESBOOT_CONTENT_PATH = '',
     ESBOOT_CONTENT_PATTERN = '*',
-    ESBOOT_CONTENT_IGNORE = '',
+    ESBOOT_CONTENT_IGNORE = ignore,
   } = process.env;
 
   const ignoreList = ESBOOT_CONTENT_IGNORE

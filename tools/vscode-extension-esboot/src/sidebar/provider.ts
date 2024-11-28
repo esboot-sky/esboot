@@ -77,7 +77,7 @@ export class ESBootSidebarProvider
     this.fullPages.length = 0;
     this.pageDict = {};
 
-    const { ESBOOT_CONTENT_PATTERN = '*', ESBOOT_CONTENT_PATH = '' } =
+    const { ESBOOT_CONTENT_PATTERN = '*', ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_IGNORE = '' } =
       process.env;
     const isFull = ESBOOT_CONTENT_PATTERN === '*';
     const contentPath = this.isSP
@@ -100,6 +100,7 @@ export class ESBootSidebarProvider
       {
         contentPath,
         pattern: '*',
+        ignore: ESBOOT_CONTENT_IGNORE,
       }
     );
 
@@ -112,6 +113,7 @@ export class ESBootSidebarProvider
         {
           contentPath: join(contentPath, ESBOOT_CONTENT_PATH),
           pattern: ESBOOT_CONTENT_PATTERN,
+          ignore: ESBOOT_CONTENT_IGNORE,
         }
       );
     }
