@@ -1,24 +1,70 @@
 import { test, expect } from 'vitest';
-import { cva, cn } from '..';
+import { cva, cn, twMerge, clsx } from '../..';
 
-test('cn', () => {
-  expect(cn('foo', 'bar')).toBe('foo bar');
+test('tailwind-merge is exported', () => {
+  expect(twMerge('text-sm', 'py-1', 'px-2', 'px-4', 'text-base')).toBe(
+    'py-1 px-4 text-base'
+  );
+});
+
+test('clsx is exported', () => {
+  const num = 10;
+  expect(clsx('foo', num > 11 ? 'bar' : 'baz')).toBe('foo baz');
+});
+
+test('cn is exported', () => {
+  const num = 12;
+  expect(
+    clsx(
+      'text-sm',
+      'py-1',
+      'px-2',
+      'px-4',
+      'text-base',
+      num > 11 ? 'bar' : 'baz'
+    )
+  ).toBe('text-sm py-1 px-2 px-4 text-base bar');
 });
 
 test('cva is exported', () => {
-  const button = cva({
-    base: 'bg-blue-500 text-white',
+  const button = cva(['font-semibold', 'border', 'rounded'], {
     variants: {
-      size: {
-        sm: 'text-sm',
-        md: 'text-base',
-        lg: 'text-lg',
+      intent: {
+        primary: [
+          'bg-blue-500',
+          'text-white',
+          'border-transparent',
+          'hover:bg-blue-600',
+        ],
+        secondary: [
+          'bg-white',
+          'text-gray-800',
+          'border-gray-400',
+          'hover:bg-gray-100',
+        ],
       },
+      size: {
+        small: ['text-sm', 'py-1', 'px-2'],
+        medium: ['text-base', 'py-2', 'px-4'],
+      },
+    },
+    compoundVariants: [
+      {
+        intent: 'primary',
+        size: 'medium',
+        className: 'uppercase',
+      },
+    ],
+    defaultVariants: {
+      intent: 'primary',
+      size: 'medium',
     },
   });
 
-  expect(button()).toBe('bg-blue-500 text-white');
-  expect(button({ size: 'sm' })).toBe('bg-blue-500 text-white text-sm');
-  expect(button({ size: 'md' })).toBe('bg-blue-500 text-white text-base');
-  expect(button({ size: 'lg' })).toBe('bg-blue-500 text-white text-lg');
+  expect(button()).toBe(
+    'font-semibold border rounded bg-blue-500 text-white border-transparent hover:bg-blue-600 text-base py-2 px-4 uppercase'
+  );
+  expect(button({ intent: 'secondary', size: 'small' })).toBe(
+    'font-semibold border rounded bg-white text-gray-800 border-gray-400 hover:bg-gray-100 text-sm py-1 px-2'
+  );
 });
