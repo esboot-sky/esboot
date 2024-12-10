@@ -14,8 +14,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint:turbo": "turbo run lint",
     "lint": "eslint packages/**/src/**/*.ts",
-    "pub": "lerna publish --force-publish=* --no-private",
     "test": "vitest",
+    "pub": "pnpm run test && lerna publish --force-publish=* --no-private",
     "biome": "biome",
     "clean:dep": "pnpm -r exec -- rm -rf node_modules && rm -rf node_modules && rm pnpm-lock.yaml",
     "clean:dist": "pnpm -r exec -- rm -rf dist"
