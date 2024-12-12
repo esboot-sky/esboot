@@ -54,7 +54,7 @@ export const addEntry: AddFunc<{
         title,
         template: ensureTpl,
         templateParameters: {
-          isDev: isDev ? '1' : '0',
+          isDev,
         },
         ...htmlPluginCfg,
       })

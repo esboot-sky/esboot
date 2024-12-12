@@ -39,8 +39,18 @@
         }
       }
     </style>
+    <% if (isDev) { %>
+      <script>
+        window.SERVER_CONFIG = {
+            gateway: 'http://10.10.11.74:6002',
+            cms: 'http://10.10.11.74:8060',
+            asset: 'http://10.10.11.74',
+        };
+      </script>
+    <% } %>
   </head>
   <body>
+    isDev: <%= isDev %>
     <div id="root">
       <div class="global_loading">
         <img class="global_img" src="./static/loading.svg" alt="" />
