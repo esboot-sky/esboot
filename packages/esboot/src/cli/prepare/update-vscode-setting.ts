@@ -22,9 +22,26 @@ export function updateVSCodeSetting() {
       return writeJSON(
         outputPath,
         merge({}, currentSetting, {
+          // i18n-ally
           'i18n-ally.localesPaths': ['src/lang'],
+
+          // Tailwind IntelliSense
           'tailwindCSS.experimental.configFile':
             'node_modules/.cache/esboot/tailwindcss.config.js',
+          'tailwindCSS.classAttributes': [
+            'className',
+            'class',
+            '.*cls*',
+            '.*cls: .*',
+          ],
+          'tailwindCSS.experimental.classRegex': [
+            ['clsx\\(([^)]*)\\)', '["\'`]([^"\'`]*)["\'`]'],
+            ['classnames\\(([^)]*)\\)', '["\'`]([^"\'`]*)["\'`]'],
+            ['cn\\(([^)]*)\\)', '["\'`]([^"\'`]*)["\'`]'],
+            ['cva\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]'],
+          ],
+
+          // Stylelint
           'stylelint.snippet': ['css', 'less', 'postcss', 'scss'],
           'stylelint.validate': ['css', 'less', 'postcss', 'scss'],
         }),

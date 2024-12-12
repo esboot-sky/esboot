@@ -15,7 +15,6 @@ import { updateVSCodeSetting } from './update-vscode-setting';
 import { error } from '@dz-web/esboot-common/helpers';
 
 export function prepare() {
-
   const { isCIBuild } = cfg.config;
 
   generateTypeScriptCfg();
