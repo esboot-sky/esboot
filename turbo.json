@@ -32,6 +32,11 @@
         ".next/**"
       ]
     },
+    "test": {
+      "outputs": [
+        "test/**"
+      ]
+    },
     "lint": {
       "outputs": []
     }
