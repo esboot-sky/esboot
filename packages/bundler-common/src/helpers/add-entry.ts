@@ -63,7 +63,7 @@ export const addEntry = async (
 
   const entry: Configuration['entry'] = {};
 
-  files.forEach((file: string) => {
+  for (const file of files) {
     const { title, template, name, langJsonPicker } =
       (getExportProps(readFileSync(file, 'utf-8')) as EntryFileExportProps) ||
       {};
@@ -90,7 +90,7 @@ export const addEntry = async (
       title: ensureTitle,
       url: `http://${ipv4}:${port}/${chunkName}.html`,
     };
-  });
+  }
 
   cfg.patch({ entry });
 };

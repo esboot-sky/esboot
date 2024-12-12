@@ -53,6 +53,9 @@ export const addEntry: AddFunc<{
         filename: `${chunkName}.html`,
         title,
         template: ensureTpl,
+        templateParameters: {
+          isDev: isDev ? '1' : '0',
+        },
         ...htmlPluginCfg,
       })
     );
