@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tailwindcss is working 1`] = `
+<div>
+  <div
+    class="bg-red-500 text-white"
+    data-testid="tailwindcss"
+  >
+    Tailwindcss
+  </div>
+</div>
+`;
