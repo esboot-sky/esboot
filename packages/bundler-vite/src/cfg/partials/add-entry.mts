@@ -8,10 +8,10 @@ import type { AddFunc } from '@/cfg/types.mts';
 
 export const addEntry: AddFunc = async (cfg, viteCfg) => {
   const { cwd, MPConfiguration, isSP } = cfg.config;
-  let configRootPathOfPageType = 'config';
+  let configRootPath = 'config';
 
   if (!isSP && MPConfiguration) {
-    configRootPathOfPageType = MPConfiguration.configRootPathOfPageType;
+    configRootPath = MPConfiguration.configRootPathOfPlatfrom;
   }
 
   const pages: any[] = [];
@@ -21,7 +21,7 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
     pages.push({
       entry: entry.replace(cwd, ''),
       filename: `${chunkName}.html`,
-      template: `${configRootPathOfPageType}/${template}`.replace(cwd, ''),
+      template: `${configRootPath}/${template}`.replace(cwd, ''),
       inject: {
         data: {
           htmlWebpackPlugin: {
@@ -34,6 +34,8 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
     });
   });
 
-  viteCfg.appType = 'mpa';
-  viteCfg.plugins!.push(createHtmlPlugin(isSP ? { ...pages[0] } : { pages }));
+  console.log('pages', pages);
+  // viteCfg.appType = 'mpa';
+  // viteCfg.plugins!.push(createHtmlPlugin(isSP ? { ...pages[0] } : { pages }));
+  viteCfg.plugins!.push(createHtmlPlugin({ ...pages[0] }));
 };

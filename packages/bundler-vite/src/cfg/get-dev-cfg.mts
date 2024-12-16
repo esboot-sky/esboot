@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import vitePluginSvgr from 'vite-plugin-svgr';
 
 import { cacheDir, Environment } from '@dz-web/esboot-common';
-import { addTailwindCSS } from '@dz-web/esboot-bundler-common';
+import { addTailwindCSS, addDefine } from '@dz-web/esboot-bundler-common';
 import { addEntry } from './partials/add-entry.mts';
 import { addStyle } from './partials/add-style/index.mts';
 import { addResolve } from './partials/add-resolve.mts';
@@ -36,6 +36,10 @@ export const getDevCfg = async (
     publicDir: 'config',
     root: cwd,
     cacheDir: join(cacheDir, '.vite'),
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      ...addDefine(cfg),
+    },
     css: {
       preprocessorOptions: {
         scss: {
