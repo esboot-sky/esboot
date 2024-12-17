@@ -9,7 +9,7 @@ const getServerType = (https: boolean, http2: boolean) => {
   return 'http';
 };
 
-export const addDevServer: AddFunc = async function (cfg, viteCfg, options) {
+export const addDevServer: AddFunc = async (cfg, viteCfg, options) => {
   const {
     cwd,
     isDev,

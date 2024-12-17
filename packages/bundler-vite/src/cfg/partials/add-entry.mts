@@ -1,5 +1,6 @@
 import { createHtmlPlugin } from 'vite-plugin-html';
 import {
+  injectHtml,
   addEntry as _addEntry,
   type AddEntryCBParams,
 } from '@dz-web/esboot-bundler-common';
@@ -7,7 +8,7 @@ import {
 import type { AddFunc } from '@/cfg/types.mts';
 
 export const addEntry: AddFunc = async (cfg, viteCfg) => {
-  const { cwd, MPConfiguration, isSP } = cfg.config;
+  const { cwd, MPConfiguration, isSP, isDev } = cfg.config;
   let configRootPath = 'config';
 
   if (!isSP && MPConfiguration) {
@@ -21,21 +22,24 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
     pages.push({
       entry: entry.replace(cwd, ''),
       filename: `${chunkName}.html`,
-      template: `${configRootPath}/${template}`.replace(cwd, ''),
+      template: `${configRootPath}/${template}`.replace(`${cwd}/config`, ''),
+      title,
       inject: {
         data: {
-          htmlWebpackPlugin: {
-            options: {
-              title,
-            },
-          },
+          isDev: isDev,
         },
       },
     });
   });
 
-  console.log('pages', pages);
+  console.log(pages, 'pages');
+  
   // viteCfg.appType = 'mpa';
   // viteCfg.plugins!.push(createHtmlPlugin(isSP ? { ...pages[0] } : { pages }));
-  viteCfg.plugins!.push(createHtmlPlugin({ ...pages[0] }));
+  viteCfg.plugins!.push(createHtmlPlugin({ ...pages[0] }), {
+    name: 'vite-plugin-inject-body',
+    transformIndexHtml(html) {
+      return injectHtml(html, cfg, pages[0].title);
+    },
+  });
 };

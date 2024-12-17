@@ -7,7 +7,6 @@ import { addTailwindCSS, addDefine } from '@dz-web/esboot-bundler-common';
 import { addEntry } from './partials/add-entry.mts';
 import { addStyle } from './partials/add-style/index.mts';
 import { addResolve } from './partials/add-resolve.mts';
-import { addCompatHtmlPlugin } from './partials/add-compat-html-plugin/index.mts';
 import { addDevServer } from './partials/add-dev-server.mts';
 
 import type { InlineConfig } from 'vite';
@@ -42,9 +41,7 @@ export const getDevCfg = async (
     },
     css: {
       preprocessorOptions: {
-        scss: {
-          modules: true,
-        },
+        scss: {},
       },
       postcss: {
         plugins: [addTailwindCSS(cfg)].filter(Boolean),
@@ -59,8 +56,6 @@ export const getDevCfg = async (
     await addEntry(cfg, viteCfg);
   }
   await addStyle(cfg, viteCfg);
-
-  await addCompatHtmlPlugin(cfg, viteCfg);
 
   return customConfig ? customConfig(viteCfg, cfg.config) : viteCfg;
 };

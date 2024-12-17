@@ -1,5 +1,5 @@
 import { createServer } from 'vite';
-import { Bundler, BaseBundlerOptions } from '@dz-web/esboot';
+import { Bundler } from '@dz-web/esboot';
 import { error } from '@dz-web/esboot-common/helpers';
 import { Environment } from '@dz-web/esboot-common/constants';
 
@@ -7,10 +7,6 @@ import { getDevCfg } from './cfg/get-dev-cfg.mts';
 
 export class BundlerVite extends Bundler {
   name = 'vite';
-
-  constructor(options: BaseBundlerOptions) {
-    super(options);
-  }
 
   getName() {
     return this.name;
