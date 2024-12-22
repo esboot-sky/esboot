@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { exec } from '@dz-web/esboot-common/execa';
 import { info, error } from '@dz-web/esboot-common/helpers';
 import {

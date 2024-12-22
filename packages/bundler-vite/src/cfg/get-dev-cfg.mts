@@ -9,9 +9,11 @@ import { addStyle } from './partials/add-style/index.mts';
 import { addResolve } from './partials/add-resolve.mts';
 import { addDevServer } from './partials/add-dev-server.mts';
 
+import { addCopyPlugin } from '../plugins/add-plugin-copy.mts';
+
 import type { InlineConfig } from 'vite';
 import type { ConfigurationInstance } from '@dz-web/esboot';
-import type { BundlerViteOptions } from '../types.mts';
+import type { BundlerViteOptions, CustomViteConfiguration } from '../types.mts';
 
 export const getDevCfg = async (
   cfg: ConfigurationInstance,
@@ -20,7 +22,7 @@ export const getDevCfg = async (
   const { cwd, bundlerOptions = {} } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerViteOptions;
 
-  const viteCfg: InlineConfig = {
+  const viteCfg: CustomViteConfiguration = {
     plugins: [
       react(),
       // FIXME: vite-plugin-svgr 类型定义有问题
@@ -51,6 +53,8 @@ export const getDevCfg = async (
 
   await addDevServer(cfg, viteCfg);
   await addResolve(cfg, viteCfg);
+
+  await addCopyPlugin(cfg, viteCfg);
 
   if (mode !== Environment.test) {
     await addEntry(cfg, viteCfg);

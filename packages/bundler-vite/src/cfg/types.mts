@@ -1,8 +1,8 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
-import type { InlineConfig } from 'vite';
+import type { CustomViteConfiguration } from '@/types.mts';
 
 export type AddFunc<Options = Record<string, string>> = (
   cfg: ConfigurationInstance,
-  viteCfg: InlineConfig,
+  viteCfg: CustomViteConfiguration,
   options?: Options extends Record<string, any> ? Options : never
 ) => Promise<void>;

@@ -388,6 +388,9 @@ importers:
       vite-plugin-html:
         specifier: ^3.2.2
         version: 3.2.2(vite@6.0.3-esboot.0(@types/node@22.7.5)(jiti@1.21.6)(less@4.2.0)(lightningcss@1.22.1)(sass-embedded@1.79.5)(sass@1.79.5)(terser@5.34.1)(yaml@2.6.0))
+      vite-plugin-static-copy:
+        specifier: ^2.2.0
+        version: 2.2.0(vite@6.0.3-esboot.0(@types/node@22.7.5)(jiti@1.21.6)(less@4.2.0)(lightningcss@1.22.1)(sass-embedded@1.79.5)(sass@1.79.5)(terser@5.34.1)(yaml@2.6.0))
       vite-plugin-svgr:
         specifier: ^4.3.0
         version: 4.3.0(rollup@4.24.0)(typescript@5.6.3)(vite@6.0.3-esboot.0(@types/node@22.7.5)(jiti@1.21.6)(less@4.2.0)(lightningcss@1.22.1)(sass-embedded@1.79.5)(sass@1.79.5)(terser@5.34.1)(yaml@2.6.0))
@@ -15350,6 +15353,12 @@ packages:
     peerDependencies:
       vite: '>=2.0.0'
 
+  vite-plugin-static-copy@2.2.0:
+    resolution: {integrity: sha512-ytMrKdR9iWEYHbUxs6x53m+MRl4SJsOSoMu1U1+Pfg0DjPeMlsRVx3RR5jvoonineDquIue83Oq69JvNsFSU5w==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      vite: ^5.0.0 || ^6.0.0
+
   vite-plugin-svgr@4.3.0:
     resolution: {integrity: sha512-Jy9qLB2/PyWklpYy0xk0UU3TlU0t2UMpJXZvf+hWII1lAmRHrOUKi11Uw8N3rxoNk7atZNYO3pR3vI1f7oi+6w==}
     peerDependencies:
@@ -15969,13 +15978,13 @@ snapshots:
   '@babel/code-frame@7.25.7':
     dependencies:
       '@babel/highlight': 7.25.7
-      picocolors: 1.1.0
+      picocolors: 1.1.1
 
   '@babel/code-frame@7.26.2':
     dependencies:
       '@babel/helper-validator-identifier': 7.25.9
       js-tokens: 4.0.0
-      picocolors: 1.1.0
+      picocolors: 1.1.1
 
   '@babel/compat-data@7.25.8': {}
 
@@ -16354,7 +16363,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.25.9
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.1.0
+      picocolors: 1.1.1
 
   '@babel/parser@7.25.8':
     dependencies:
@@ -27262,7 +27271,7 @@ snapshots:
 
   launch-editor@2.9.1:
     dependencies:
-      picocolors: 1.1.0
+      picocolors: 1.1.1
       shell-quote: 1.8.1
 
   layout-base@1.0.2: {}
@@ -32770,7 +32779,7 @@ snapshots:
       css-tree: 2.3.1
       css-what: 6.1.0
       csso: 5.0.5
-      picocolors: 1.1.0
+      picocolors: 1.1.1
 
   svgson@4.1.0:
     dependencies:
@@ -33490,7 +33499,7 @@ snapshots:
     dependencies:
       browserslist: 4.24.0
       escalade: 3.2.0
-      picocolors: 1.1.0
+      picocolors: 1.1.1
 
   update-notifier@2.5.0:
     dependencies:
@@ -33682,6 +33691,14 @@ snapshots:
       html-minifier-terser: 6.1.0
       node-html-parser: 5.4.2
       pathe: 0.2.0
+      vite: 6.0.3-esboot.0(@types/node@22.7.5)(jiti@1.21.6)(less@4.2.0)(lightningcss@1.22.1)(sass-embedded@1.79.5)(sass@1.79.5)(terser@5.34.1)(yaml@2.6.0)
+
+  vite-plugin-static-copy@2.2.0(vite@6.0.3-esboot.0(@types/node@22.7.5)(jiti@1.21.6)(less@4.2.0)(lightningcss@1.22.1)(sass-embedded@1.79.5)(sass@1.79.5)(terser@5.34.1)(yaml@2.6.0)):
+    dependencies:
+      chokidar: 3.6.0
+      fast-glob: 3.3.2
+      fs-extra: 11.2.0
+      picocolors: 1.1.1
       vite: 6.0.3-esboot.0(@types/node@22.7.5)(jiti@1.21.6)(less@4.2.0)(lightningcss@1.22.1)(sass-embedded@1.79.5)(sass@1.79.5)(terser@5.34.1)(yaml@2.6.0)
 
   vite-plugin-svgr@4.3.0(rollup@4.24.0)(typescript@5.6.3)(vite@6.0.3-esboot.0(@types/node@22.7.5)(jiti@1.21.6)(less@4.2.0)(lightningcss@1.22.1)(sass-embedded@1.79.5)(sass@1.79.5)(terser@5.34.1)(yaml@2.6.0)):

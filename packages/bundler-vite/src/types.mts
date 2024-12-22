@@ -9,3 +9,7 @@ export type CustomConfig = (
 export type BundlerViteOptions = {
   customConfig?: CustomConfig;
 };
+
+export interface CustomViteConfiguration extends Omit<InlineConfig, 'plugins'> {
+  plugins: Required<Pick<InlineConfig, 'plugins'>>['plugins'];
+}

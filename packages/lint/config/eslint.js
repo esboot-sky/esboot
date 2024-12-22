@@ -130,5 +130,5 @@ module.exports = {
   globals: {
     DEBUG: true,
   },
-  ignorePatterns: ['*', '!src', '!src/**'],
+  ignorePatterns: ['*', '!src', '!src/**', '"!/.esbootrc.ts"'],
 };
