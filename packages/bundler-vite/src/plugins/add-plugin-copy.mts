@@ -11,17 +11,16 @@ export const addCopyPlugin: AddFunc = async (cfg, viteCfg) => {
       if (pathExistsSync(item.from)) {
         return {
           src: item.from,
-          dest: item.to,
+          dest: '.',
         };
       }
     })
     .filter(Boolean) as any[];
 
-  console.log(filteredStaticPathList, 'filteredStaticPathList');
-
   viteCfg.plugins.push(
     viteStaticCopy({
       targets: filteredStaticPathList,
+      silent: true,
     })
   );
 };
