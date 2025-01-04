@@ -1,7 +1,5 @@
-import { ready } from '@dz-web/esboot-common/helpers';
-import kleur from '@dz-web/esboot-common/kleur';
-
 import type { AddFunc } from '@/cfg/types.mts';
+import type { CustomViteConfiguration } from '@/types.mts';
 
 const getServerType = (https: boolean, http2: boolean) => {
   if (http2) return 'spdy';
@@ -18,13 +16,33 @@ export const addDevServer: AddFunc = async (cfg, viteCfg, options) => {
 
   if (!isDev) return;
 
-  viteCfg.server = {
+  const server: CustomViteConfiguration['server'] = {
     port,
     open,
     host,
     strictPort: true,
-    // proxy,
-    // https,
-    // http2,
   };
+
+  if (proxy) {
+    server.proxy = {};
+
+    for (const item of proxy) {
+      for (const context of item.context) {
+        server.proxy[context] = {
+          target: item.target,
+          changeOrigin: item.changeOrigin || true,
+        };
+
+        if (item.pathRewrite) {
+          for (const key in item.pathRewrite) {
+            server.proxy[context].rewrite = (path) => {
+              return path.replace(key, item.pathRewrite?.[key] ?? '');
+            };
+          }
+        }
+      }
+    }
+  }
+
+  viteCfg.server = server;
 };

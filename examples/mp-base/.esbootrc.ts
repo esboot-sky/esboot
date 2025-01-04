@@ -14,9 +14,19 @@ export default defineConfig<BundlerOptions>({
   },
   server: {
     port: 4000,
-    http2: false,
+    http2: true,
+    https: true,
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    ],
   },
-  svgr: true,
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,
