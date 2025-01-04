@@ -45,4 +45,21 @@ export const addDevServer: AddFunc = async (cfg, viteCfg, options) => {
   }
 
   viteCfg.server = server;
+  viteCfg.plugins.push({
+    name: 'suppress-warn-plugin',
+    apply: 'serve',
+    configResolved(config) {
+      const originalWarn = config.logger.warn;
+      config.logger.warn = (msg, options) => {
+        if (
+          msg.includes(
+            'Files in the public directory are served at the root path'
+          )
+        )
+          return;
+
+        originalWarn(msg, options);
+      };
+    },
+  });
 };
