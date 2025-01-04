@@ -32,8 +32,6 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
     });
   });
 
-  console.log(pages[0]);
-  
   // viteCfg.appType = 'mpa';
   // viteCfg.plugins!.push(createHtmlPlugin(isSP ? { ...pages[0] } : { pages }));
   viteCfg.plugins!.push(createHtmlPlugin({ ...pages[0] }), {

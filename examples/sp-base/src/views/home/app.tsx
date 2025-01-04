@@ -1,6 +1,7 @@
 import { cn } from '@dz-web/esboot-browser';
 import { Button } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
+import { langBtn } from './variant';
 
 // import A from './a';
 import './app.scss';
@@ -25,7 +26,7 @@ function Test() {
 
       <h3 className={cn('font-[500] text-[blue]')}>{1}</h3>
       <p>close</p>
-      <div>module2 css323</div>
+      <div className={langBtn()}>module2 css323</div>
 
       <Button>123</Button>
 

@@ -1,5 +1,5 @@
 export { type ClassValue, clsx } from 'clsx';
 export * from 'tailwind-merge';
-export * from 'class-variance-authority';
+export { cva, type VariantProps } from 'class-variance-authority';
 
 export * from './cn';
