@@ -61,12 +61,15 @@ export const getCfg = async (
   }
 
   if (mode === Environment.prod) {
-    const { sourceMap } = cfg.config;
+    const { sourceMap, outputPath } = cfg.config;
 
+    console.log(outputPath, 'outputPath');
+    
     viteCfg.build = {
       emptyOutDir: true,
       copyPublicDir: false,
       sourcemap: sourceMap,
+      outDir: outputPath,
     };
   }
 
