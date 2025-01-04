@@ -21,6 +21,8 @@
     "@dz-web/esboot-bundler-common": "workspace:*",
     "@dz-web/esboot-common": "workspace:*",
     "@rollup/pluginutils": "^5.1.4",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@svgr/plugin-svgo": "^8.1.0",
     "@vitejs/plugin-react": "^4.3.4",
     "vite": "6.0.3-esboot.0",
     "vite-plugin-html": "^3.2.2",

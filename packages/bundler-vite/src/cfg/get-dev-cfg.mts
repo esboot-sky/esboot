@@ -1,6 +1,5 @@
 import { join } from 'node:path';
 import react from '@vitejs/plugin-react';
-import vitePluginSvgr from 'vite-plugin-svgr';
 
 import { cacheDir, Environment } from '@dz-web/esboot-common';
 import { addTailwindCSS, addDefine } from '@dz-web/esboot-bundler-common';
@@ -10,6 +9,7 @@ import { addResolve } from './partials/add-resolve.mts';
 import { addDevServer } from './partials/add-dev-server.mts';
 
 import { addCopyPlugin } from '../plugins/add-plugin-copy.mts';
+import { addSvgrPlugin } from '../plugins/add-plugin-svgr.mts';
 
 import type { InlineConfig } from 'vite';
 import type { ConfigurationInstance } from '@dz-web/esboot';
@@ -23,15 +23,7 @@ export const getDevCfg = async (
   const { customConfig } = bundlerOptions as BundlerViteOptions;
 
   const viteCfg: CustomViteConfiguration = {
-    plugins: [
-      react(),
-      // FIXME: vite-plugin-svgr 类型定义有问题
-      // @ts-ignore
-      vitePluginSvgr.default({
-        include: '**/*.svg',
-        exclude: '**/*.svg?url',
-      }),
-    ],
+    plugins: [react()],
     mode,
     configFile: false,
     publicDir: 'config',
@@ -54,6 +46,7 @@ export const getDevCfg = async (
   await addDevServer(cfg, viteCfg);
   await addResolve(cfg, viteCfg);
 
+  await addSvgrPlugin(cfg, viteCfg);
   await addCopyPlugin(cfg, viteCfg);
 
   if (mode !== Environment.test) {

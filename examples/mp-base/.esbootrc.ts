@@ -16,6 +16,7 @@ export default defineConfig<BundlerOptions>({
     port: 4000,
     http2: false,
   },
+  svgr: true,
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,
