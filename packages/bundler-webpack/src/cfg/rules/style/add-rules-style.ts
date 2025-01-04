@@ -1,13 +1,10 @@
 import path from 'node:path';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
-const postcssNormalize = require('postcss-normalize');
-const pxtorem = require('@alitajs/postcss-plugin-px2rem');
-const {
-  getLocalIdent,
-} = require('@dz-web/babel-plugin-react-css-modules/utils');
-import { addTailwindCSS } from '@dz-web/esboot-bundler-common';
+import {
+  addPostcssPluginTailwindcss,
+  addPostcssPluginPx2rem,
+} from '@dz-web/esboot-bundler-common';
 
 import type { AddFunc } from '@/cfg/types';
 
@@ -18,26 +15,19 @@ import {
   getCssLoaderOptions,
 } from './utils';
 
+const postcssNormalize = require('postcss-normalize');
+const {
+  getLocalIdent,
+} = require('@dz-web/babel-plugin-react-css-modules/utils');
+
 interface ParseScssModuleOpts {
   modules?: boolean;
 }
 
 export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
-  const {
-    isDev,
-    isSP,
-    px2rem: px2remOptions,
-    sourceMap,
-    publicPath,
-    rootPath,
-    isMobile,
-  } = cfg.config;
+  const { isDev, isSP, sourceMap, publicPath, rootPath } = cfg.config;
 
   const isSourceMap = isUndefined(sourceMap) ? isDev : sourceMap;
-  const { enable: enablePxToRem, ...pxtoremCustom } = px2remOptions;
-  const enablePxToRemByCompatibility = isUndefined(enablePxToRem)
-    ? isMobile
-    : enablePxToRem;
 
   const globalScssPathList = [path.join(rootPath, './styles/')];
   if (!isSP) {
@@ -47,6 +37,9 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
     );
   }
 
+  const postcssPluginPx2rem = addPostcssPluginPx2rem(cfg);
+  const postcssPluginTailwindcss = addPostcssPluginTailwindcss(cfg);
+
   const styleLoader = getStyleLoader();
   const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
   if (publicPath === './') miniCssExtractPluginOptions.publicPath = '../';
@@ -55,7 +48,6 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
     sourceMap: isSourceMap,
     ...getCssLoaderOptions(),
   };
-  const tailwindCSS = addTailwindCSS(cfg);
 
   const parseScssModule = (options: ParseScssModuleOpts) => {
     const { modules = false } = options;
@@ -90,21 +82,8 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
           sourceMap: isSourceMap,
           postcssOptions: {
             plugins: [
-              tailwindCSS,
-              enablePxToRemByCompatibility &&
-                pxtorem({
-                  rootValue: 200,
-                  unitPrecision: 5,
-                  propWhiteList: [],
-                  propBlackList: [],
-                  exclude: false,
-                  selectorBlackList: [],
-                  ignoreIdentifier: false,
-                  replace: true,
-                  mediaQuery: false,
-                  minPixelValue: 0,
-                  ...pxtoremCustom,
-                }),
+              postcssPluginTailwindcss,
+              postcssPluginPx2rem,
               require('postcss-flexbugs-fixes'),
               require('postcss-preset-env')({
                 autoprefixer: {

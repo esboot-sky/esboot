@@ -6,11 +6,6 @@ export default defineConfig<BundlerOptions>((cfg) => ({
   bundler: Bundler,
   bundlerOptions: {
     mfsu: false,
-    pxtorem: {
-      enable: true,
-      // 设计稿为默认750, 浏览器以375为基准，16px是为了方便使用tailwindcss, 32px对应750px设计稿中的16px
-      rootValue: cfg.isMobile ? 32 : 16,
-    },
     extraBabelIncludes: [
       /filter-obj/i,
       /immer/i,
@@ -52,6 +47,11 @@ export default defineConfig<BundlerOptions>((cfg) => ({
   define: {
     'process.env.isMobile': JSON.stringify(cfg.isMobile),
     'process.env.isBrowser': JSON.stringify(cfg.isBrowser),
+  },
+  px2rem: {
+    enable: true,
+    // 设计稿为默认750, 浏览器以375为基准，16px是为了方便使用tailwindcss, 32px对应750px设计稿中的16px
+    rootValue: cfg.isMobile ? 32 : 16,
   },
   plugins: [
     vitestPlugin(),

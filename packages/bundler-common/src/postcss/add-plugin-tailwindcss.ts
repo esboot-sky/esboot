@@ -14,7 +14,7 @@ const defaultTailwindCSSOpts: Config = {
   plugins: [],
 };
 
-export function addTailwindCSS(cfg: ConfigurationInstance) {
+export function addPostcssPluginTailwindcss(cfg: ConfigurationInstance) {
   const { useTailwindcss, tailwindcssOptions } = cfg.config;
 
   if (!useTailwindcss) return false;

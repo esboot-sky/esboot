@@ -2,7 +2,11 @@ import { join } from 'node:path';
 import react from '@vitejs/plugin-react';
 
 import { cacheDir, Environment } from '@dz-web/esboot-common';
-import { addTailwindCSS, addDefine } from '@dz-web/esboot-bundler-common';
+import {
+  addPostcssPluginTailwindcss,
+  addDefine,
+  addPostcssPluginPx2rem,
+} from '@dz-web/esboot-bundler-common';
 import { addEntry } from './partials/add-entry.mts';
 import { addStyle } from './partials/add-style/index.mts';
 import { addResolve } from './partials/add-resolve.mts';
@@ -38,7 +42,10 @@ export const getDevCfg = async (
         scss: {},
       },
       postcss: {
-        plugins: [addTailwindCSS(cfg)].filter(Boolean),
+        plugins: [
+          addPostcssPluginTailwindcss(cfg),
+          addPostcssPluginPx2rem(cfg),
+        ].filter(Boolean),
       },
     },
   };

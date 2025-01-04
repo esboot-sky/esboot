@@ -19,6 +19,7 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
+    "@alitajs/postcss-plugin-px2rem": "^0.0.1",
     "@dz-web/esboot-common": "workspace:*",
     "@umijs/ast": "^4.3.6",
     "address": "^2.0.3",

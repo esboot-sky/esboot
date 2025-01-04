@@ -1,8 +1,8 @@
-import { defineConfig, PluginHooks, type Configuration, definePlugin } from '@dz-web/esboot';
+import { defineConfig } from '@dz-web/esboot';
 import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions  } from '@dz-web/esboot-bundler-vite';
 import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
-export default defineConfig<BundlerOptions>({
+export default defineConfig<BundlerOptions>((cfg) => ({
   plugins: [
     pluginVitest(),
   ],
@@ -14,7 +14,23 @@ export default defineConfig<BundlerOptions>({
   },
   server: {
     port: 4000,
-    http2: false,
+    http2: true,
+    https: true,
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    ],
+  },
+  px2rem: {
+    enable: true,
+    // 设计稿为默认750, 浏览器以375为基准，16px是为了方便使用tailwindcss, 32px对应750px设计稿中的16px
+    rootValue: cfg.isMobile ? 32 : 16,
   },
   // analyze: true,
   // extraBabelIncludes: [
@@ -28,4 +44,4 @@ export default defineConfig<BundlerOptions>({
   //   /@react-spring/i,
   //   /@floating-ui/i,
   // ],
-});
+}));

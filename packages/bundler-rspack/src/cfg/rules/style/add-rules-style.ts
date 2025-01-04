@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { CssExtractRspackPlugin as MiniCssExtractPlugin } from '@rspack/core';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
-import { addTailwindCSS } from '@dz-web/esboot-bundler-common';
+import { addPostcssPluginTailwindcss } from '@dz-web/esboot-bundler-common';
 const {
   getLocalIdent,
 } = require('@dz-web/babel-plugin-react-css-modules/utils');
@@ -55,7 +55,7 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
     sourceMap: isSourceMap,
     ...getCssLoaderOptions(),
   };
-  const tailwindCSS = addTailwindCSS(cfg);
+  const tailwindCSS = addPostcssPluginTailwindcss(cfg);
 
   const parseScssModule = (options: ParseScssModuleOpts) => {
     const { modules = false } = options;
