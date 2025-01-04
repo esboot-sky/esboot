@@ -13,8 +13,6 @@ export function addPostcssPluginPx2rem(cfg: ConfigurationInstance) {
 
   const pxtorem = require('@alitajs/postcss-plugin-px2rem');
 
-  console.log(restOptions, 'pxtoremCustom');
-  
   return pxtorem({
     rootValue: 200,
     unitPrecision: 5,
