@@ -8,6 +8,7 @@ export const addCopyPlugin: AddFunc = async (cfg, viteCfg) => {
 
   const filteredStaticPathList = staticPathList
     .map((item) => {
+
       if (pathExistsSync(item.from)) {
         return {
           src: item.from,

@@ -8,7 +8,7 @@ export default defineConfig<BundlerOptions>({
   bundler: Bundler,
   isSP: true,
   bundlerOptions: {},
-  sourceMap: false,
+  sourceMap: true,
   alias: {
     '@@': 'src',
   },

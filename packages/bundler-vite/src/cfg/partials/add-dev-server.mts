@@ -1,17 +1,10 @@
 import type { AddFunc } from '@/cfg/types.mts';
 import type { CustomViteConfiguration } from '@/types.mts';
 
-const getServerType = (https: boolean, http2: boolean) => {
-  if (http2) return 'spdy';
-  if (https) return 'https';
-  return 'http';
-};
-
-export const addDevServer: AddFunc = async (cfg, viteCfg, options) => {
+export const addDevServer: AddFunc = async (cfg, viteCfg) => {
   const {
-    cwd,
     isDev,
-    server: { port, open, host, proxy, http2, https },
+    server: { port, open, host, proxy },
   } = cfg.config;
 
   if (!isDev) return;

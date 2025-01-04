@@ -1,9 +1,9 @@
-import { createServer } from 'vite';
+import { createServer, build } from 'vite';
 import { Bundler } from '@dz-web/esboot';
-import { error } from '@dz-web/esboot-common/helpers';
+// import { error } from '@dz-web/esboot-common/helpers';
 import { Environment } from '@dz-web/esboot-common/constants';
 
-import { getDevCfg } from './cfg/get-dev-cfg.mts';
+import { getCfg } from './cfg/get-cfg.mts';
 
 export class BundlerVite extends Bundler {
   name = 'vite';
@@ -13,7 +13,7 @@ export class BundlerVite extends Bundler {
   }
 
   async dev() {
-    const cfg = await getDevCfg(this.cfg, Environment.dev);
+    const cfg = await getCfg(this.cfg, Environment.dev);
 
     const server = await createServer(cfg);
 
@@ -22,8 +22,11 @@ export class BundlerVite extends Bundler {
     server.bindCLIShortcuts({ print: true });
   }
 
-  build() {
-    error('Not implemented yet, use webpack bundler instead.');
+  async build() {
+    const cfg = await getCfg(this.cfg, Environment.prod);
+
+    await build(cfg);
+    // error('Not implemented yet, use webpack bundler instead.');
   }
 }
 

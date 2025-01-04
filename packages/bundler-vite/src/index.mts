@@ -1,2 +1,2 @@
-export * from '@/cfg/get-dev-cfg.mts';
+export * from '@/cfg/get-cfg.mjs';
 export * from './bundler.mts';

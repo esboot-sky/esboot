@@ -19,7 +19,7 @@ import type { InlineConfig } from 'vite';
 import type { ConfigurationInstance } from '@dz-web/esboot';
 import type { BundlerViteOptions, CustomViteConfiguration } from '../types.mts';
 
-export const getDevCfg = async (
+export const getCfg = async (
   cfg: ConfigurationInstance,
   mode: Environment
 ): Promise<InlineConfig> => {
@@ -59,6 +59,17 @@ export const getDevCfg = async (
   if (mode !== Environment.test) {
     await addEntry(cfg, viteCfg);
   }
+
+  if (mode === Environment.prod) {
+    const { sourceMap } = cfg.config;
+
+    viteCfg.build = {
+      emptyOutDir: true,
+      copyPublicDir: false,
+      sourcemap: sourceMap,
+    };
+  }
+
   await addStyle(cfg, viteCfg);
 
   return customConfig ? customConfig(viteCfg, cfg.config) : viteCfg;
