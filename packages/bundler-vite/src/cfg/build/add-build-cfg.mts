@@ -1,9 +1,10 @@
 import { addJSMinimizer } from './optimization/add-js-minimizer.mts';
+import { addCSSMinimizer } from './optimization/add-css-minimizer.mts';
 
 import type { AddFunc } from '@/cfg/types.mts';
 
 export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
-  const { sourceMap, outputPath, isDev } = cfg.config;
+  const { sourceMap, outputPath, isDev, minimize = true } = cfg.config;
 
   if (isDev) return;
 
@@ -12,9 +13,13 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
     copyPublicDir: false,
     sourcemap: sourceMap,
     outDir: outputPath,
+    minify: minimize,
   };
 
-  addJSMinimizer(cfg, viteCfg);
+  if (minimize) {
+    addJSMinimizer(cfg, viteCfg);
+    addCSSMinimizer(cfg, viteCfg);
+  }
 
   console.log(viteCfg.build);
 };

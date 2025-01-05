@@ -1,4 +1,4 @@
-import { defineConfig } from '@dz-web/esboot';
+import { defineConfig, CSSMinifier } from '@dz-web/esboot';
 import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions } from '@dz-web/esboot-bundler-vite';
 import pluginVitest from '@dz-web/esboot-plugin-vitest';
 import pluginDocs from '@dz-web/esboot-plugin-docs';
@@ -16,7 +16,7 @@ export default defineConfig<BundlerOptions>({
     port: 4000,
     http2: false,
   },
-  minimize: false,
+  cssMinifier: CSSMinifier.none,
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

@@ -4,15 +4,12 @@ import { merge } from '@dz-web/esboot-common/lodash';
 import type { AddFunc } from '@/cfg/types.mts';
 
 export const addJSMinimizer: AddFunc = async (cfg, viteCfg) => {
-  const {
-    minimize,
-    jsMinifier = JsMinifier.esbuild,
-    jsMinifierOptions = {},
-  } = cfg.config;
+  const { jsMinifier = JsMinifier.esbuild, jsMinifierOptions = {} } =
+    cfg.config;
 
-  const _minimize = minimize && jsMinifier !== JsMinifier.none;
+  const isCanMinify = jsMinifier !== JsMinifier.none;
 
-  if (!_minimize) {
+  if (!isCanMinify) {
     viteCfg.build!.minify = false;
     return;
   }
