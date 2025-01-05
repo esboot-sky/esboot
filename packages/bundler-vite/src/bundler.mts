@@ -1,6 +1,5 @@
 import { createServer, build } from 'vite';
 import { Bundler } from '@dz-web/esboot';
-// import { error } from '@dz-web/esboot-common/helpers';
 import { Environment } from '@dz-web/esboot-common/constants';
 
 import { getCfg } from './cfg/get-cfg.mts';
@@ -26,7 +25,6 @@ export class BundlerVite extends Bundler {
     const cfg = await getCfg(this.cfg, Environment.prod);
 
     await build(cfg);
-    // error('Not implemented yet, use webpack bundler instead.');
   }
 }
 

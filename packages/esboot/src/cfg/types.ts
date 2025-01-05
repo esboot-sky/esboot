@@ -2,6 +2,8 @@ import type {
   Environment,
   PLATFORMS,
   PAGE_TYPE,
+  JsMinifier,
+  CSSMinifier,
 } from '@dz-web/esboot-common/constants';
 import type { Plugin } from '@/plugin/type';
 import type { Config as tailwindCSSConfig } from 'tailwindcss';
@@ -48,9 +50,9 @@ export interface UserOptions<BundlerOptions = unknown> {
   publicPath?: string;
   useLangJsonPicker?: boolean;
   minimize?: boolean;
-  jsMinifier?: boolean;
+  jsMinifier?: JsMinifier;
   jsMinifierOptions?: Record<string, any>;
-  cssMinifier?: boolean;
+  cssMinifier?: CSSMinifier;
   cssMinifierOptions?: Record<string, any>;
   analyze?: boolean;
   alias?: Record<string, string>;

@@ -27,7 +27,7 @@ export enum PAGE_TYPE {
 
 export enum JsMinifier {
   terser = 'terser',
-  // esbuild = 'esbuild',
+  esbuild = 'esbuild',
   swc = 'swc',
   none = 'none',
 }

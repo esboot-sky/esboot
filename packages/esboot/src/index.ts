@@ -17,3 +17,6 @@ export { definePlugin } from './plugin';
 
 // Scripts
 export * from './scripts/write-multi-platform';
+
+// constants
+export { PAGE_TYPE, PLATFORMS, JsMinifier, CSSMinifier, Environment, isWins} from '@dz-web/esboot-common/constants'

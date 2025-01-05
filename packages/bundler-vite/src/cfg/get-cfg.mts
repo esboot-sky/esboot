@@ -15,6 +15,8 @@ import { addDevServer } from './partials/add-dev-server.mts';
 import { addCopyPlugin } from '../plugins/add-plugin-copy.mts';
 import { addSvgrPlugin } from '../plugins/add-plugin-svgr.mts';
 
+import { addBuildCfg } from './build/add-build-cfg.mts';
+
 import type { InlineConfig } from 'vite';
 import type { ConfigurationInstance } from '@dz-web/esboot';
 import type { BundlerViteOptions, CustomViteConfiguration } from '../types.mts';
@@ -60,19 +62,7 @@ export const getCfg = async (
     await addEntry(cfg, viteCfg);
   }
 
-  if (mode === Environment.prod) {
-    const { sourceMap, outputPath } = cfg.config;
-
-    console.log(outputPath, 'outputPath');
-    
-    viteCfg.build = {
-      emptyOutDir: true,
-      copyPublicDir: false,
-      sourcemap: sourceMap,
-      outDir: outputPath,
-    };
-  }
-
+  await addBuildCfg(cfg, viteCfg);
   await addStyle(cfg, viteCfg);
 
   return customConfig ? customConfig(viteCfg, cfg.config) : viteCfg;

@@ -8,7 +8,7 @@ export default defineConfig<BundlerOptions>({
   bundler: Bundler,
   isSP: true,
   bundlerOptions: {},
-  sourceMap: true,
+  sourceMap: false,
   alias: {
     '@@': 'src',
   },
@@ -16,6 +16,7 @@ export default defineConfig<BundlerOptions>({
     port: 4000,
     http2: false,
   },
+  minimize: false,
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

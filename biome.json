@@ -39,7 +39,8 @@
 				"noNegationElse": "off",
 				"useForOf": "error",
 				"useNodejsImportProtocol": "error",
-				"useNumberNamespace": "error"
+				"useNumberNamespace": "error",
+				"noNonNullAssertion": "off"
 			},
 			"suspicious": {
 				"noDoubleEquals": "error",
