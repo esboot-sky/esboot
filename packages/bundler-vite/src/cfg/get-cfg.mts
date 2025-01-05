@@ -25,7 +25,7 @@ export const getCfg = async (
   cfg: ConfigurationInstance,
   mode: Environment
 ): Promise<InlineConfig> => {
-  const { cwd, bundlerOptions = {} } = cfg.config;
+  const { cwd, bundlerOptions = {}, publicPath } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerViteOptions;
 
   const viteCfg: CustomViteConfiguration = {
@@ -33,6 +33,7 @@ export const getCfg = async (
     mode,
     configFile: false,
     publicDir: 'config',
+    base: publicPath,
     root: cwd,
     cacheDir: join(cacheDir, '.vite'),
     define: {
