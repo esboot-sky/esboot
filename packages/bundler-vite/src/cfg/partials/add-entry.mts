@@ -21,7 +21,7 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
 
     pages.push({
       entry: entry.replace(cwd, ''),
-      filename: `${chunkName}.html`,
+      filename: 'index.html',
       template: `${configRootPath}/${template}`.replace(`${cwd}`, ''),
       title,
       inject: {

@@ -32,7 +32,7 @@ export const getCfg = async (
     plugins: [react()],
     mode,
     configFile: false,
-    publicDir: 'config',
+    publicDir: false,
     base: publicPath,
     root: cwd,
     cacheDir: join(cacheDir, '.vite'),
