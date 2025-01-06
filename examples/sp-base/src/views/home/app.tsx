@@ -1,13 +1,25 @@
 import { cn } from '@dz-web/esboot-browser';
 import { Button } from 'antd';
+import { useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { langBtn } from './variant';
+
+import { login } from '@/api';
 
 // import A from './a';
 import './app.scss';
 
 function Test() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    login({
+      username: 'admin',
+      password: '123456',
+    }).then((res) => {
+      console.log(res);
+    });
+  }, []);
 
   return (
     <div className="page">

@@ -29,7 +29,7 @@ export const addDevServer: AddFunc = async (cfg, viteCfg) => {
         if (item.pathRewrite) {
           for (const key in item.pathRewrite) {
             server.proxy[context].rewrite = (path) => {
-              return path.replace(key, item.pathRewrite?.[key] ?? '');
+              return path.replace(new RegExp(key), item.pathRewrite?.[key] ?? '');
             };
           }
         }

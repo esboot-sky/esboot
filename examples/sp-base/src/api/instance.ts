@@ -16,7 +16,7 @@ const isBusinessError = (data: IJavaBaseResponse) => data.code !== 0;
 export const authedAxiosInst = createDZAxiosInstance(
   () =>
     axios.create({
-      baseURL: 'http://183.57.47.83:31080',
+      // baseURL: 'http://183.57.47.83:31080',
     }),
   [
     globalBlocker.middleware,
@@ -51,7 +51,7 @@ export const authedAxiosInst = createDZAxiosInstance(
 export const axiosInst = createDZAxiosInstance(
   () =>
     axios.create({
-      baseURL: 'http://183.57.47.83:39898',
+      // baseURL: 'http://183.57.47.83:39898',
     }),
   [
     createBasicPatternMiddleware({
