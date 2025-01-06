@@ -32,11 +32,16 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
     });
   });
 
-  // viteCfg.appType = 'mpa';
+  console.log(pages);
+
+  viteCfg.appType = 'custom';
+  // createHtmlPlugin({ pages: pages })
   // viteCfg.plugins!.push(createHtmlPlugin(isSP ? { ...pages[0] } : { pages }));
-  viteCfg.plugins!.push(createHtmlPlugin({ ...pages[0] }), {
+  viteCfg.plugins!.push({
     name: 'vite-plugin-inject-body',
     transformIndexHtml(html) {
+      console.log(html, 'html');
+      
       return injectHtml(html, cfg, pages[0].title);
     },
   });
