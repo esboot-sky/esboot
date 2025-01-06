@@ -2,8 +2,8 @@
 import { processPrepare, loadEnv, cfg } from '@dz-web/esboot';
 import { Environment } from '@dz-web/esboot-common/constants';
 import { omit } from '@dz-web/esboot-common/lodash';
-import { getDevCfg } from '@dz-web/esboot-bundler-vite';
-import { join } from 'path';
+import { getCfg } from '@dz-web/esboot-bundler-vite';
+import { join } from 'node:path';
 
 import { alias } from '../dist';
 
@@ -18,7 +18,7 @@ export default async () => {
   loadEnv({ root });
   cfg.load({ cwd: root });
 
-  let viteConfig: any = await getDevCfg(cfg, Environment.test);
+  let viteConfig: any = await getCfg(cfg, Environment.test);
 
   viteConfig.resolve.alias = {
     ...viteConfig.resolve.alias,
