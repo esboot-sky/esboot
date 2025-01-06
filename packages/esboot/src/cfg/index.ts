@@ -27,14 +27,14 @@ export default new (class Cfg {
   #generateSPCfg = () => {
     const { configRootPath } = this.#config;
 
-    const configJSPath = `${configRootPath}/config.js`;
+    const configJSPath = join(configRootPath, 'config.js');
     const staticPathList = [
       {
         from: configJSPath,
         to: './config.js',
       },
       {
-        from: `${configRootPath}/static`,
+        from: join(configRootPath, 'static'),
         to: './static',
       },
     ] satisfies Configuration['staticPathList'];
