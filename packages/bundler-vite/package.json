@@ -27,7 +27,6 @@
     "express": "^4.21.2",
     "terser": "^5.37.0",
     "vite": "6.0.3-esboot.0",
-    "vite-plugin-html": "^3.2.2",
     "vite-plugin-static-copy": "^2.2.0",
     "vite-plugin-svgr": "^4.3.0"
   },

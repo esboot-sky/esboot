@@ -8,13 +8,15 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
 
   if (isDev) return;
 
-  viteCfg.build = {
+  if (!viteCfg.build) viteCfg.build = {};
+
+  Object.assign(viteCfg.build, {
     emptyOutDir: true,
     copyPublicDir: false,
     sourcemap: sourceMap,
     outDir: outputPath,
     minify: minimize,
-  };
+  });
 
   if (minimize) {
     addJSMinimizer(cfg, viteCfg);

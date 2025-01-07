@@ -1,4 +1,3 @@
-import { createHtmlPlugin } from 'vite-plugin-html';
 import {
   injectHtml,
   addEntry as _addEntry,
@@ -8,41 +7,63 @@ import {
 import type { AddFunc } from '@/cfg/types.mts';
 
 export const addEntry: AddFunc = async (cfg, viteCfg) => {
-  const { cwd, MPConfiguration, isSP, isDev } = cfg.config;
+  const { isDev } = cfg.config;
+  viteCfg.plugins!.push({
+    name: 'vite-plugin-inject-body',
+    transformIndexHtml(html, ctx) {
+      // console.log(ctx, 'ctx');
+
+      return injectHtml(html, cfg, '1');
+    },
+  });
+
+  if (isDev) return;
+
+  if (!viteCfg.build) viteCfg.build = {};
+  const { cwd, MPConfiguration, isSP } = cfg.config;
   let configRootPath = 'config';
 
   if (!isSP && MPConfiguration) {
     configRootPath = MPConfiguration.configRootPathOfPlatfrom;
   }
 
-  const pages: any[] = [];
+  const pages: Record<string, string> = {};
   await _addEntry(cfg, (v: AddEntryCBParams) => {
     const { chunkName, entry, title, template } = v;
 
-    pages.push({
-      entry: entry.replace(cwd, ''),
-      filename: `${chunkName}.html`,
-      template: `${configRootPath}/${template}`.replace(`${cwd}`, ''),
-      title,
-      inject: {
-        data: {
-          isDev: isDev,
-        },
-      },
-    });
+    const tpl = `${configRootPath}/${template}`.replace(`${cwd}`, '');
+
+    pages[chunkName] = tpl;
+    // pages.push({
+    //   entry: entry.replace(cwd, ''),
+    //   filename: `${chunkName}.html`,
+    //   template: `${configRootPath}/${template}`.replace(`${cwd}`, ''),
+    //   title,
+    //   inject: {
+    //     data: {
+    //       isDev: isDev,
+    //     },
+    //   },
+    // });
   });
 
   console.log(pages);
 
   viteCfg.appType = 'custom';
-  // createHtmlPlugin({ pages: pages })
-  // viteCfg.plugins!.push(createHtmlPlugin(isSP ? { ...pages[0] } : { pages }));
-  viteCfg.plugins!.push({
-    name: 'vite-plugin-inject-body',
-    transformIndexHtml(html) {
-      console.log(html, 'html');
-      
-      return injectHtml(html, cfg, pages[0].title);
+  Object.assign(viteCfg.build, {
+    rollupOptions: {
+      input: pages,
+      output: {
+        entryFileNames: '[name].html',
+        // Add a manual output mapping if needed
+        manualChunks: {
+          'test': 'config/pc/template/test'
+        }
+      },
     },
   });
+
+  // createHtmlPlugin({ pages: pages })
+  // viteCfg.plugins!.push(createHtmlPlugin(isSP ? { ...pages[0] } : { pages }));
+
 };

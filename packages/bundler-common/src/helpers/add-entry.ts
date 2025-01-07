@@ -22,7 +22,7 @@ export interface AddEntryCBParams {
 
 export const addEntry = async (
   cfg: ConfigurationInstance,
-  cb: (params: AddEntryCBParams) => void,
+  cb?: (params: AddEntryCBParams) => void,
   options: {
     contentPath?: string;
     pattern?: string;
@@ -74,7 +74,7 @@ export const addEntry = async (
     const ensureTitle = title || fileName || 'ESboot APP';
     const tplRelativePath = `template/${template || 'index'}.html`;
 
-    cb({
+    cb?.({
       title: ensureTitle,
       entry: file,
       chunkName,

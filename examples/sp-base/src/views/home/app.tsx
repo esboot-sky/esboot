@@ -34,7 +34,7 @@ function Test() {
         Hello, TailwindCSS!
       </div>
       <button onClick={() => navigate('/test')} type="button">
-        To Test122333456456
+        To Test12233345645632432
       </button>
 
       <h3 className={cn('font-[500] text-[blue]')}>{1}</h3>
