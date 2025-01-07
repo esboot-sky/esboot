@@ -12,6 +12,7 @@ export default defineConfig<BundlerOptions>((cfg) => ({
   alias: {
     '@@': 'src',
   },
+  publicPath: '/test',
   server: {
     port: 4000,
     http2: true,

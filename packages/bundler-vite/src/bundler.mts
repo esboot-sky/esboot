@@ -1,6 +1,6 @@
-import express from 'express';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import express from 'express';
 import { createServer as createViteServer, build } from 'vite';
 import { Bundler } from '@dz-web/esboot';
 import { logDevServer } from '@dz-web/esboot-bundler-common';
