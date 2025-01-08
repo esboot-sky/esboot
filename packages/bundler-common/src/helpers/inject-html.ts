@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import { isUndefined } from '@dz-web/esboot-common/lodash';
 import type { ConfigurationInstance } from '@dz-web/esboot';
 
 const getVersion = (cwd: string) => {
@@ -9,7 +10,7 @@ const getVersion = (cwd: string) => {
 export const injectHtml = (
   html: string,
   cfg: ConfigurationInstance,
-  title: string
+  title?: string
 ) => {
   const { BRIDGE_MOCK_HOST, BRIDGE_MOCK_PORT, BUILD_VERSION } = process.env;
   const { isBrowser, ipv4, publicPath, isDev, cwd } = cfg.config;
@@ -26,7 +27,12 @@ export const injectHtml = (
         <\/script>`
     : '';
 
-  return html
-    .replace('<body>', `<body>${importCfgScript}${injectBridgeMockScript}`)
-    .replace('<head>', `<head><title>${title}</title>`);
+  let _html = html.replace(
+    '<body>',
+    `<body>${importCfgScript}${injectBridgeMockScript}`
+  );
+  if (!isUndefined(title))
+    _html = _html.replace('<head>', `<head><title>${title}</title>`);
+
+  return _html;
 };

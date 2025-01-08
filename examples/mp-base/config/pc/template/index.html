@@ -82,10 +82,44 @@
         }
       })();
     </script>
+    <style>
+      .global_loading {
+        background: transparent;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+      }
+
+      .global_img {
+        width: 30px;
+        height: 30px;
+        animation: rotate-img 1.5s linear infinite reverse;
+      }
+
+      @keyframes rotate-img {
+        from {
+          transform: rotate(360deg);
+        }
+
+        to {
+          transform: rotate(0deg);
+        }
+      }
+    </style>
   </head>
   <body>
-    <!-- <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> -->
-    <div id="root"></div>
+    <div id="root">
+      <div class="global_loading">
+        <img class="global_img" src="/static/loading.svg" alt="" />
+      </div>
+    </div>
   </body>
 </html>

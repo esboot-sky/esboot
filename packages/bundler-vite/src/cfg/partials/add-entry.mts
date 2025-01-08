@@ -3,8 +3,12 @@ import {
   addEntry as _addEntry,
   type AddEntryCBParams,
 } from '@dz-web/esboot-bundler-common';
+import { isUndefined } from '@dz-web/esboot-common/lodash';
 import fs from 'node:fs';
 import { join } from 'node:path';
+
+import { loadHtmlContent } from '@/helpers/load-html-content.mts';
+
 import type { SharedConfig } from '@/types.mts';
 import type { AddFunc } from '@/cfg/types.mts';
 
@@ -43,7 +47,7 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
   viteCfg.plugins!.push({
     name: 'vite-plugin-inject-body',
     transformIndexHtml(html) {
-      return injectHtml(html, cfg, '1');
+      return injectHtml(html, cfg);
     },
   });
 
@@ -54,22 +58,17 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
   if (!viteCfg.build) viteCfg.build = {};
   viteCfg.plugins!.push({
     name: 'vite-plugin-custom-html',
-    resolveId(source) {
-      if (source.endsWith('.html')) {
-        return source;
+    resolveId(id) {
+      if (id.endsWith('.html')) {
+        return id;
       }
       return null;
     },
     load(id) {
       if (id.endsWith('.html')) {
         const htmlName = id.replace('.html', '');
-        const pageInfo = pages[htmlName];
 
-        const htmlContent = fs.readFileSync(pageInfo.template, 'utf-8');
-        return htmlContent.replace(
-          '</head>',
-          `<script src="${pageInfo.entry}" type="module"></script></head>`
-        );
+        return loadHtmlContent(htmlName, pages, { isDev: false });
       }
 
       return null;

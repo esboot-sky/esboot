@@ -1,10 +1,10 @@
-import { readFile } from 'node:fs/promises';
 import express from 'express';
 import { createServer as createViteServer, build } from 'vite';
 import { Bundler } from '@dz-web/esboot';
 import { logDevServer } from '@dz-web/esboot-bundler-common';
 import { Environment } from '@dz-web/esboot-common/constants';
 
+import { loadHtmlContent } from './helpers/load-html-content.mts';
 import { getCfg } from './cfg/get-cfg.mts';
 
 export class BundlerVite extends Bundler {
@@ -25,8 +25,6 @@ export class BundlerVite extends Bundler {
 
     app.use(vite.middlewares);
 
-    const templateCache = new Map<string, string>();
-
     app.use('*', async (req, res) => {
       const { originalUrl } = req;
       const _reqUrl = originalUrl === '/' ? '/index.html' : originalUrl;
@@ -36,29 +34,20 @@ export class BundlerVite extends Bundler {
 
         if (pageNameExtracted) {
           const pageName = pageNameExtracted[1];
-          console.log(pages, 'pages');
-          
-          const pageEntryInfo = pages[pageName];
+          const rawHtmlContent = loadHtmlContent(pageName, pages);
 
-          if (pageEntryInfo) {
-            const { entry, template } = pageEntryInfo;
-            // const template = `${configRootPath}/${tpl}`.replace(`${cwd}`, '');
-
-            let htmlContent = templateCache.get(template);
-            if (!htmlContent) {
-              htmlContent = await readFile(template, 'utf-8');
-              htmlContent = htmlContent.replace(
-                '</head>',
-                `<script src="${entry}" type="module"></script></head>`
-              );
-              htmlContent = await vite.transformIndexHtml(req.url, htmlContent);
-              templateCache.set(template, htmlContent || '');
-            }
-
-            res.status(200).send(htmlContent);
-          } else {
+          if (!rawHtmlContent) {
             res.status(404).send('Page not found');
+            return;
           }
+          const htmlContent = await vite.transformIndexHtml(
+            req.url,
+            rawHtmlContent
+          );
+
+          res.status(200).send(htmlContent);
+        } else {
+          res.status(404).send('Page not found');
         }
       }
     });
