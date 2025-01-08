@@ -13,7 +13,7 @@ export default defineConfig<BundlerOptions>({
     '@@': 'src',
   },
   server: {
-    port: 4000,
+    port: 4004,
     http2: false,
     proxy: [
       {
