@@ -17,14 +17,13 @@ import { addSvgrPlugin } from '../plugins/add-plugin-svgr.mts';
 
 import { addBuildCfg } from './build/add-build-cfg.mts';
 
-import type { InlineConfig } from 'vite';
 import type { ConfigurationInstance } from '@dz-web/esboot';
 import type { BundlerViteOptions, CustomViteConfiguration } from '../types.mts';
 
 export const getCfg = async (
   cfg: ConfigurationInstance,
   mode: Environment
-): Promise<InlineConfig> => {
+): Promise<CustomViteConfiguration> => {
   const { cwd, bundlerOptions = {}, publicPath } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerViteOptions;
 
@@ -50,6 +49,9 @@ export const getCfg = async (
           addPostcssPluginPx2rem(cfg),
         ].filter(Boolean),
       },
+    },
+    sharedConfig: {
+      pages: {},
     },
   };
 

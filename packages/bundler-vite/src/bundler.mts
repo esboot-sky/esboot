@@ -1,5 +1,4 @@
 import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
 import express from 'express';
 import { createServer as createViteServer, build } from 'vite';
 import { Bundler } from '@dz-web/esboot';
@@ -19,18 +18,12 @@ export class BundlerVite extends Bundler {
     const app = express();
     const cfg = await getCfg(this.cfg, Environment.dev);
     const {
-      entry,
       server: { port = 3000, host = '0.0.0.0' },
     } = this.cfg.config;
+    const { pages } = cfg.sharedConfig;
     const vite = await createViteServer(cfg);
 
     app.use(vite.middlewares);
-
-    const { cwd, MPConfiguration, isSP } = this.cfg.config;
-    let configRootPath = 'config';
-    if (!isSP && MPConfiguration) {
-      configRootPath = MPConfiguration.configRootPathOfPlatfrom;
-    }
 
     const templateCache = new Map<string, string>();
 
@@ -43,18 +36,20 @@ export class BundlerVite extends Bundler {
 
         if (pageNameExtracted) {
           const pageName = pageNameExtracted[1];
-          const pageEntryInfo = entry[pageName];
+          console.log(pages, 'pages');
+          
+          const pageEntryInfo = pages[pageName];
 
           if (pageEntryInfo) {
-            const { entry, tpl } = pageEntryInfo;
-            const template = `${configRootPath}/${tpl}`.replace(`${cwd}`, '');
+            const { entry, template } = pageEntryInfo;
+            // const template = `${configRootPath}/${tpl}`.replace(`${cwd}`, '');
 
             let htmlContent = templateCache.get(template);
             if (!htmlContent) {
-              htmlContent = await readFile(join(cwd, template), 'utf-8');
+              htmlContent = await readFile(template, 'utf-8');
               htmlContent = htmlContent.replace(
                 '</head>',
-                `<script src="${entry.replace(cwd, '')}" type="module"></script></head>`
+                `<script src="${entry}" type="module"></script></head>`
               );
               htmlContent = await vite.transformIndexHtml(req.url, htmlContent);
               templateCache.set(template, htmlContent || '');
