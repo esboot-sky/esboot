@@ -23,5 +23,12 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
     addCSSMinimizer(cfg, viteCfg);
   }
 
+  if (!viteCfg.build.rollupOptions) viteCfg.build.rollupOptions = {};
+  Object.assign(viteCfg.build.rollupOptions, {
+    manualChunks: {
+      vendor: ['react', 'react-dom'],
+    },
+  });
+
   console.log(viteCfg.build);
 };

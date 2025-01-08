@@ -74,9 +74,7 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
       return null;
     },
   });
-  Object.assign(viteCfg.build, {
-    rollupOptions: {
-      input: entryPages,
-    },
-  });
+
+  if (!viteCfg.build.rollupOptions) viteCfg.build.rollupOptions = {};
+  viteCfg.build.rollupOptions.input = entryPages;
 };
