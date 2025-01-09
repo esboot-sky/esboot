@@ -29,8 +29,6 @@ export class BundlerVite extends Bundler {
       const isHtmlRequest = req.headers.accept?.includes('text/html');
 
       if (isHtmlRequest) {
-        console.log('originalUrl', req.originalUrl, req.url);
-
         const { originalUrl } = req;
         const _reqUrl = originalUrl.includes('.html')
           ? originalUrl
