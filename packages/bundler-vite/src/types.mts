@@ -1,6 +1,15 @@
 import type { InlineConfig } from 'vite';
 import type { Configuration as ESBootConfiguration } from '@dz-web/esboot';
 
+export enum CodeSplittingType {
+  bigVendors = 'bigVendors',
+  granularChunks = 'granularChunks',
+}
+
+export interface jsStrategyForGranularChunksOptions {
+  frameworkBundles: string[];
+}
+
 export interface SharedConfig {
   pages: Record<
     string,
@@ -24,4 +33,10 @@ export type CustomConfig = (
 
 export type BundlerViteOptions = {
   customConfig?: CustomConfig;
+  codeSplitting?: {
+    jsStrategy: CodeSplittingType;
+    jsStrategyOptions?:
+      | jsStrategyForGranularChunksOptions
+      | Record<string, any>;
+  };
 };

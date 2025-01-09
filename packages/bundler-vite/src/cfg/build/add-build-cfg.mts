@@ -1,6 +1,6 @@
 import { addJSMinimizer } from './optimization/add-js-minimizer.mts';
 import { addCSSMinimizer } from './optimization/add-css-minimizer.mts';
-
+import { addCodeSplitting } from './optimization/add-code-splitting.mts';
 import type { AddFunc } from '@/cfg/types.mts';
 
 export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
@@ -23,12 +23,7 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
     addCSSMinimizer(cfg, viteCfg);
   }
 
-  if (!viteCfg.build.rollupOptions) viteCfg.build.rollupOptions = {};
-  Object.assign(viteCfg.build.rollupOptions, {
-    manualChunks: {
-      vendor: ['react', 'react-dom'],
-    },
-  });
+  addCodeSplitting(cfg, viteCfg);
 
   console.log(viteCfg.build);
 };

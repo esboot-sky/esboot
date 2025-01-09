@@ -38,8 +38,6 @@ export class BundlerVite extends Bundler {
 
         if (pageNameExtracted) {
           const pageName = pageNameExtracted[1];
-          console.log(pageName);
-
           const rawHtmlContent = loadHtmlContent(pageName, pages);
 
           if (!rawHtmlContent) {

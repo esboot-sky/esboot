@@ -6,6 +6,7 @@ export { logDevServer } from './helpers/dev-server';
 export { injectHtml } from './helpers/inject-html';
 
 export { watchOnFileChange } from './helpers/watch-on-file-change';
+export { mergeFrameworkBundles } from './helpers/framework-bundles';
 
 export { addPostcssPluginTailwindcss } from './postcss/add-plugin-tailwindcss';
 export { addPostcssPluginPx2rem } from './postcss/add-plugin-px2rem';

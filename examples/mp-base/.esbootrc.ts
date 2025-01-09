@@ -1,13 +1,19 @@
 import { defineConfig } from '@dz-web/esboot';
-import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions  } from '@dz-web/esboot-bundler-vite';
+import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions } from '@dz-web/esboot-bundler-vite';
+import { CodeSplittingType } from '@dz-web/esboot-bundler-vite';
 import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
 export default defineConfig<BundlerOptions>((cfg) => ({
-  plugins: [
-    pluginVitest(),
-  ],
+  plugins: [pluginVitest()],
   bundler: Bundler,
-  bundlerOptions: {},
+  bundlerOptions: {
+    codeSplitting: {
+      jsStrategy: CodeSplittingType.granularChunks,
+      jsStrategyOptions: {
+        frameworkBundles: ['dayjs'],
+      },
+    },
+  },
   sourceMap: false,
   alias: {
     '@@': 'src',
