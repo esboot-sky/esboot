@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/eslint-plugin-esboot",
-  "version": "3.0.24",
+  "version": "3.0.25",
   "description": "",
   "main": "lib/index.js",
   "files": [
