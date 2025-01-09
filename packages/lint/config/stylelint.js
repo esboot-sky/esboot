@@ -51,7 +51,6 @@ module.exports = {
         ignore: ['after-comment'],
       },
     ],
-    'block-no-empty': true,
     'color-function-notation': 'legacy',
     'color-hex-length': 'short',
     'color-no-invalid-hex': true,
@@ -93,7 +92,6 @@ module.exports = {
     'keyframe-declaration-no-important': true,
     'length-zero-no-unit': true,
     'media-feature-name-no-unknown': true,
-    'no-empty-source': true,
     'no-invalid-double-slash-comments': true,
     'property-no-unknown': true,
     'selector-pseudo-class-no-unknown': [
