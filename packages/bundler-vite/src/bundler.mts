@@ -26,14 +26,22 @@ export class BundlerVite extends Bundler {
     app.use(vite.middlewares);
 
     app.use('*', async (req, res) => {
-      const { originalUrl } = req;
-      const _reqUrl = originalUrl === '/' ? '/index.html' : originalUrl;
+      const isHtmlRequest = req.headers.accept?.includes('text/html');
 
-      if (_reqUrl.includes('.html')) {
+      if (isHtmlRequest) {
+        console.log('originalUrl', req.originalUrl, req.url);
+
+        const { originalUrl } = req;
+        const _reqUrl = originalUrl.includes('.html')
+          ? originalUrl
+          : '/index.html';
+
         const pageNameExtracted = _reqUrl.match(/\/(.*?)\.html/);
 
         if (pageNameExtracted) {
           const pageName = pageNameExtracted[1];
+          console.log(pageName);
+
           const rawHtmlContent = loadHtmlContent(pageName, pages);
 
           if (!rawHtmlContent) {
@@ -41,8 +49,9 @@ export class BundlerVite extends Bundler {
             return;
           }
           const htmlContent = await vite.transformIndexHtml(
-            req.url,
-            rawHtmlContent
+            _reqUrl,
+            rawHtmlContent,
+            _reqUrl
           );
 
           res.status(200).send(htmlContent);
