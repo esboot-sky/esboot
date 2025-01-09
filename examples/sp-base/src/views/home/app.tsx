@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import { useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 
+import './test.css';
 import { langBtn } from './variant';
 
 // import { login } from '@/api';
