@@ -23,6 +23,7 @@
     "@rollup/pluginutils": "^5.1.4",
     "@svgr/plugin-jsx": "^8.1.0",
     "@svgr/plugin-svgo": "^8.1.0",
+    "@vitejs/plugin-legacy": "^6.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "express": "^4.21.2",
     "terser": "^5.37.0",

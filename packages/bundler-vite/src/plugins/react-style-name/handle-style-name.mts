@@ -1,13 +1,15 @@
 import { resolve } from 'node:path';
 import { readFileSync } from '@dz-web/esboot-common/fs-extra';
 interface StyleImport {
-  statement: string; // 引入了样式文件的语句
-  prefixStatement: string; // 引入语句前面的修饰符（空格、换行符等）
-  variable?: string; // 引入模块时指定的变量名
-  filepath: string; // 引入的文件路径
+  statement: string;
+  prefixStatement: string;
+  variable?: string;
+  filepath: string;
 }
+// const importPattern =
+//   /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.(?:css|scss)(?:\?[^'"]*?)?)(?:'|");?/g;
 const importPattern =
-  /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.(?:css|scss)(?:\?[^'"]*?)?)(?:'|");?/g;
+  /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.(?:scss)(?:\?[^'"]*?)?)(?:'|");?/g;
 
 export const findStyleImports = (
   source: string

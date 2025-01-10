@@ -34,10 +34,9 @@ export class BundlerVite extends Bundler {
           ? originalUrl
           : '/index.html';
 
-        const pageNameExtracted = _reqUrl.match(/\/(.*?)\.html/);
+        const pageName = _reqUrl.match(/\/(.*?)\.html/)?.[1] ?? '';
 
-        if (pageNameExtracted) {
-          const pageName = pageNameExtracted[1];
+        if (pages[pageName]) {
           const rawHtmlContent = loadHtmlContent(pageName, pages);
 
           if (!rawHtmlContent) {
@@ -52,7 +51,15 @@ export class BundlerVite extends Bundler {
 
           res.status(200).send(htmlContent);
         } else {
-          res.status(404).send('Page not found');
+          let list = '';
+          for (const page of Object.keys(pages)) {
+            const { title } = pages[page];
+            list += `<li><a href="/${page}.html">${title}: ${page}</a></li>`;
+          }
+          res.status(404).send(`<div>
+            <h1>Page not found, you can go to:</h1>
+            <ul>${list}</ul>
+            </div>`);
         }
       }
     });

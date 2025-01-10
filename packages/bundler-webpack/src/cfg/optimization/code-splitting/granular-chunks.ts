@@ -63,9 +63,10 @@ export const granularChunks = (
           const trimmedIdentifier = /(?:^|[/\\])node_modules[/\\](.*)/.exec(
             identifier
           );
-          const processedIdentifier =
-            trimmedIdentifier &&
-            trimmedIdentifier[1].replace(/^@(\w+)[/\\]/, '$1-');
+          const processedIdentifier = trimmedIdentifier?.[1].replace(
+            /^@(\w+)[/\\]/,
+            '$1-'
+          );
 
           return `${processedIdentifier || identifier}-lib`;
         },

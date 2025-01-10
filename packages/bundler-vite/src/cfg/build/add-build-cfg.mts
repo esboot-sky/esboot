@@ -1,3 +1,4 @@
+import legacy from '@vitejs/plugin-legacy'
 import { addJSMinimizer } from './optimization/add-js-minimizer.mts';
 import { addCSSMinimizer } from './optimization/add-css-minimizer.mts';
 import { addCodeSplitting } from './optimization/add-code-splitting.mts';
@@ -17,6 +18,7 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
     outDir: outputPath,
     minify: minimize,
   });
+  viteCfg.plugins.push(legacy());
 
   if (minimize) {
     addJSMinimizer(cfg, viteCfg);
@@ -25,5 +27,5 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
 
   addCodeSplitting(cfg, viteCfg);
 
-  console.log(viteCfg.build);
+  // console.log(viteCfg.build);
 };

@@ -1,4 +1,4 @@
-import { resolve, join } from 'path';
+import { resolve, join } from 'node:path';
 
 export * from './environment';
 
@@ -33,6 +33,7 @@ export enum JsMinifier {
 }
 
 export enum CSSMinifier {
+  esbuild = 'esbuild',
   cssnano = 'cssnano',
   lightningcss = 'lightningcss',
   none = 'none',
