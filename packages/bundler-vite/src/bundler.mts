@@ -66,6 +66,7 @@ export class BundlerVite extends Bundler {
 
     app.listen(port, host, () => {
       logDevServer(port, false);
+      this.onAfterCompile();
     });
   }
 
@@ -73,6 +74,7 @@ export class BundlerVite extends Bundler {
     const cfg = await getCfg(this.cfg, Environment.prod);
 
     await build(cfg);
+    this.onAfterCompile();
   }
 }
 

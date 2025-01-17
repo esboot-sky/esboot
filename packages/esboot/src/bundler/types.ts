@@ -1,4 +1,4 @@
-import { pluginHooksDict } from '../plugin';
+import type { pluginHooksDict } from '../plugin';
 
 import type configuration from '../cfg';
 

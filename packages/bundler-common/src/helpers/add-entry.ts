@@ -18,6 +18,7 @@ export interface AddEntryCBParams {
   entry: string;
   chunkName: string;
   template: string;
+  urlParams?: string;
 }
 
 export const addEntry = async (
@@ -64,7 +65,7 @@ export const addEntry = async (
   const entry: Configuration['entry'] = {};
 
   for (const file of files) {
-    const { title, template, name, langJsonPicker } =
+    const { title, template, name, langJsonPicker, urlParams } =
       (getExportProps(readFileSync(file, 'utf-8')) as EntryFileExportProps) ||
       {};
 
@@ -79,6 +80,7 @@ export const addEntry = async (
       entry: file,
       chunkName,
       template: tplRelativePath,
+      urlParams,
     });
 
     entry[chunkName] = {
@@ -90,6 +92,13 @@ export const addEntry = async (
       title: ensureTitle,
       url: `http://${ipv4}:${port}/${chunkName}.html`,
     };
+
+    if (urlParams) {
+      Object.assign(entry[chunkName], {
+        urlParams,
+        url: `${entry[chunkName].url}${urlParams}`,
+      });
+    }
   }
 
   cfg.patch({ entry });

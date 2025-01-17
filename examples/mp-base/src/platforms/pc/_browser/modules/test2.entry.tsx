@@ -10,4 +10,5 @@ export default {
   title: 'test2',
   template: 'disable-rem',
   langJsonPicker: ['test2', 'global'],
+  urlParams: '?test=1',
 };

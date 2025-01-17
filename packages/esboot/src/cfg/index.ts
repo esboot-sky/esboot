@@ -166,9 +166,7 @@ export default new (class Cfg {
     }
 
     const { default: getCfg } = require(filePath);
-
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
-
     const { isDev } = this.#config;
 
     this.#config = merge(
