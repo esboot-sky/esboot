@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@alitajs/postcss-plugin-px2rem": "^0.0.1",
-    "@dz-web/esboot-common": "workspace:*",
+    "@dz-web/esboot-common": "3.0.29",
     "@umijs/ast": "^4.3.6",
     "address": "^2.0.3",
     "chokidar": "^4.0.1",
@@ -28,10 +28,10 @@
     "tailwindcss": "^3.4.9"
   },
   "devDependencies": {
-    "@dz-web/esboot": "workspace:*"
+    "@dz-web/esboot": "3.0.29"
   },
   "peerDependencies": {
     "@dz-web/esboot": "workspace:*"
   },
-  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
+  "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

@@ -20,8 +20,8 @@
   "dependencies": {
     "@commitlint/cli": "^17.8.1",
     "@commitlint/config-conventional": "^17.8.1",
-    "@dz-web/esboot-common": "workspace:*",
-    "@dz-web/eslint-plugin-esboot": "workspace:*",
+    "@dz-web/esboot-common": "3.0.29",
+    "@dz-web/eslint-plugin-esboot": "3.0.29",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.0",
@@ -80,5 +80,5 @@
     },
     "./package.json": "./package.json"
   },
-  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
+  "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

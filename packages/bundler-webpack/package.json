@@ -24,8 +24,8 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
     "@dz-web/babel-plugin-react-css-modules": "^6.11.4",
-    "@dz-web/esboot-bundler-common": "workspace:*",
-    "@dz-web/esboot-common": "workspace:*",
+    "@dz-web/esboot-bundler-common": "3.0.29",
+    "@dz-web/esboot-common": "3.0.29",
     "@jleonardvp/babel-plugin-module-resolver": "^4.1.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@svgr/webpack": "^8.1.0",
@@ -56,11 +56,11 @@
     "webpackbar": "^7.0.0"
   },
   "devDependencies": {
-    "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot": "3.0.29",
     "react-refresh-typescript": "^2.0.9"
   },
   "peerDependencies": {
     "@dz-web/esboot": "workspace:*"
   },
-  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
+  "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

@@ -23,7 +23,7 @@
     "lodash-es": "^4.17.21",
     "tailwind-merge": "^2.5.2"
   },
-  "gitHead": "409ee81491adb6c722dc73a5b1adb54f3a229ba3",
+  "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc",
   "devDependencies": {
     "@types/lodash-es": "^4.17.12"
   }

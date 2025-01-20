@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "@dz-web/bridge-mock": "^1.2.9",
-    "@dz-web/esboot-common": "workspace:*",
-    "@dz-web/esboot-lint": "workspace:*",
+    "@dz-web/esboot-common": "3.0.29",
+    "@dz-web/esboot-lint": "3.0.29",
     "address": "^2.0.2",
     "commander": "^12.0.0",
     "dotenv": "^16.4.5",
@@ -39,5 +39,5 @@
   "devDependencies": {
     "tailwindcss": "^3.4.9"
   },
-  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
+  "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

@@ -19,9 +19,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@dz-web/esboot": "workspace:*",
-    "@dz-web/esboot-bundler-vite": "workspace:*",
-    "@dz-web/esboot-common": "workspace:*"
+    "@dz-web/esboot": "3.0.29",
+    "@dz-web/esboot-bundler-vite": "3.0.29",
+    "@dz-web/esboot-common": "3.0.29"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^6.5.0",
@@ -35,5 +35,6 @@
   "peerDependencies": {
     "@dz-web/esboot": "*",
     "@dz-web/esboot-bundler-vite": "*"
-  }
+  },
+  "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

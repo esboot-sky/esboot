@@ -19,13 +19,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@dz-web/esboot": "workspace:*",
-    "@dz-web/esboot-common": "workspace:*"
+    "@dz-web/esboot": "3.0.29",
+    "@dz-web/esboot-common": "3.0.29"
   },
   "dependencies": {
     "dumi-theme-lobehub": "^1.8.1"
   },
   "peerDependencies": {
     "@dz-web/esboot": "*"
-  }
+  },
+  "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

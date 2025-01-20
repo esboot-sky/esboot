@@ -18,8 +18,8 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "@dz-web/esboot-bundler-common": "workspace:*",
-    "@dz-web/esboot-common": "workspace:*",
+    "@dz-web/esboot-bundler-common": "3.0.29",
+    "@dz-web/esboot-common": "3.0.29",
     "@rollup/pluginutils": "^5.1.4",
     "@svgr/plugin-jsx": "^8.1.0",
     "@svgr/plugin-svgo": "^8.1.0",
@@ -33,7 +33,7 @@
     "vite-plugin-svgr": "^4.3.0"
   },
   "devDependencies": {
-    "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot": "3.0.29",
     "@types/express": "^5.0.0"
   },
   "peerDependencies": {
@@ -52,5 +52,5 @@
     },
     "./package.json": "./package.json"
   },
-  "gitHead": "87e0dbf32da576627520bb3ba36e6623cfcbb21f"
+  "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

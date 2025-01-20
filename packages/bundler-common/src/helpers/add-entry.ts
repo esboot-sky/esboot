@@ -11,6 +11,7 @@ interface EntryFileExportProps {
   template?: string;
   name?: string;
   langJsonPicker?: string[];
+  urlParams?: string;
 }
 
 export interface AddEntryCBParams {
