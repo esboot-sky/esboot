@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-plugin-docs",
-  "version": "3.0.27",
+  "version": "3.0.29",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
