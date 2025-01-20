@@ -12,6 +12,7 @@ import { addStyle } from './partials/add-style/index.mts';
 import { addResolve } from './partials/add-resolve.mts';
 import { addDevServer } from './partials/add-dev-server.mts';
 
+import { addLangJsonPicker } from '../plugins/add-plugin-lang-json-picker.mts';
 import { addCopyPlugin } from '../plugins/add-plugin-copy.mts';
 import { addSvgrPlugin } from '../plugins/add-plugin-svgr.mts';
 
@@ -54,14 +55,14 @@ export const getCfg = async (
       pages: {},
     },
   };
-
+  
+  await addEntry(cfg, viteCfg);
   await addDevServer(cfg, viteCfg);
   await addResolve(cfg, viteCfg);
 
   await addSvgrPlugin(cfg, viteCfg);
   await addCopyPlugin(cfg, viteCfg);
-
-  await addEntry(cfg, viteCfg);
+  await addLangJsonPicker(cfg, viteCfg);
   await addStyle(cfg, viteCfg);
   await addBuildCfg(cfg, viteCfg);
 

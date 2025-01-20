@@ -37,7 +37,7 @@ export class BundlerVite extends Bundler {
         const pageName = _reqUrl.match(/\/(.*?)\.html/)?.[1] ?? '';
 
         if (pages[pageName]) {
-          const rawHtmlContent = loadHtmlContent(pageName, pages);
+          const rawHtmlContent = await loadHtmlContent(pageName, pages);
 
           if (!rawHtmlContent) {
             res.status(404).send('Page not found');

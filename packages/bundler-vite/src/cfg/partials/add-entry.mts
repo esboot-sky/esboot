@@ -62,11 +62,11 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
       }
       return null;
     },
-    load(id) {
+    async load(id) {
       if (id.endsWith('.html')) {
         const htmlName = id.replace('.html', '');
 
-        return loadHtmlContent(htmlName, pages, { isDev: false });
+        return await loadHtmlContent(htmlName, pages, { isDev: false });
       }
 
       return null;
