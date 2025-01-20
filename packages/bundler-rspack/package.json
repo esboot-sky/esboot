@@ -18,8 +18,8 @@
   "dependencies": {
     "@alitajs/postcss-plugin-px2rem": "^0.0.1",
     "@dz-web/babel-plugin-react-css-modules": "^6.11.4",
-    "@dz-web/esboot-bundler-common": "3.0.29",
-    "@dz-web/esboot-common": "3.0.29",
+    "@dz-web/esboot-bundler-common": "workspace:*",
+    "@dz-web/esboot-common": "workspace:*",
     "@rspack/core": "^1.0.8",
     "@rspack/dev-server": "^1.0.7",
     "@rspack/plugin-react-refresh": "^1.0.0",
@@ -38,7 +38,7 @@
     "style-loader": "^4.0.0"
   },
   "devDependencies": {
-    "@dz-web/esboot": "3.0.29"
+    "@dz-web/esboot": "workspace:*"
   },
   "peerDependencies": {
     "@dz-web/esboot": "workspace:*"

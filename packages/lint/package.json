@@ -20,8 +20,8 @@
   "dependencies": {
     "@commitlint/cli": "^17.8.1",
     "@commitlint/config-conventional": "^17.8.1",
-    "@dz-web/esboot-common": "3.0.29",
-    "@dz-web/eslint-plugin-esboot": "3.0.29",
+    "@dz-web/esboot-common": "workspace:*",
+    "@dz-web/eslint-plugin-esboot": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.0",

@@ -19,8 +19,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@dz-web/esboot": "3.0.29",
-    "@dz-web/esboot-common": "3.0.29"
+    "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot-common": "workspace:*"
   },
   "dependencies": {
     "dumi-theme-lobehub": "^1.8.1"
