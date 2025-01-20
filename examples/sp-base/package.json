@@ -10,7 +10,7 @@
     "build": "esboot build",
     "esboot": "esboot",
     "postinstall": "esboot prepare",
-    "test": "esboot vitest"
+    "test": "esboot vitest run"
   },
   "sideEffects": [
     "./src/**/*.scss",

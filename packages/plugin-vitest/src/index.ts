@@ -27,7 +27,7 @@ export default (): Plugin => {
           allowUnknownOption: true,
           action: async (_, p) => {
             exec(
-              `${searchCommand(join(__dirname, '../'), 'vitest')} -r ${cwd} -c ${resolve(__dirname, '../config/vitest.config.ts')} ${p.args.join(' ')}`
+              `${searchCommand(join(__dirname, '../'), 'vitest')} ${p.args.join(' ')} -r ${cwd} -c ${resolve(__dirname, '../config/vitest.config.ts')}`
             );
           },
         },

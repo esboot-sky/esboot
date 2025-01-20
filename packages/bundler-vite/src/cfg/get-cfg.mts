@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 import react from '@vitejs/plugin-react';
 
-import { cacheDir, Environment } from '@dz-web/esboot-common';
+import { cacheDir, type Environment } from '@dz-web/esboot-common';
 import {
   addPostcssPluginTailwindcss,
   addDefine,
@@ -61,10 +61,7 @@ export const getCfg = async (
   await addSvgrPlugin(cfg, viteCfg);
   await addCopyPlugin(cfg, viteCfg);
 
-  if (mode !== Environment.test) {
-    await addEntry(cfg, viteCfg);
-  }
-
+  await addEntry(cfg, viteCfg);
   await addBuildCfg(cfg, viteCfg);
   await addStyle(cfg, viteCfg);
 

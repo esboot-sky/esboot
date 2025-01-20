@@ -24,9 +24,7 @@ export default async () => {
     ...viteConfig.resolve.alias,
     ...alias,
   };
-  viteConfig = omit(viteConfig, ['configFile']);
-
-  // console.log(viteConfig, 'viteConfig223');
+  viteConfig = omit(viteConfig, ['configFile', 'build']);
 
   return mergeConfig(
     viteConfig,
