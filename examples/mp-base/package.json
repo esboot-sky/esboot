@@ -10,7 +10,7 @@
     "dev": "esboot dev",
     "build": "esboot build",
     "build:ci": "yarn run test && esboot build",
-    "test": "esboot vitest -- --run",
+    "test": "esboot vitest",
     "bridge-mock": "esboot mock:bridge",
     "create-page": "esboot-react-mp-tools create-page"
   },
