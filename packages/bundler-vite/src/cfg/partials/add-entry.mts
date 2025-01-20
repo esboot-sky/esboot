@@ -3,8 +3,6 @@ import {
   addEntry as _addEntry,
   type AddEntryCBParams,
 } from '@dz-web/esboot-bundler-common';
-import { isUndefined } from '@dz-web/esboot-common/lodash';
-import fs from 'node:fs';
 import { join } from 'node:path';
 
 import { loadHtmlContent } from '@/helpers/load-html-content.mts';

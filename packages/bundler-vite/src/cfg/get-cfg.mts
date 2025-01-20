@@ -62,8 +62,8 @@ export const getCfg = async (
   await addCopyPlugin(cfg, viteCfg);
 
   await addEntry(cfg, viteCfg);
-  await addBuildCfg(cfg, viteCfg);
   await addStyle(cfg, viteCfg);
+  await addBuildCfg(cfg, viteCfg);
 
   return customConfig ? customConfig(viteCfg, cfg.config) : viteCfg;
 };

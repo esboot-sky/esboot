@@ -2,6 +2,7 @@ import legacy from '@vitejs/plugin-legacy'
 import { addJSMinimizer } from './optimization/add-js-minimizer.mts';
 import { addCSSMinimizer } from './optimization/add-css-minimizer.mts';
 import { addCodeSplitting } from './optimization/add-code-splitting.mts';
+import { addBundleAnalyzerPlugin } from './plugins/add-plugin-bundle-analyzer.mts';
 import type { AddFunc } from '@/cfg/types.mts';
 
 export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
@@ -26,6 +27,6 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
   }
 
   addCodeSplitting(cfg, viteCfg);
-
+  await addBundleAnalyzerPlugin(cfg, viteCfg);
   // console.log(viteCfg.build);
 };

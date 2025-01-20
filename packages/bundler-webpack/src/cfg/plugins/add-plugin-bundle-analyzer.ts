@@ -3,10 +3,7 @@ import { DEFAULT_ANALYZE_PORT } from '@dz-web/esboot-common';
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-export const addBundleAnalyzerPlugin: AddFunc = async function (
-  cfg,
-  webpackCfg
-) {
+export const addBundleAnalyzerPlugin: AddFunc = async (cfg, webpackCfg) => {
   const { analyze, isDev } = cfg.config;
 
   if (!isDev && analyze) {
