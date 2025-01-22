@@ -1,0 +1,23 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "test", "lint"],
+        "parallel": 3,
+        "useDaemonProcess": true,
+        "watcherMaxFiles": 50000,
+        "watcherIgnorePatterns": ["**/node_modules/**", "**/dist/**"]
+      }
+    }
+  },
+  "watcherIncludeFiles": [
+    "packages/**/*",
+    "libs/**/*"
+  ],
+  "watcherExcludeFiles": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.git/**"
+  ]
+}
