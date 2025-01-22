@@ -22,7 +22,7 @@
     "@dz-web/bridge": "^2.2.10",
     "@dz-web/cache": "^2.0.0",
     "@dz-web/esboot-browser": "workspace:*",
-    "@dz-web/o-orange": "^4.3.0",
+    "@dz-web/o-orange": "^4.5.0",
     "@loadable/component": "^5.15.3",
     "@reduxjs/toolkit": "^1.9.6",
     "@swc/helpers": "^0.5.13",
