@@ -20,6 +20,7 @@ export class BundlerVite extends Bundler {
     const {
       server: { port = 3000, host = '0.0.0.0' },
     } = this.cfg.config;
+
     const { pages } = cfg.sharedConfig;
     const vite = await createViteServer(cfg);
 

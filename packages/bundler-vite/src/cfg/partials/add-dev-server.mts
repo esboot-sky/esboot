@@ -4,7 +4,7 @@ import type { CustomViteConfiguration } from '@/types.mts';
 export const addDevServer: AddFunc = async (cfg, viteCfg) => {
   const {
     isDev,
-    server: { port, open, host, proxy },
+    server: { port = 3000, open, host, proxy },
   } = cfg.config;
 
   if (!isDev) return;
@@ -15,6 +15,9 @@ export const addDevServer: AddFunc = async (cfg, viteCfg) => {
     host,
     strictPort: true,
     middlewareMode: true,
+    hmr: {
+      port: port + 1,
+    },
   };
 
   if (proxy) {
@@ -30,7 +33,10 @@ export const addDevServer: AddFunc = async (cfg, viteCfg) => {
         if (item.pathRewrite) {
           for (const key in item.pathRewrite) {
             server.proxy[context].rewrite = (path) => {
-              return path.replace(new RegExp(key), item.pathRewrite?.[key] ?? '');
+              return path.replace(
+                new RegExp(key),
+                item.pathRewrite?.[key] ?? ''
+              );
             };
           }
         }
