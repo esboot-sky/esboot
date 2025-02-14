@@ -1,6 +1,7 @@
-import { readFile } from 'node:fs/promises';
+import { readFileSync, existsSync } from 'node:fs';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
 import type { SharedConfig } from '@/types.mts';
+import { defaultTemplate } from '@dz-web/esboot-bundler-common';
 
 const templateContentCache = new Map<string, string>();
 const entryContentCache = new Map<string, string>();
@@ -22,7 +23,13 @@ export const loadHtmlContent = async (
 
   let htmlContent = templateContentCache.get(template);
   if (!htmlContent) {
-    htmlContent = await readFile(template, 'utf-8');
+    if (existsSync(template)) {
+      htmlContent = readFileSync(template, 'utf-8');
+    } else {
+      htmlContent = defaultTemplate;
+    }
+    console.log('htmlContent', htmlContent);
+
     templateContentCache.set(template, htmlContent || '');
   }
 
