@@ -57,6 +57,7 @@ enum ENpmClient {
 enum ETemplate {
   'mp' = 'mp',
   'sp' = 'sp',
+  'demo' = 'demo',
   // app = 'app',
   // max = 'max',
   // vueApp = 'vue-app',
@@ -123,10 +124,11 @@ export default async ({
     appTemplate = (await select({
       message: 'Pick ESBoot App Template',
       options: [
+        { label: 'React Demo App', value: ETemplate.demo },
         { label: 'React Multiple Platforms App', value: ETemplate.mp },
         { label: 'React Single Platform App', value: ETemplate.sp },
       ],
-      initialValue: ETemplate.mp,
+      initialValue: ETemplate.demo,
     })) as ETemplate;
   };
   const selectNpmClient = async () => {
