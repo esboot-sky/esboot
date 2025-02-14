@@ -1,6 +1,6 @@
 {
   "name": "create-esboot",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "create-esboot",
   "repository": {
     "type": "git",
@@ -17,7 +17,8 @@
     "bin",
     "templates",
     "templates/mp/.gitignore",
-    "templates/sp/.gitignore"
+    "templates/sp/.gitignore",
+    "templates/demo/.gitignore"
   ],
   "scripts": {
     "build": "tsup",
