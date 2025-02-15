@@ -28,8 +28,6 @@ export const loadHtmlContent = async (
     } else {
       htmlContent = defaultTemplate;
     }
-    console.log('htmlContent', htmlContent);
-
     templateContentCache.set(template, htmlContent || '');
   }
 
