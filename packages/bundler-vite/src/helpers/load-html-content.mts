@@ -33,7 +33,7 @@ export const loadHtmlContent = async (
 
   htmlContent = htmlContent.replace(
     '</body>',
-    `<script src="${entry}" type="module"></script></body>`
+    `<script src="${entry.replace(/\\/g, '/')}" type="module"></script></body>`
   );
   if (!isUndefined(title)) {
     htmlContent = htmlContent.replace(
