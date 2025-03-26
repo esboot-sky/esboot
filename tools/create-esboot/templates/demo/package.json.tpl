@@ -12,14 +12,14 @@
   "author": "Roc",
   "license": "ISC",
   "dependencies": {
-    "@dz-web/esboot-browser": "^3.0.33",
+    "@dz-web/esboot-browser": "{{ esbootVersion }}",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router": "7.1.5"
   },
   "devDependencies": {
-    "@dz-web/esboot": "3.0.33",
-    "@dz-web/esboot-bundler-vite": "3.0.33",
+    "@dz-web/esboot": "{{ esbootVersion }}",
+    "@dz-web/esboot-bundler-vite": "{{ esbootVersion }}",
     "@types/node": "22.13.1",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",

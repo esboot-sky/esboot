@@ -12,8 +12,8 @@ import {
   yParser,
   lodash,
 } from '@umijs/utils';
-import { existsSync } from 'fs';
-import { dirname, join } from 'path';
+import { existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { ERegistry, unpackTemplate, type UmiTemplate } from './template';
 
 interface ITemplateArgs {
@@ -38,6 +38,7 @@ interface ITemplatePluginParams {
 
 interface ITemplateParams extends ITemplatePluginParams {
   version: string;
+  esbootVersion: string;
   npmClient: ENpmClient;
   registry: string;
   author: string;
@@ -74,9 +75,8 @@ const getRepoName = (url: string) => {
   if (projectNameMatch && projectNameMatch.length > 1) {
     const projectName = projectNameMatch[1];
     return projectName;
-  } else {
-    return 'esboot-react-mp';
   }
+  return 'esboot-react-mp';
 };
 
 const pkg = require('../package');
@@ -85,6 +85,7 @@ const DEFAULT_DATA = {
   email: 'i@domain.com',
   author: 'esboot',
   version: pkg.version,
+  esbootVersion: 'latest',
   npmClient: ENpmClient.pnpm,
   registry: ERegistry.npm,
   withHusky: false,
@@ -103,15 +104,16 @@ export default async ({
   args,
   defaultData = DEFAULT_DATA,
 }: IGeneratorOpts) => {
-  let [name] = args._;
+  const [name] = args._;
   let npmClient = ENpmClient.pnpm;
   let registry = ERegistry.npm;
   let appTemplate = defaultData?.appTemplate || ETemplate.mp;
   const { username, email } = await getGitInfo();
   const author = email && username ? `${username} <${email}>` : '';
+  const esbootVersion = `^${await getLatestVersion('@dz-web/esboot')}`;
 
   // plugin params
-  let pluginName = `umi-plugin-${name || 'demo'}`;
+  const pluginName = `esboot-plugin-${name || 'demo'}`;
 
   const target = name ? join(cwd, name) : cwd;
 
@@ -201,7 +203,7 @@ export default async ({
       const { isString } = lodash;
 
       if (!isString(url)) {
-        logger.error(`Missing URL field`);
+        logger.error('Missing URL field');
         exitPrompt();
       }
 
@@ -274,7 +276,7 @@ export default async ({
   const withHusky = shouldInitGit && !inMonorepo;
 
   // pnpm
-  let pnpmExtraNpmrc: string = '';
+  let pnpmExtraNpmrc = '';
   const isPnpm = npmClient === ENpmClient.pnpm;
   let pnpmMajorVersion: number | undefined;
   if (isPnpm) {
@@ -282,7 +284,7 @@ export default async ({
     if (pnpmMajorVersion === 7) {
       // suppress pnpm v7 warning ( 7.0.0 < pnpm < 7.13.5 )
       // https://pnpm.io/npmrc#strict-peer-dependencies
-      pnpmExtraNpmrc = `strict-peer-dependencies=false`;
+      pnpmExtraNpmrc = 'strict-peer-dependencies=false';
     }
   }
 
@@ -295,6 +297,7 @@ export default async ({
         ? defaultData
         : ({
             version: version.includes('-canary.') ? version : `^${version}`,
+            esbootVersion,
             npmClient,
             registry,
             author,
@@ -329,7 +332,7 @@ export default async ({
   if (shouldInitGit) {
     await initGit(context);
   } else {
-    logger.info(`Skip Git init`);
+    logger.info('Skip Git init');
   }
 
   // install deps
@@ -341,11 +344,11 @@ export default async ({
       installWithNpmClient({ npmClient, cwd: target });
     }
   } else {
-    logger.info(`Skip install deps`);
+    logger.info('Skip install deps');
     if (isPnpm8) {
       logger.warn(
         chalk.yellow(
-          `You current using pnpm v8, it will install minimal version of dependencies`
+          'You current using pnpm v8, it will install minimal version of dependencies'
         )
       );
       logger.warn(
@@ -396,7 +399,7 @@ async function initGit(opts: IContext) {
   try {
     await execa.execa('git', ['init'], { cwd: projectRoot });
   } catch {
-    logger.error(`Initial the git repo failed`);
+    logger.error('Initial the git repo failed');
   }
 }
 
@@ -417,8 +420,22 @@ async function installWithPnpm8(cwd: string) {
 async function getPnpmMajorVersion() {
   try {
     const { stdout } = await execa.execa('pnpm', ['--version']);
-    return parseInt(stdout.trim().split('.')[0], 10);
+    return Number.parseInt(stdout.trim().split('.')[0], 10);
   } catch (e) {
     throw new Error('Please install pnpm first', { cause: e });
   }
 }
+
+const getLatestVersion = async (packageName: string): Promise<string> => {
+  try {
+    const { stdout } = await execa.execa('npm', [
+      'view',
+      packageName,
+      'version',
+    ]);
+    return stdout.trim();
+  } catch (error) {
+    console.error(`Failed to fetch latest version for ${packageName}:`, error);
+    return 'latest'; // 失败时返回 'latest' 标签
+  }
+};
