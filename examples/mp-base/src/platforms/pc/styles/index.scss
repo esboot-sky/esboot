@@ -1,5 +1,5 @@
-@import './theme';
-@import './reset-rsuite';
+@use './theme';
+@use './reset-rsuite';
 
 body {
   color: var(--dz-text-color);
