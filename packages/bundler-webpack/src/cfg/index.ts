@@ -50,7 +50,7 @@ export const getWebpackCfg = async (
   };
 
   const mfsu = createMFSU(cfg);
-  const enableLangJsonPicker = useLangJsonPicker && !isSP && !mfsu && !isDev;
+  const enableLangJsonPicker = useLangJsonPicker && !isSP && !mfsu;
 
   // Partial
   await addEntry(cfg, webpackCfg, { enableLangJsonPicker });
