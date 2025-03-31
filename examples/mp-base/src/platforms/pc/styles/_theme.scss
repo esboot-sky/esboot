@@ -1,4 +1,4 @@
-@import './macos-like-scrollbar';
+@use './macos-like-scrollbar';
 
 // 此文件只能存放所有页面公用的主题样式变量，不允许存放其他样式以及页面私有样式
 // 变量应该带前缀，以免碰上变量冲突，隐藏bug

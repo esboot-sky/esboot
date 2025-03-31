@@ -7,8 +7,10 @@
   },
   "south-stock-ranking": {},
   "north-model": {},
-  "test": {},
+  "test": {
+    "title": "測試"
+  },
   "test2": {
-    "test": "2"
+    "title": "測試2"
   }
 }
