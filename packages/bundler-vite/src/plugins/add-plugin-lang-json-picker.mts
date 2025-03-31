@@ -9,8 +9,6 @@ export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
 
   if (!useLangJsonPicker) return;
 
-  console.log(entry, 'entry');
-
   const langJsonKeys: Set<string> = new Set();
 
   for (const [_, value] of Object.entries(entry)) {
