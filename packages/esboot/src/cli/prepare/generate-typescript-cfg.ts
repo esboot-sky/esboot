@@ -7,14 +7,7 @@ import { info, error } from '@dz-web/esboot-common/helpers';
 
 import cfg from '@/cfg';
 import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
-
-const absListPath = (ref: string[]): string[] => {
-  const { cwd } = cfg.config;
-
-  return ref.map((path: string) => {
-    return join(cwd, path);
-  });
-};
+import { absListPath } from '@/helpers';
 
 export function generateTypeScriptCfg() {
   const { cwd, alias } = cfg.config;
@@ -31,8 +24,8 @@ export function generateTypeScriptCfg() {
 
   tsconfigJson.compilerOptions.baseUrl = cwd;
   tsconfigJson.compilerOptions.paths = _alias;
-  tsconfigJson.exclude = absListPath(tsconfigJson.exclude);
-  tsconfigJson.include = absListPath(tsconfigJson.include);
+  tsconfigJson.exclude = absListPath(cfg.config, tsconfigJson.exclude);
+  tsconfigJson.include = absListPath(cfg.config, tsconfigJson.include);
 
   callPluginHookOfModifyLintConfig(
     PluginHooks.modifyTypescriptConfig,

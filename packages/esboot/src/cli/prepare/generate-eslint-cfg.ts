@@ -9,13 +9,14 @@ import { info, error } from '@dz-web/esboot-common/helpers';
 import eslintCfg from '@dz-web/esboot-lint/eslint';
 
 import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
+import { absPath } from '@/helpers';
 
 export function generateESLintCfg() {
   const { alias } = cfg.config;
   const _alias: [string, string][] = [];
 
   for (const k in alias) {
-    const value = `${alias[k]}/`;
+    const value = `${absPath(cfg.config, alias[k])}/`;
 
     _alias.push([k, value]);
   }
