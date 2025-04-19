@@ -1,6 +1,6 @@
 {
   "name": "create-esboot",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "description": "create-esboot",
   "repository": {
     "type": "git",
@@ -24,7 +24,9 @@
     "build": "tsup",
     "dev": "cross-env NODE_ENV=development tsup",
     "prepublishOnly": "pnpm run build",
-    "test:sp": "mkdir -p /tmp/esboot-sp && cd /tmp/esboot-sp && node ../bin/create-esboot.js"
+    "sync": "node ./sync.js",
+    "test:sp": "mkdir -p ./tmp/esboot-sp && cd ./tmp/esboot-sp && node ../bin/create-esboot.js",
+    "test:mp": "mkdir -p ../../tmp/esboot-mp && cd ../../tmp/esboot-mp && node ./bin/create-esboot.js"
   },
   "dependencies": {
     "@umijs/utils": "^4.0.75"

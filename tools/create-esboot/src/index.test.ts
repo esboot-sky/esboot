@@ -1,6 +1,6 @@
 import { rimraf } from '@umijs/utils';
-import { existsSync } from 'fs';
-import { join } from 'path';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import runGenerator, { type IDefaultData } from './index';
 
 const fixtures = join(__dirname, '..', 'fixtures');
