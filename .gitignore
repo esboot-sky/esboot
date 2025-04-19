@@ -50,3 +50,5 @@ dist/
 publish
 
 .nx
+
+tmp/
