@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+export PATH=./node_modules/.bin:$PATH
+esboot exec_git_hooks --type pre-commit

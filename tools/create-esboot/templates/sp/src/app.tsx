@@ -1,5 +1,10 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
-const App = () => <Outlet />;
+const App = () => (
+  <div className="text-red-500">
+    Welcome to ESBoot!
+    <Outlet />
+  </div>
+);
 
 export default App;
