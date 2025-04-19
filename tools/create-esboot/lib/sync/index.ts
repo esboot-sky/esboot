@@ -4,7 +4,6 @@ import { logger } from '@umijs/utils';
 import { $ } from 'bun';
 
 const owner = 'esboot-sky';
-const branch = 'main';
 const supportedTemplate = ['mp', 'sp', 'demo'];
 const templateName = process.argv[2];
 
@@ -13,23 +12,6 @@ if (!supportedTemplate.includes(templateName)) {
 }
 
 const repo = `esboot-react-${templateName}`;
-
-async function getLatestCommitHash(): Promise<string> {
-  const url = `https://api.github.com/repos/${owner}/${repo}/commits/${branch}`;
-  const response = await fetch(url, {
-    headers: {
-      Accept: 'application/vnd.github.v3+json',
-      'User-Agent': 'esboot-sync-script',
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to get latest commit: HTTP ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data.sha;
-}
 
 async function sync() {
   const targetDir = './tmp';
