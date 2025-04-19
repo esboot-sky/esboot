@@ -9,12 +9,13 @@ import {
   logger,
   pkgUp,
   tryPaths,
-  yParser,
   lodash,
 } from '@umijs/utils';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { ERegistry, unpackTemplate, type UmiTemplate } from './template';
+
+import type { yParser } from '@umijs/utils';
 
 interface ITemplateArgs {
   template?: UmiTemplate;
