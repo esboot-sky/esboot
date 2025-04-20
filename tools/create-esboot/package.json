@@ -26,8 +26,7 @@
     "prepublishOnly": "pnpm run build",
     "sync": "bun run ./lib/sync/index.ts",
     "sync:all": "pnpm run sync mp && pnpm run sync sp && pnpm run sync demo",
-    "test:sp": "mkdir -p ./tmp/esboot-sp && cd ./tmp/esboot-sp && node ../bin/create-esboot.js",
-    "test:mp": "mkdir -p ../../tmp/esboot-mp && cd ../../tmp/esboot-mp && node ./bin/create-esboot.js"
+    "test:init": "bun run ./lib/test-init/index.ts"
   },
   "dependencies": {
     "@umijs/utils": "^4.0.75"

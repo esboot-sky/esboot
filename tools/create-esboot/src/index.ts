@@ -56,14 +56,10 @@ enum ENpmClient {
   pnpm = 'pnpm',
 }
 
-enum ETemplate {
+export enum ETemplate {
   'mp' = 'mp',
   'sp' = 'sp',
   'demo' = 'demo',
-  // app = 'app',
-  // max = 'max',
-  // vueApp = 'vue-app',
-  // plugin = 'plugin',
 }
 
 export interface IDefaultData extends ITemplateParams {
