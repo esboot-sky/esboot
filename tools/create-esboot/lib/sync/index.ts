@@ -3,11 +3,12 @@ import { join } from 'node:path';
 import { logger } from '@umijs/utils';
 import { $ } from 'bun';
 
+import { supportedTemplate, type ETemplate } from '../constant';
+
 const owner = 'esboot-sky';
-const supportedTemplate = ['mp', 'sp', 'demo'];
 const templateName = process.argv[2];
 
-if (!supportedTemplate.includes(templateName)) {
+if (!supportedTemplate.includes(templateName as ETemplate)) {
   throw new Error(`Not supported template: ${templateName}`);
 }
 

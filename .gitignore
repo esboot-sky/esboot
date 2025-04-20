@@ -4,6 +4,8 @@
 node_modules
 .pnp
 .pnp.js
+
+# for lerna
 pnpm-lock.yaml
 
 # testing
