@@ -17,6 +17,7 @@
     "test": "vitest",
     "test:examples": "pnpm --filter example-* -r exec pnpm run test -- --run",
     "pub": "pnpm run test run && pnpm run test:examples && lerna publish --force-publish=* --no-private",
+    "pub:sync": "pnpm run test run && pnpm run test:examples && pnpm -r exec -- pnpm publish --access public",
     "biome": "biome",
     "clean:dep": "pnpm -r exec -- rm -rf node_modules && rm -rf node_modules && rm pnpm-lock.yaml",
     "clean:dist": "pnpm -r exec -- rm -rf dist"
