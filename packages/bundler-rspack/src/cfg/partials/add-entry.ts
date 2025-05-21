@@ -20,7 +20,7 @@ export const addEntry: AddFunc = async (cfg, rspackCfg) => {
     ? configRootPath
     : MPConfiguration!.configRootPathOfPlatfrom;
 
-  const enableLangJsonPicker = useLangJsonPicker && !isSP;
+  const enableLangJsonPicker = useLangJsonPicker;
   await _addEntry(cfg, (params: AddEntryCBParams) => {
     const { chunkName, template, entry, title } = params;
     const ensureTpl = join(tplRootPath, template);
