@@ -33,7 +33,7 @@ import type { CustomWebpackConfiguration } from '@/cfg/types';
 export const getWebpackCfg = async (
   cfg: ConfigurationInstance
 ): Promise<CustomWebpackConfiguration> => {
-  const { useLangJsonPicker, isSP, isDev } = cfg.config;
+  const { useLangJsonPicker, isDev } = cfg.config;
 
   const webpackCfg: CustomWebpackConfiguration = {
     mode: isDev ? Environment.dev : Environment.prod,
@@ -50,7 +50,7 @@ export const getWebpackCfg = async (
   };
 
   const mfsu = createMFSU(cfg);
-  const enableLangJsonPicker = useLangJsonPicker && !isSP && !mfsu;
+  const enableLangJsonPicker = useLangJsonPicker && !mfsu;
 
   // Partial
   await addEntry(cfg, webpackCfg, { enableLangJsonPicker });

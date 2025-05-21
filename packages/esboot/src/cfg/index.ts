@@ -2,6 +2,7 @@ import { resolve, join } from 'node:path';
 import { existsSync } from 'node:fs';
 import { exit } from 'node:process';
 import { ip } from 'address';
+import { isUndefined } from '@dz-web/esboot-common/lodash';
 
 import { isFunction, pick, merge } from '@dz-web/esboot-common/lodash';
 import {
@@ -174,6 +175,12 @@ export default new (class Cfg {
       { publicPath: isDev ? '/' : './' },
       userCfg
     );
+
+    const { useLangJsonPicker } = userCfg;
+    if (isUndefined(useLangJsonPicker)) {
+      this.#config.useLangJsonPicker = !this.#config.isSP;
+    }
+
     this.#config.isSP ? this.#generateSPCfg() : this.#generateMPCfg();
   };
 

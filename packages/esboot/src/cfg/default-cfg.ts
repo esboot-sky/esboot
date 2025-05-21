@@ -21,7 +21,6 @@ export const defaultCfg: Configuration = {
   analyze: false,
   outputPath: 'dist',
   publicPath: '/',
-  useLangJsonPicker: true,
   alias: {},
   px2rem: {},
   svgr: true,

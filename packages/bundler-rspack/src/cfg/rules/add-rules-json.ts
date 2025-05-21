@@ -2,9 +2,9 @@ import { resolve } from 'node:path';
 import type { AddFunc } from '@/cfg/types';
 
 export const addJSONRules: AddFunc = async (cfg, rspack) => {
-  const { useLangJsonPicker, isSP, entry } = cfg.config;
+  const { useLangJsonPicker, entry } = cfg.config;
 
-  if (!useLangJsonPicker || isSP) return;
+  if (!useLangJsonPicker) return;
 
   const list = Object.values(entry).map((item) => ({
     issuerLayer: item.chunkName,
