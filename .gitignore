@@ -6,7 +6,7 @@ node_modules
 .pnp.js
 
 # for lerna
-pnpm-lock.yaml
+# pnpm-lock.yaml
 
 # testing
 coverage
