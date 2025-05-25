@@ -7,7 +7,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "esboot dev",
+    "dev": "DEBUG=true esboot dev",
     "build": "esboot build",
     "esboot": "esboot",
     "postinstall": "esboot prepare",
