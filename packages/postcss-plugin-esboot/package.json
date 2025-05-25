@@ -1,0 +1,19 @@
+{
+  "name": "@dz-web/postcss-plugin-esboot",
+  "version": "3.0.38",
+  "description": "",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc",
+  "dependencies": {
+    "tailwindcss": "^4.1.7"
+  },
+  "devDependencies": {
+    "postcss": "^8.4.47"
+  }
+}
