@@ -60,7 +60,7 @@ export const getCfg = async (
   await addEntry(cfg, viteCfg);
   await addDevServer(cfg, viteCfg);
   await addResolve(cfg, viteCfg);
-
+  
   await addTailwindPlugin(cfg, viteCfg);
   await addSvgrPlugin(cfg, viteCfg);
   await addCopyPlugin(cfg, viteCfg);
