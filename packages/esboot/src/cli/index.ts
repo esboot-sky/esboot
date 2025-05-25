@@ -1,4 +1,3 @@
-import { join } from 'node:path';
 import { program } from 'commander';
 import { lint, execGitHooks } from '@dz-web/esboot-lint';
 
@@ -22,21 +21,20 @@ import {
   pluginHooksDict,
 } from '@/plugin';
 
+import pkg from '../../package.json' assert { type: 'json' };
+
 const cwd = process.cwd();
 
-const pkgPath = join(__dirname, '../../package.json');
-const pkg = require(pkgPath);
-
-function loadCfg() {
-  cfg.load();
+async function loadCfg() {
+  await cfg.load();
   preparePlugins(cfg.config);
   callPluginHookOfModifyConfig(cfg.config);
   callPluginHookOfRegisterCommands(cfg.config);
 }
 
-function createBundler(environment: Environment) {
+async function createBundler(environment: Environment) {
   process.env.NODE_ENV = environment;
-  loadCfg();
+  await loadCfg();
   const { config } = cfg;
 
   if (config.bundler) {
@@ -52,13 +50,13 @@ function createBundler(environment: Environment) {
   return null;
 }
 
-export const run = () => {
+export const run = async () => {
   processPrepare();
   loadEnv({ root: cwd });
 
   const cmd = process.argv[2];
   if (!['lint', 'exec_git_hooks', 'dev', 'build'].includes(cmd)) {
-    loadCfg();
+    await loadCfg();
   }
 
   program
@@ -66,7 +64,7 @@ export const run = () => {
     .description('Start to develop project')
     .allowUnknownOption(true)
     .action(async () => {
-      const bundler = createBundler(Environment.dev);
+      const bundler = await createBundler(Environment.dev);
       if (bundler) bundler.dev();
     });
 
@@ -75,7 +73,7 @@ export const run = () => {
     .description('Build project')
     .allowUnknownOption(true)
     .action(async () => {
-      const bundler = createBundler(Environment.prod);
+      const bundler = await createBundler(Environment.prod);
       if (bundler) bundler.build();
     });
 

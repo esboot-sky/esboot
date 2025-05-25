@@ -2,6 +2,7 @@
   "name": "@dz-web/esboot",
   "version": "3.0.40",
   "description": "",
+  "type": "module",
   "keywords": [
     "webpack",
     "react"
@@ -9,7 +10,7 @@
   "license": "ISC",
   "author": "Roc",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
     "esboot": "bin/index.js"

@@ -1,2 +1,2 @@
-const kleur = require('kleur');
+import kleur from 'kleur';
 export default kleur;
