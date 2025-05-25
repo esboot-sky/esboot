@@ -1,10 +1,10 @@
-module.exports = {
-  extends: [require.resolve('stylelint-config-standard')],
+export default {
+  extends: [import.meta.resolve('stylelint-config-standard')],
   plugins: [
-    require.resolve('stylelint-scss'),
-    require.resolve('stylelint-declaration-use-variable'),
+    import.meta.resolve('stylelint-scss'),
+    import.meta.resolve('stylelint-declaration-use-variable'),
   ],
-  customSyntax: require.resolve('postcss-scss'),
+  customSyntax: import.meta.resolve('postcss-scss'),
   ignoreFiles: ['!src/**/*', 'node_modules'],
   rules: {
     'import-notation': 'string',

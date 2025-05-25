@@ -17,7 +17,7 @@ function transform(opts: { code: string; filename: string; implementor: any }) {
       sourcefile: filename,
       loader: ext.slice(1),
       target: 'es2021',
-      format: 'cjs',
+      format: 'esm',
       logLevel: 'error',
     }).code;
   } catch (e) {

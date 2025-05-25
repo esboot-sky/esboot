@@ -2,7 +2,7 @@ import { join } from 'node:path';
 
 import cfg from '@/cfg';
 
-import { writeFile, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
+import { outputFile, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import { info, error } from '@dz-web/esboot-common/helpers';
 
@@ -31,7 +31,7 @@ export function generateESLintCfg() {
 
   const outputPath = join(cacheDir, 'eslint/index.js');
   ensureFileSync(outputPath);
-  writeFile(
+  outputFile(
     outputPath,
     `module.exports = ${JSON.stringify(eslintCfg, null, 2)}`
   )

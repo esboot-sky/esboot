@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs';
 import { exit } from 'node:process';
 import { ip } from 'address';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
+import { require } from '@dz-web/esboot-common/helpers';
 
 import { isFunction, pick, merge } from '@dz-web/esboot-common/lodash';
 import {
@@ -156,15 +157,13 @@ export default new (class Cfg {
     const filePath = getUserConfigFile(this.#config.cwd);
 
     if (!existsSync(filePath)) {
-      console.log('filePath', filePath);
-
       error(`User config file not found: ${filePath}`);
       exit(1);
     }
 
     const moduleUrl = reload ? `${filePath}?t=${Date.now()}` : filePath;
-    
-    const { default: getCfg } = await import(moduleUrl);
+
+    const { default: getCfg } = require(moduleUrl);
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
     const { isDev } = this.#config;
 
