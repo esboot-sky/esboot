@@ -16,7 +16,7 @@ import { error } from '@dz-web/esboot-common/helpers';
 import { defaultCfg } from './default-cfg';
 import type { Configuration, ConfigurationForMP } from './types';
 
-import pkg from '../../package.json' assert { type: 'json' };
+import pkg from '../../package.json' with { type: 'json' };
 
 export default new (class Cfg {
   #config: Configuration = defaultCfg;
