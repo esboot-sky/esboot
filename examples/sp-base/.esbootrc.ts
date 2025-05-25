@@ -16,25 +16,18 @@ export default defineConfig<BundlerOptions>({
   ],
   bundler: Bundler,
   isSP: true,
-  analyze: true,
   bundlerOptions: {},
   sourceMap: false,
   alias: {
     '@@': 'src',
   },
   server: {
-    port: 4004,
+    port: 4000,
     http2: false,
-    proxy: [
-      {
-        context: ['/api'],
-        target: 'http://10.10.11.130:1081',
-        pathRewrite: { '^/api': '' },
-        changeOrigin: true,
-      },
-    ],
   },
-  // cssMinifier: CSSMinifier.none,
+  px2rem: {
+    enable: false,
+  },
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

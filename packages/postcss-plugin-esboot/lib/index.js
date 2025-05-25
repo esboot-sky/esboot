@@ -1,0 +1,105 @@
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+
+const fileCache = new Map();
+
+function calculateContentHash(content) {
+  try {
+    return crypto.createHash('md5').update(content, 'utf8').digest('hex');
+  } catch (error) {
+    return null;
+  }
+}
+
+module.exports = (opts = { useTailwindcss: true }) => {
+  const { useTailwindcss } = opts;
+  let tailwindCssContent;
+  let tailwindCssPath;
+  let postcss;
+
+  if (useTailwindcss) {
+    tailwindCssPath = require.resolve('tailwindcss/index.css');
+    tailwindCssContent = fs.readFileSync(tailwindCssPath, 'utf8');
+    postcss = require('postcss');
+  }
+
+  return {
+    postcssPlugin: 'postcss-plugin-esboot',
+
+    Once(root, { result }) {
+      if (useTailwindcss && tailwindCssContent) {
+        try {
+          const cssContent = root.toString();
+          const filePath = result.opts.from;
+
+          const isEntryFile = cssContent.startsWith(
+            '/* ESBOOT_SIGN_TAILWIND_CSS */'
+          );
+
+          if (isEntryFile && filePath) {
+            const currentHash = calculateContentHash(cssContent);
+
+            if (currentHash) {
+              const cachedData = fileCache.get(filePath);
+              if (cachedData && cachedData.hash === currentHash) {
+                try {
+                  root.removeAll();
+                  cachedData.processedRoot.each((node) => {
+                    root.append(node.clone());
+                  });
+
+                  return root;
+                } catch (cacheError) {
+                  fileCache.delete(filePath);
+                }
+              }
+            }
+          }
+
+          const commentRegex = /\/\*\s*ESBOOT_SIGN_TAILWIND_CSS\s*\*\//g;
+
+          if (cssContent.startsWith('/* ESBOOT_SIGN_TAILWIND_CSS */')) {
+            const updatedCssContent = cssContent.replace(
+              commentRegex,
+              tailwindCssContent
+            );
+
+            const newRoot = postcss.parse(updatedCssContent, {
+              from: tailwindCssPath,
+            });
+
+            root.removeAll();
+            newRoot.each((node) => {
+              root.append(node.clone());
+            });
+
+            if (isEntryFile && filePath) {
+              const currentHash = calculateContentHash(cssContent);
+              if (currentHash) {
+                try {
+                  fileCache.set(filePath, {
+                    hash: currentHash,
+                    processedRoot: root.clone(),
+                  });
+                } catch (cacheError) {
+                  console.warn(
+                    '⚠️ Update esboot cache failed:',
+                    cacheError.message
+                  );
+                }
+              }
+            }
+          }
+        } catch (error) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          console.error('❌ Process Tailwind CSS failed:', errorMessage);
+        }
+      }
+
+      return root;
+    },
+  };
+};
+
+module.exports.postcss = true;

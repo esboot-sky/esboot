@@ -1,8 +1,4 @@
-@use './normalize';
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import '@dz-web/esboot-browser';
 
 html,
 body,
