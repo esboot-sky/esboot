@@ -4,6 +4,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {
   addPostcssPluginTailwindcss,
   addPostcssPluginPx2rem,
+  addPostcssPluginESBoot,
 } from '@dz-web/esboot-bundler-common';
 
 import type { AddFunc } from '@/cfg/types';
@@ -37,6 +38,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
     );
   }
 
+  const postcssPluginESBoot = addPostcssPluginESBoot(cfg);
   const postcssPluginPx2rem = addPostcssPluginPx2rem(cfg);
   const postcssPluginTailwindcss = addPostcssPluginTailwindcss(cfg);
 
@@ -82,6 +84,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
           sourceMap: isSourceMap,
           postcssOptions: {
             plugins: [
+              postcssPluginESBoot,
               postcssPluginTailwindcss,
               postcssPluginPx2rem,
               require('postcss-flexbugs-fixes'),

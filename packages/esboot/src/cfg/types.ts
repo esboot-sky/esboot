@@ -6,7 +6,6 @@ import type {
   CSSMinifier,
 } from '@dz-web/esboot-common/constants';
 import type { Plugin } from '@/plugin/type';
-import type { Config as tailwindCSSConfig } from 'tailwindcss';
 
 import type { Bundler } from '../bundler';
 import type { BaseBundlerOptions } from '../bundler/types';
@@ -73,7 +72,6 @@ export interface UserOptions<BundlerOptions = unknown> {
   legacy?: boolean;
   externals?: Record<string, string>;
   useTailwindcss?: boolean;
-  tailwindcssOptions?: (defaultCfg: tailwindCSSConfig) => tailwindCSSConfig;
   plugins?: Plugin[];
 }
 
@@ -91,7 +89,6 @@ type PreserveAttr =
   | 'jsMinifier'
   | 'jsMinifierOptions'
   | 'cssMinifierOptions'
-  | 'tailwindcssOptions'
   | 'legacy'
   | 'cssMinifier';
 

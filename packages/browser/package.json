@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/esboot-browser",
-  "version": "3.0.38",
+  "version": "3.0.40",
   "description": "",
   "keywords": [],
   "license": "ISC",
@@ -15,7 +15,9 @@
     "prepublishOnly": "pnpm run build"
   },
   "files": [
-    "dist"
+    "dist",
+    "css",
+    "index.css"
   ],
   "dependencies": {
     "class-variance-authority": "^0.7.0",

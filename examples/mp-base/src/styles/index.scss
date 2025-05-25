@@ -1,8 +1,6 @@
-@use './normalize';
+@import 'tailwindcss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@use './normalize';
 
 /* stylelint-disable-next-line selector-max-id */
 html,
