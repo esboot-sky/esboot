@@ -1,6 +1,6 @@
 import { join, isAbsolute } from 'node:path';
 
-import tsconfigJson from '@dz-web/esboot-lint/tsconfig.json';
+import tsconfigJson from '@dz-web/esboot-lint/tsconfig.json' assert { type: 'json' };
 import { writeJSON, ensureDirSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import { info, error } from '@dz-web/esboot-common/helpers';

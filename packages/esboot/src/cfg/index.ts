@@ -16,7 +16,7 @@ import { error } from '@dz-web/esboot-common/helpers';
 import { defaultCfg } from './default-cfg';
 import type { Configuration, ConfigurationForMP } from './types';
 
-const pkg = require('../../package.json');
+import pkg from '../../package.json' assert { type: 'json' };
 
 export default new (class Cfg {
   #config: Configuration = defaultCfg;
@@ -152,7 +152,7 @@ export default new (class Cfg {
     Object.assign(this.#config, cfg);
   };
 
-  loadConfigFile = (reload = false) => {
+  loadConfigFile = async (reload = false) => {
     const filePath = getUserConfigFile(this.#config.cwd);
 
     if (!existsSync(filePath)) {
@@ -162,11 +162,9 @@ export default new (class Cfg {
       exit(1);
     }
 
-    if (reload) {
-      delete require.cache[require.resolve(filePath)];
-    }
-
-    const { default: getCfg } = require(filePath);
+    const moduleUrl = reload ? `${filePath}?t=${Date.now()}` : filePath;
+    
+    const { default: getCfg } = await import(moduleUrl);
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
     const { isDev } = this.#config;
 
@@ -184,9 +182,9 @@ export default new (class Cfg {
     this.#config.isSP ? this.#generateSPCfg() : this.#generateMPCfg();
   };
 
-  load = (options: { cwd?: string } = {}) => {
+  load = async (options: { cwd?: string } = {}) => {
     this.loadEnv(options);
-    this.loadConfigFile();
+    await this.loadConfigFile();
   };
 
   patch = (cfg: Partial<Configuration>) => {

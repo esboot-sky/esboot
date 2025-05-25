@@ -2,7 +2,6 @@ import { defineConfig } from '../../tsup.base';
 
 export default defineConfig({
   base: {
-    format: ['cjs', 'esm'],
     entry: [
       'src/constants/index.ts',
       'src/helpers/index.ts',

@@ -3,9 +3,9 @@ const importExeca = import('execa');
 interface ExecOptions {
   options?: {
     cwd?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
-  onError?: (error: any) => void;
+  onError?: (error: unknown) => void;
 }
 
 export const exec = async (
