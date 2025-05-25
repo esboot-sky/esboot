@@ -1,4 +1,4 @@
-import type { AddFunc } from '@/cfg/types.mts';
+import type { AddFunc } from '@/cfg/types';
 
 export const addTailwindPlugin: AddFunc = async (cfg, viteCfg) => {
   const { useTailwindcss } = cfg.config;

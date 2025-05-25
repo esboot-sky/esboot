@@ -4,8 +4,8 @@ import { Bundler } from '@dz-web/esboot';
 import { logDevServer } from '@dz-web/esboot-bundler-common';
 import { Environment } from '@dz-web/esboot-common/constants';
 
-import { loadHtmlContent } from './helpers/load-html-content.mts';
-import { getCfg } from './cfg/get-cfg.mts';
+import { loadHtmlContent } from './helpers/load-html-content';
+import { getCfg } from './cfg/get-cfg';
 
 export class BundlerVite extends Bundler {
   name = 'vite';
@@ -26,7 +26,7 @@ export class BundlerVite extends Bundler {
 
     app.use(vite.middlewares);
 
-    app.use('*', async (req, res) => {
+    app.use('/', async (req, res) => {
       const isHtmlRequest = req.headers.accept?.includes('text/html');
 
       if (isHtmlRequest) {
@@ -79,4 +79,4 @@ export class BundlerVite extends Bundler {
   }
 }
 
-export type { BundlerViteOptions } from './types.mts';
+export type { BundlerViteOptions } from './types';

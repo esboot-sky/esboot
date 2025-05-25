@@ -1,5 +1,5 @@
-import type { AddFunc } from '@/cfg/types.mts';
-import type { CustomViteConfiguration } from '@/types.mts';
+import type { AddFunc } from '@/cfg/types';
+import type { CustomViteConfiguration } from '@/types';
 
 export const addDevServer: AddFunc = async (cfg, viteCfg) => {
   const {

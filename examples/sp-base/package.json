@@ -5,6 +5,7 @@
   "description": "",
   "private": "true",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "esboot dev",
     "build": "esboot build",

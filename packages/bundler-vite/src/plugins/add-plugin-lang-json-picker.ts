@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { pick } from '@dz-web/esboot-common/lodash';
-import type { AddFunc } from '@/cfg/types.mts';
+import type { AddFunc } from '@/cfg/types';
 import type { Plugin } from 'vite';
 import { resolve } from 'node:path';
 

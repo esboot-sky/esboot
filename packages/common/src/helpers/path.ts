@@ -1,5 +1,6 @@
 import { pathExistsSync } from 'fs-extra/esm';
 import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { isWins } from '../constants';
 
@@ -49,4 +50,8 @@ export function getAbsolutePath(
 
     return currentPath;
   }
+}
+
+export function getFileUrl(path: string) {
+  return fileURLToPath(import.meta.resolve(path));
 }

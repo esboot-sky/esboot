@@ -1,9 +1,9 @@
 import legacy from '@vitejs/plugin-legacy'
-import { addJSMinimizer } from './optimization/add-js-minimizer.mts';
-import { addCSSMinimizer } from './optimization/add-css-minimizer.mts';
-import { addCodeSplitting } from './optimization/add-code-splitting.mts';
-import { addBundleAnalyzerPlugin } from './plugins/add-plugin-bundle-analyzer.mts';
-import type { AddFunc } from '@/cfg/types.mts';
+import { addJSMinimizer } from './optimization/add-js-minimizer';
+import { addCSSMinimizer } from './optimization/add-css-minimizer';
+import { addCodeSplitting } from './optimization/add-code-splitting';
+import { addBundleAnalyzerPlugin } from './plugins/add-plugin-bundle-analyzer';
+import type { AddFunc } from '@/cfg/types';
 
 export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
   const { sourceMap, outputPath, isDev, minimize = true } = cfg.config;

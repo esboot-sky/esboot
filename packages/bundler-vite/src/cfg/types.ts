@@ -1,5 +1,5 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
-import type { CustomViteConfiguration } from '@/types.mts';
+import type { CustomViteConfiguration } from '@/types';
 
 export type AddFunc<Options = Record<string, string>> = (
   cfg: ConfigurationInstance,
