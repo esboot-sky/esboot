@@ -23,12 +23,13 @@ export async function mockBridge(
     ? relative(cwd, sampleFile)
     : join(folderPath, 'bridge-mock-sample.js');
 
-  exec(
-    `node ${require.resolve('@dz-web/bridge-mock/bin')} -f "${filePath}" -s "${samplePath}"`,
-    {
-      options: {
-        cwd,
-      },
-    }
+  const bridgeMockBinPath = await import.meta.resolve(
+    '@dz-web/bridge-mock/bin'
   );
+
+  exec(`node ${bridgeMockBinPath} -f "${filePath}" -s "${samplePath}"`, {
+    options: {
+      cwd,
+    },
+  });
 }

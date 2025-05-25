@@ -1,4 +1,4 @@
-import { type Options } from 'tsup';
+import type { Options } from 'tsup';
 
 interface Config {
   base?: Options;
@@ -18,7 +18,7 @@ export const defineConfig = (config: Config = {}): Options => {
 
   const devConfig: Options = {
     watch: true,
-    format: ['cjs'],
+    format: ['esm'],
     sourcemap: true,
     ...baseConfig,
     ...dev,
@@ -26,7 +26,7 @@ export const defineConfig = (config: Config = {}): Options => {
 
   const prodConfig: Options = {
     minify: true,
-    format: ['cjs', 'esm'],
+    format: ['esm'],
     ...baseConfig,
     ...prod,
   };

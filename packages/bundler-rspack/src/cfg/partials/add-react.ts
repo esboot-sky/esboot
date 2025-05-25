@@ -9,13 +9,6 @@ export const addReact: AddFunc = async (cfg, rspackCfg) => {
   rspackCfg.module.rules.push({
     test: /\.tsx$/,
     use: [
-      // custom loader transform react
-      // {
-      //   loader: resolve(__dirname, 'loaders/stylename/index.js'),
-      //   options: {
-      //     config: cfg.config,
-      //   },
-      // },
       {
         loader: 'builtin:swc-loader',
         options: {
