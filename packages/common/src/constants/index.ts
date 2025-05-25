@@ -3,7 +3,7 @@ import { resolve, join } from 'node:path';
 export * from './environment';
 
 export const getUserConfigFile = (path: string) =>
-  resolve(path || process.cwd(), './.esbootrc.ts');
+  resolve(path || process.cwd(), './.esbootrc.js');
 
 export const isWins = process.platform === 'win32';
 export const DEFAULT_OUTPUT_PATH = 'dist';

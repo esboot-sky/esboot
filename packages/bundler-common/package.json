@@ -7,9 +7,10 @@
   ],
   "license": "ISC",
   "author": "Roc",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "files": [
     "dist"
   ],

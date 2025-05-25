@@ -1,7 +1,7 @@
 import { JsMinifier } from '@dz-web/esboot-common/constants';
 import { merge } from '@dz-web/esboot-common/lodash';
 
-import type { AddFunc } from '@/cfg/types.mts';
+import type { AddFunc } from '@/cfg/types';
 
 export const addJSMinimizer: AddFunc = async (cfg, viteCfg) => {
   const { jsMinifier = JsMinifier.esbuild, jsMinifierOptions = {} } =

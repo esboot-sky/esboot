@@ -3,7 +3,6 @@ import { existsSync } from 'node:fs';
 import { exit } from 'node:process';
 import { ip } from 'address';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
-import { require } from '@dz-web/esboot-common/helpers';
 
 import { isFunction, pick, merge } from '@dz-web/esboot-common/lodash';
 import {
@@ -163,7 +162,7 @@ export default new (class Cfg {
 
     const moduleUrl = reload ? `${filePath}?t=${Date.now()}` : filePath;
 
-    const { default: getCfg } = require(moduleUrl);
+    const { default: getCfg } = await import(moduleUrl);
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
     const { isDev } = this.#config;
 

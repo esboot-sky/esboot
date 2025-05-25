@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import crypto from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 
 const fileCache = new Map();
 
@@ -11,16 +12,17 @@ function calculateContentHash(content) {
   }
 }
 
-module.exports = (opts = { useTailwindcss: true }) => {
+export default async (opts = { useTailwindcss: true }) => {
   const { useTailwindcss } = opts;
   let tailwindCssContent;
   let tailwindCssPath;
   let postcss;
 
   if (useTailwindcss) {
-    tailwindCssPath = require.resolve('tailwindcss/index.css');
+    tailwindCssPath = fileURLToPath(import.meta.resolve('tailwindcss/index.css'));
+    console.log('tailwindCssPath', tailwindCssPath);
     tailwindCssContent = fs.readFileSync(tailwindCssPath, 'utf8');
-    postcss = require('postcss');
+    postcss = await import('postcss');
   }
 
   return {
@@ -102,4 +104,4 @@ module.exports = (opts = { useTailwindcss: true }) => {
   };
 };
 
-module.exports.postcss = true;
+export const postcss = true;
