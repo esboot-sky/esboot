@@ -1,4 +1,4 @@
-import { pathExistsSync } from 'fs-extra';
+import { pathExistsSync } from 'fs-extra/esm';
 import { join, dirname } from 'node:path';
 
 import { isWins } from '../constants';

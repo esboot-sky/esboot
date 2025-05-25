@@ -21,7 +21,7 @@ import {
   pluginHooksDict,
 } from '@/plugin';
 
-import pkg from '../../package.json' assert { type: 'json' };
+import pkg from '../../package.json' with { type: 'json' };
 
 const cwd = process.cwd();
 
