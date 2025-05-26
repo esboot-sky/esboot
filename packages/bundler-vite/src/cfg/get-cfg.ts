@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import { cacheDir, type Environment } from '@dz-web/esboot-common';
 import {
   addPostcssPluginESBoot,
+  addPostcssPluginTailwindcss,
   addDefine,
   addPostcssPluginPx2rem,
 } from '@dz-web/esboot-bundler-common';
@@ -15,7 +16,6 @@ import { addDevServer } from './partials/add-dev-server';
 import { addLangJsonPicker } from '../plugins/add-plugin-lang-json-picker';
 import { addCopyPlugin } from '../plugins/add-plugin-copy';
 import { addSvgrPlugin } from '../plugins/add-plugin-svgr';
-import { addTailwindPlugin } from '../plugins/add-plugin-tailwind';
 
 import { addBuildCfg } from './build/add-build-cfg';
 
@@ -48,6 +48,7 @@ export const getCfg = async (
       postcss: {
         plugins: [
           await addPostcssPluginESBoot(cfg),
+          await addPostcssPluginTailwindcss(cfg),
           await addPostcssPluginPx2rem(cfg),
         ].filter(Boolean),
       },
@@ -61,7 +62,6 @@ export const getCfg = async (
   await addDevServer(cfg, viteCfg);
   await addResolve(cfg, viteCfg);
   
-  await addTailwindPlugin(cfg, viteCfg);
   await addSvgrPlugin(cfg, viteCfg);
   await addCopyPlugin(cfg, viteCfg);
   await addLangJsonPicker(cfg, viteCfg);
