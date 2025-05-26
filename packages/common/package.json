@@ -2,6 +2,8 @@
   "name": "@dz-web/esboot-common",
   "version": "3.0.40",
   "description": "",
+  "license": "ISC",
+  "author": "Roc",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -42,7 +44,5 @@
     "lodash": "^4.17.21"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

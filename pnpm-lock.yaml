@@ -309,6 +309,9 @@ importers:
       '@dz-web/esboot':
         specifier: workspace:*
         version: link:../esboot
+      postcss:
+        specifier: ^8.4.47
+        version: 8.5.3
 
   packages/bundler-rspack:
     dependencies:
