@@ -31,7 +31,7 @@ export const pluginHooksDict = new (class PluginHooksDict {
 export const preparePlugins = (cfg: Configuration) => {
   const { plugins = [] } = cfg;
 
-  plugins.forEach((plugin) => {
+  for (const plugin of plugins) {
     const { key, onActivated, ...hooks } = plugin;
 
     if (!key) {
@@ -48,7 +48,7 @@ export const preparePlugins = (cfg: Configuration) => {
         );
       }
     }
-  });
+  }
 };
 
 export function definePlugin(cfg: Plugin): Plugin {
