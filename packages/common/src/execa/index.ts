@@ -1,5 +1,3 @@
-const importExeca = import('execa');
-
 interface ExecOptions {
   options?: {
     cwd?: string;
@@ -12,7 +10,7 @@ export const exec = async (
   args: string,
   { options = {}, onError }: ExecOptions = {}
 ) => {
-  const { $ } = await importExeca;
+  const { $ } = await import('execa');
 
   try {
     const result = await $({
