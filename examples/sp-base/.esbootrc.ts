@@ -1,9 +1,9 @@
 import { defineConfig, definePlugin, PluginHooks } from '@dz-web/esboot';
-import { BundlerVite as Bundler } from '@dz-web/esboot-bundler-vite';
-// import pluginVitest from '@dz-web/esboot-plugin-vitest';
-// import pluginDocs from '@dz-web/esboot-plugin-docs';
+import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions } from '@dz-web/esboot-bundler-vite';
+import pluginVitest from '@dz-web/esboot-plugin-vitest';
+import pluginDocs from '@dz-web/esboot-plugin-docs';
 
-export default defineConfig({
+export default defineConfig<BundlerOptions>({
   plugins: [
     // pluginDocs(),
     // pluginVitest(),

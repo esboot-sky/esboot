@@ -4,6 +4,7 @@
   "description": "",
   "type": "module",
   "keywords": [
+    "esboot",
     "webpack",
     "react"
   ],
