@@ -26,7 +26,7 @@ export interface Px2rem {
   unitPrecision?: number;
   propWhiteList?: string[];
   propBlackList?: string[];
-  exclude?: any;
+  exclude?: string[];
   selectorBlackList?: string[];
   ignoreIdentifier?: boolean | string;
   replace?: boolean;
@@ -113,6 +113,6 @@ export type Configuration<BundlerOptions = unknown> = {
     }[];
     alias: Record<string, string>;
   } & (
-    | { isSP: true; MPConfiguration?: never }
+    | { isSP: true; MPConfiguration: never }
     | { isSP: false; MPConfiguration: ConfigurationForMP }
   );
