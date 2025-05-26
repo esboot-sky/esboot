@@ -2,9 +2,6 @@
   "name": "@dz-web/esboot-bundler-common",
   "version": "3.0.40",
   "description": "",
-  "keywords": [
-    "webpack"
-  ],
   "license": "ISC",
   "author": "Roc",
   "type": "module",
@@ -30,7 +27,8 @@
     "glob": "^11.0.0"
   },
   "devDependencies": {
-    "@dz-web/esboot": "workspace:*"
+    "@dz-web/esboot": "workspace:*",
+    "postcss": "^8.4.47"
   },
   "peerDependencies": {
     "@dz-web/esboot": "workspace:*"

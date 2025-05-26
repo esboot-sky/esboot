@@ -1,6 +1,6 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
 
-type AddDefineRes = Record<string, any>;
+type AddDefineRes = Record<string, unknown>;
 export const addDefine = (cfg: ConfigurationInstance): AddDefineRes => {
   const { version, define = {} } = cfg.config;
 
