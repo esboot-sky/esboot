@@ -1,4 +1,10 @@
-import { Environment } from '@dz-web/esboot-common/constants';
+import {
+  Environment,
+  JsMinifier,
+  CSSMinifier,
+  PLATFORMS,
+  PAGE_TYPE,
+} from '@dz-web/esboot-common/constants';
 
 import { DEFAULT_DEV_PORT } from '@dz-web/esboot-common/constants';
 import type { Configuration } from './types';
@@ -7,6 +13,13 @@ export const defaultCfg: Configuration = {
   isDev: true,
   isSP: false,
   rootPath: '',
+  MPConfiguration: {
+    pageType: PAGE_TYPE.browser,
+    platform: PLATFORMS.PC,
+    configRootPathOfPlatfrom: '',
+    configRootPathOfPageType: '',
+    contentRootPath: '',
+  },
   configRootPath: '',
   configJSPath: '',
   env: Environment.dev,
@@ -31,6 +44,14 @@ export const defaultCfg: Configuration = {
   useTailwindcss: true,
   isCIBuild: false,
   legacy: false,
+  define: {},
+  copy: {},
+  jsMinifier: JsMinifier.terser,
+  jsMinifierOptions: {},
+  cssMinifier: CSSMinifier.cssnano,
+  cssMinifierOptions: {},
+  useLangJsonPicker: false,
+  sourceMap: false,
   server: {
     host: '0.0.0.0',
     open: false,
