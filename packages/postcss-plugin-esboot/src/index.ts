@@ -24,7 +24,7 @@ export default async (opts = { useTailwindcss: true }) => {
     tailwindCssPath = fileURLToPath(
       import.meta.resolve('tailwindcss/index.css')
     );
-    console.log('tailwindCssPath', tailwindCssPath);
+    
     tailwindCssContent = fs.readFileSync(tailwindCssPath, 'utf8');
     postcss = await import('postcss');
   }
