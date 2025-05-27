@@ -166,7 +166,6 @@ export default new (class Cfg {
     const { default: getCfg } = await jiti(filePath);
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
 
-    console.log(userCfg, 'getCfg');
     const { isDev } = this.#config;
 
     this.#config = merge(
