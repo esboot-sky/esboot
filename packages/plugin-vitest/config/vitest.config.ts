@@ -4,14 +4,11 @@ import { Environment } from '@dz-web/esboot-common/constants';
 import { omit } from '@dz-web/esboot-common/lodash';
 import { getCfg } from '@dz-web/esboot-bundler-vite';
 import { join } from 'node:path';
+import { defineConfig, configDefaults, mergeConfig } from 'vitest/config';
 
 import { alias } from '../dist';
 
 export default async () => {
-  const { defineConfig, configDefaults, mergeConfig } = await import(
-    'vitest/config'
-  );
-
   const root = process.cwd();
 
   processPrepare();
