@@ -2,14 +2,22 @@
   "name": "@dz-web/postcss-plugin-esboot",
   "version": "3.0.38",
   "description": "",
-  "main": "lib/index.js",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",  
   "files": [
-    "lib"
+    "dist"
   ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc",
+  "scripts": {
+    "build": "tsup",
+    "dev": "cross-env NODE_ENV=development tsup",
+    "prepublishOnly": "pnpm run build"
+  },
   "dependencies": {
     "tailwindcss": "^4.1.7"
   },

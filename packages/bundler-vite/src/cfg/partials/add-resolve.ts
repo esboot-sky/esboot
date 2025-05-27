@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 import type { Configuration } from '@dz-web/esboot';
 
-import type { AddFunc } from '@/cfg/types.mts';
+import type { AddFunc } from '@/cfg/types';
 
 export const addResolve: AddFunc = async (cfg, viteCfg) => {
   const { alias, cwd } = cfg.config;

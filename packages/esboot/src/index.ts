@@ -18,7 +18,7 @@ export { definePlugin } from './plugin';
 // Scripts
 export * from './scripts/write-multi-platform';
 
-// constants
+// Constants
 export {
   PAGE_TYPE,
   PLATFORMS,

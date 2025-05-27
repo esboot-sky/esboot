@@ -5,10 +5,10 @@ import {
 } from '@dz-web/esboot-bundler-common';
 import { join } from 'node:path';
 
-import { loadHtmlContent } from '@/helpers/load-html-content.mts';
+import { loadHtmlContent } from '@/helpers/load-html-content';
 
-import type { SharedConfig } from '@/types.mts';
-import type { AddFunc } from '@/cfg/types.mts';
+import type { SharedConfig } from '@/types';
+import type { AddFunc } from '@/cfg/types';
 
 export const addEntry: AddFunc = async (cfg, viteCfg) => {
   const { cwd, MPConfiguration, isSP, isDev } = cfg.config;

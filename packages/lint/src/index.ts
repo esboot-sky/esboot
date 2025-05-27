@@ -3,7 +3,7 @@ import { exec } from '@dz-web/esboot-common/execa';
 import { info, error } from '@dz-web/esboot-common/helpers';
 import {
   copySync,
-  existsSync,
+  pathExistsSync,
   ensureDirSync,
 } from '@dz-web/esboot-common/fs-extra';
 
@@ -20,7 +20,7 @@ export async function lint({ cwd }: { cwd: string }) {
 
 export function huskySetup({ configRootPath }: { configRootPath: string }) {
   const huskyCfgTarget = resolve(configRootPath, '.husky');
-  if (!existsSync(huskyCfgTarget)) {
+  if (!pathExistsSync(huskyCfgTarget)) {
     ensureDirSync(huskyCfgTarget);
     copySync(resolve(__dirname, '../config/.husky'), huskyCfgTarget);
   }

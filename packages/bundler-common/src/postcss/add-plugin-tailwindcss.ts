@@ -1,9 +1,10 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
 
-export function addPostcssPluginTailwindcss(cfg: ConfigurationInstance) {
+export const addPostcssPluginTailwindcss = async (
+  cfg: ConfigurationInstance
+) => {
   const { useTailwindcss } = cfg.config;
 
   if (!useTailwindcss) return false;
-
-  return require('@tailwindcss/postcss');
-}
+  return import('@tailwindcss/postcss').then(({ default: plugin }) => plugin());
+};

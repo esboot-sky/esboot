@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import fse from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import { root } from './utils';
 import { activateSidebar } from './sidebar';
 

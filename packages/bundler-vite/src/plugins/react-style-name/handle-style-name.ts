@@ -1,5 +1,6 @@
 import { resolve } from 'node:path';
-import { readFileSync } from '@dz-web/esboot-common/fs-extra';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 interface StyleImport {
   statement: string;
   prefixStatement: string;
@@ -86,7 +87,10 @@ export function importStyleNameTransformer(source: string, inline = true) {
   if (inline) {
     if (!transformerSource) {
       transformerSource = readFileSync(
-        resolve(__dirname, '../static/transformStyleNameCreateElement.js')
+        resolve(
+          fileURLToPath(import.meta.url),
+          '../plugins/react-style-name/transformStyleNameCreateElement.js'
+        )
       ).toString();
     }
 

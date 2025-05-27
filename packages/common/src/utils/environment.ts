@@ -4,6 +4,10 @@ export const isTestEnv = () => {
   return process.env.NODE_ENV === Environment.test;
 };
 
+export const isDebug = () => {
+  return process.env.DEBUG === 'true';
+};
+
 export const isDevEnv = () => {
   return process.env.NODE_ENV === Environment.dev;
 };

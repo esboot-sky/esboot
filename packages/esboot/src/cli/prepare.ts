@@ -1,7 +1,4 @@
-import esbuild from 'esbuild';
 import { FRAMEWORK_NAME, MIN_NODE_VERSION } from '@/constants/node';
-
-import { register, clearFiles } from '@/helpers/register';
 
 function checkNodeVersion() {
   const v = Number.parseInt(process.version.slice(1));
@@ -25,17 +22,8 @@ function setNoDeprecation() {
   process.noDeprecation = '1';
 }
 
-export function registerTypescript() {
-  register({
-    implementor: esbuild,
-  });
-  clearFiles();
-}
-
 export const processPrepare = () => {
   checkNodeVersion();
   setNodeTitle();
   setNoDeprecation();
-
-  registerTypescript();
 };

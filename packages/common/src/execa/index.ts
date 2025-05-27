@@ -1,18 +1,16 @@
-const importExeca = import('execa');
-
 interface ExecOptions {
   options?: {
     cwd?: string;
-    [key: string]: unknown;
+    [key: string]: any;
   };
-  onError?: (error: unknown) => void;
+  onError?: (error: any) => void;
 }
 
 export const exec = async (
   args: string,
   { options = {}, onError }: ExecOptions = {}
 ) => {
-  const { $ } = await importExeca;
+  const { $ } = await import('execa');
 
   try {
     const result = await $({

@@ -1,9 +1,9 @@
 import { mergeFrameworkBundles } from '@dz-web/esboot-bundler-common';
 
-import { CodeSplittingType } from '@/types.mts';
+import { CodeSplittingType } from '@/types';
 
-import type { BundlerViteOptions } from '@/types.mts';
-import type { AddFunc } from '@/cfg/types.mts';
+import type { BundlerViteOptions } from '@/types';
+import type { AddFunc } from '@/cfg/types';
 
 export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
   const { bundlerOptions } = cfg.config;

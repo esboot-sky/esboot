@@ -6,7 +6,7 @@ import {
   formatVariableForStyleImports,
   importStyleNameTransformer,
   applyStyleNameTransformer,
-} from './handle-style-name.mts';
+} from './handle-style-name';
 
 interface Options {
   reactVariableName?: string;

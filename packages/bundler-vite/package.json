@@ -1,12 +1,13 @@
 {
   "name": "@dz-web/esboot-bundler-vite",
-  "version": "3.0.40",
+  "version": "4.0.0-alpha.1",
   "description": "",
   "license": "ISC",
   "author": "Roc",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "files": [
     "dist",
     "patches",
@@ -43,12 +44,12 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./transformStyleNameCreateElement": {
       "types": "./dist/plugins/react-style-name/transformStyleNameCreateElement.d.ts",
-      "import": "./dist/plugins/react-style-name/transformStyleNameCreateElement.mjs",
+      "import": "./dist/plugins/react-style-name/transformStyleNameCreateElement.js",
       "default": "./dist/plugins/react-style-name/transformStyleNameCreateElement.js"
     },
     "./package.json": "./package.json"
