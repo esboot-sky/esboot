@@ -2,6 +2,7 @@ import { resolve, join } from 'node:path';
 import { existsSync } from 'node:fs';
 import { exit } from 'node:process';
 import { ip } from 'address';
+import { createJiti } from 'jiti';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
 
 import { isFunction, pick, merge } from '@dz-web/esboot-common/lodash';
@@ -17,6 +18,8 @@ import { defaultCfg } from './default-cfg';
 import type { Configuration, ConfigurationForMP } from './types';
 
 import pkg from '../../package.json' with { type: 'json' };
+
+const jiti = createJiti(import.meta.url);
 
 export default new (class Cfg {
   #config: Configuration = defaultCfg;
@@ -152,7 +155,7 @@ export default new (class Cfg {
     Object.assign(this.#config, cfg);
   };
 
-  loadConfigFile = async (reload = false) => {
+  loadConfigFile = async () => {
     const filePath = getUserConfigFile(this.#config.cwd);
 
     if (!existsSync(filePath)) {
@@ -160,10 +163,10 @@ export default new (class Cfg {
       exit(1);
     }
 
-    const moduleUrl = reload ? `${filePath}?t=${Date.now()}` : filePath;
-
-    const { default: getCfg } = await import(moduleUrl);
+    const { default: getCfg } = await jiti(filePath);
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
+
+    console.log(userCfg, 'getCfg');
     const { isDev } = this.#config;
 
     this.#config = merge(
