@@ -10,7 +10,7 @@ import pluginDocs from '@dz-web/esboot-plugin-docs';
 export default defineConfig<BundlerOptions>({
   plugins: [
     // pluginDocs(),
-    // pluginVitest(),
+    pluginVitest(),
     definePlugin({
       key: 'test1',
       // onActivated: () => {

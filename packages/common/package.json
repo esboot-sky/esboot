@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "cross-spawn": "^7.0.6",
-    "execa": "^9.5.3",
+    "execa": "^9.6.0",
     "fs-extra": "^11.3.0",
     "kleur": "^4.1.5",
     "lodash": "^4.17.21"
