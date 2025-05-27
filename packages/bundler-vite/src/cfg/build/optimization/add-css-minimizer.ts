@@ -1,6 +1,6 @@
 import { CSSMinifier } from '@dz-web/esboot-common/constants';
 
-import type { AddFunc } from '@/cfg/types.mts';
+import type { AddFunc } from '@/cfg/types';
 
 export const addCSSMinimizer: AddFunc = async (cfg, viteCfg) => {
   const { cssMinifier = CSSMinifier.esbuild, cssMinifierOptions = {} } =

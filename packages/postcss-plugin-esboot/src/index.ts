@@ -2,9 +2,11 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
+import type { Root, Result, Node } from 'postcss';
+
 const fileCache = new Map();
 
-function calculateContentHash(content) {
+function calculateContentHash(content: string) {
   try {
     return crypto.createHash('md5').update(content, 'utf8').digest('hex');
   } catch (error) {
@@ -14,12 +16,15 @@ function calculateContentHash(content) {
 
 export default async (opts = { useTailwindcss: true }) => {
   const { useTailwindcss } = opts;
-  let tailwindCssContent;
-  let tailwindCssPath;
-  let postcss;
+  let tailwindCssContent: string;
+  let tailwindCssPath: string;
+  let postcss: typeof import('postcss');
 
   if (useTailwindcss) {
-    tailwindCssPath = fileURLToPath(import.meta.resolve('tailwindcss/index.css'));
+    tailwindCssPath = fileURLToPath(
+      import.meta.resolve('tailwindcss/index.css')
+    );
+    
     tailwindCssContent = fs.readFileSync(tailwindCssPath, 'utf8');
     postcss = await import('postcss');
   }
@@ -27,7 +32,7 @@ export default async (opts = { useTailwindcss: true }) => {
   return {
     postcssPlugin: 'postcss-plugin-esboot',
 
-    Once(root, { result }) {
+    Once(root: Root, { result }: { result: Result }) {
       if (useTailwindcss && tailwindCssContent) {
         try {
           const cssContent = root.toString();
@@ -45,7 +50,7 @@ export default async (opts = { useTailwindcss: true }) => {
               if (cachedData && cachedData.hash === currentHash) {
                 try {
                   root.removeAll();
-                  cachedData.processedRoot.each((node) => {
+                  cachedData.processedRoot.each((node: Node) => {
                     root.append(node.clone());
                   });
 
@@ -82,10 +87,10 @@ export default async (opts = { useTailwindcss: true }) => {
                     hash: currentHash,
                     processedRoot: root.clone(),
                   });
-                } catch (cacheError) {
+                } catch (cacheError: unknown) {
                   console.warn(
                     '⚠️ Update esboot cache failed:',
-                    cacheError.message
+                    (cacheError as Error).message
                   );
                 }
               }

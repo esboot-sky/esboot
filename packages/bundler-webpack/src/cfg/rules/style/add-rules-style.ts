@@ -38,9 +38,9 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
     );
   }
 
-  const postcssPluginESBoot = addPostcssPluginESBoot(cfg);
-  const postcssPluginPx2rem = addPostcssPluginPx2rem(cfg);
-  const postcssPluginTailwindcss = addPostcssPluginTailwindcss(cfg);
+  const postcssPluginESBoot = await addPostcssPluginESBoot(cfg);
+  const postcssPluginPx2rem = await addPostcssPluginPx2rem(cfg);
+  const postcssPluginTailwindcss = await addPostcssPluginTailwindcss(cfg);
 
   const styleLoader = getStyleLoader();
   const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();

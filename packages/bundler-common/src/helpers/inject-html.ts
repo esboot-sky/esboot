@@ -3,8 +3,8 @@ import { existsSync } from 'node:fs';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
 import type { ConfigurationInstance } from '@dz-web/esboot';
 
-const getVersion = (cwd: string) => {
-  const pkg = require(join(cwd, 'package.json'));
+const getVersion = async (cwd: string) => {
+  const pkg = await import(join(cwd, 'package.json'), { with: { type: 'json' } });
   return pkg.version;
 };
 
@@ -18,7 +18,7 @@ export const injectHtml = async (
 
   const isConfigJSExists = existsSync(configJSPath);
 
-  const version = BUILD_VERSION || getVersion(cwd);
+  const version = BUILD_VERSION || (await getVersion(cwd));
   const isInjectBridgeMock = !isBrowser && isDev;
 
   const importCfgScript = isConfigJSExists

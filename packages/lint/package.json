@@ -1,11 +1,13 @@
 {
   "name": "@dz-web/esboot-lint",
-  "version": "3.0.40",
+  "version": "4.0.0-alpha.1",
   "description": "",
   "keywords": [],
   "license": "ISC",
   "author": "",
+  "type": "module",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup",
@@ -51,7 +53,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./eslint": {

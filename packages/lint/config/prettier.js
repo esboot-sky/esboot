@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   $schema: 'http://json.schemastore.org/prettierrc',
   bracketSpacing: true,
   printWidth: 120,
@@ -10,8 +10,8 @@ module.exports = {
   endingPosition: 'absolute-with-indent',
   customFunctions: ['clsx', 'cn', 'cva'],
   plugins: [
-    require.resolve('prettier-plugin-tailwindcss'),
-    require.resolve('prettier-plugin-classnames'),
-    require.resolve('prettier-plugin-merge'),
+    import.meta.resolve('prettier-plugin-tailwindcss'),
+    import.meta.resolve('prettier-plugin-classnames'),
+    import.meta.resolve('prettier-plugin-merge'),
   ],
 };

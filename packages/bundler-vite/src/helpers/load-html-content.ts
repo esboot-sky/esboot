@@ -1,6 +1,6 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
-import type { SharedConfig } from '@/types.mts';
+import type { SharedConfig } from '@/types';
 import { defaultTemplate } from '@dz-web/esboot-bundler-common';
 
 const templateContentCache = new Map<string, string>();

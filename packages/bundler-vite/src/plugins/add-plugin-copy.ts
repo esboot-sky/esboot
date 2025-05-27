@@ -1,7 +1,7 @@
 import { normalizePath } from 'vite';
 import { pathExistsSync } from '@dz-web/esboot-common/fs-extra';
 
-import type { AddFunc } from '@/cfg/types.mts';
+import type { AddFunc } from '@/cfg/types';
 
 export const addCopyPlugin: AddFunc = async (cfg, viteCfg) => {
   const { staticPathList } = cfg.config;

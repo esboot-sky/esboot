@@ -1,4 +1,4 @@
-import type { AddFunc } from '@/cfg/types.mts';
+import type { AddFunc } from '@/cfg/types';
 
 export const addSvgrPlugin: AddFunc = async (cfg, viteCfg) => {
   const { svgr, svgrOptions = {} } = cfg.config;

@@ -1,9 +1,10 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
+import postcssPluginESBoot from '@dz-web/postcss-plugin-esboot';
 
-export function addPostcssPluginESBoot(cfg: ConfigurationInstance) {
+export const addPostcssPluginESBoot = async (cfg: ConfigurationInstance) => {
   const { useTailwindcss } = cfg.config;
 
-  return require('@dz-web/postcss-plugin-esboot')({
+  return postcssPluginESBoot({
     useTailwindcss,
   });
-}
+};

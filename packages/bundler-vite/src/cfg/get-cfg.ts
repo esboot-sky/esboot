@@ -4,23 +4,23 @@ import react from '@vitejs/plugin-react';
 import { cacheDir, type Environment } from '@dz-web/esboot-common';
 import {
   addPostcssPluginESBoot,
+  addPostcssPluginTailwindcss,
   addDefine,
   addPostcssPluginPx2rem,
 } from '@dz-web/esboot-bundler-common';
-import { addEntry } from './partials/add-entry.mts';
-import { addStyle } from './partials/add-style/index.mts';
-import { addResolve } from './partials/add-resolve.mts';
-import { addDevServer } from './partials/add-dev-server.mts';
+import { addEntry } from './partials/add-entry';
+import { addStyle } from './partials/add-style';
+import { addResolve } from './partials/add-resolve';
+import { addDevServer } from './partials/add-dev-server';
 
-import { addLangJsonPicker } from '../plugins/add-plugin-lang-json-picker.mts';
-import { addCopyPlugin } from '../plugins/add-plugin-copy.mts';
-import { addSvgrPlugin } from '../plugins/add-plugin-svgr.mts';
-import { addTailwindPlugin } from '../plugins/add-plugin-tailwind.mts';
+import { addLangJsonPicker } from '../plugins/add-plugin-lang-json-picker';
+import { addCopyPlugin } from '../plugins/add-plugin-copy';
+import { addSvgrPlugin } from '../plugins/add-plugin-svgr';
 
-import { addBuildCfg } from './build/add-build-cfg.mts';
+import { addBuildCfg } from './build/add-build-cfg';
 
 import type { ConfigurationInstance } from '@dz-web/esboot';
-import type { BundlerViteOptions, CustomViteConfiguration } from '../types.mts';
+import type { BundlerViteOptions, CustomViteConfiguration } from '../types';
 
 export const getCfg = async (
   cfg: ConfigurationInstance,
@@ -47,8 +47,9 @@ export const getCfg = async (
       },
       postcss: {
         plugins: [
-          addPostcssPluginESBoot(cfg),
-          addPostcssPluginPx2rem(cfg),
+          await addPostcssPluginESBoot(cfg),
+          await addPostcssPluginTailwindcss(cfg),
+          await addPostcssPluginPx2rem(cfg),
         ].filter(Boolean),
       },
     },
@@ -56,12 +57,11 @@ export const getCfg = async (
       pages: {},
     },
   };
-  
+
   await addEntry(cfg, viteCfg);
   await addDevServer(cfg, viteCfg);
   await addResolve(cfg, viteCfg);
-
-  await addTailwindPlugin(cfg, viteCfg);
+  
   await addSvgrPlugin(cfg, viteCfg);
   await addCopyPlugin(cfg, viteCfg);
   await addLangJsonPicker(cfg, viteCfg);
