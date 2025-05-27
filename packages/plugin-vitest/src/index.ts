@@ -20,6 +20,10 @@ export default (): Plugin => {
     [PluginHooks.registerCommands]: (cfg) => {
       const { cwd } = cfg;
 
+      console.log(
+        `${searchCommand(join(__dirname, '../'), 'vitest')}`,
+        'vitest'
+      );
       return [
         {
           name: 'vitest',

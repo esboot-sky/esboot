@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
 This is a node monorepo project.
 Use typescript to write code.
 Use vitest to write test case.
