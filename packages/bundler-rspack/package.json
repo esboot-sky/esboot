@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@alitajs/postcss-plugin-px2rem": "^0.0.1",
-    "@dz-web/babel-plugin-react-css-modules": "^6.11.4",
+    "@dz-web/babel-plugin-react-css-modules": "^6.11.7",
     "@dz-web/esboot-bundler-common": "workspace:*",
     "@dz-web/esboot-common": "workspace:*",
     "@rspack/core": "^1.0.8",

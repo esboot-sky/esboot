@@ -6,7 +6,7 @@ import {
 } from '@dz-web/esboot-common/helpers';
 import { exec } from '@dz-web/esboot-common/execa';
 
-const getAbsolutePath = (p: string) => baseGetAbsolutePath(p, require.resolve);
+const getAbsolutePath = (p: string) => baseGetAbsolutePath(p, import.meta.resolve);
 
 export const alias = {
   vitest: getAbsolutePath('vitest'),
@@ -20,6 +20,10 @@ export default (): Plugin => {
     [PluginHooks.registerCommands]: (cfg) => {
       const { cwd } = cfg;
 
+      console.log(
+        `${searchCommand(join(__dirname, '../'), 'vitest')}`,
+        'vitest'
+      );
       return [
         {
           name: 'vitest',

@@ -13,12 +13,12 @@ export const defineConfig = (config: Config = {}): Options => {
     entry: ['src/index.ts'],
     clean: false,
     dts: true,
+    format: ['esm'],
     ...base,
   };
 
   const devConfig: Options = {
     watch: true,
-    format: ['esm'],
     sourcemap: true,
     ...baseConfig,
     ...dev,
@@ -26,7 +26,6 @@ export const defineConfig = (config: Config = {}): Options => {
 
   const prodConfig: Options = {
     minify: true,
-    format: ['esm'],
     ...baseConfig,
     ...prod,
   };

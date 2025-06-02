@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 const { resolve } = require('../helpers/resolver-alias');
 const {
   extractPlatformAndType,
