@@ -1,5 +1,5 @@
-import { pathExistsSync } from 'fs-extra/esm';
 import { join, dirname } from 'node:path';
+import { pathExistsSync } from 'fs-extra/esm';
 
 import { isWins } from '../constants';
 
@@ -22,7 +22,7 @@ const hyphen = isWins ? '\\' : '/';
 // requireResolve: 转发require.resolve
 export function getAbsolutePath(
   libName: string,
-  requireResolve: typeof require.resolve
+  requireResolve: any 
 ) {
   try {
     return dirname(requireResolve(join(libName, 'package.json')));
