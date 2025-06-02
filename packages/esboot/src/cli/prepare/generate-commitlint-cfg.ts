@@ -1,6 +1,7 @@
 import { join } from 'node:path';
+import { writeFile } from 'node:fs/promises';
 
-import { outputFile, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
+import { ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import { info, error } from '@dz-web/esboot-common/helpers';
 
@@ -10,7 +11,7 @@ export function generateCommitlintCfg() {
   const outoutPath = join(cacheDir, 'commitlint/index.js');
 
   ensureFileSync(outoutPath);
-  outputFile(
+  writeFile(
     outoutPath,
     `module.exports=${JSON.stringify(commitlintCfg, null, 2)}`
   )

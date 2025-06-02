@@ -1,5 +1,3 @@
-const path = require('path');
-const { resolve } = require('../helpers/resolver-alias');
 const {
   extractPlatformAndType,
 } = require('../helpers/extract-platform-and-type');
@@ -56,7 +54,7 @@ module.exports = {
         const { platform: currPlatform } = currInfo || {};
         const libs = options[optsIdx[currPlatform]];
 
-        if (libs && libs.length) {
+        if (libs?.length) {
           const splitPath = importPath.split('/');
           const pkgPath =
             splitPath[0][0] === '@'
@@ -64,7 +62,7 @@ module.exports = {
               : splitPath[0];
 
           // console.log(pkgPath, '<-- pkgPath');
-          libs.forEach((lib) => {
+          for (const lib of libs) {
             if (pkgPath === lib) {
               context.report({
                 node,
