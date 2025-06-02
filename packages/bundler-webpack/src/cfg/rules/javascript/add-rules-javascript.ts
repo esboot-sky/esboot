@@ -1,5 +1,8 @@
 import os from 'node:os';
+import { dirname, isAbsolute } from 'node:path';
+import { isRegExp } from '@dz-web/esboot-common/lodash';
 import type { Configuration } from '@dz-web/esboot';
+import resolve from 'resolve';
 
 import type { BundlerWebpackOptions } from '@/types';
 import type { AddFunc } from '@/cfg/types';
@@ -14,7 +17,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
   options
 ) => {
   const { mfsu } = options!;
-  const { rootPath, isDev, alias, legacy, bundlerOptions } =
+  const { rootPath, isDev, alias, legacy, bundlerOptions, cwd } =
     cfg.config as Configuration<BundlerWebpackOptions>;
 
   const {
@@ -56,6 +59,47 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
     };
   };
 
+  const getExtraBabelIncludes = () => {
+    return [...extraBabelIncludes].filter(Boolean).map((item) => {
+      /**
+       * @copy from https://github.com/umijs/umi/blob/7228d9941ec76481a91cc4de81c8ad4ebcd714fc/packages/bundler-webpack/src/config/javaScriptRules.ts#L53
+       */
+      // regexp
+      if (isRegExp(item)) {
+        return item;
+      }
+
+      // handle absolute path
+      if (isAbsolute(item as string)) {
+        return item;
+      }
+
+      // resolve npm package name
+      try {
+        if ((item as string).startsWith('./')) {
+          return require.resolve(item as string, { paths: [cwd] });
+        }
+        // use resolve instead of require.resolve
+        // since require.resolve may meet the ERR_PACKAGE_PATH_NOT_EXPORTED error
+        return dirname(
+          resolve.sync(`${item as string}/package.json`, {
+            basedir: cwd,
+            // same behavior as webpack, to ensure `include` paths matched
+            // ref: https://webpack.js.org/configuration/resolve/#resolvesymlinks
+            preserveSymlinks: false,
+          })
+        );
+      } catch (e: any) {
+        if (e.code === 'MODULE_NOT_FOUND') {
+          throw new Error('Cannot resolve extraBabelIncludes: ' + item, {
+            cause: e,
+          });
+        }
+        throw e;
+      }
+    });
+  };
+
   webpackCfg.module.rules.push(
     {
       test: /\.tsx?$/,
@@ -72,7 +116,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
     },
     {
       test: /\.(js|mjs|cjs)$/,
-      include: [...extraBabelIncludes].filter(Boolean),
+      include: getExtraBabelIncludes(),
       exclude: [rootPath, /\.json$/],
       use: [
         {
