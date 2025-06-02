@@ -1,3 +1,5 @@
+import { execa } from 'execa';
+
 interface ExecOptions {
   options?: {
     cwd?: string;
@@ -10,10 +12,8 @@ export const exec = async (
   args: string,
   { options = {}, onError }: ExecOptions = {}
 ) => {
-  const { $ } = await import('execa');
-
   try {
-    const result = await $({
+    const result = await execa({
       stdio: 'inherit',
       shell: true,
       cwd: process.cwd(),

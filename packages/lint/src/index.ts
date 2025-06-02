@@ -1,4 +1,5 @@
 import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { exec } from '@dz-web/esboot-common/execa';
 import { info, error } from '@dz-web/esboot-common/helpers';
 import {
@@ -7,9 +8,11 @@ import {
   ensureDirSync,
 } from '@dz-web/esboot-common/fs-extra';
 
+const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
+
 export async function lint({ cwd }: { cwd: string }) {
   const args = process.argv.slice(3);
-  exec(`node ${require.resolve('stylelint/bin/stylelint')} **/*.scss ${args}`, {
+  exec(`node ${resolvePath('stylelint/bin/stylelint')} **/*.scss ${args}`, {
     onError: () => void 0,
   });
   // Special case for eslint
@@ -24,7 +27,7 @@ export function huskySetup({ configRootPath }: { configRootPath: string }) {
     ensureDirSync(huskyCfgTarget);
     copySync(resolve(__dirname, '../config/.husky'), huskyCfgTarget);
   }
-  exec(`node ${require.resolve('husky/lib/bin')} install config/.husky`, {
+  exec(`node ${resolvePath('husky/lib/bin')} install config/.husky`, {
     onError: (err) => {
       error(err.message);
     },
@@ -38,7 +41,7 @@ export async function execGitHooks(options: { type: string; cwd: string }) {
     case 'pre-commit':
       info('Start checking staged files...');
 
-      await exec(`node ${require.resolve('lint-staged/bin')} --cwd ${cwd}`, {
+      await exec(`node ${resolvePath('lint-staged/bin')} --cwd ${cwd}`, {
         onError: () => process.exit(1),
       });
       info('Checking staged files done.');
@@ -46,7 +49,7 @@ export async function execGitHooks(options: { type: string; cwd: string }) {
     case 'commit-msg':
       info('Start checking commit message...');
       await exec(
-        `node ${require.resolve('@commitlint/cli')} --from HEAD~1 --to HEAD --edit $1`,
+        `node ${resolvePath('@commitlint/cli')} --from HEAD~1 --to HEAD --edit $1`,
         {
           onError: () => process.exit(1),
         }

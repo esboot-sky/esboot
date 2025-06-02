@@ -6,7 +6,7 @@ import {
 } from '@dz-web/esboot-common/helpers';
 import { exec } from '@dz-web/esboot-common/execa';
 
-const getAbsolutePath = (p: string) => baseGetAbsolutePath(p, require.resolve);
+const getAbsolutePath = (p: string) => baseGetAbsolutePath(p, import.meta.resolve);
 
 export const alias = {
   vitest: getAbsolutePath('vitest'),
