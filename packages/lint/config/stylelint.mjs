@@ -6,11 +6,11 @@ export default {
   extends: [resolvePath('stylelint-config-standard')],
   plugins: [
     resolvePath('stylelint-scss'),
+    resolvePath('@stylistic/stylelint-plugin'),
   ],
   customSyntax: resolvePath('postcss-scss'),
   ignoreFiles: ['!src/**/*', 'node_modules'],
   rules: {
-    'import-notation': 'string',
     'at-rule-no-unknown': [
       true,
       {
@@ -35,7 +35,6 @@ export default {
         ],
       },
     ],
-    'scss/dollar-variable-pattern': '^[a-z][a-zA-Z0-9]*$',
     "selector-max-id": [
       1,
       {
@@ -45,73 +44,19 @@ export default {
         ]
       }
     ],
-    "selector-id-pattern": "^root$",
-    'max-nesting-depth': 3,
-    'at-rule-empty-line-before': [
-      'always',
-      {
-        except: ['blockless-after-same-name-blockless', 'first-nested'],
-        ignore: ['after-comment'],
-      },
-    ],
-    'color-function-notation': 'legacy',
-    'color-hex-length': 'short',
-    'color-no-invalid-hex': true,
-    'comment-empty-line-before': [
-      'always',
-      {
-        except: ['first-nested'],
-        ignore: ['stylelint-commands'],
-      },
-    ],
-    'comment-no-empty': true,
-    'comment-whitespace-inside': 'always',
-    'custom-property-empty-line-before': [
-      'always',
-      {
-        except: ['after-custom-property', 'first-nested'],
-        ignore: ['after-comment', 'inside-single-line-block'],
-      },
-    ],
-    'declaration-block-no-duplicate-properties': [
-      true,
-      {
-        ignore: ['consecutive-duplicates-with-different-values'],
-      },
-    ],
-    'declaration-block-no-redundant-longhand-properties': true,
-    'declaration-block-no-shorthand-property-overrides': true,
-    'declaration-block-single-line-max-declarations': 1,
-    'declaration-empty-line-before': [
-      'always',
-      {
-        except: ['after-declaration', 'first-nested'],
-        ignore: ['after-comment', 'inside-single-line-block'],
-      },
-    ],
-    'function-calc-no-unspaced-operator': true,
-    'function-linear-gradient-no-nonstandard-direction': true,
-    'function-name-case': 'lower',
-    'keyframe-declaration-no-important': true,
-    'length-zero-no-unit': true,
-    'media-feature-name-no-unknown': true,
-    'no-invalid-double-slash-comments': true,
-    'property-no-unknown': true,
     'selector-pseudo-class-no-unknown': [
       true,
       { ignorePseudoClasses: ['global', 'local'] },
     ],
-    'selector-pseudo-element-colon-notation': 'single',
-    'selector-pseudo-element-no-unknown': true,
-    'selector-type-case': 'lower',
-    'selector-type-no-unknown': true,
-    'shorthand-property-no-redundant-values': true,
-    'string-no-newline': true,
-    'unit-no-unknown': true,
-    'no-eol-whitespace': true,
-    'block-no-empty': true,
-    'no-empty-first-line': true,
-    'no-empty-source': true,
-    'no-missing-end-of-source-newline': true,
+     // Your existing non-stylistic rules
+     'import-notation': 'string',
+     'max-nesting-depth': 3,
+     'color-function-notation': 'legacy',
+     
+     // Migrated stylistic rules with new plugin prefix
+     '@stylistic/declaration-block-semicolon-newline-after': 'always',
+     '@stylistic/declaration-block-semicolon-space-before': 'never',
+     '@stylistic/no-eol-whitespace': true,
+     '@stylistic/max-empty-lines': 2,
   },
 };
