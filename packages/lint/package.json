@@ -45,10 +45,12 @@
     "prettier-plugin-classnames": "^0.7.5",
     "prettier-plugin-merge": "^0.7.1",
     "prettier-plugin-tailwindcss": "^0.6.5",
-    "stylelint": "15.11.0",
-    "stylelint-config-standard": "33.0.0",
-    "stylelint-declaration-use-variable": "1.7.3",
-    "stylelint-scss": "5.3.2"
+    "stylelint": "16.20.0",
+    "stylelint-config-standard": "38.0.0",
+    "stylelint-scss": "6.12.1"
+  },
+  "peerDependencies": {
+    "stylelint": "16.20.0"
   },
   "exports": {
     ".": {
@@ -58,13 +60,13 @@
     },
     "./eslint": {
       "types": "./index.d.ts",
-      "import": "./config/eslint.js",
-      "default": "./config/eslint.js"
+      "import": "./config/eslint.mjs",
+      "default": "./config/eslint.mjs"
     },
     "./stylelint": {
       "types": "./index.d.ts",
-      "import": "./config/stylelint.js",
-      "default": "./config/stylelint.js"
+      "import": "./config/stylelint.mjs",
+      "default": "./config/stylelint.mjs"
     },
     "./commitlint": {
       "types": "./index.d.ts",

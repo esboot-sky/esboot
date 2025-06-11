@@ -1,10 +1,13 @@
+import { fileURLToPath } from 'node:url';
+
+const resolvePath = (p) => fileURLToPath(import.meta.resolve(p));
+
 export default {
-  extends: [import.meta.resolve('stylelint-config-standard')],
+  extends: [resolvePath('stylelint-config-standard')],
   plugins: [
-    import.meta.resolve('stylelint-scss'),
-    import.meta.resolve('stylelint-declaration-use-variable'),
+    resolvePath('stylelint-scss'),
   ],
-  customSyntax: import.meta.resolve('postcss-scss'),
+  customSyntax: resolvePath('postcss-scss'),
   ignoreFiles: ['!src/**/*', 'node_modules'],
   rules: {
     'import-notation': 'string',
@@ -32,7 +35,7 @@ export default {
         ],
       },
     ],
-    'scss/dollar-variable-pattern': '^(([a-z]+)-*)+$',
+    'scss/dollar-variable-pattern': '^[a-z][a-zA-Z0-9]*$',
     "selector-max-id": [
       1,
       {
@@ -110,6 +113,5 @@ export default {
     'no-empty-first-line': true,
     'no-empty-source': true,
     'no-missing-end-of-source-newline': true,
-    'max-empty-lines': 1,
   },
 };
