@@ -1,17 +1,17 @@
 import { resolve, join } from 'node:path';
 import { PluginHooks, type Plugin } from '@dz-web/esboot';
 import {
-  getAbsolutePath as baseGetAbsolutePath,
+  resolveLibPath as baseResolveLibPath,
   searchCommand,
 } from '@dz-web/esboot-common/helpers';
 import { exec } from '@dz-web/esboot-common/execa';
 
-const getAbsolutePath = (p: string) => baseGetAbsolutePath(p, import.meta.resolve);
+const resolveLibPath = (p: string) => baseResolveLibPath(p, import.meta.resolve);
 
 export const alias = {
-  vitest: getAbsolutePath('vitest'),
-  '@testing-library/react': getAbsolutePath('@testing-library/react'),
-  '@testing-library/user-event': getAbsolutePath('@testing-library/user-event'),
+  vitest: resolveLibPath('vitest'),  
+  '@testing-library/react': resolveLibPath('@testing-library/react'),
+  '@testing-library/user-event': resolveLibPath('@testing-library/user-event'),
 };
 
 export default (): Plugin => {
@@ -44,7 +44,7 @@ export default (): Plugin => {
     },
     [PluginHooks.modifyTypescriptConfig]: () => {
       return {
-        include: [getAbsolutePath('@testing-library/jest-dom')],
+        include: [resolveLibPath('@testing-library/jest-dom')],
       };
     },
   };

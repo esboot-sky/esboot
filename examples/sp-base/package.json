@@ -46,7 +46,7 @@
     "@types/react": "19.1.4",
     "@types/react-dom": "^19.1.5",
     "eslint": "^8.50.0",
-    "stylelint": "^15.10.3"
+    "stylelint": "^16.20.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint",
@@ -59,7 +59,7 @@
   },
   "stylelint": {
     "extends": [
-      "./node_modules/.cache/esboot/stylelint"
+      "./node_modules/.cache/esboot/stylelint/index.mjs"
     ]
   },
   "commitlint": {

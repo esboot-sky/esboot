@@ -10,7 +10,7 @@ import cfg from '@/cfg';
 import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
 
 export function generateStylelintCfg() {
-  const outoutPath = join(cacheDir, 'stylelint/index.js');
+  const outoutPath = join(cacheDir, 'stylelint/index.mjs');
 
   callPluginHookOfModifyLintConfig(
     PluginHooks.modifyStylelintConfig,
@@ -21,7 +21,7 @@ export function generateStylelintCfg() {
   ensureFileSync(outoutPath);
   writeFile(
     outoutPath,
-    `module.exports=${JSON.stringify(stylelintCfg, null, 2)}`
+    `export default ${JSON.stringify(stylelintCfg, null, 2)}`
   )
     .then(() => {
       info(`Created Stylelint Config: ${outoutPath}.`);
