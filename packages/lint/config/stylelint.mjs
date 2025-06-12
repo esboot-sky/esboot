@@ -35,28 +35,28 @@ export default {
         ],
       },
     ],
-    "selector-max-id": [
+    'selector-max-id': [
       1,
       {
-        "ignoreContextFunctionalPseudoClasses": [
-          ":not",
-          "/^:(h|H)as$/"
-        ]
-      }
+        ignoreContextFunctionalPseudoClasses: [':not', '/^:(h|H)as$/'],
+      },
     ],
     'selector-pseudo-class-no-unknown': [
       true,
       { ignorePseudoClasses: ['global', 'local'] },
     ],
-     // Your existing non-stylistic rules
-     'import-notation': 'string',
-     'max-nesting-depth': 3,
-     'color-function-notation': 'legacy',
-     
-     // Migrated stylistic rules with new plugin prefix
-     '@stylistic/declaration-block-semicolon-newline-after': 'always',
-     '@stylistic/declaration-block-semicolon-space-before': 'never',
-     '@stylistic/no-eol-whitespace': true,
-     '@stylistic/max-empty-lines': 2,
+    // non-stylistic rules
+    'import-notation': 'string',
+    'max-nesting-depth': 3,
+    'color-function-notation': 'legacy',
+
+    // Migrated stylistic rules with new plugin prefix
+    '@stylistic/declaration-block-semicolon-newline-after': 'always',
+    '@stylistic/declaration-block-semicolon-space-before': 'never',
+    '@stylistic/no-eol-whitespace': true,
+    // newer
+    '@stylistic/max-empty-lines': 1,
+    '@stylistic/color-hex-case': 'lower',
+    '@stylistic/number-leading-zero': 'never',
   },
 };
