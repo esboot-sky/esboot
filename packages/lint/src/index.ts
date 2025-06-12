@@ -1,7 +1,7 @@
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { exec } from '@dz-web/esboot-common/execa';
-import { info, error } from '@dz-web/esboot-common/helpers';
+import { info, error, resolveLibPath } from '@dz-web/esboot-common/helpers';
 import {
   copySync,
   pathExistsSync,
@@ -9,16 +9,17 @@ import {
 } from '@dz-web/esboot-common/fs-extra';
 
 const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
+const _resolveLibPath = (p: string, relativePath = '') => resolveLibPath(p, resolvePath, relativePath);
 
-export async function lint({ cwd }: { cwd: string }) {
-  const args = process.argv.slice(3);
-  exec(`node ${resolvePath('stylelint/bin/stylelint')} **/*.scss ${args}`, {
+export async function lint({ cwd, args = [] }: { cwd: string; args: string[] }) {
+  console.log(cwd, args);
+  exec(`node ${_resolveLibPath('stylelint', 'bin/stylelint.mjs')} '**/*.scss' ${args.join(' ')}`, {
     onError: () => void 0,
   });
   // Special case for eslint
-  exec(`eslint --ext .jsx,.js,.ts,.tsx ${resolve(cwd, 'src')} ${args}`, {
-    onError: () => void 0,
-  });
+  // exec(`eslint --ext .jsx,.js,.ts,.tsx ${resolve(cwd, 'src')} ${args}`, {
+  //   onError: () => void 0,
+  // });
 }
 
 export function huskySetup({ configRootPath }: { configRootPath: string }) {

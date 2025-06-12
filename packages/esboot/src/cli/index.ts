@@ -103,10 +103,11 @@ export const run = async () => {
 
   program
     .command('lint')
+    .argument('[args...]')
     .description('Lint project files using ESLint and Stylelint')
-    .allowUnknownOption(true)
-    .action(async () => {
-      lint({ cwd });
+    .allowUnknownOption(true) 
+    .action(async (args) => {
+      lint({ cwd, args: args || [] });
     });
 
   program

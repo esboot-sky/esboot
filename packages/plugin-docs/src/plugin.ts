@@ -1,4 +1,5 @@
 import { join, dirname, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { PluginHooks, type Plugin } from '@dz-web/esboot';
 import { exec } from '@dz-web/esboot-common/execa';
 import { ensureFileSync, copySync } from '@dz-web/esboot-common/fs-extra';
@@ -29,7 +30,9 @@ export default (): Plugin => {
             const { port } = options;
             process.env.APP_ROOT = APP_ROOT;
             process.env.DUMI_THEME = dirname(
-              require.resolve('dumi-theme-lobehub/package.json')
+              fileURLToPath(
+                import.meta.resolve('dumi-theme-lobehub/package.json')
+              )
             );
 
             const relativePath = relative(APP_ROOT, targetPath);
