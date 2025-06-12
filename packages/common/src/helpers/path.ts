@@ -19,34 +19,39 @@ export function searchCommand(currPath: string, command: string) {
 
 const hyphen = isWins ? '\\' : '/';
 
-// requireResolve: 转发require.resolve
-export function getAbsolutePath(
+// requireResolve: passthrough require.resolve
+export function resolveLibPath(
   libName: string,
-  requireResolve: any 
+  requireResolve: ImportMeta['resolve'],
+  relativePath = ''
 ) {
+  let libPath = '';
+
   try {
-    return dirname(requireResolve(join(libName, 'package.json')));
+    libPath = dirname(requireResolve(join(libName, 'package.json')));
   } catch (err) {
     // err: Package subpath './package.json' is not defined by "exports" in xx
-    let currentPath = requireResolve(libName);
+    libPath = requireResolve(libName);
     let isRootPath = false;
     // For windows path
     const compatibleLibName = libName.replace('/', hyphen);
 
     while (
-      !currentPath.endsWith(`${hyphen}${compatibleLibName}`) &&
+      !libPath.endsWith(`${hyphen}${compatibleLibName}`) &&
       !isRootPath
     ) {
-      const path = dirname(currentPath);
+      const path = dirname(libPath);
 
       // Prevent endless loop
-      if (currentPath !== path) {
-        currentPath = path;
+      if (libPath !== path) {
+        libPath = path;
       } else {
         isRootPath = true;
       }
     }
 
-    return currentPath;
+    return libPath;
   }
+
+  return relativePath ? join(libPath, relativePath) : libPath;
 }

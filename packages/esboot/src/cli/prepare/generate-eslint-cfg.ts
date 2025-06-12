@@ -30,11 +30,11 @@ export function generateESLintCfg() {
     eslintCfg
   );
 
-  const outputPath = join(cacheDir, 'eslint/index.js');
+  const outputPath = join(cacheDir, 'eslint/index.mjs');
   ensureFileSync(outputPath);
   writeFile(
     outputPath,
-    `module.exports = ${JSON.stringify(eslintCfg, null, 2)}`
+    `export default ${JSON.stringify(eslintCfg, null, 2)}`
   )
     .then(() => {
       info(`Created ESLint Config: ${outputPath}.`);
