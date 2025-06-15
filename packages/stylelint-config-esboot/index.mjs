@@ -1,0 +1,80 @@
+import { fileURLToPath } from 'node:url';
+
+const resolvePath = (p) => fileURLToPath(import.meta.resolve(p));
+
+export default {
+  extends: [resolvePath('stylelint-config-standard')],
+  plugins: [
+    resolvePath('stylelint-scss'),
+    resolvePath('@stylistic/stylelint-plugin'),
+  ],
+  customSyntax: resolvePath('postcss-scss'),
+  ignoreFiles: ['!src/**/*', 'node_modules'],
+  rules: {
+    'at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: [
+          'extend',
+          'at-root',
+          'debug',
+          'warn',
+          'error',
+          'if',
+          'else',
+          'for',
+          'each',
+          'while',
+          'mixin',
+          'include',
+          'content',
+          'return',
+          'function',
+          'use',
+        ],
+      },
+    ],
+    'selector-max-id': [
+      1,
+      {
+        ignoreContextFunctionalPseudoClasses: [':not', '/^:(h|H)as$/'],
+      },
+    ],
+    'selector-pseudo-class-no-unknown': [
+      true,
+      {
+        ignorePseudoClasses: ['global', 'local'],
+      },
+    ],
+    'import-notation': 'string',
+    'max-nesting-depth': 2,
+    'color-function-notation': 'legacy',
+    'color-function-alias-notation': 'with-alpha',
+    '@stylistic/declaration-block-semicolon-newline-after': 'always',
+    '@stylistic/declaration-block-semicolon-space-before': 'never',
+    '@stylistic/no-eol-whitespace': true,
+    '@stylistic/max-empty-lines': 1,
+    '@stylistic/color-hex-case': 'lower',
+    '@stylistic/number-leading-zero': 'never',
+    '@stylistic/function-comma-space-after': 'always',
+    '@stylistic/function-comma-space-before': 'never',
+    '@stylistic/function-parentheses-space-inside': 'never',
+    '@stylistic/function-whitespace-after': 'always',
+    '@stylistic/number-no-trailing-zeros': true,
+    '@stylistic/unit-case': 'lower',
+    '@stylistic/property-case': 'lower',
+    '@stylistic/value-list-comma-newline-before': 'never-multi-line',
+    '@stylistic/value-list-comma-newline-after': 'never-multi-line',
+    '@stylistic/value-list-comma-space-after': 'always',
+    '@stylistic/value-list-comma-space-before': 'never',
+    '@stylistic/value-list-max-empty-lines': 0,
+    '@stylistic/declaration-bang-space-after': 'never',
+    '@stylistic/declaration-bang-space-before': 'always',
+    '@stylistic/declaration-colon-space-after': 'always',
+    '@stylistic/declaration-colon-space-before': 'never',
+    '@stylistic/declaration-block-semicolon-newline-after': 'always',
+    '@stylistic/declaration-block-semicolon-newline-before': 'never-multi-line',
+    '@stylistic/declaration-block-trailing-semicolon': 'always',
+    '@stylistic/block-closing-brace-empty-line-before': 'never',
+  },
+};
