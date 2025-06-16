@@ -59,7 +59,7 @@
   },
   "stylelint": {
     "extends": [
-      "./node_modules/.cache/esboot/stylelint/index.mjs"
+      "./node_modules/.cache/esboot/stylelint"
     ]
   },
   "commitlint": {
