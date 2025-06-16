@@ -20,31 +20,32 @@
     "index.d.ts"
   ],
   "dependencies": {
-    "@commitlint/cli": "^17.8.1",
-    "@commitlint/config-conventional": "^17.8.1",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@dz-web/esboot-common": "workspace:*",
     "@dz-web/esboot-stylelint-config": "workspace:*",
     "@dz-web/eslint-plugin-esboot": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "eslint": "^9.29.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.1.5",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.9.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.35.0",
-    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-import-resolver-typescript": "^4.4.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.4.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "husky": "^8.0.3",
-    "lint-staged": "^15.2.8",
+    "lint-staged": "^16.1.2",
     "prettier": "^3.3.3",
     "prettier-eslint": "^16.3.0",
     "prettier-plugin-classnames": "^0.7.5",
     "prettier-plugin-merge": "^0.7.1",
-    "prettier-plugin-tailwindcss": "^0.6.5"
+    "prettier-plugin-tailwindcss": "^0.6.5",
+    "stylelint": "16.20.0"
   },
   "peerDependencies": {
     "stylelint": "16.20.0"
@@ -57,13 +58,13 @@
     },
     "./eslint": {
       "types": "./index.d.ts",
-      "import": "./config/eslint.mjs",
-      "default": "./config/eslint.mjs"
+      "import": "./config/eslint.js",
+      "default": "./config/eslint.js"
     },
     "./stylelint": {
       "types": "./index.d.ts",
-      "import": "./config/stylelint.mjs",
-      "default": "./config/stylelint.mjs"
+      "import": "./config/stylelint.js",
+      "default": "./config/stylelint.js"
     },
     "./commitlint": {
       "types": "./index.d.ts",
