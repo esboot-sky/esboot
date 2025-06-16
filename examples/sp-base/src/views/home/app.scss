@@ -1,10 +1,12 @@
+@use 'sass:math';
+
 :global(.page) {
   color: red;
 }
 
 .text {
-  color: purple;
-  font-size: .3PX;
+  color: purple !important;
+  font-size: .3px;
 }
 
 .text2{
@@ -13,11 +15,46 @@
   transform: translate(1px, 1px) scale(1);
 }
 
-.a{
+.a,
+.b {
   color: #fff;
   font-size: 30px;
 }
 
 a {
-  box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+  color: pink;
+  top: 0;
+}
+
+// a {
+//   box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+// }
+
+.bar {
+  color: red;
+  font-size: 10px;
+}
+
+a + b {
+  transform: translate(1px, 1px);
+}
+
+@media (width >= 600px) {
+  .bar {
+    color: blue;
+  }
+}
+
+@media
+  screen and (color),
+  projection and (color) {
+  .bar {
+    color: green;
+  }
+}
+
+@media (1px <= width <= 2px) {
+  .bar {
+    color: yellow;
+  }
 }
