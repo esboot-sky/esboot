@@ -10,7 +10,7 @@ import cfg from '@/cfg';
 import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
 
 export function generateStylelintCfg() {
-  const outoutPath = join(cacheDir, 'stylelint/index.mjs');
+  const outoutPath = join(cacheDir, 'stylelint/index.js');
 
   callPluginHookOfModifyLintConfig(
     PluginHooks.modifyStylelintConfig,
