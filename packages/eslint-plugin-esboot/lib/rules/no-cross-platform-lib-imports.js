@@ -1,13 +1,11 @@
-const {
-  extractPlatformAndType,
-} = require('../helpers/extract-platform-and-type');
+import { extractPlatformAndType } from '../helpers/extract-platform-and-type.js';
 
 const optsIdx = {
   mobile: 0,
   pc: 1,
 };
 
-module.exports = {
+export default {
   meta: {
     type: 'problem',
     docs: {
@@ -39,7 +37,7 @@ module.exports = {
     ],
   },
   create(context) {
-    const currentFilename = context.filename;
+    const currentFilename = context.getFilename();
     const currInfo = extractPlatformAndType(currentFilename);
 
     const options = context.options;
@@ -61,7 +59,6 @@ module.exports = {
               ? `${splitPath[0]}/${splitPath[1]}`
               : splitPath[0];
 
-          // console.log(pkgPath, '<-- pkgPath');
           for (const lib of libs) {
             if (pkgPath === lib) {
               context.report({
@@ -72,7 +69,7 @@ module.exports = {
                 },
               });
             }
-          });
+          }
         }
       },
     };
