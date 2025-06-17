@@ -1,17 +1,14 @@
-'use strict';
 /**
  * this resolver is used as a plugin of eslint-plugin-import
  * to solve Node.js package mapping problem
- *
  */
-const path = require('path');
-const coreModules = Object.create(null);
+import path from 'node:path';
+import { createRequire } from 'node:module';
+import coreModules from './core.js';
 
-require('./core').forEach(function (m) {
-  this[m] = true;
-}, coreModules);
+const require = createRequire(import.meta.url);
 
-exports.interfaceVersion = 2;
+export const interfaceVersion = 2;
 
 const Module = module.constructor;
 // Node.js native extensions
@@ -19,7 +16,7 @@ const originExtensions = Module._extensions;
 
 function mockModuleLoader() {}
 
-exports.resolve = (modulePath, sourceFile, config) => {
+export const resolve = (modulePath, sourceFile, config) => {
   if (coreModules[modulePath]) {
     return { found: true, path: null };
   }

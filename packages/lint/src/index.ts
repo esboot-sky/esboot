@@ -16,9 +16,9 @@ export async function lint({ cwd, args = [] }: { cwd: string; args: string[] }) 
     onError: () => void 0,
   });
   // Special case for eslint
-  // exec(`eslint --ext .jsx,.js,.ts,.tsx ${resolve(cwd, 'src')} ${args}`, {
-  //   onError: () => void 0,
-  // });
+  exec(`eslint --ext .jsx,.js,.ts,.tsx ${resolve(cwd, 'src')} ${args}`, {
+    onError: () => void 0,
+  });
 }
 
 export function huskySetup({ configRootPath }: { configRootPath: string }) {
