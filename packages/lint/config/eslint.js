@@ -1,134 +1,199 @@
-export default {
-  extends: [
-    'airbnb',
-    'airbnb/hooks',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'plugin:@dz-web/esboot/recommended',
-  ],
-  settings: {
-    'import/resolver': {
-      node: {
-        extensions: ['.tsx', '.ts', '.js'],
+const resolveModule = (name) => {
+  try {
+    return import.meta.resolve(name);
+  } catch {
+    return name;
+  }
+};
+
+const js = await import(resolveModule('@eslint/js'));
+const globals = await import(resolveModule('globals'));
+const tsParser = await import(resolveModule('@typescript-eslint/parser'));
+const tsEslint = await import(resolveModule('typescript-eslint'));
+const importPlugin = await import(resolveModule('eslint-plugin-import'));
+const reactPlugin = await import(resolveModule('eslint-plugin-react'));
+const reactHooksPlugin = await import(
+  resolveModule('eslint-plugin-react-hooks')
+);
+const jsxA11yPlugin = await import(resolveModule('eslint-plugin-jsx-a11y'));
+// const esbootPlugin = await import(
+//   resolveModule('@dz-web/eslint-plugin-esboot')
+// );
+
+export default [
+  js.default.configs.recommended,
+
+  // TypeScript files configuration
+  ...tsEslint.default.configs.recommended.map((config) => ({
+    ...config,
+    files: ['**/*.{ts,tsx}'],
+  })),
+
+  // Base configuration for all JavaScript/TypeScript files
+  {
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.default.browser,
+        ...globals.default.node,
+        DEBUG: true,
       },
-      alias: {
-        map: [],
-        extensions: ['.ts', '.tsx', '.js', 'jsx'],
+      parser: tsParser.default,
+      ecmaVersion: 2023,
+      sourceType: 'module',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+        tsconfigRootDir: '',
       },
-      typescript: {},
+    },
+    plugins: {
+      import: importPlugin.default,
+      react: reactPlugin.default,
+      'react-hooks': reactHooksPlugin.default,
+      'jsx-a11y': jsxA11yPlugin.default,
+      // '@dz-web/esboot': esbootPlugin.default,
+    },
+    settings: {
+      'import/resolver': {
+        node: {
+          extensions: ['.tsx', '.ts', '.js'],
+        },
+        alias: {
+          map: [],
+          extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        },
+        typescript: {},
+      },
+      react: {
+        version: 'detect',
+      },
+    },
+    rules: {
+      // Import rules
+      'import/no-extraneous-dependencies': 0,
+      'import/no-unresolved': 'error',
+      'import/prefer-default-export': 0,
+      'import/extensions': [
+        'error',
+        'ignorePackages',
+        {
+          js: 'never',
+          mjs: 'never',
+          jsx: 'never',
+          ts: 'never',
+          tsx: 'never',
+        },
+      ],
+      'import/order': [
+        'error',
+        {
+          'newlines-between': 'always',
+          warnOnUnassignedImports: true,
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+            'object',
+            'type',
+          ],
+        },
+      ],
+
+      // General rules
+      'no-shadow': 'off',
+      'no-use-before-define': 'off',
+      'no-underscore-dangle': 0,
+      'no-param-reassign': 0,
+      'no-console': 0,
+      'global-require': 0,
+      strict: 0,
+      'prefer-destructuring': 'warn',
+      'max-len': ['error', 120],
+      'object-curly-newline': 0,
+      'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
+      'no-restricted-syntax': [
+        'error',
+        'ForInStatement',
+        'LabeledStatement',
+        'WithStatement',
+      ],
+
+      // TypeScript rules
+      '@typescript-eslint/no-var-requires': 0,
+      '@typescript-eslint/no-shadow': ['error'],
+      '@typescript-eslint/explicit-function-return-type': 0,
+      '@typescript-eslint/ban-ts-comment': 0,
+      '@typescript-eslint/no-explicit-any': ['off'],
+
+      // React rules
+      'react/require-default-props': 0,
+      'react/jsx-props-no-spreading': 0,
+      'react/jsx-filename-extension': [
+        'error',
+        { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+      ],
+      'react/function-component-definition': [
+        2,
+        {
+          namedComponents: [
+            'arrow-function',
+            'function-declaration',
+            'function-expression',
+          ],
+        },
+      ],
+      'react/react-in-jsx-scope': 0,
+      'react/prop-types': 0,
+      'react/no-unknown-property': ['error', { ignore: ['styleName'] }],
+      'react/forbid-prop-types': 0,
+
+      // React Hooks rules
+      'react-hooks/exhaustive-deps': 0,
+
+      // JSX a11y rules
+      'jsx-a11y/control-has-associated-label': 0,
+      'jsx-a11y/href-no-hash': 0,
+      'jsx-a11y/no-static-element-interactions': 0,
+      'jsx-a11y/no-noninteractive-element-interactions': 0,
+      'jsx-a11y/click-events-have-key-events': 0,
+      'jsx-a11y/anchor-is-valid': 0,
+      'jsx-a11y/iframe-has-title': 0,
+      'jsx-a11y/label-has-for': 0,
+      'jsx-a11y/no-redundant-roles': 0,
     },
   },
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    sourceType: 'module',
-    allowImportExportEverywhere: true,
-    tsconfigRootDir: '',
-  },
-  rules: {
-    'import/no-extraneous-dependencies': 0,
-    'no-shadow': 'off',
-    'no-use-before-define': 'off',
-    'import/no-unresolved': 'error',
-    '@typescript-eslint/camelcase': 0,
-    '@typescript-eslint/no-var-requires': 0,
-    '@typescript-eslint/no-shadow': ['error'],
-    'jsx-a11y/control-has-associated-label': 0,
-    'no-underscore-dangle': 0,
-    'no-param-reassign': 0,
-    '@typescript-eslint/explicit-function-return-type': 0,
-    // 用了ts，不需要这个规则了
-    'react/require-default-props': 0,
-    'react/jsx-props-no-spreading': 0,
-    'react/jsx-filename-extension': [
-      'error',
-      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
-    ],
-    'react/function-component-definition': [
-      2,
-      {
-        namedComponents: [
-          'arrow-function',
-          'function-declaration',
-          'function-expression',
-        ],
+
+  // TypeScript specific configuration
+  {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser.default,
+      parserOptions: {
+        project: './tsconfig.json',
       },
-    ],
-    'import/extensions': [
-      'error',
-      'ignorePackages',
-      {
-        js: 'never',
-        mjs: 'never',
-        jsx: 'never',
-        ts: 'never',
-        tsx: 'never',
-      },
-    ],
-    'import/prefer-default-export': 0,
-    strict: 0,
-    'no-console': 0,
-    '@typescript-eslint/ban-ts-ignore': 0,
-    'global-require': 0,
-    'react/forbid-prop-types': 0,
-    'jsx-a11y/href-no-hash': 0,
-    'jsx-a11y/no-static-element-interactions': 0,
-    'jsx-a11y/no-noninteractive-element-interactions': 0,
-    'jsx-a11y/click-events-have-key-events': 0,
-    'jsx-a11y/anchor-is-valid': 0,
-    'jsx-a11y/iframe-has-title': 0,
-    'jsx-a11y/label-has-for': 0,
-    'jsx-a11y/no-redundant-roles': 0,
-    'react/react-in-jsx-scope': 0,
-    'react/prop-types': 0,
-    'react/no-unknown-property': ['error', { ignore: ['styleName'] }],
-    'prefer-destructuring': 'warn',
-    'max-len': ['error', 120],
-    'object-curly-newline': 0,
-    'react-hooks/exhaustive-deps': 0,
-    '@typescript-eslint/no-explicit-any': ['off'],
-    'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
-    'no-restricted-syntax': [
-      'error',
-      'ForInStatement',
-      'LabeledStatement',
-      'WithStatement',
-    ],
-    'import/order': [
-      'error',
-      {
-        'newlines-between': 'always',
-        warnOnUnassignedImports: true,
-        alphabetize: {
-          order: 'asc',
-          caseInsensitive: true,
-        },
-        groups: [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-          'object',
-          'type',
-        ],
-      },
+    },
+  },
+
+  // Global ignores
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/lib/**',
+      '**/.cache/**',
+      '**/coverage/**',
+      '**/.nyc_output/**',
+      '**/stats.html',
     ],
   },
-  env: {
-    browser: true,
-    node: true,
-  },
-  plugins: [
-    '@typescript-eslint',
-    'react',
-    'jsx-a11y',
-    'import',
-    '@dz-web/esboot',
-  ],
-  globals: {
-    DEBUG: true,
-  },
-  ignorePatterns: ['*', '!src', '!src/**', '"!/.esbootrc.ts"'],
-};
+];

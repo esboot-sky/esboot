@@ -10,4 +10,4 @@ function extractPlatformAndType(filePath) {
   return null;
 }
 
-exports.extractPlatformAndType = extractPlatformAndType;
+export { extractPlatformAndType };

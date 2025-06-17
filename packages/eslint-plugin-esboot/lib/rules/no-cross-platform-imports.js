@@ -1,10 +1,8 @@
-const path = require('node:path');
-const { resolve } = require('../helpers/resolver-alias');
-const {
-  extractPlatformAndType,
-} = require('../helpers/extract-platform-and-type');
+import path from 'node:path';
+import { resolve } from '../helpers/resolver-alias/index.js';
+import { extractPlatformAndType } from '../helpers/extract-platform-and-type.js';
 
-module.exports = {
+export default {
   meta: {
     type: 'problem',
     docs: {
@@ -21,7 +19,7 @@ module.exports = {
     schema: [],
   },
   create(context) {
-    const currentFilename = context.filename;
+    const currentFilename = context.getFilename();
     const settings = context.settings['import/resolver'].alias;
     const currInfo = extractPlatformAndType(currentFilename);
 
@@ -42,8 +40,6 @@ module.exports = {
         const resolvedPath = resolveImportPath(importPath);
         const importInfo = extractPlatformAndType(resolvedPath);
 
-        // console.log(resolvedPath, importInfo, '<-- import info');
-        // console.log(currentFilename, currInfo, '<-- curr ino');
         // When import file is not platfrom's file
         if (!importInfo) return;
 
@@ -53,7 +49,6 @@ module.exports = {
           importInfo || {};
 
         if (!currPlatform && !importPlatform) return;
-        // console.log(currInfo, importInfo, '<--=== ');
 
         if (!currPlatform && importPlatform) {
           context.report({
