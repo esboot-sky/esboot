@@ -58,8 +58,8 @@
     },
     "./eslint": {
       "types": "./index.d.ts",
-      "import": "./config/eslint.js",
-      "default": "./config/eslint.js"
+      "import": "./config/eslint.mjs",
+      "default": "./config/eslint.mjs"
     },
     "./stylelint": {
       "types": "./index.d.ts",
