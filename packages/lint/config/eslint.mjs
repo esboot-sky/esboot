@@ -6,25 +6,34 @@ const resolveModule = (name) => {
   }
 };
 
-const js = await import(resolveModule('@eslint/js'));
-const globals = await import(resolveModule('globals'));
-const tsParser = await import(resolveModule('@typescript-eslint/parser'));
-const tsEslint = await import(resolveModule('typescript-eslint'));
-const importPlugin = await import(resolveModule('eslint-plugin-import'));
-const reactPlugin = await import(resolveModule('eslint-plugin-react'));
-const reactHooksPlugin = await import(
+const { defineConfig } = await import(resolveModule('eslint/config'));
+const { default: js } = await import(resolveModule('@eslint/js'));
+const { default: globals } = await import(resolveModule('globals'));
+const { default: tsParser } = await import(
+  resolveModule('@typescript-eslint/parser')
+);
+const { default: tsEslint } = await import(resolveModule('typescript-eslint'));
+const { default: importPlugin } = await import(
+  resolveModule('eslint-plugin-import')
+);
+const { default: reactPlugin } = await import(
+  resolveModule('eslint-plugin-react')
+);
+const { default: reactHooksPlugin } = await import(
   resolveModule('eslint-plugin-react-hooks')
 );
-const jsxA11yPlugin = await import(resolveModule('eslint-plugin-jsx-a11y'));
+const { default: jsxA11yPlugin } = await import(
+  resolveModule('eslint-plugin-jsx-a11y')
+);
 // const esbootPlugin = await import(
 //   resolveModule('@dz-web/eslint-plugin-esboot')
 // );
 
-export default [
-  js.default.configs.recommended,
+export default defineConfig([
+  js.configs.recommended,
 
   // TypeScript files configuration
-  ...tsEslint.default.configs.recommended.map((config) => ({
+  ...tsEslint.configs.recommended.map((config) => ({
     ...config,
     files: ['**/*.{ts,tsx}'],
   })),
@@ -34,8 +43,8 @@ export default [
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       globals: {
-        ...globals.default.browser,
-        ...globals.default.node,
+        ...globals.browser,
+        ...globals.node,
         DEBUG: true,
       },
       parser: tsParser.default,
@@ -49,10 +58,10 @@ export default [
       },
     },
     plugins: {
-      import: importPlugin.default,
-      react: reactPlugin.default,
-      'react-hooks': reactHooksPlugin.default,
-      'jsx-a11y': jsxA11yPlugin.default,
+      import: importPlugin,
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      'jsx-a11y': jsxA11yPlugin,
       // '@dz-web/esboot': esbootPlugin.default,
     },
     settings: {
@@ -196,4 +205,4 @@ export default [
       '**/stats.html',
     ],
   },
-];
+]);

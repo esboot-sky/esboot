@@ -235,6 +235,9 @@ importers:
       '@dz-web/esboot-bundler-webpack':
         specifier: workspace:*
         version: link:../../packages/bundler-webpack
+      '@dz-web/esboot-lint':
+        specifier: workspace:*
+        version: link:../../packages/lint
       '@dz-web/esboot-plugin-docs':
         specifier: workspace:*
         version: link:../../packages/plugin-docs
