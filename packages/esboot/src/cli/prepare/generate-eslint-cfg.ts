@@ -7,7 +7,7 @@ import { ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import { info, error } from '@dz-web/esboot-common/helpers';
 
-import eslintCfg from '@dz-web/esboot-lint/eslint';
+import eslintCfg from '@dz-web/esboot-lint/eslint'; 
 
 import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
 import { absPath } from '@/helpers';
@@ -22,7 +22,9 @@ export function generateESLintCfg() {
     _alias.push([k, value]);
   }
 
-  eslintCfg.settings['import/resolver'].alias.map = _alias;
+  console.log(eslintCfg, 'eslintCfg');
+
+  // eslintCfg.settings['import/resolver'].alias.map = _alias;
 
   callPluginHookOfModifyLintConfig(
     PluginHooks.modifyEslintConfig,
@@ -30,7 +32,7 @@ export function generateESLintCfg() {
     eslintCfg
   );
 
-  const outputPath = join(cacheDir, 'eslint/index.mjs');
+  const outputPath = join(cacheDir, 'eslint/index.js');
   ensureFileSync(outputPath);
   writeFile(
     outputPath,
