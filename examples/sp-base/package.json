@@ -52,11 +52,6 @@
     "*.{js,jsx,ts,tsx}": "eslint",
     "*.{scss,css}": "stylelint"
   },
-  "eslintConfig": {
-    "extends": [
-      "./node_modules/.cache/esboot/eslint"
-    ]
-  },
   "stylelint": {
     "extends": [
       "./node_modules/.cache/esboot/stylelint"
