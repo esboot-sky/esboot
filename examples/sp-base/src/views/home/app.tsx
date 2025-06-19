@@ -1,18 +1,21 @@
 import { cn } from '@dz-web/esboot-browser';
 import { Button } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 
-import './test.css';
-import { langBtn } from './variant';
 
 // import { login } from '@/api';
 
 // import A from './a';
 import './app.scss';
+import './test.css';
+import { langBtn } from './variant';
 
+const a=1;
+console.log(a)
 function Test() {
   const navigate = useNavigate();
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     // login({

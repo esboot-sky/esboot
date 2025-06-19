@@ -1,1 +1,3 @@
-export { default } from '@dz-web/esboot-lint/eslint';
+import createConfig from '@dz-web/esboot-lint/eslint';
+
+export default createConfig();
