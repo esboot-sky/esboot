@@ -37,6 +37,8 @@ export default {
       ImportDeclaration(node) {
         const importPath = node.source.value;
 
+        console.log('importPath', importPath);
+
         const resolvedPath = resolveImportPath(importPath);
         const importInfo = extractPlatformAndType(resolvedPath);
 
