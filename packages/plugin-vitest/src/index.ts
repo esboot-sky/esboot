@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 import { resolve, join } from 'node:path';
 import { PluginHooks, type Plugin } from '@dz-web/esboot';
 import {
@@ -6,10 +7,11 @@ import {
 } from '@dz-web/esboot-common/helpers';
 import { exec } from '@dz-web/esboot-common/execa';
 
-const resolveLibPath = (p: string) => baseResolveLibPath(p, import.meta.resolve);
+const resolveLibPath = (p: string) =>
+  fileURLToPath(baseResolveLibPath(p, import.meta.resolve));
 
 export const alias = {
-  vitest: resolveLibPath('vitest'),  
+  vitest: resolveLibPath('vitest'),
   '@testing-library/react': resolveLibPath('@testing-library/react'),
   '@testing-library/user-event': resolveLibPath('@testing-library/user-event'),
 };
