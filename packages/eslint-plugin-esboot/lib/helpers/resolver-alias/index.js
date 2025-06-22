@@ -10,7 +10,7 @@ const require = createRequire(import.meta.url);
 
 export const interfaceVersion = 2;
 
-const Module = module.constructor;
+const Module = require('module');
 // Node.js native extensions
 const originExtensions = Module._extensions;
 
