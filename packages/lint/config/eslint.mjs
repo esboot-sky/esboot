@@ -1,11 +1,8 @@
-import { join } from 'node:path';
 import { FlatCompat } from '@eslint/eslintrc';
 import antfu from '@antfu/eslint-config';
 import esbootPlugin from '@dz-web/eslint-plugin-esboot';
-import betterTailwind from 'eslint-plugin-better-tailwindcss';
+import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
 
-console.log(configPrettier, 'configPrettier');
-const resolvePath = (p) => fileURLToPath(import.meta.resolve(p));
 const compat = new FlatCompat();
 
 export default async function createConfig() {
@@ -53,7 +50,21 @@ export default async function createConfig() {
     //     ],
     //   },
     // }
-    ...betterTailwind.configs['flat/recommended'],
+    {
+      files: ['**/*.{jsx,tsx}'],
+      plugins: {
+        'better-tailwindcss': eslintPluginBetterTailwindcss,
+      },
+      rules: {
+        ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
+        ...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
+
+        'better-tailwindcss/enforce-consistent-line-wrapping': [
+          'warn',
+          { printWidth: 100 },
+        ],
+      },
+    },
     {
       settings: {
         tailwindcss: {
