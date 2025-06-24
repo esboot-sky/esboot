@@ -12,7 +12,7 @@ export default async function createConfig() {
       react: true,
       typescript: true,
       plugins: {
-        '@dz-web/esboot': esbootPlugin,
+        ...esbootPlugin.configs['recommended'].plugins,
       },
       stylistic: {
         semi: true,
@@ -35,40 +35,28 @@ export default async function createConfig() {
         '**/stats.html',
       ],
     },
-    // {
-    //   name: 'esboot-rules-for-react-ts',
-    //   files: ['**/*.{ts,tsx,js,jsx}'],
-    //   plugins: {
-    //     '@dz-web/esboot': esbootPlugin,
-    //   },
-    //   rules: {
-    //     '@dz-web/esboot/no-cross-platform-imports': 'error',
-    //     '@dz-web/esboot/no-cross-platform-lib-imports': [
-    //       'error',
-    //       ['rsuite'], // mobile 平台禁用
-    //       ['antd-mobile'], // pc 平台禁用
-    //     ],
-    //   },
-    // }
     {
-      files: ['**/*.{jsx,tsx}'],
+      files: ['**/*.{jsx,ts,tsx}'],
       plugins: {
         'better-tailwindcss': eslintPluginBetterTailwindcss,
+        // ...esbootPlugin.configs['recommended'].plugins,
       },
       rules: {
         ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
         ...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
+        ...esbootPlugin.configs['recommended'].rules,
 
         'better-tailwindcss/enforce-consistent-line-wrapping': [
           'warn',
           { printWidth: 100 },
         ],
+        'better-tailwindcss/no-unregistered-classes': 'off',
       },
     },
     {
       settings: {
         tailwindcss: {
-          callees: ['classnames', 'clsx', 'cn', 'cva'],
+          variables: ['.*cls'],
           entryPoint: 'src/styles/index.css',
         },
       },

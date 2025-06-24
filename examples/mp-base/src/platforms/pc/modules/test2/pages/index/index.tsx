@@ -5,6 +5,9 @@ import CheckIcon2 from '@/images/check.svg?url';
 import { genericMemo } from '@/utils/react-utils';
 import './index.scss';
 
+const xcls = 'text-bold font-bold m-5';
+console.log(xcls);
+
 const Index = genericMemo(() => {
   return (
     <div>
