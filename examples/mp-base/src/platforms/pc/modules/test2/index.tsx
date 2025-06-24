@@ -1,8 +1,8 @@
 import { CacheStore } from '@dz-web/cache';
 import { RouterProvider } from 'react-router-dom';
 
-import './index.scss';
 import router from './router';
+import './index.scss';
 
 CacheStore.setItem('test', 'hello world');
 
