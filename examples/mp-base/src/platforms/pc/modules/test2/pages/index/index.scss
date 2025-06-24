@@ -3,3 +3,9 @@
   height: 375px;
   background-color: pink;
 }
+
+:global {
+  .text-bold {
+    font-weight: bold;
+  }
+}
