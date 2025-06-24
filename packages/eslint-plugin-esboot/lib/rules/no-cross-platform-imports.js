@@ -20,7 +20,9 @@ export default {
   },
   create(context) {
     const currentFilename = context.getFilename();
-    const settings = context.settings['import/resolver'].alias;
+    console.log('currentFilename', context, context.settings, currentFilename);
+
+    // const settings = context.settings['import/resolver'].alias;
     const currInfo = extractPlatformAndType(currentFilename);
 
     function resolveImportPath(importPath) {
@@ -39,7 +41,7 @@ export default {
 
         console.log('importPath', importPath);
 
-        const resolvedPath = resolveImportPath(importPath);
+        // const resolvedPath = resolveImportPath(importPath);
         const importInfo = extractPlatformAndType(resolvedPath);
 
         // When import file is not platfrom's file
