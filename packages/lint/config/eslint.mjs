@@ -11,9 +11,6 @@ export default async function createConfig() {
       vue: false,
       react: true,
       typescript: true,
-      plugins: {
-        ...esbootPlugin.configs['recommended'].plugins,
-      },
       stylistic: {
         semi: true,
         singleQuote: true,
@@ -39,7 +36,7 @@ export default async function createConfig() {
       files: ['**/*.{jsx,ts,tsx}'],
       plugins: {
         'better-tailwindcss': eslintPluginBetterTailwindcss,
-        // ...esbootPlugin.configs['recommended'].plugins,
+        ...esbootPlugin.configs['recommended'].plugins,
       },
       rules: {
         ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
