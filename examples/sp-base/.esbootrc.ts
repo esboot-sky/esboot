@@ -84,6 +84,7 @@ export default defineConfig<BundlerOptions>({
   isSP: true,
   bundlerOptions: {
     mfsu: false,
+    buildCache: true,
     codeSplitting: {
       jsStrategy: CodeSplittingType.granularChunks,
     },
