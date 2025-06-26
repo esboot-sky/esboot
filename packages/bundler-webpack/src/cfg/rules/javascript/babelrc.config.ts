@@ -30,6 +30,12 @@ export const getPlugins = (alias: Configuration['alias'], legacy: boolean) => {
 
   return [
     [
+      require.resolve('babel-plugin-react-compiler'),
+      {
+        target: '19',
+      },
+    ],
+    [
       require.resolve('@jleonardvp/babel-plugin-module-resolver'),
       {
         alias: customAlias,

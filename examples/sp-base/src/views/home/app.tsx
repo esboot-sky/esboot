@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-// import { login } from '@/api';
+import { login } from '@/api';
 
 import { langBtn } from './variant';
 // import A from './a';
@@ -15,6 +15,12 @@ console.log(a);
 function Test() {
   const navigate = useNavigate();
   const [count, setCount] = useState(0);
+  const [count3, setCount3] = useState(0);
+
+  const getCount2 = (() => {
+    console.log('exec count2');
+    return count + 1;
+  })();
 
   useEffect(() => {
     // login({
@@ -29,6 +35,7 @@ function Test() {
     <div className="page">
       <div styleName="text text2" className="page">
         module css12343242
+        {getCount2}
       </div>
       <div
         className="mb-[20px] flex items-center justify-between bg-blue-500 p-5 text-[36px] font-semibold text-white
@@ -44,7 +51,8 @@ function Test() {
       <p>close</p>
       <div className={langBtn()}>module2 css323</div>
 
-      <Button>123</Button>
+      <Button onClick={() => setCount(count + 1)}>123</Button>
+      <Button onClick={() => setCount3(count3 + 1)}>count3</Button>
 
       <Outlet />
     </div>
