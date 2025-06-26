@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { resolve } from '../helpers/resolver-alias/index.js';
+
 import { extractPlatformAndType } from '../helpers/extract-platform-and-type.js';
 
 export default {
@@ -19,8 +19,9 @@ export default {
     schema: [],
   },
   create(context) {
-    const currentFilename = context.getFilename();
-    console.log('currentFilename', context, context.settings, currentFilename);
+    const currentFilename = context.filename;
+    // const settings = context.getSettings();
+    console.log('currentFilename', context.settings, context.options. currentFilename);
 
     // const settings = context.settings['import/resolver'].alias;
     const currInfo = extractPlatformAndType(currentFilename);
@@ -39,7 +40,7 @@ export default {
       ImportDeclaration(node) {
         const importPath = node.source.value;
 
-        console.log('importPath', importPath);
+        console.log('importPath', node.source, node, importPath);
 
         // const resolvedPath = resolveImportPath(importPath);
         const importInfo = extractPlatformAndType(resolvedPath);
