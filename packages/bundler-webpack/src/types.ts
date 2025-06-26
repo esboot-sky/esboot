@@ -40,6 +40,7 @@ export type CustomConfig = (
 export type BabelPlugin = [string, Record<string, any>];
 export type BundlerWebpackOptions = {
   mfsu?: boolean;
+  buildCache?: boolean;
   mfsuOptions?: (cfg: MFSUOpts) => MFSUOpts;
   extraBabelPlugins?: BabelPlugin[];
   extraBabelPresets?: string[];
