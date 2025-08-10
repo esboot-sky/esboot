@@ -12,10 +12,10 @@ const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
 const _resolveLibPath = (p: string, relativePath = '') => resolveLibPath(p, resolvePath, relativePath);
 
 export async function lint({ cwd, args = [] }: { cwd: string; args: string[] }) {
-  // exec(`node ${_resolveLibPath('stylelint', 'bin/stylelint.mjs')} '**/*.scss' ${args.join(' ')}`, {
-  //   onError: () => void 0,
-  // });
-  // Special case for eslint
+  exec(`node ${_resolveLibPath('stylelint', 'bin/stylelint.mjs')} '**/*.scss' ${args.join(' ')}`, {
+    onError: () => void 0,
+  });
+  
   exec(`node ${_resolveLibPath('eslint', '/bin/eslint.js')} --ext .jsx,.js,.ts,.tsx ${resolve(cwd, 'src')} ${args}`, {
     onError: () => void 0,
   });
