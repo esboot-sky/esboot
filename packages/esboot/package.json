@@ -26,6 +26,21 @@
     "prepublishOnly": "pnpm run build",
     "test": "vitest"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./eslint": {
+      "import": "./dist/eslint.js",
+      "require": "./dist/eslint.cjs"
+    },
+    "./cli": {
+      "import": "./dist/cli/index.js",
+      "require": "./dist/cli/index.cjs"
+    },
+    ".package.json": "./package.json"
+  },
   "dependencies": {
     "@dz-web/bridge-mock": "^1.2.9",
     "@dz-web/esboot-common": "workspace:*",
