@@ -47,7 +47,7 @@ a + b {
 
 @media
   screen and (color),
-  projection and (color) {
+  print and (color) {
   .bar {
     color: green;
   }
