@@ -20,7 +20,7 @@
     "index.d.ts"
   ],
   "dependencies": {
-    "@antfu/eslint-config": "^4.15.0",
+    "@antfu/eslint-config": "^5.2.0",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@dz-web/esboot-common": "workspace:*",
@@ -37,14 +37,14 @@
     "lint-staged": "^16.1.2",
     "prettier": "^3.3.3",
     "prettier-eslint": "^16.3.0",
-    "prettier-plugin-classnames": "^0.7.5",
+    "prettier-plugin-classnames": "^0.8.2",
     "prettier-plugin-merge": "^0.7.1",
     "prettier-plugin-tailwindcss": "^0.6.5",
-    "stylelint": "16.20.0",
+    "stylelint": "16.23.1",
     "typescript-eslint": "^8.34.0"
   },
   "peerDependencies": {
-    "stylelint": "16.20.0"
+    "stylelint": "16.23.1"
   },
   "exports": {
     ".": {

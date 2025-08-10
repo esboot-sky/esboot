@@ -10,9 +10,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@stylistic/stylelint-plugin": "^3.1.2",
+    "@stylistic/stylelint-plugin": "^4.0.0",
     "postcss-scss": "^4.0.9",
-    "stylelint-config-standard": "38.0.0",
+    "stylelint-config-standard": "39.0.0",
     "stylelint-scss": "6.12.1"
   }
 }
