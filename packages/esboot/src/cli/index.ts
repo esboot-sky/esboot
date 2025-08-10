@@ -1,5 +1,4 @@
 import { program } from 'commander';
-import { lint, execGitHooks } from '@dz-web/esboot-lint';
 
 import cfg from '@/cfg';
 
@@ -105,8 +104,9 @@ export const run = async () => {
     .command('lint')
     .argument('[args...]')
     .description('Lint project files using ESLint and Stylelint')
-    .allowUnknownOption(true) 
+    .allowUnknownOption(true)
     .action(async (args) => {
+      const { lint } = await import('@dz-web/esboot-lint');
       lint({ cwd, args: args || [] });
     });
 
@@ -115,6 +115,7 @@ export const run = async () => {
     .description('Execute git hooks')
     .option('-t, --type <type>', 'type of git hooks')
     .action(async (options) => {
+      const { execGitHooks } = await import('@dz-web/esboot-lint');
       execGitHooks({ type: options.type, cwd });
     });
 
