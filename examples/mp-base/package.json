@@ -1,7 +1,6 @@
 {
   "name": "example-mp-base",
   "version": "1.0.0",
-  "testVersion": 1,
   "description": "",
   "private": true,
   "main": "index.js",
@@ -20,7 +19,7 @@
   "dependencies": {
     "@dz-web/axios": "^0.0.6",
     "@dz-web/axios-middlewares": "^1.0.3",
-    "@dz-web/bridge": "^2.2.10",
+    "@dz-web/bridge": "^3.0.1",
     "@dz-web/cache": "^2.0.0",
     "@dz-web/esboot-browser": "workspace:*",
     "@dz-web/o-orange": "^4.5.0",
