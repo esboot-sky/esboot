@@ -9,6 +9,7 @@ export function loadEnv({ root }: { root: string }) {
       dotEnvExpand.expand(
         dotEnv.config({
           override: true,
+          quiet: true,
           path: dotenvFile,
         })
       );
