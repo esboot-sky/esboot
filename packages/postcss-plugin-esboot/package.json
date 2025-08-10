@@ -19,9 +19,9 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "tailwindcss": "^4.1.7"
+    "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
-    "postcss": "^8.4.47"
+    "postcss": "^8.5.6"
   }
 }
