@@ -34,14 +34,14 @@ function Test() {
   return (
     <div className="page">
       <div styleName="text text2" className="page">
-        module css12343242
+        module css233
         {getCount2}
       </div>
       <div
         className="mb-[20px] flex items-center justify-between bg-blue-500 p-5 text-[36px] font-semibold text-white
           hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 active:bg-violet-700"
       >
-        Hello, TailwindCSS3!
+        Hello, TailwindCSS4!
       </div>
       <button onClick={() => navigate('/test')} type="button">
         To Test
