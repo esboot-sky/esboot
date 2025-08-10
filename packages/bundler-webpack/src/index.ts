@@ -26,7 +26,7 @@ export class BundlerWebpack extends Bundler {
 
       const compiler = Webpack(webpackCfg);
 
-      server = new WebpackDevServer(webpackCfg.devServer, compiler);
+      server = new WebpackDevServer(webpackCfg.devServer, compiler!);
 
       try {
         await server.start();
@@ -48,7 +48,7 @@ export class BundlerWebpack extends Bundler {
     const webpackCfg = this.onModifyBundlerConfig<CustomWebpackConfiguration>(
       await getWebpackCfg(this.cfg)
     );
-    const compiler = Webpack(webpackCfg);
+    const compiler = Webpack(webpackCfg)!;
 
     const handler: Parameters<typeof compiler.run>[0] = async (err, stats) => {
       const statsJson = stats?.toJson('minimal');
