@@ -26,10 +26,15 @@ export class BundlerVite extends Bundler {
 
     app.use(vite.middlewares);
 
-    app.use('*', async (req, res) => {
-      const isHtmlRequest = req.headers.accept?.includes('text/html');
+    app.use('*', async (req, res, next) => {
+      try {
+        const isHtmlRequest = req.headers.accept?.includes('text/html');
 
-      if (isHtmlRequest) {
+        if (!isHtmlRequest) {
+          next();
+          return;
+        }
+
         const { originalUrl } = req;
         const _reqUrl = originalUrl.includes('.html')
           ? originalUrl
@@ -51,17 +56,29 @@ export class BundlerVite extends Bundler {
           );
 
           res.status(200).send(htmlContent);
-        } else {
-          let list = '';
-          for (const page of Object.keys(pages)) {
-            const { title } = pages[page];
-            list += `<li><a href="/${page}.html">${title}: ${page}</a></li>`;
-          }
-          res.status(404).send(`<div>
-            <h1>Page not found, you can go to:</h1>
-            <ul>${list}</ul>
-            </div>`);
+          return;
         }
+
+        let list = '';
+        for (const page of Object.keys(pages)) {
+          const { title } = pages[page];
+          list += `<li><a href="/${page}.html">${title}: ${page}</a></li>`;
+        }
+        res.status(404).send(`<div>
+          <h1>Page not found, you can go to:</h1>
+          <ul>${list}</ul>
+          </div>`);
+      } catch (err) {
+        vite.ssrFixStacktrace?.(err as Error);
+        console.error('Dev server error:', err);
+        next(err);
+      }
+    });
+
+    app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+      console.error('Dev server error:', err);
+      if (!res.headersSent) {
+        res.status(500).send('Internal Server Error');
       }
     });
 
