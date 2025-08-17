@@ -1,10 +1,12 @@
 import noCrossPlatformImports from './rules/no-cross-platform-imports.js';
 import noCrossPlatformLibImports from './rules/no-cross-platform-lib-imports.js';
+import pkg from '../package.json' with { type: 'json' };
 
 const plugin = {
   meta: {
-    name: '@dz-web/eslint-plugin-esboot',
-    version: '4.0.0-alpha.1',
+    name: pkg.name,
+    version: pkg.version,
+    namespace: 'esboot',
   },
   rules: {
     'no-cross-platform-imports': noCrossPlatformImports,

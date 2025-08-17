@@ -1,5 +1,6 @@
-import { ThemeValues } from '@mobile/constants/config';
-import { IStandardAppUserConfig, selectUserConfig, setTheme, setUserConfig } from '@mobile/model/app/slice';
+import type { ThemeValues } from '@mobile/constants/config';
+import type { IStandardAppUserConfig } from '@mobile/model/app/slice';
+import { selectUserConfig, setTheme, setUserConfig } from '@mobile/model/app/slice';
 import { useMinimalAppDispatch, useMinimalAppSelector } from '@mobile/model/minimal-store';
 
 export function useUserConfig() {

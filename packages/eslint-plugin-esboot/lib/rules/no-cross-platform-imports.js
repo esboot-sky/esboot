@@ -1,6 +1,7 @@
 import path from 'node:path';
 
 import { extractPlatformAndType } from '../helpers/extract-platform-and-type.js';
+import { resolveAlias } from '@dz-web/esboot-common/helpers';
 
 export default {
   meta: {
@@ -19,32 +20,18 @@ export default {
     schema: [],
   },
   create(context) {
-    const currentFilename = context.filename;
-    // const settings = context.getSettings();
-    console.log('currentFilename', context.settings, context.options. currentFilename);
-
-    // const settings = context.settings['import/resolver'].alias;
+    const currentFilename = context.getFilename();
     const currInfo = extractPlatformAndType(currentFilename);
-
-    function resolveImportPath(importPath) {
-      const resolvedPath = resolve(importPath, currentFilename, settings);
-
-      if (resolvedPath.found) {
-        return resolvedPath.path;
-      }
-
-      return path.resolve(path.dirname(currentFilename), importPath);
-    }
 
     return {
       ImportDeclaration(node) {
         const importPath = node.source.value;
-
-        console.log('importPath', node.source, node, importPath);
-
-        // const resolvedPath = resolveImportPath(importPath);
+        const resolvedPath = resolveAlias({
+          targetPath: importPath,
+          currentPath: currentFilename,
+          tsconfigPath: path.join(process.cwd(), 'tsconfig.json'),
+        });
         const importInfo = extractPlatformAndType(resolvedPath);
-
         // When import file is not platfrom's file
         if (!importInfo) return;
 
@@ -52,6 +39,17 @@ export default {
           currInfo || {};
         const { platform: importPlatform, pageType: importPageType } =
           importInfo || {};
+
+        console.log(
+          'resolvedPath',
+          resolvedPath,
+          currInfo,
+          importInfo,
+          currPlatform,
+          importPlatform,
+          currPageType,
+          importPageType
+        );
 
         if (!currPlatform && !importPlatform) return;
 
@@ -68,6 +66,7 @@ export default {
 
         // Not same platform
         if (importPlatform && currPlatform !== importPlatform) {
+          console.log('noImportOtherPlatforms', importPlatform, currPlatform);
           context.report({
             node,
             messageId: 'noImportOtherPlatforms',

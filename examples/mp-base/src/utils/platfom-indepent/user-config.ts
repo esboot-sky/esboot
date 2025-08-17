@@ -1,8 +1,8 @@
-import { TOKEN_KEY } from '@mobile/constants/config';
-import { TOKEN_KEY as PC_TOKEN_KEY } from '@pc/constants/config';
-
 import type { MinimalStoreType } from '@mobile/model/minimal-store';
 import type { MinimalStoreType as PCMinimalStoreType } from '@pc/model/minimal-store';
+
+import { TOKEN_KEY } from '@mobile/constants/config';
+import { TOKEN_KEY as PC_TOKEN_KEY } from '@pc/constants/config';
 
 export function getPlatformIndependentUserConfig() {
   if (process.env.isMobile) {
