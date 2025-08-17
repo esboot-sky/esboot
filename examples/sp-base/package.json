@@ -1,8 +1,14 @@
 {
   "name": "example-sp-base",
   "version": "1.0.0",
-  "description": "",
   "private": "true",
+  "description": "",
+  "author": "Roc",
+  "license": "ISC",
+  "sideEffects": [
+    "./src/**/*.scss",
+    "./src/**/*.css"
+  ],
   "main": "index.js",
   "scripts": {
     "dev": "esboot dev",
@@ -11,12 +17,6 @@
     "postinstall": "esboot prepare",
     "test": "esboot vitest run"
   },
-  "sideEffects": [
-    "./src/**/*.scss",
-    "./src/**/*.css"
-  ],
-  "author": "Roc",
-  "license": "ISC",
   "dependencies": {
     "@dz-web/axios": "^0.0.6",
     "@dz-web/axios-middlewares": "^1.0.3",

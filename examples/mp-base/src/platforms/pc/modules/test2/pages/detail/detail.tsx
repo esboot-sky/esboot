@@ -1,6 +1,9 @@
+import { sayHi } from '@mobile-browser/helpers/multi-platforms';
 import { genericMemo } from '@/utils/react-utils';
 
-const Detail = genericMemo(function Index() {
+console.log(sayHi('123'));
+
+const Detail = genericMemo(() => {
   return (
     <div>
       detail

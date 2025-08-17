@@ -1,7 +1,8 @@
-import { Language } from '@/constants/config';
+import type { RaiseMode, ThemeValues } from '@mobile/constants/config';
+import type { IStandardAppUserConfig } from '@mobile/model/app/slice';
+import type { Language } from '@/constants/config';
+import { TOKEN_KEY } from '@mobile/constants/config';
 import { listenReactQueryError } from '@/global-events';
-import { ThemeValues, RaiseMode, TOKEN_KEY } from '@mobile/constants/config';
-import { IStandardAppUserConfig } from '@mobile/model/app/slice';
 
 /**
  * app传过来的原始设置信息, 代码中不使用此类型，使用dz web app标准类型IStandardAppUserConfig

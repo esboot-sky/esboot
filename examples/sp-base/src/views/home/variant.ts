@@ -1,7 +1,7 @@
 import { cva } from '@dz-web/esboot-browser';
 
 export const langBtn = cva(
-  ' flex h-[32px] w-[36px] items-center justify-center rounded-[4px] text-[14px] text-[#999] pointer ',
+  'pointer flex h-[32px] w-[36px] items-center justify-center rounded-[4px] text-[14px] text-[#999]',
   {
     variants: {
       isChosen: {
