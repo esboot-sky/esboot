@@ -123,7 +123,7 @@ export default new (class Cfg {
     Object.assign(this.#config, cfg);
   };
 
-  loadEnv = (options: { cwd?: string } = {}) => {
+  loadEnv = (options: { cwd?: string; } = {}) => {
     const {
       NODE_ENV,
       ESBOOT_PLATFORM = PLATFORMS.PC,
@@ -163,7 +163,7 @@ export default new (class Cfg {
       exit(1);
     }
 
-    const { default: getCfg } = await jiti(filePath);
+    const getCfg = await jiti.import(filePath, { default: true });
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
 
     const { isDev } = this.#config;
@@ -182,7 +182,7 @@ export default new (class Cfg {
     this.#config.isSP ? this.#generateSPCfg() : this.#generateMPCfg();
   };
 
-  load = async (options: { cwd?: string } = {}) => {
+  load = async (options: { cwd?: string; } = {}) => {
     this.loadEnv(options);
     await this.loadConfigFile();
   };
