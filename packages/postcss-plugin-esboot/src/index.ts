@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { parse} from 'postcss';
+
 
 import type { Root, Result, Node } from 'postcss';
 
@@ -18,15 +20,13 @@ export default async (opts = { useTailwindcss: true }) => {
   const { useTailwindcss } = opts;
   let tailwindCssContent: string;
   let tailwindCssPath: string;
-  let postcss: typeof import('postcss');
 
   if (useTailwindcss) {
     tailwindCssPath = fileURLToPath(
       import.meta.resolve('tailwindcss/index.css')
     );
-    
+
     tailwindCssContent = fs.readFileSync(tailwindCssPath, 'utf8');
-    postcss = await import('postcss');
   }
 
   return {
@@ -70,7 +70,7 @@ export default async (opts = { useTailwindcss: true }) => {
               tailwindCssContent
             );
 
-            const newRoot = postcss.parse(updatedCssContent, {
+            const newRoot = parse(updatedCssContent, {
               from: tailwindCssPath,
             });
 
