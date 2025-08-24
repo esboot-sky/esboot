@@ -57,7 +57,7 @@ export const addEntry = async (
 
   const cwd = join(contentRootPath, contentPath || ESBOOT_CONTENT_PATH);
   const files = await glob(
-    `${pattern || ESBOOT_CONTENT_PATTERN}.entry.tsx`,
+    `**/${pattern || ESBOOT_CONTENT_PATTERN}.entry.tsx`,
     {
       cwd,
       ignore: ['**/node_modules/**', '**/test/**', ...ignoreList],
@@ -80,7 +80,7 @@ export const addEntry = async (
 
     cb?.({
       title: ensureTitle,
-      entry: file,
+      entry: _file,
       chunkName,
       template: tplRelativePath,
       urlParams,
@@ -91,7 +91,7 @@ export const addEntry = async (
       tpl: tplRelativePath,
       chunkName,
       fileName,
-      entry: file,
+      entry: _file,
       title: ensureTitle,
       url: `http://${ipv4}:${port}/${chunkName}.html`,
     };
