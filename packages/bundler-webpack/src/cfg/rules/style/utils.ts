@@ -1,6 +1,10 @@
+import { fileURLToPath } from "node:url";
+
+const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
+
 export const getCssHashRule = () => '[local]__[contenthash:base64:8]';
 export const getStyleLoader = (): Record<string, any> => ({
-  loader: require.resolve('style-loader'),
+  loader: resolvePath('style-loader'),
   options: {
     esModule: true,
   },

@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { fileURLToPath } from "node:url";
 import { isUndefined } from '@dz-web/esboot-common/lodash';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {
@@ -6,6 +7,8 @@ import {
   addPostcssPluginPx2rem,
   addPostcssPluginESBoot,
 } from '@dz-web/esboot-bundler-common';
+import postcssPresetEnv from 'postcss-preset-env';
+import { getLocalIdent } from '@dz-web/babel-plugin-react-css-modules/utils';
 
 import type { AddFunc } from '@/cfg/types';
 
@@ -15,15 +18,11 @@ import {
   getMiniCssExtractPluginOptions,
   getCssLoaderOptions,
 } from './utils';
-
-const postcssNormalize = require('postcss-normalize');
-const {
-  getLocalIdent,
-} = require('@dz-web/babel-plugin-react-css-modules/utils');
-
 interface ParseScssModuleOpts {
   modules?: boolean;
 }
+
+const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
 
 export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
   const { isDev, isSP, sourceMap, publicPath, rootPath } = cfg.config;
@@ -75,11 +74,11 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
             options: miniCssExtractPluginOptions,
           },
       {
-        loader: require.resolve('css-loader'),
+        loader: resolvePath('css-loader'),
         options: cssLoaderOptionsCopy,
       },
       {
-        loader: require.resolve('postcss-loader'),
+        loader: resolvePath('postcss-loader'),
         options: {
           sourceMap: isSourceMap,
           postcssOptions: {
@@ -87,20 +86,18 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
               postcssPluginESBoot,
               postcssPluginTailwindcss,
               postcssPluginPx2rem,
-              require('postcss-flexbugs-fixes'),
-              require('postcss-preset-env')({
+              postcssPresetEnv({
                 autoprefixer: {
                   flexbox: 'no-2009',
                 },
                 stage: 3,
               }),
-              postcssNormalize(),
             ].filter(Boolean),
           },
         },
       },
       {
-        loader: require.resolve('sass-loader'),
+        loader: resolvePath('sass-loader'),
         options: { sourceMap: isSourceMap },
       },
     ];
@@ -119,7 +116,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
               options: getMiniCssExtractPluginOptions(),
             },
         {
-          loader: require.resolve('css-loader'),
+          loader: resolvePath('css-loader'),
           options: cssLoaderOptions,
         },
       ],
