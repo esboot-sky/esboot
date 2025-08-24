@@ -15,7 +15,6 @@ import {
 
 import type { AddFunc } from '@/cfg/types';
 
-const postcssNormalize = require('postcss-normalize');
 const pxtorem = require('@alitajs/postcss-plugin-px2rem');
 
 interface ParseScssModuleOpts {
@@ -105,7 +104,6 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
                   minPixelValue: 0,
                   ...pxtoremCustom,
                 }),
-              require('postcss-flexbugs-fixes'),
               require('postcss-preset-env')({
                 autoprefixer: {
                   flexbox: 'no-2009',

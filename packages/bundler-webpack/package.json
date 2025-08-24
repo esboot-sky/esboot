@@ -17,8 +17,8 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "@babel/core": "^7.28.0",
-    "@babel/preset-env": "^7.28.0",
+    "@babel/core": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
     "@dz-web/babel-plugin-react-css-modules": "^6.13.7",
     "@dz-web/esboot-bundler-common": "workspace:*",
@@ -30,16 +30,14 @@
     "babel-loader": "^10.0.0",
     "babel-plugin-import": "^1.13.8",
     "babel-plugin-react-compiler": "19.1.0-rc.2",
-    "copy-webpack-plugin": "^13.0.0",
-    "core-js": "^3.45.0",
+    "copy-webpack-plugin": "^13.0.1",
+    "core-js": "^3.45.1",
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.2",
-    "html-webpack-plugin": "^5.6.3",
-    "mini-css-extract-plugin": "^2.9.3",
-    "postcss-flexbugs-fixes": "^5.0.2",
+    "html-webpack-plugin": "^5.6.4",
+    "mini-css-extract-plugin": "^2.9.4",
     "postcss-loader": "^8.1.1",
-    "postcss-normalize": "^13.0.1",
-    "postcss-preset-env": "^10.2.4",
+    "postcss-preset-env": "^10.3.0",
     "postcss-scss": "^4.0.9",
     "react-refresh": "^0.17.0",
     "sass": "^1.90.0",
@@ -48,13 +46,14 @@
     "terser-webpack-plugin": "^5.3.14",
     "thread-loader": "^4.0.4",
     "ts-loader": "^9.5.2",
-    "webpack": "^5.101.0",
+    "webpack": "^5.101.3",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-dev-server": "^5.2.2",
     "webpackbar": "^7.0.0"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",
+    "@types/webpack-bundle-analyzer": "^4.7.0",
     "react-refresh-typescript": "^2.0.10"
   },
   "peerDependencies": {

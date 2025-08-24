@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import type { BabelPlugin } from '@/types';
 
 function isFirstLetterUppercase(word: string) {
@@ -8,6 +9,7 @@ function isFirstLetterUppercase(word: string) {
 const concatName = (name: string) => `rsuite/${name}`;
 const defaultNoCssComp = ['CustomProvider', 'Whisper'];
 const notCompButHavingCss = [concatName('useToaster')];
+const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
 
 export function getImportPluginsOfRsuite(
   noCssCompList?: string[]
@@ -17,7 +19,7 @@ export function getImportPluginsOfRsuite(
   );
 
   return [
-    require.resolve('babel-plugin-import'),
+    resolvePath('babel-plugin-import'),
     {
       libraryName: 'rsuite',
       camel2DashComponentName: false,

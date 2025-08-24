@@ -1,10 +1,13 @@
 import path from 'node:path';
 import type { Configuration } from '@dz-web/esboot';
+import { fileURLToPath } from "node:url";
+import { generateScopedNameFactory } from '@dz-web/babel-plugin-react-css-modules/utils';
 import { getCssHashRule } from '../style/utils';
 
+const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
 export const presets = [
   [
-    require.resolve('@babel/preset-env'),
+    resolvePath('@babel/preset-env'),
     {
       modules: false,
       useBuiltIns: 'usage',
@@ -12,7 +15,7 @@ export const presets = [
     },
   ],
   [
-    require.resolve('@babel/preset-react'),
+    resolvePath('@babel/preset-react'),
     {
       runtime: 'automatic',
     },
@@ -30,20 +33,20 @@ export const getPlugins = (alias: Configuration['alias'], legacy: boolean) => {
 
   return [
     [
-      require.resolve('babel-plugin-react-compiler'),
+      resolvePath('babel-plugin-react-compiler'),
       {
         target: '19',
       },
     ],
     [
-      require.resolve('@jleonardvp/babel-plugin-module-resolver'),
+      resolvePath('@jleonardvp/babel-plugin-module-resolver'),
       {
         alias: customAlias,
         extensions: ['.ts', '.tsx', '.json', '.svg'],
       },
     ],
     [
-      require.resolve('@dz-web/babel-plugin-react-css-modules'),
+      resolvePath('@dz-web/babel-plugin-react-css-modules'),
       {
         filetypes: {
           '.scss': {
@@ -51,7 +54,7 @@ export const getPlugins = (alias: Configuration['alias'], legacy: boolean) => {
           },
         },
         generateScopedName:
-          require('@dz-web/babel-plugin-react-css-modules/utils').generateScopedNameFactory(
+          generateScopedNameFactory(
             getCssHashRule()
           ),
         webpackHotModuleReloading: true,

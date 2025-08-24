@@ -1,4 +1,5 @@
 import os from 'node:os';
+import { fileURLToPath } from "node:url";
 import type { Configuration } from '@dz-web/esboot';
 
 import type { BundlerWebpackOptions } from '@/types';
@@ -8,6 +9,7 @@ import type { MFSU } from '@/cfg/helpers/mfsu';
 
 import { getPlugins, env, presets } from './babelrc.config';
 
+const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
 export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
   cfg,
   webpackCfg,
@@ -23,9 +25,9 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
     extraBabelIncludes = [],
   } = bundlerOptions;
 
-  const babelLoader = require.resolve('babel-loader');
+  const babelLoader = resolvePath('babel-loader');
   const threadLoader = {
-    loader: require.resolve('thread-loader'),
+    loader: resolvePath('thread-loader'),
     options: {
       workers: os.cpus().length,
       workerParallelJobs: 50,
@@ -36,7 +38,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
     },
   };
   const tsLoader = {
-    loader: require.resolve('ts-loader'),
+    loader: resolvePath('ts-loader'),
     options: {
       happyPackMode: true,
       transpileOnly: true,
@@ -49,9 +51,9 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
       env,
       plugins: [
         ...extraBabelPlugins,
-        ...getPlugins(alias, legacy),
+        ...getPlugins(alias, legacy ?? false),
         ...(mfsu?.getBabelPlugins() ?? []),
-        isDev && !isExtra && require.resolve('react-refresh/babel'),
+        isDev && !isExtra && resolvePath('react-refresh/babel'),
       ].filter(Boolean),
     };
   };
