@@ -53,6 +53,11 @@ export const getCfg = async (
         ].filter(Boolean),
       },
     },
+    optimizeDeps: {
+      exclude: [
+        'vite-plugin-static-copy',
+      ],
+    },
     sharedConfig: {
       pages: {},
     },
