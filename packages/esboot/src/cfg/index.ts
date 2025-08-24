@@ -4,6 +4,7 @@ import { exit } from 'node:process';
 import { ip } from 'address';
 import { createJiti } from 'jiti';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
+import { DEFAULT_CONFIG_FOLDER, DEFAULT_SRC_FOLDER } from '@dz-web/esboot-common';
 
 import { isFunction, pick, merge } from '@dz-web/esboot-common/lodash';
 import {
@@ -43,7 +44,7 @@ export default new (class Cfg {
       },
     ] satisfies Configuration['staticPathList'];
     this.#config.alias = {
-      '@': 'src',
+      '@': DEFAULT_SRC_FOLDER,
       ...this.#config.alias,
     } satisfies Configuration['alias'];
 
@@ -96,13 +97,13 @@ export default new (class Cfg {
       },
     ] satisfies Configuration['staticPathList'];
     this.#config.alias = {
-      '@mobile-native': 'src/platforms/mobile/_native',
-      '@mobile-browser': 'src/platforms/mobile/_browser',
-      '@pc-native': 'src/platforms/pc/_native',
-      '@pc-browser': 'src/platforms/pc/_browser',
-      '@mobile': 'src/platforms/mobile',
-      '@pc': 'src/platforms/pc',
-      '@': 'src',
+      '@mobile-native': `${DEFAULT_SRC_FOLDER}/platforms/mobile/_native`,
+      '@mobile-browser': `${DEFAULT_SRC_FOLDER}/platforms/mobile/_browser`,
+      '@pc-native': `${DEFAULT_SRC_FOLDER}/platforms/pc/_native`,
+      '@pc-browser': `${DEFAULT_SRC_FOLDER}/platforms/pc/_browser`,
+      '@mobile': `${DEFAULT_SRC_FOLDER}/platforms/mobile`,
+      '@pc': `${DEFAULT_SRC_FOLDER}/platforms/pc`,
+      '@': DEFAULT_SRC_FOLDER,
       ...this.#config.alias,
     } satisfies Configuration['alias'];
 
@@ -137,8 +138,8 @@ export default new (class Cfg {
 
     const { cwd } = this.#config;
     const isCIBuild = ESBOOT_IS_CI_BUILD === '1';
-    const rootPath = resolve(cwd, './src');
-    const configRootPath = resolve(cwd, './config');
+    const rootPath = resolve(cwd, DEFAULT_SRC_FOLDER);
+    const configRootPath = resolve(cwd, DEFAULT_CONFIG_FOLDER);
     const ipv4 = ip();
     const cfg = {
       cwd,
