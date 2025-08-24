@@ -30,7 +30,13 @@ export const getCfg = async (
   const { customConfig } = bundlerOptions as BundlerViteOptions;
 
   const viteCfg: CustomViteConfiguration = {
-    plugins: [react()],
+    plugins: [react(
+      {
+        babel: {
+          plugins: ['babel-plugin-react-compiler'],
+        },
+      }
+    )],
     mode,
     configFile: false,
     publicDir: false,
@@ -62,7 +68,7 @@ export const getCfg = async (
   await addEntry(cfg, viteCfg);
   await addDevServer(cfg, viteCfg);
   await addResolve(cfg, viteCfg);
-  
+
   await addSvgrPlugin(cfg, viteCfg);
   await addCopyPlugin(cfg, viteCfg);
   await addLangJsonPicker(cfg, viteCfg);
