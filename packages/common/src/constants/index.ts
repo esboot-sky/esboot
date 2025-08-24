@@ -12,6 +12,9 @@ export const DEFAULT_DEV_PORT = 8100;
 export const DEFAULT_ANALYZE_PORT = 8101;
 export const DEFAULT_PREVIEW_PORT = 8102;
 
+export const DEFAULT_CONFIG_FOLDER = 'config';
+export const DEFAULT_SRC_FOLDER = 'src';
+
 export const cacheDir = resolve(process.cwd(), 'node_modules/.cache/esboot');
 export const webpackCacheDir = join(cacheDir, 'webpack-cache');
 
