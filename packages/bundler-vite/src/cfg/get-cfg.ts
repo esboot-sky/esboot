@@ -26,7 +26,7 @@ export const getCfg = async (
   cfg: ConfigurationInstance,
   mode: Environment
 ): Promise<CustomViteConfiguration> => {
-  const { cwd, bundlerOptions = {}, publicPath } = cfg.config;
+  const { cwd, bundlerOptions = {}, publicPath, sourceMap } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerViteOptions;
 
   const viteCfg: CustomViteConfiguration = {
@@ -42,6 +42,7 @@ export const getCfg = async (
       ...addDefine(cfg),
     },
     css: {
+      devSourcemap: sourceMap,
       preprocessorOptions: {
         scss: {},
       },
@@ -52,11 +53,6 @@ export const getCfg = async (
           await addPostcssPluginPx2rem(cfg),
         ].filter(Boolean),
       },
-    },
-    optimizeDeps: {
-      exclude: [
-        'vite-plugin-static-copy',
-      ],
     },
     sharedConfig: {
       pages: {},
