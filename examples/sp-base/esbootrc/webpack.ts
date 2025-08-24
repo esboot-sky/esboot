@@ -1,11 +1,12 @@
-import { defineConfig, PluginHooks, type Configuration, definePlugin } from '@dz-web/esboot';
+import type { Configuration } from '@dz-web/esboot';
+import type { BundlerWebpackOptions as BundlerOptions } from '@dz-web/esboot-bundler-webpack';
+import { defineConfig, definePlugin, PluginHooks } from '@dz-web/esboot';
 import {
   BundlerWebpack as Bundler,
   CodeSplittingType,
-  type BundlerWebpackOptions as BundlerOptions,
 } from '@dz-web/esboot-bundler-webpack';
-import pluginVitest from '@dz-web/esboot-plugin-vitest';
 import pluginDocs from '@dz-web/esboot-plugin-docs';
+import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
 export default defineConfig<BundlerOptions>({
   plugins: [
