@@ -1,6 +1,7 @@
 import { normalizePath } from 'vite';
 import { pathExistsSync } from '@dz-web/esboot-common/fs-extra';
 import type { AddFunc } from '@/cfg/types';
+import { resolve } from 'path';
 
 export const addCopyPlugin: AddFunc = async (cfg, viteCfg) => {
   const { staticPathList } = cfg.config;
@@ -9,6 +10,7 @@ export const addCopyPlugin: AddFunc = async (cfg, viteCfg) => {
   const filteredStaticPathList = staticPathList
     .map((item) => {
       if (pathExistsSync(item.from)) {
+        console.log('normalizePath(item.from)', normalizePath(item.from), resolve(process.cwd(), normalizePath(item.from)));
         return {
           src: normalizePath(item.from),
           dest: '.',
@@ -20,7 +22,7 @@ export const addCopyPlugin: AddFunc = async (cfg, viteCfg) => {
   viteCfg.plugins.push(
     viteStaticCopy({
       targets: filteredStaticPathList,
-      silent: true,
+      silent: false,
     })
   );
 };

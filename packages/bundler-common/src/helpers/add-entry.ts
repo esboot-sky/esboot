@@ -4,7 +4,7 @@ import type { ConfigurationInstance } from '@dz-web/esboot';
 
 import { getExportProps } from '@umijs/ast';
 import type { Configuration } from '@dz-web/esboot';
-import { glob } from 'glob';
+import { glob } from 'tinyglobby';
 
 interface EntryFileExportProps {
   title?: string;
@@ -55,10 +55,11 @@ export const addEntry = async (
     ? ESBOOT_CONTENT_IGNORE.split(',').map((v) => `**/${v}.entry.tsx`)
     : [];
 
+  const cwd = join(contentRootPath, contentPath || ESBOOT_CONTENT_PATH);
   const files = await glob(
-    `/**/${pattern || ESBOOT_CONTENT_PATTERN}.entry.tsx`,
+    `${pattern || ESBOOT_CONTENT_PATTERN}.entry.tsx`,
     {
-      root: join(contentRootPath, contentPath || ESBOOT_CONTENT_PATH),
+      cwd,
       ignore: ['**/node_modules/**', '**/test/**', ...ignoreList],
     }
   );
@@ -66,14 +67,15 @@ export const addEntry = async (
   const entry: Configuration['entry'] = {};
 
   for (const file of files) {
+    const _file = join(cwd, file);
     const { title, template, name, langJsonPicker, urlParams } =
-      (getExportProps(readFileSync(file, 'utf-8')) as EntryFileExportProps) ||
+      (getExportProps(readFileSync(_file, 'utf-8')) as EntryFileExportProps) ||
       {};
 
     const fileName = basename(file, '.entry.tsx');
     const chunkName = name || fileName;
 
-    const ensureTitle = title || fileName || 'ESboot APP';
+    const ensureTitle = title || fileName || 'ESBoot APP';
     const tplRelativePath = `template/${template || 'index'}.html`;
 
     cb?.({
