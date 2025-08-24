@@ -1,6 +1,7 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import antfu from '@antfu/eslint-config';
 import esbootPlugin from '@dz-web/eslint-plugin-esboot';
+import reactHooks from 'eslint-plugin-react-hooks';
 import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
 
 const compat = new FlatCompat();
@@ -36,12 +37,14 @@ export default async function createConfig() {
       files: ['**/*.{jsx,ts,tsx}'],
       plugins: {
         'better-tailwindcss': eslintPluginBetterTailwindcss,
+        'react-hooks': reactHooks.configs['recommended-latest'],
         ...esbootPlugin.configs['recommended'].plugins,
       },
-      rules: {
+      rules: {c
         ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
         ...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
         ...esbootPlugin.configs['recommended'].rules,
+        ...reactHooks.configs['recommended-latest'].rules,
 
         'better-tailwindcss/enforce-consistent-line-wrapping': [
           'warn',
@@ -90,9 +93,6 @@ export default async function createConfig() {
   //     plugins: {
   //       import: importPlugin,
   //       react: reactPlugin,
-  //       'react-hooks': reactHooksPlugin,
-  //       'jsx-a11y': jsxA11yPlugin,
-  //       // '@dz-web/esboot': esbootPlugin.default,
   //     },
   //     settings: {
   //       'import/resolver': {

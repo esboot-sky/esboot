@@ -24,7 +24,8 @@
     "@umijs/ast": "^4.4.11",
     "address": "^2.0.3",
     "chokidar": "^4.0.3",
-    "glob": "^11.0.2"
+    "glob": "^11.0.2",
+    "tinyglobby": "^0.2.14"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",
