@@ -11,6 +11,5 @@ export const addTailwindPlugin: AddFunc = async (cfg, viteCfg) => {
   if (!useTailwindcss) return;
   const { default: vitePluginTailwindcss } = await import('@tailwindcss/vite');
 
-  console.log('viteCfg.plugins', vitePluginTailwindcss());
   viteCfg.plugins.push(vitePluginTailwindcss());
 };

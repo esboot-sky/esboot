@@ -10,6 +10,8 @@ import { langBtn } from './variant';
 import './app.scss';
 import './test.css';
 
+// console.log(styles, 'styles');
+
 const a = 1;
 console.log(a);
 function Test() {

@@ -10,6 +10,6 @@ export const addStyle: AddFunc = async (_, viteCfg) => {
     hashPrefix: 'prefix',
     globalModulePaths: [/styles/],
     scopeBehaviour: 'local',
-    exportGlobals: true,
+    exportGlobals: false,
   };
 };

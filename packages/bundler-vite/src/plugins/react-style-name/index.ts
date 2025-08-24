@@ -30,14 +30,16 @@ export default function reactStyleNamePlugin(options: Options = {}) {
         if (source.endsWith('.scss')) {
           const resolvedPath = path.resolve(path.dirname(importer), source);
           if (filterStyleFiles(resolvedPath)) {
-            return `${resolvedPath}?module`;
+            const hasQuery = resolvedPath.includes('?');
+            return `${resolvedPath}${hasQuery ? '&module' : '?module'}`;
           }
         }
       },
       transform(source: string, id: string) {
+        if (!matchId(id)) return;
         const { imports, updatedSource } = findStyleImports(source);
 
-        if (matchId(id) && imports.length) {
+        if (imports.length) {
           return {
             code:
               `${importStyleNameTransformer(updatedSource)}\n;\n` +
