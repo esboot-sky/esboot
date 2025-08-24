@@ -25,6 +25,7 @@ function Test() {
   })();
 
   useEffect(() => {
+    const cc = count + count3;
     // login({
     //   username: 'admin',
     //   password: '123456',
