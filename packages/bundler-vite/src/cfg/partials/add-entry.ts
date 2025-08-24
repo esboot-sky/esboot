@@ -29,17 +29,6 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
       entry: entry.replace(cwd, ''),
       title,
     };
-    // pages.push({
-    //   entry: entry.replace(cwd, ''),
-    //   filename: `${chunkName}.html`,
-    //   template: `${configRootPath}/${template}`.replace(`${cwd}`, ''),
-    //   title,
-    //   inject: {
-    //     data: {
-    //       isDev: isDev,
-    //     },
-    //   },
-    // });
   });
 
   viteCfg.plugins!.push({

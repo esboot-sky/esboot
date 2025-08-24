@@ -2,7 +2,6 @@ import { readFileSync, existsSync } from 'node:fs';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
 import type { SharedConfig } from '@/types';
 import { defaultTemplate } from '@dz-web/esboot-bundler-common';
-import { join } from 'path';
 
 const templateContentCache = new Map<string, string>();
 const entryContentCache = new Map<string, string>();
@@ -34,7 +33,7 @@ export const loadHtmlContent = async (
 
   htmlContent = htmlContent.replace(
     '</body>',
-    `<script src="${join('/src', entry).replace(/\\/g, '/')}" type="module"></script></body>`
+    `<script src="${entry.replace(/\\/g, '/')}" type="module"></script></body>`
   );
   if (!isUndefined(title)) {
     htmlContent = htmlContent.replace(
