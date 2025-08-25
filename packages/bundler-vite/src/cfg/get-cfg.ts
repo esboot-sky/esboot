@@ -7,6 +7,7 @@ import {
   addPostcssPluginTailwindcss,
   addDefine,
   addPostcssPluginPx2rem,
+  addReactCompiler,
 } from '@dz-web/esboot-bundler-common';
 import { addEntry } from './partials/add-entry';
 import { addStyle } from './partials/add-style';
@@ -19,7 +20,7 @@ import { addSvgrPlugin } from '../plugins/add-plugin-svgr';
 
 import { addBuildCfg } from './build/add-build-cfg';
 
-import type { ConfigurationInstance } from '@dz-web/esboot';
+import type { BabelPlugin, ConfigurationInstance } from '@dz-web/esboot';
 import type { BundlerViteOptions, CustomViteConfiguration } from '../types';
 
 export const getCfg = async (
@@ -33,7 +34,7 @@ export const getCfg = async (
     plugins: [react(
       {
         babel: {
-          plugins: ['babel-plugin-react-compiler'],
+          plugins: [addReactCompiler(cfg)].filter(Boolean) as BabelPlugin[],
         },
       }
     )],

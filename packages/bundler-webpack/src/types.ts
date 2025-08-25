@@ -1,5 +1,5 @@
 import { CustomWebpackConfiguration } from '@/cfg/types';
-import type { Configuration as ESBootConfiguration } from '@dz-web/esboot';
+import type { BabelPlugin, Configuration as ESBootConfiguration } from '@dz-web/esboot';
 
 export enum CodeSplittingType {
   bigVendors = 'bigVendors',
@@ -37,7 +37,6 @@ export type CustomConfig = (
   cfg: ESBootConfiguration
 ) => CustomWebpackConfiguration;
 
-export type BabelPlugin = [string, Record<string, any>];
 export type BundlerWebpackOptions = {
   mfsu?: boolean;
   mfsuOptions?: (cfg: MFSUOpts) => MFSUOpts;

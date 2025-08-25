@@ -12,4 +12,6 @@ export { addPostcssPluginTailwindcss } from './postcss/add-plugin-tailwindcss';
 export { addPostcssPluginPx2rem } from './postcss/add-plugin-px2rem';
 export { addPostcssPluginESBoot } from './postcss/add-plugin-esboot';
 
+export { addReactCompiler } from './babel/add-react-compiler';
+
 export { defaultTemplate } from './constants/default-template';

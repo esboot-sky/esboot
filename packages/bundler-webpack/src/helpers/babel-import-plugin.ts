@@ -1,5 +1,5 @@
 import { fileURLToPath } from "node:url";
-import type { BabelPlugin } from '@/types';
+import type { BabelPlugin } from '@dz-web/esboot';
 
 function isFirstLetterUppercase(word: string) {
   if (!word) return false;

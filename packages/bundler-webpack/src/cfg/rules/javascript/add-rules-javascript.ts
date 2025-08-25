@@ -51,7 +51,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
       env,
       plugins: [
         ...extraBabelPlugins,
-        ...getPlugins(alias, legacy ?? false),
+        ...getPlugins(cfg, alias, legacy ?? false),
         ...(mfsu?.getBabelPlugins() ?? []),
         isDev && !isExtra && resolvePath('react-refresh/babel'),
       ].filter(Boolean),

@@ -58,4 +58,10 @@ export const defaultCfg: Configuration = {
     port: DEFAULT_DEV_PORT,
   },
   plugins: [],
+  experimental: {
+    reactCompiler: {
+      enable: true,
+      target: '19',
+    },
+  },
 };
