@@ -1,61 +1,64 @@
-import { defineConfig, definePlugin, PluginHooks } from '@dz-web/esboot';
-import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions } from '@dz-web/esboot-bundler-vite';
-import { CodeSplittingType } from '@dz-web/esboot-bundler-vite';
-import pluginVitest from '@dz-web/esboot-plugin-vitest';
+import { defineConfig, PluginHooks, definePlugin } from '@dz-web/esboot';
+import { BundlerWebpack as Bundler, type BundlerWebpackOptions as BundlerOptions, CodeSplittingType } from '@dz-web/esboot-bundler-webpack';
+import vitestPlugin from '@dz-web/esboot-plugin-vitest';
 
 export default defineConfig<BundlerOptions>((cfg) => ({
-  plugins: [
-    pluginVitest(),
-    definePlugin({
-      key: 'test1',
-      [PluginHooks.afterCompile]: (cfg) => {
-        console.log(cfg.entry);
-      },
-    }),
-  ],
   bundler: Bundler,
   bundlerOptions: {
+    mfsu: false,
+    extraBabelIncludes: [
+      /filter-obj/i,
+      /immer/i,
+      /query-string/i,
+      /react-intl/i,
+      /d3-/i,
+      /@tanstack/i,
+      /@react-spring/i,
+      /@floating-ui/i,
+    ],
     codeSplitting: {
       jsStrategy: CodeSplittingType.granularChunks,
       jsStrategyOptions: {
-        frameworkBundles: ['dayjs'],
+        // 为了提高首屏速度，我们把一些非常非常常用的库打进公共代码库里, 不常用的让跟着页面js加载，以免影响大部分小页面的加载与js解析速度
+        frameworkBundles: [
+          // 不要添加router进来，我们绝大多数页面都是嵌入到webview中用的小页面，不需要router，所以router不需要打进公共代码库里。会影响大部分页面的加载速度
+          '@dz-web/bridge',
+          'dayjs',
+          '@tanstack/react-query',
+          'redux',
+          'redux-thunk',
+          'react-redux',
+          '@reduxjs/toolkit',
+          'zustand',
+          'immer',
+          'lodash',
+          'nanoid',
+          '@dz-web/axios',
+          '@dz-web/axios-middlewares',
+          'axios',
+          'react-intl',
+          '@loadable/component',
+          'classnames',
+          'perfect-scrollbar',
+        ]
       },
     },
   },
-  sourceMap: false,
-  alias: {
-    '@@': 'src',
-  },
-  // publicPath: '/test',
-  server: {
-    port: 4000,
-    http2: true,
-    https: true,
-    proxy: [
-      {
-        context: ['/api'],
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '',
-        },
-      },
-    ],
+  define: {
+    'process.env.isMobile': JSON.stringify(cfg.isMobile),
+    'process.env.isBrowser': JSON.stringify(cfg.isBrowser),
   },
   px2rem: {
     enable: true,
     rootValue: cfg.isMobile ? 32 : 16,
   },
-  // analyze: true,
-  // extraBabelIncludes: [
-  //   /filter-obj/i,
-  //   /immer/i,
-  //   /zustand/i,
-  //   /query-string/i,
-  //   /react-intl/i,
-  //   /d3-/i,
-  //   /@tanstack/i,
-  //   /@react-spring/i,
-  //   /@floating-ui/i,
-  // ],
+  plugins: [
+    vitestPlugin(),
+    definePlugin({
+      key: 'log',
+      [PluginHooks.afterCompile]: (cfg) => {
+        console.log(cfg.entry);
+      },
+    }),
+  ],
 }));
