@@ -1,6 +1,7 @@
 import path from 'node:path';
-import type { Configuration } from '@dz-web/esboot';
 import { fileURLToPath } from "node:url";
+import type { Configuration, ConfigurationInstance } from '@dz-web/esboot';
+import { addReactCompiler } from '@dz-web/esboot-bundler-common';
 import { generateScopedNameFactory } from '@dz-web/babel-plugin-react-css-modules/utils';
 import { getCssHashRule } from '../style/utils';
 
@@ -22,7 +23,7 @@ export const presets = [
   ],
 ];
 
-export const getPlugins = (alias: Configuration['alias'], legacy: boolean) => {
+export const getPlugins = (cfg: ConfigurationInstance, alias: Configuration['alias'], legacy: boolean) => {
   const customAlias: Configuration['alias'] = {};
 
   for (const k in alias) {
@@ -32,12 +33,7 @@ export const getPlugins = (alias: Configuration['alias'], legacy: boolean) => {
   }
 
   return [
-    [
-      resolvePath('babel-plugin-react-compiler'),
-      {
-        target: '19',
-      },
-    ],
+    addReactCompiler(cfg),
     [
       resolvePath('@jleonardvp/babel-plugin-module-resolver'),
       {
@@ -62,7 +58,7 @@ export const getPlugins = (alias: Configuration['alias'], legacy: boolean) => {
         handleMissingStyleName: legacy ? 'warn' : 'throw',
       },
     ],
-  ];
+  ].filter(Boolean);
 };
 
 export const env = {

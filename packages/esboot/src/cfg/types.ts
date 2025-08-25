@@ -41,6 +41,13 @@ export interface Proxy {
   pathRewrite?: Record<string, string>;
 }
 
+export type BabelPlugin = [string, Record<string, any>];
+
+export interface ReactCompiler {
+  enable?: boolean;
+  target: string;
+}
+
 export interface UserOptions<BundlerOptions = unknown> {
   isSP?: boolean;
   bundler: (new (config: BaseBundlerOptions) => Bundler) | null;
@@ -73,6 +80,9 @@ export interface UserOptions<BundlerOptions = unknown> {
   externals?: Record<string, string>;
   useTailwindcss?: boolean;
   plugins?: Plugin[];
+  experimental?: {
+    reactCompiler?: ReactCompiler;
+  };
 }
 
 export interface ConfigurationForMP {
@@ -90,7 +100,8 @@ type PreserveAttr =
   | 'jsMinifierOptions'
   | 'cssMinifierOptions'
   | 'legacy'
-  | 'cssMinifier';
+  | 'cssMinifier'
+  | 'experimental';
 
 export type Configuration<BundlerOptions = unknown> = {
   [K in PreserveAttr]: Required<UserOptions<BundlerOptions>[K]>;
