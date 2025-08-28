@@ -1,5 +1,8 @@
 import os from 'node:os';
 import { fileURLToPath } from "node:url";
+import { isAbsolute, resolve } from 'node:path';
+import { isRegExp } from '@dz-web/esboot-common/lodash';
+import { resolveLibPath } from '@dz-web/esboot-common/helpers';
 import type { Configuration } from '@dz-web/esboot';
 
 import type { BundlerWebpackOptions } from '@/types';
@@ -10,13 +13,13 @@ import type { MFSU } from '@/cfg/helpers/mfsu';
 import { getPlugins, env, presets } from './babelrc.config';
 
 const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
-export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
+export const addJavaScriptRules: AddFunc<{ mfsu: MFSU; }> = async (
   cfg,
   webpackCfg,
   options
 ) => {
   const { mfsu } = options!;
-  const { rootPath, isDev, alias, legacy, bundlerOptions } =
+  const { rootPath, isDev, alias, legacy, bundlerOptions, cwd } =
     cfg.config as Configuration<BundlerWebpackOptions>;
 
   const {
@@ -58,6 +61,34 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
     };
   };
 
+  console.log(extraBabelIncludes, 'cwd');
+  const getExtraBabelIncludes = () => {
+    return [...extraBabelIncludes].filter(Boolean).map((item) => {
+      /**
+       * @copy from https://github.com/umijs/umi/blob/7228d9941ec76481a91cc4de81c8ad4ebcd714fc/packages/bundler-webpack/src/config/javaScriptRules.ts#L53
+       */
+      if (isRegExp(item)) return item;
+      if (isAbsolute(item as string)) return item;
+
+      console.log(item, 'item');
+      // resolve npm package name
+      try {
+        if ((item as string).startsWith('./')) {
+          return resolve(cwd, item as string);
+        }
+
+        return resolveLibPath(item as string, resolvePath);
+      } catch (e: any) {
+        if (e.code === 'MODULE_NOT_FOUND') {
+          throw new Error('Cannot resolve extraBabelIncludes: ' + item, {
+            cause: e,
+          });
+        }
+        throw e;
+      }
+    });
+  };
+
   webpackCfg.module.rules.push(
     {
       test: /\.tsx?$/,
@@ -74,7 +105,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
     },
     {
       test: /\.(js|mjs|cjs)$/,
-      include: [...extraBabelIncludes].filter(Boolean),
+      include: getExtraBabelIncludes(),
       exclude: [rootPath, /\.json$/],
       use: [
         {

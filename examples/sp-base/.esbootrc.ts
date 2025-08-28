@@ -88,6 +88,16 @@ export default defineConfig<BundlerOptions>({
     codeSplitting: {
       jsStrategy: CodeSplittingType.granularChunks,
     },
+    extraBabelIncludes: [
+      /filter-obj/i,
+      /immer/i,
+      'query-string',
+      /react-intl/i,
+      /d3-/i,
+      /@tanstack/i,
+      /@react-spring/i,
+      /@floating-ui/i,
+    ],
   },
   sourceMap: false,
   alias: {
