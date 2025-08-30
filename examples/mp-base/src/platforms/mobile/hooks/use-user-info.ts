@@ -1,4 +1,4 @@
-import { IUserInfo } from '@mobile/customize';
+import type { IUserInfo } from '@mobile/customize';
 import { selectUserInfo, setUserInfo } from '@mobile/model/app/slice';
 import { useMinimalAppDispatch, useMinimalAppSelector } from '@mobile/model/minimal-store';
 

@@ -1,11 +1,11 @@
+import type { MinimalStoreType } from './minimal-store';
 import { CacheStore } from '@dz-web/cache';
-import isDeepEqual from 'react-fast-compare';
 
-import { CACHE_KEY_PC_USER_CONFIG, CACHE_KEY_PC_USER_INFO } from '@/constants/caches';
-import { isBrowser } from '@/utils/platforms';
 import { updateRootClass } from '@pc/helpers/theme';
+import isDeepEqual from 'react-fast-compare';
+import { CACHE_KEY_PC_USER_CONFIG, CACHE_KEY_PC_USER_INFO } from '@/constants/caches';
 
-import { MinimalStoreType } from './minimal-store';
+import { isBrowser } from '@/utils/platforms';
 
 // 与app端重复程度很大，看看是否有优化空间
 export function subscribeUserAndCache(store: MinimalStoreType) {
@@ -29,7 +29,8 @@ export function subscribeUserAndCache(store: MinimalStoreType) {
     // check if userConfig changed
     const currentApp = currentAppState.app;
     // 引用相同，不需要任何判断
-    if (currentApp === previousApp) return;
+    if (currentApp === previousApp)
+      return;
 
     updateRootClass(
       currentApp.userConfig.theme,

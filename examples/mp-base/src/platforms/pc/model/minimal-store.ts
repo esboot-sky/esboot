@@ -1,12 +1,12 @@
+import type { TypedUseSelectorHook } from 'react-redux';
 /**
  * app端最小化store, 每个页面都会包含此store, 用于获取来源无关的app用户设置信息
  */
 import { configureStore } from '@reduxjs/toolkit';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 import app from './app/slice';
-
-import type { TypedUseSelectorHook } from 'react-redux';
 
 /**
  * 不导出，页面中不需要使用此store, 请使用页面自己的store,
