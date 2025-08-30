@@ -1,9 +1,9 @@
+import type { IMeta } from '@/hoc/query-client';
+
 /**
  * 存放平台无关的全局事件，用于不同平台、页面之间的调用解耦
  */
 import EventEmitter from 'eventemitter3';
-
-import { IMeta } from '@/hoc/query-client';
 
 export const globalEventsCenter = new EventEmitter();
 export const GlobalEvents = {
