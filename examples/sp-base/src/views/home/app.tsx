@@ -1,4 +1,5 @@
 import { cn } from '@dz-web/esboot-browser';
+import { useTest } from '@dz-web/esboot-browser-react';
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -18,6 +19,7 @@ function Test() {
   const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [count3, setCount3] = useState(0);
+  const { count: count4, setCount: setCount4 } = useTest();
 
   const getCount2 = (() => {
     console.log('exec count2');
@@ -61,6 +63,7 @@ function Test() {
 
       <Button onClick={() => setCount(count + 1)}>123</Button>
       <Button onClick={() => setCount3(count3 + 1)}>count3</Button>
+      <Button onClick={() => setCount4(count4 + 1)}>count4: {count4}</Button>
 
       <Outlet />
     </div>
