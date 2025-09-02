@@ -13,3 +13,5 @@ export function useTest() {
     setCount,
   };
 }
+
+export * from './error-boundary';
