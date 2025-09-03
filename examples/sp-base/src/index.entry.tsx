@@ -9,7 +9,7 @@ import '@/styles/index.scss';
 
 ReactDOM.createRoot(document.getElementById('root') as Element).render(
   <StrictMode>
-    <ErrorBoundary>
+    <ErrorBoundary test={1}>
       <RouterProvider router={router} fallbackElement={<div>*</div>} />
     </ErrorBoundary>
   </StrictMode>,
