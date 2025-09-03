@@ -1,38 +1,67 @@
-import { type PropsWithChildren } from "react";
-import { ErrorBoundary as ReactErrorBoundary, type ErrorBoundaryPropsWithRender } from 'react-error-boundary';
+import type { ErrorInfo, ReactNode } from 'react';
+import type { ErrorBoundaryProps, FallbackProps } from 'react-error-boundary';
+import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 
-function fallbackRender({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void; }) {
+/**
+ * Copy from react-error-boundary
+ */
+interface ErrorBoundarySharedProps {
+  onError?: (error: Error, info: ErrorInfo) => void;
+  onReset?: (details: {
+    reason: 'imperative-api';
+    args: any[];
+  } | {
+    reason: 'keys';
+    prev: any[] | undefined;
+    next: any[] | undefined;
+  }) => void;
+  resetKeys?: any[];
+}
+
+interface ErrorBoundaryPropsByESBoot extends ErrorBoundarySharedProps {
+  test: number;
+  fallbackRender?: (props: FallbackProps) => ReactNode;
+  children: ReactNode;
+}
+
+function defaultFallbackRender(props: FallbackProps): ReactNode {
+  const { error, resetErrorBoundary } = props;
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
 
   return (
     <div role="alert">
       <p>Something went wrong:</p>
-      <pre style={{ color: "red" }}>{error.message}</pre>
+      <pre style={{ color: 'red' }}>{error.message}</pre>
 
       <button onClick={resetErrorBoundary}>Retry</button>
     </div>
   );
 }
 
-interface ErrorBoundaryPropsByESBoot extends PropsWithChildren<ErrorBoundaryPropsWithRender> {
-  test: number;
-}
+function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactNode {
+  const { children, fallbackRender = defaultFallbackRender } = props;
 
-const ErrorBoundary = (props: ErrorBoundaryPropsByESBoot) => {
-  const { children } = props;
+  const logError = (error: Error, info: ErrorInfo): void => {
+    console.error('error1:', error);
+    console.error('info1:', info);
+    // Do something with the error, e.g. log to an external API
+  };
+
+  const onReset = (details: { reason: 'imperative-api'; args: any[] } | { reason: 'keys'; prev: any[] | undefined; next: any[] | undefined }) => {
+    // Reset the state of your app so the error doesn't happen again
+    console.warn('reset from top error boundary:', details);
+  };
 
   return (
     <ReactErrorBoundary
-      onReset={(details) => {
-        // Reset the state of your app so the error doesn't happen again
-        console.warn('reset from top error boundary:', details);
-      }}
-      fallbackRender={fallbackRender}
+      onReset={onReset}
+      onError={logError}
+      fallbackRender={fallbackRender as ErrorBoundaryProps['fallbackRender']}
     >
+      {/* @ts-ignore */}
       {children}
     </ReactErrorBoundary>
   );
-};
+}
 
-export { useErrorBoundary, withErrorBoundary } from 'react-error-boundary';
 export { ErrorBoundary };

@@ -15,3 +15,4 @@ export function useTest() {
 }
 
 export * from './error-boundary';
+export { useErrorBoundary, withErrorBoundary } from 'react-error-boundary';
