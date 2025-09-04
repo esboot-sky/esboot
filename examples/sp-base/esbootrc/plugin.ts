@@ -1,6 +1,7 @@
-import { defineConfig, PluginHooks, type Configuration, definePlugin } from '@dz-web/esboot';
-import pluginVitest from '@dz-web/esboot-plugin-vitest';
+import type { Configuration } from '@dz-web/esboot';
+import { defineConfig, definePlugin, PluginHooks } from '@dz-web/esboot';
 import pluginDocs from '@dz-web/esboot-plugin-docs';
+import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
 export default defineConfig<BundlerOptions>({
   plugins: [

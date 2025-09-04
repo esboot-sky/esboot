@@ -1,13 +1,14 @@
-import fs from 'node:fs/promises';
-import { pick } from '@dz-web/esboot-common/lodash';
-import type { AddFunc } from '@/cfg/types';
 import type { Plugin } from 'vite';
+import type { AddFunc } from '@/cfg/types';
+import fs from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { pick } from '@dz-web/esboot-common/lodash';
 
 export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
   const { useLangJsonPicker, rootPath, entry, isDev } = cfg.config;
 
-  if (!useLangJsonPicker) return;
+  if (!useLangJsonPicker)
+    return;
 
   const langFolder = resolve(rootPath, 'lang');
   const entryLangMapping = new Map<string, string[]>();
@@ -47,31 +48,32 @@ export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
     buildStart() {
       // emit all virtual language modules
       for (const virtualId of virtualLangModules.keys()) {
-        this.emitFile({ type: 'chunk', id: virtualId, name: virtualId.replace(/[:\/]/g, '_') });
+        this.emitFile({ type: 'chunk', id: virtualId, name: virtualId.replace(/[:/]/g, '_') });
       }
     },
     configureServer(server) {
-      if (!isDev) return;
-      
+      if (!isDev)
+        return;
+
       // Intercept requests to detect current HTML/entry context
       server.middlewares.use((req, _res, next) => {
         if (req.url && req.url.includes('.html')) {
-          const htmlMatch = req.url.match(/\/([^\/]+?)\.html/);
+          const htmlMatch = req.url.match(/\/([^/]+?)\.html/);
           if (htmlMatch) {
             currentRequestEntryName = htmlMatch[1];
             console.log(`[lang-json-picker] Dev mode - Current entry context: ${currentRequestEntryName}`);
           }
         }
-        
+
         const referer = req.headers.referer;
         if (referer && req.url && req.url.includes('/lang/')) {
-          const refererMatch = referer.match(/\/([^\/]+?)\.html/);
+          const refererMatch = referer.match(/\/([^/]+?)\.html/);
           if (refererMatch) {
             currentRequestEntryName = refererMatch[1];
             console.log(`[lang-json-picker] Dev mode - Entry context from referer: ${currentRequestEntryName}`);
           }
         }
-        
+
         next();
       });
     },
@@ -97,8 +99,8 @@ export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
         const code = originalCode.replace(
           /import\(\s*`@\/lang\/\$\{(.+?)\}\.json`\s*\)/g,
           (_match: string, lang: string) => {
-            return 'import(`virtual:lang-' + lang + '-' + entryName + '`)';
-          }
+            return `import(\`virtual:lang-${lang}-${entryName}\`)`;
+          },
         );
         return { code, map: null };
       }

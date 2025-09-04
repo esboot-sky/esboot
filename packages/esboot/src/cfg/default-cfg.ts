@@ -1,13 +1,13 @@
+import type { Configuration } from './types';
+
 import {
+  CSSMinifier,
+  DEFAULT_DEV_PORT,
   Environment,
   JsMinifier,
-  CSSMinifier,
-  PLATFORMS,
   PAGE_TYPE,
+  PLATFORMS,
 } from '@dz-web/esboot-common/constants';
-
-import { DEFAULT_DEV_PORT } from '@dz-web/esboot-common/constants';
-import type { Configuration } from './types';
 
 export const defaultCfg: Configuration = {
   isDev: true,

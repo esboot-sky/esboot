@@ -1,10 +1,12 @@
+import type { BaseBundlerOptions, ConfigurationInstance } from './types';
+import type {
+  pluginHooksDict,
+} from '@/plugin';
 import {
   callPluginHookOfModifyBundlerConfig,
   callPluginHookOfOnlyExec,
-  pluginHooksDict,
   PluginHooks,
 } from '@/plugin';
-import type { ConfigurationInstance, BaseBundlerOptions } from './types';
 
 export abstract class Bundler {
   cfg: ConfigurationInstance;
@@ -25,17 +27,17 @@ export abstract class Bundler {
       this.pluginHooksDict,
       this.cfg.config,
       config,
-      this.getName()
+      this.getName(),
     );
 
     return config;
   }
 
-  public onAfterCompile() {
+  public onAfterCompile(): void {
     callPluginHookOfOnlyExec(
       PluginHooks.afterCompile,
       this.pluginHooksDict,
-      this.cfg.config
+      this.cfg.config,
     );
   }
 }
