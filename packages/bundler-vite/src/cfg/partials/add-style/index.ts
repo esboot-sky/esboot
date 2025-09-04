@@ -1,7 +1,7 @@
-import reactStyleName from '@/plugins/react-style-name';
-
 import type { Plugin } from 'vite';
+
 import type { AddFunc } from '@/cfg/types';
+import reactStyleName from '@/plugins/react-style-name';
 
 export const addStyle: AddFunc = async (_, viteCfg) => {
   viteCfg.plugins!.push(reactStyleName() as Plugin[]);

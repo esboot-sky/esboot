@@ -13,7 +13,7 @@ export const addBundleAnalyzerPlugin: AddFunc = async (cfg, viteCfg) => {
         brotliSize: true,
         // emitFile: true,
         // filename: 'bundle-analyzer.html',
-      })
+      }),
     );
   }
 };

@@ -1,13 +1,26 @@
 {
   "name": "@dz-web/esboot-bundler-vite",
+  "type": "module",
   "version": "4.0.0-alpha.1",
   "description": "",
-  "license": "ISC",
   "author": "Roc",
-  "type": "module",
+  "license": "ISC",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./transformStyleNameCreateElement": {
+      "types": "./dist/plugins/react-style-name/transformStyleNameCreateElement.d.ts",
+      "import": "./dist/plugins/react-style-name/transformStyleNameCreateElement.js",
+      "default": "./dist/plugins/react-style-name/transformStyleNameCreateElement.js"
+    },
+    "./package.json": "./package.json"
+  },
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "patches",
@@ -17,6 +30,9 @@
     "build": "tsup",
     "dev": "cross-env NODE_ENV=development tsup",
     "prepublishOnly": "pnpm run build"
+  },
+  "peerDependencies": {
+    "@dz-web/esboot": "workspace:*"
   },
   "dependencies": {
     "@dz-web/esboot-bundler-common": "workspace:*",
@@ -37,22 +53,6 @@
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",
     "@types/express": "^5.0.3"
-  },
-  "peerDependencies": {
-    "@dz-web/esboot": "workspace:*"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
-    },
-    "./transformStyleNameCreateElement": {
-      "types": "./dist/plugins/react-style-name/transformStyleNameCreateElement.d.ts",
-      "import": "./dist/plugins/react-style-name/transformStyleNameCreateElement.js",
-      "default": "./dist/plugins/react-style-name/transformStyleNameCreateElement.js"
-    },
-    "./package.json": "./package.json"
   },
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }
