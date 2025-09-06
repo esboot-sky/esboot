@@ -18,6 +18,6 @@ export const addSvgrPlugin: AddFunc = async (cfg, viteCfg) => {
         },
         ...svgrOptions,
       },
-    })
+    }),
   );
 };

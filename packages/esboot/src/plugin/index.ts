@@ -1,6 +1,6 @@
+import type { Plugin } from './type';
 import type { Configuration } from '@/cfg/types';
 import { PluginHooks } from './constants';
-import type { Plugin } from './type';
 
 export const pluginHooksDict = new (class PluginHooksDict {
   state: Record<PluginHooks, any[]> = {
@@ -15,20 +15,20 @@ export const pluginHooksDict = new (class PluginHooksDict {
     [PluginHooks.afterCompile]: [],
   };
 
-  addListener(key: PluginHooks, fn: any) {
+  addListener(key: PluginHooks, fn: any): void {
     this.state[key].push(fn);
   }
 
-  getListener(key: PluginHooks) {
+  getListener(key: PluginHooks): any[] {
     return this.state[key];
   }
 
-  hasHookType(key: PluginHooks) {
+  hasHookType(key: PluginHooks): boolean {
     return key in this.state;
   }
 })();
 
-export const preparePlugins = (cfg: Configuration) => {
+export function preparePlugins(cfg: Configuration): void {
   const { plugins = [] } = cfg;
 
   for (const plugin of plugins) {
@@ -38,22 +38,23 @@ export const preparePlugins = (cfg: Configuration) => {
       throw new Error('plugin.key is required');
     }
 
-    if (onActivated) onActivated(cfg);
+    if (onActivated)
+      onActivated(cfg);
 
     for (const key in hooks) {
       if (pluginHooksDict.hasHookType(key as PluginHooks)) {
         pluginHooksDict.addListener(
           key as PluginHooks,
-          hooks[key as PluginHooks] as any
+          hooks[key as PluginHooks] as any,
         );
       }
     }
   }
-};
+}
 
 export function definePlugin(cfg: Plugin): Plugin {
   return cfg;
 }
 
-export * from './hooks-action';
 export * from './constants';
+export * from './hooks-action';

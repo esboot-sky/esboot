@@ -1,27 +1,27 @@
-import { join } from 'node:path';
 import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
-import { ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
-import { info, error } from '@dz-web/esboot-common/helpers';
+import { ensureFileSync } from '@dz-web/esboot-common/fs-extra';
+import { error, info } from '@dz-web/esboot-common/helpers';
 import stylelintCfg from '@dz-web/esboot-lint/stylelint';
 
 import cfg from '@/cfg';
 import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
 
-export function generateStylelintCfg() {
+export function generateStylelintCfg(): void {
   const outoutPath = join(cacheDir, 'stylelint/index.js');
 
   callPluginHookOfModifyLintConfig(
     PluginHooks.modifyStylelintConfig,
     cfg.config,
-    stylelintCfg
+    stylelintCfg,
   );
 
   ensureFileSync(outoutPath);
   writeFile(
     outoutPath,
-    `export default ${JSON.stringify(stylelintCfg, null, 2)}`
+    `export default ${JSON.stringify(stylelintCfg, null, 2)}`,
   )
     .then(() => {
       info(`Created Stylelint Config: ${outoutPath}.`);

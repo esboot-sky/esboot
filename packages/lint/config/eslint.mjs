@@ -1,16 +1,27 @@
-import { FlatCompat } from '@eslint/eslintrc';
 import antfu from '@antfu/eslint-config';
 import esbootPlugin from '@dz-web/eslint-plugin-esboot';
-import reactHooks from 'eslint-plugin-react-hooks';
+// import { FlatCompat } from '@eslint/eslintrc';
 import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
+import reactHooks from 'eslint-plugin-react-hooks';
 
-const compat = new FlatCompat();
+// const compat = new FlatCompat();
 
-export default async function createConfig() {
-  return antfu(
+const betterTailwindcssRules = {
+  ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
+  ...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
+
+  'better-tailwindcss/enforce-consistent-line-wrapping': [
+    'warn',
+    { printWidth: 100 },
+  ],
+  'better-tailwindcss/no-unregistered-classes': 'off',
+};
+
+export default async function createConfig(modifyConfig) {
+  const config = antfu(
     {
-      vue: false,
-      react: true,
+      vue: true,
+      react: false,
       typescript: true,
       stylistic: {
         semi: true,
@@ -34,23 +45,25 @@ export default async function createConfig() {
       ],
     },
     {
+      files: ['**/*.{vue}'],
+      plugins: {
+        'better-tailwindcss': eslintPluginBetterTailwindcss,
+      },
+      rules: {
+        ...betterTailwindcssRules,
+      },
+    },
+    {
       files: ['**/*.{jsx,ts,tsx}'],
       plugins: {
         'better-tailwindcss': eslintPluginBetterTailwindcss,
         ...reactHooks.configs['recommended-latest'].plugins['react-hooks'],
-        ...esbootPlugin.configs['recommended'].plugins,
+        ...esbootPlugin.configs.recommended.plugins,
       },
       rules: {
-        ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
-        ...eslintPluginBetterTailwindcss.configs['recommended-error'].rules,
-        ...esbootPlugin.configs['recommended'].rules,
+        ...esbootPlugin.configs.recommended.rules,
         ...reactHooks.configs['recommended-latest'].rules,
-
-        'better-tailwindcss/enforce-consistent-line-wrapping': [
-          'warn',
-          { printWidth: 100 },
-        ],
-        'better-tailwindcss/no-unregistered-classes': 'off',
+        ...betterTailwindcssRules,
       },
     },
     {
@@ -62,4 +75,6 @@ export default async function createConfig() {
       },
     }
   );
+
+  return modifyConfig ? modifyConfig(config) : config;
 }

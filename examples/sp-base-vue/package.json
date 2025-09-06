@@ -1,0 +1,57 @@
+{
+  "name": "sp-base-vue",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esboot build",
+    "dev": "esboot dev",
+    "postinstall": "esboot prepare",
+    "preview": "esboot preview",
+    "test:unit": "vitest",
+    "type-check": "vue-tsc --build"
+  },
+  "commitlint": {
+    "extends": [
+      "./node_modules/.cache/esboot/commitlint"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint",
+    "*.{scss,css}": "stylelint"
+  },
+  "browserslist": {
+    "development": [
+      "last 1 chrome version"
+    ],
+    "production": [
+      "Chrome >= 67"
+    ]
+  },
+  "prettier": "./node_modules/.cache/esboot/prettier",
+  "stylelint": {
+    "extends": [
+      "./node_modules/.cache/esboot/stylelint"
+    ]
+  },
+  "dependencies": {
+    "@dz-web/esboot-browser": "workspace:*",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.18",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot-bundler-vite": "workspace:*",
+    "@dz-web/esboot-plugin-docs": "workspace:*",
+    "@dz-web/esboot-plugin-vitest": "workspace:*",
+    "@dz-web/esboot-plugin-vue": "workspace:*",
+    "@types/node": "^22.16.5",
+    "eslint": "^9.29.0",
+    "stylelint": "^16.20.0",
+    "vue-tsc": "^3.0.4"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}

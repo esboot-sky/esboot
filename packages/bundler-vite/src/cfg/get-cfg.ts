@@ -1,43 +1,47 @@
-import { join } from 'node:path';
-import react from '@vitejs/plugin-react';
-
-import { cacheDir, type Environment } from '@dz-web/esboot-common';
-import {
-  addPostcssPluginESBoot,
-  addPostcssPluginTailwindcss,
-  addDefine,
-  addPostcssPluginPx2rem,
-  addReactCompiler,
-} from '@dz-web/esboot-bundler-common';
-import { addEntry } from './partials/add-entry';
-import { addStyle } from './partials/add-style';
-import { addResolve } from './partials/add-resolve';
-import { addDevServer } from './partials/add-dev-server';
-
-import { addLangJsonPicker } from '../plugins/add-plugin-lang-json-picker';
-import { addCopyPlugin } from '../plugins/add-plugin-copy';
-import { addSvgrPlugin } from '../plugins/add-plugin-svgr';
-
-import { addBuildCfg } from './build/add-build-cfg';
-
 import type { BabelPlugin, ConfigurationInstance } from '@dz-web/esboot';
+import type { Environment } from '@dz-web/esboot-common';
 import type { BundlerViteOptions, CustomViteConfiguration } from '../types';
 
-export const getCfg = async (
-  cfg: ConfigurationInstance,
-  mode: Environment
-): Promise<CustomViteConfiguration> => {
+import { join } from 'node:path';
+import process from 'node:process';
+import {
+  addDefine,
+  addPostcssPluginESBoot,
+  addPostcssPluginPx2rem,
+  addPostcssPluginTailwindcss,
+  addReactCompiler,
+} from '@dz-web/esboot-bundler-common';
+import { cacheDir } from '@dz-web/esboot-common';
+import react from '@vitejs/plugin-react';
+import { addCopyPlugin } from '../plugins/add-plugin-copy';
+import { addLangJsonPicker } from '../plugins/add-plugin-lang-json-picker';
+
+import { addSvgrPlugin } from '../plugins/add-plugin-svgr';
+import { addBuildCfg } from './build/add-build-cfg';
+import { addDevServer } from './partials/add-dev-server';
+
+import { addEntry } from './partials/add-entry';
+
+import { addResolve } from './partials/add-resolve';
+import { addStyle } from './partials/add-style';
+
+export async function getCfg(cfg: ConfigurationInstance, mode: Environment, options: {
+  onModifyBundlerConfig?: (cfg: CustomViteConfiguration) => CustomViteConfiguration;
+}): Promise<CustomViteConfiguration> {
+  const { onModifyBundlerConfig } = options;
   const { cwd, bundlerOptions = {}, publicPath, sourceMap } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerViteOptions;
 
-  const viteCfg: CustomViteConfiguration = {
-    plugins: [react(
-      {
-        babel: {
-          plugins: [addReactCompiler(cfg)].filter(Boolean) as BabelPlugin[],
+  let viteCfg: CustomViteConfiguration = {
+    plugins: [
+      react(
+        {
+          babel: {
+            plugins: [addReactCompiler(cfg)].filter(Boolean) as BabelPlugin[],
+          },
         },
-      }
-    )],
+      ),
+    ],
     mode,
     configFile: false,
     publicDir: false,
@@ -76,5 +80,8 @@ export const getCfg = async (
   await addStyle(cfg, viteCfg);
   await addBuildCfg(cfg, viteCfg);
 
+  if (onModifyBundlerConfig) {
+    viteCfg = onModifyBundlerConfig(viteCfg);
+  }
   return customConfig ? customConfig(viteCfg, cfg.config) : viteCfg;
-};
+}
