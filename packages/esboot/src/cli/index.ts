@@ -1,30 +1,25 @@
+import process from 'node:process';
+import { Environment } from '@dz-web/esboot-common';
 import { program } from 'commander';
 
 import cfg from '@/cfg';
+import { logBrand } from '@/helpers';
 
-import { processPrepare } from './prepare';
+import { callPluginHookOfModifyConfig, callPluginHookOfRegisterCommands, pluginHooksDict, preparePlugins } from '@/plugin';
+import { writeMultiPlatform } from '@/scripts/write-multi-platform';
+import pkg from '../../package.json' with { type: 'json' };
 import { loadEnv } from './load-env';
 
-import { prepare } from './prepare/index';
-import { Environment } from '@dz-web/esboot-common';
-import { logBrand } from '@/helpers';
-import { preview } from './preview';
 import { mockBridge } from './mock/bridge';
 
-import { writeMultiPlatform } from '@/scripts/write-multi-platform';
+import { processPrepare } from './prepare';
+import { prepare } from './prepare/index';
 
-import { preparePlugins } from '@/plugin';
-import {
-  callPluginHookOfModifyConfig,
-  callPluginHookOfRegisterCommands,
-  pluginHooksDict,
-} from '@/plugin';
-
-import pkg from '../../package.json' with { type: 'json' };
+import { preview } from './preview';
 
 const cwd = process.cwd();
 
-async function loadCfg() {
+async function loadCfg(): Promise<void> {
   await cfg.load();
   preparePlugins(cfg.config);
   callPluginHookOfModifyConfig(cfg.config);
@@ -49,7 +44,7 @@ async function createBundler(environment: Environment) {
   return null;
 }
 
-export const run = async () => {
+export async function run() {
   processPrepare();
   loadEnv({ root: cwd });
 
@@ -64,7 +59,8 @@ export const run = async () => {
     .allowUnknownOption(true)
     .action(async () => {
       const bundler = await createBundler(Environment.dev);
-      if (bundler) bundler.dev();
+      if (bundler)
+        bundler.dev();
     });
 
   program
@@ -73,7 +69,8 @@ export const run = async () => {
     .allowUnknownOption(true)
     .action(async () => {
       const bundler = await createBundler(Environment.prod);
-      if (bundler) bundler.build();
+      if (bundler)
+        bundler.build();
     });
 
   program
@@ -121,4 +118,4 @@ export const run = async () => {
 
   program.version(pkg.version);
   program.parse(process.argv);
-};
+}

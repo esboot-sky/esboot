@@ -22,7 +22,7 @@ export abstract class Bundler {
 
   abstract getName(): string;
 
-  public onModifyBundlerConfig<T>(config: T): T {
+  onModifyBundlerConfig = <T>(config: T): T => {
     callPluginHookOfModifyBundlerConfig<T>(
       this.pluginHooksDict,
       this.cfg.config,
@@ -31,13 +31,13 @@ export abstract class Bundler {
     );
 
     return config;
-  }
+  };
 
-  public onAfterCompile(): void {
+  onAfterCompile = (): void => {
     callPluginHookOfOnlyExec(
       PluginHooks.afterCompile,
       this.pluginHooksDict,
       this.cfg.config,
     );
-  }
+  };
 }

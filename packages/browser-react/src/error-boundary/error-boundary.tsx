@@ -48,7 +48,6 @@ function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactNode {
       onError={logError}
       fallbackRender={fallbackRender as ErrorBoundaryProps['fallbackRender']}
     >
-      {/* @ts-expect-error ReactErrorBoundary children typing */}
       {children}
     </ReactErrorBoundary>
   );

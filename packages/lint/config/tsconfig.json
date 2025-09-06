@@ -1,24 +1,24 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "jsx": "preserve",
+    "baseUrl": ".",
     "module": "esnext",
     "moduleResolution": "node",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noUncheckedIndexedAccess": false,
     "noResolve": false,
-    "removeComments": true,
-    "baseUrl": ".",
     "paths": {
-    }
+    },
+    "resolveJsonModule": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "esModuleInterop": true
   },
-  "exclude": ["**/*.spec.ts"],
-  "include": [".esbootrc.ts", "src/**/*", "globals.d.ts", "node_modules/.cache/esboot/typescript/esboot.d.ts"]
+  "include": [".esbootrc.ts", "src/**/*", "globals.d.ts", "node_modules/.cache/esboot/typescript/esboot.d.ts"],
+  "exclude": ["**/*.spec.ts"]
 }

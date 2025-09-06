@@ -14,9 +14,11 @@ export class BundlerVite extends Bundler {
     return this.name;
   }
 
-  async dev(): Promise<void> {
+  dev = async (): Promise<void> => {
     const app = express();
-    const cfg = await getCfg(this.cfg, Environment.dev);
+    const cfg = await getCfg(this.cfg, Environment.dev, {
+      onModifyBundlerConfig: this.onModifyBundlerConfig,
+    });
     const {
       server: { port = 3000, host = '0.0.0.0' },
     } = this.cfg.config;
@@ -70,14 +72,16 @@ export class BundlerVite extends Bundler {
       logDevServer(port, false);
       this.onAfterCompile();
     });
-  }
+  };
 
-  async build(): Promise<void> {
-    const cfg = await getCfg(this.cfg, Environment.prod);
+  build = async (): Promise<void> => {
+    const cfg = await getCfg(this.cfg, Environment.prod, {
+      onModifyBundlerConfig: this.onModifyBundlerConfig,
+    });
 
     await build(cfg);
     this.onAfterCompile();
-  }
+  };
 }
 
 export type { BundlerViteOptions } from './types';
