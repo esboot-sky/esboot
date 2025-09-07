@@ -1,8 +1,8 @@
+import type { BabelPlugin, ConfigurationInstance } from '@dz-web/esboot';
 import { fileURLToPath } from 'node:url';
-import type { ConfigurationInstance, BabelPlugin } from '@dz-web/esboot';
 
-const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
-export const addReactCompiler = (cfg: ConfigurationInstance): BabelPlugin | false => {
+const resolvePath = (p: string): string => fileURLToPath(import.meta.resolve(p));
+export function addReactCompiler(cfg: ConfigurationInstance): BabelPlugin | false {
   const { experimental } = cfg.config;
   const { enable, target } = experimental?.reactCompiler || { enable: false, target: '19' };
 
@@ -16,4 +16,4 @@ export const addReactCompiler = (cfg: ConfigurationInstance): BabelPlugin | fals
       target,
     },
   ];
-};
+}

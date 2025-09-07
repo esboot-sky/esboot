@@ -3,10 +3,11 @@ import { join } from 'node:path';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import { ensureFileSync, writeJSON } from '@dz-web/esboot-common/fs-extra';
 import { error, info } from '@dz-web/esboot-common/helpers';
-import prettierConfig from '@dz-web/esboot-lint/prettier';
+import { PluginHooks } from '@dz-web/esboot-common/plugin';
 
-import cfg from '@/cfg';
-import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
+import prettierConfig from '@dz-web/esboot-lint/prettier';
+import { cfg } from '@/cfg';
+import { callPluginHookOfModifyLintConfig } from '@/plugin';
 
 export function generatePrettierCfg(): void {
   callPluginHookOfModifyLintConfig(
