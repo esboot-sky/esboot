@@ -1,8 +1,8 @@
-import type configuration from '../cfg';
+import type { cfg } from '@/cfg';
 
-import type { pluginHooksDict } from '../plugin';
+import type { pluginHooksDict } from '@/plugin';
 
-export type ConfigurationInstance = typeof configuration;
+export type ConfigurationInstance = typeof cfg;
 
 export interface BaseBundlerOptions {
   configuration: ConfigurationInstance;

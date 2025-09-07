@@ -73,7 +73,7 @@ export default async function createConfig(modifyConfig) {
           entryPoint: 'src/styles/index.css',
         },
       },
-    }
+    },
   );
 
   return modifyConfig ? modifyConfig(config) : config;

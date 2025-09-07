@@ -1,6 +1,7 @@
+import process from 'node:process';
 import { FRAMEWORK_NAME, MIN_NODE_VERSION } from '@/constants/node';
 
-function checkNodeVersion() {
+function checkNodeVersion(): void {
   const v = Number.parseInt(process.version.slice(1));
   if (v < MIN_NODE_VERSION) {
     console.error(
@@ -11,19 +12,19 @@ function checkNodeVersion() {
   }
 }
 
-function setNodeTitle(name?: string) {
+function setNodeTitle(name?: string): void {
   if (process.title === 'node') {
     process.title = name || FRAMEWORK_NAME;
   }
 }
 
-function setNoDeprecation() {
-  // @ts-ignore
+function setNoDeprecation(): void {
+  // @ts-expect-error
   process.noDeprecation = '1';
 }
 
-export const processPrepare = () => {
+export function processPrepare(): void {
   checkNodeVersion();
   setNodeTitle();
   setNoDeprecation();
-};
+}

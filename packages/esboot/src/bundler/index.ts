@@ -2,10 +2,10 @@ import type { BaseBundlerOptions, ConfigurationInstance } from './types';
 import type {
   pluginHooksDict,
 } from '@/plugin';
+import { PluginHooks } from '@dz-web/esboot-common/plugin';
 import {
   callPluginHookOfModifyBundlerConfig,
   callPluginHookOfOnlyExec,
-  PluginHooks,
 } from '@/plugin';
 
 export abstract class Bundler {

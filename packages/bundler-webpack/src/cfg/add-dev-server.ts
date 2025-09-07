@@ -55,7 +55,8 @@ export const addDevServer: AddFunc<{ mfsu: MFSU }> = async (
       logDevServer(port, isHttps);
     },
   };
-  if (proxy) devServer.proxy = proxy;
+  if (proxy)
+    devServer.proxy = proxy;
 
   webpackCfg.devServer = devServer;
 };

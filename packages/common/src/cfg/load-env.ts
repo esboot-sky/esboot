@@ -1,17 +1,17 @@
-import { join } from 'node:path';
 import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import dotEnv from 'dotenv';
 import dotEnvExpand from 'dotenv-expand';
 
-export function loadEnv({ root }: { root: string }) {
-  const load = (dotenvFile: string) => {
+export function loadEnv({ root }: { root: string }): void {
+  const load = (dotenvFile: string): void => {
     if (existsSync(dotenvFile)) {
       dotEnvExpand.expand(
         dotEnv.config({
           override: true,
           quiet: true,
           path: dotenvFile,
-        })
+        }),
       );
     }
   };

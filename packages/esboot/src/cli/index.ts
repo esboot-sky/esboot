@@ -1,20 +1,21 @@
+import type { Bundler } from '@/bundler';
 import process from 'node:process';
 import { Environment } from '@dz-web/esboot-common';
+
+import { loadEnv } from '@dz-web/esboot-common/cfg';
 import { program } from 'commander';
 
-import cfg from '@/cfg';
+import { cfg } from '@/cfg';
 import { logBrand } from '@/helpers';
-
 import { callPluginHookOfModifyConfig, callPluginHookOfRegisterCommands, pluginHooksDict, preparePlugins } from '@/plugin';
 import { writeMultiPlatform } from '@/scripts/write-multi-platform';
+
 import pkg from '../../package.json' with { type: 'json' };
-import { loadEnv } from './load-env';
 
 import { mockBridge } from './mock/bridge';
-
 import { processPrepare } from './prepare';
-import { prepare } from './prepare/index';
 
+import { prepare } from './prepare/index';
 import { preview } from './preview';
 
 const cwd = process.cwd();
@@ -26,13 +27,14 @@ async function loadCfg(): Promise<void> {
   callPluginHookOfRegisterCommands(cfg.config);
 }
 
-async function createBundler(environment: Environment) {
+async function createBundler(environment: Environment): Promise<Bundler | null> {
   process.env.NODE_ENV = environment;
   await loadCfg();
   const { config } = cfg;
 
   if (config.bundler) {
-    const bundler = new config.bundler({
+    const Bundler = config.bundler;
+    const bundler = new Bundler({
       configuration: cfg,
       pluginHooksDict,
     });
@@ -44,7 +46,7 @@ async function createBundler(environment: Environment) {
   return null;
 }
 
-export async function run() {
+export async function run(): Promise<void> {
   processPrepare();
   loadEnv({ root: cwd });
 

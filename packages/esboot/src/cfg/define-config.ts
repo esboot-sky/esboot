@@ -1,4 +1,4 @@
-import type { Configuration, UserOptions } from './types';
+import type { Configuration, UserOptions } from '@/cfg';
 
 type DefineConfigParams<BundlerCfg>
   = | UserOptions<BundlerCfg>
@@ -10,4 +10,4 @@ function defineConfig<BundlerCfg>(
   return config;
 }
 
-export default defineConfig;
+export { defineConfig };
