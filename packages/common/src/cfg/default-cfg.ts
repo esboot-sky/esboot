@@ -1,4 +1,5 @@
 import type { Configuration } from './types';
+import process from 'node:process';
 
 import {
   CSSMinifier,
@@ -7,7 +8,7 @@ import {
   JsMinifier,
   PAGE_TYPE,
   PLATFORMS,
-} from '@dz-web/esboot-common/constants';
+} from '@/constants';
 
 export const defaultCfg: Configuration = {
   isDev: true,
@@ -29,8 +30,6 @@ export const defaultCfg: Configuration = {
   externals: {},
   cwd: process.cwd(),
   staticPathList: [],
-  bundler: null,
-  bundlerOptions: {},
   analyze: false,
   outputPath: 'dist',
   publicPath: '/',

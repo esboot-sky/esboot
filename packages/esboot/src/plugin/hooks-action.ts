@@ -1,10 +1,9 @@
-import type { Command } from './register-commands';
-import type { Plugin } from './type';
-import type { Configuration } from '@/cfg/types';
+import type { Command, Plugin } from '@dz-web/esboot-common/plugin';
+import type { Configuration } from '@/cfg';
 import { merge } from '@dz-web/esboot-common/lodash';
-import cfg from '@/cfg';
+import { PluginHooks } from '@dz-web/esboot-common/plugin';
 
-import { PluginHooks } from './constants';
+import { cfg } from '@/cfg';
 import { pluginHooksDict } from './index';
 import { registerCommands } from './register-commands';
 

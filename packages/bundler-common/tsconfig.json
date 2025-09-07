@@ -7,5 +7,5 @@
   "path": {
     "@/*": ["./src/*"]
   },
-  "include": ["src"]
+  "include": ["src", "../common/src/helpers/get-ipv4.ts"]
 }

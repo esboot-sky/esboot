@@ -1,6 +1,6 @@
-import type { Plugin } from './type';
-import type { Configuration } from '@/cfg/types';
-import { PluginHooks } from './constants';
+import type { Plugin } from '@dz-web/esboot-common/plugin';
+import type { Configuration } from '@/cfg';
+import { PluginHooks } from '@dz-web/esboot-common/plugin';
 
 export const pluginHooksDict = new (class PluginHooksDict {
   state: Record<PluginHooks, any[]> = {
@@ -56,5 +56,4 @@ export function definePlugin(cfg: Plugin): Plugin {
   return cfg;
 }
 
-export * from './constants';
 export * from './hooks-action';

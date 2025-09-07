@@ -1,8 +1,8 @@
-import { exec } from '@dz-web/esboot-common/execa';
+import type { Configuration } from '@/cfg';
 import { DEFAULT_PREVIEW_PORT } from '@dz-web/esboot-common';
-import type { Configuration } from '@/cfg/types';
+import { exec } from '@dz-web/esboot-common/execa';
 
-export const preview = async (config: Configuration) => {
+export async function preview(config: Configuration): Promise<void> {
   const { cwd, outputPath } = config;
 
   exec(`pnpx http-server ${outputPath} -p ${DEFAULT_PREVIEW_PORT} -c-1 -g -b`, {
@@ -10,4 +10,4 @@ export const preview = async (config: Configuration) => {
       cwd,
     },
   });
-};
+}
