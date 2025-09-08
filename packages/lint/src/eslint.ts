@@ -1,8 +1,8 @@
 import antfu from '@antfu/eslint-config';
-import esbootPlugin from '@dz-web/eslint-plugin-esboot';
+// import esbootPlugin from '@dz-web/eslint-plugin-esboot';
 // import { FlatCompat } from '@eslint/eslintrc';
 import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
-import reactHooks from 'eslint-plugin-react-hooks';
+// import reactHooks from 'eslint-plugin-react-hooks';
 
 // const compat = new FlatCompat();
 
@@ -15,23 +15,33 @@ const betterTailwindcssRules = {
     { printWidth: 100 },
   ],
   'better-tailwindcss/no-unregistered-classes': 'off',
-};
+} as any;
 
-export default async function createConfig(modifyConfig) {
+type Config = ReturnType<typeof antfu>;
+
+interface Options {
+  react: boolean;
+  vue: boolean;
+}
+
+export default async function createConfig(options?: Options): Promise<Config> {
+  const { react = true, vue = false } = options || {};
+
   const config = antfu(
     {
-      vue: true,
-      react: false,
+      vue,
+      react,
       typescript: true,
       stylistic: {
         semi: true,
-        singleQuote: true,
-        trailingComma: 'all',
-        arrowParens: 'always',
-        printWidth: 120,
-        tabWidth: 2,
-        useTabs: false,
-        endOfLine: 'auto',
+        quotes: 'single',
+        indent: 2,
+        // trailingComma: 'all',
+        // arrowParens: 'always',
+        // printWidth: 120,
+        // tabWidth: 2,
+        // useTabs: false,
+        // endOfLine: 'auto',
       },
       ignores: [
         '**/node_modules/**',
@@ -57,12 +67,12 @@ export default async function createConfig(modifyConfig) {
       files: ['**/*.{jsx,ts,tsx}'],
       plugins: {
         'better-tailwindcss': eslintPluginBetterTailwindcss,
-        ...reactHooks.configs['recommended-latest'].plugins['react-hooks'],
-        ...esbootPlugin.configs.recommended.plugins,
+        // ...reactHooks.configs['recommended-latest'].plugins['react-hooks'],
+        // ...esbootPlugin.configs.recommended.plugins,
       },
       rules: {
-        ...esbootPlugin.configs.recommended.rules,
-        ...reactHooks.configs['recommended-latest'].rules,
+        // ...esbootPlugin.configs.recommended.rules,
+        // ...reactHooks.configs['recommended-latest'].rules,
         ...betterTailwindcssRules,
       },
     },
@@ -76,5 +86,6 @@ export default async function createConfig(modifyConfig) {
     },
   );
 
-  return modifyConfig ? modifyConfig(config) : config;
+  // return modifyConfig ? modifyConfig(config) : config;
+  return config;
 }
