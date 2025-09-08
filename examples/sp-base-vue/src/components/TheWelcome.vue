@@ -28,7 +28,7 @@ const openReadmeInEditor = () => fetch('/__open-in-editor?file=README.md')
     <template #heading>Tooling</template>
 
     This project is served and bundled with
-    <a href="https://vite.dev/guide/features.html" target="_blank" rel="noopener">Vite</a>. The
+    <a href="https://vite.dev/guide/features.htmlttps://vite.dev/guide/features.htmlttps://vite.dev/guide/features.htmlttps://vite.dev/guide/features.html" target="_blank" rel="noopener">Vite</a>. The
     recommended IDE setup is
     <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VSCode</a>
     +
