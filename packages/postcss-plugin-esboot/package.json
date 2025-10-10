@@ -1,17 +1,17 @@
 {
   "name": "@dz-web/postcss-plugin-esboot",
+  "type": "module",
   "version": "3.0.38",
   "description": "",
-  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/index.js",  
   "files": [
     "dist"
   ],
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc",
   "scripts": {
     "build": "tsup",

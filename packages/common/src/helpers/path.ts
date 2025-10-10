@@ -1,19 +1,29 @@
-import { join, dirname } from 'node:path';
+import { dirname, join } from 'node:path';
+import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 import { pathExistsSync } from 'fs-extra/esm';
-
 import { isWins } from '../constants';
 
-export function joinExecPath(currPath: string, path: string) {
+export function createResolvePath(importMetaResolve: ImportMeta['resolve']) {
+  return (p: string): string => fileURLToPath(importMetaResolve(p));
+}
+
+export function resolvePathFromUrl(p: string, importMetaResolve: ImportMeta['resolve']): string {
+  return fileURLToPath(importMetaResolve(p));
+}
+
+export function joinExecPath(currPath: string, path: string): string {
   // pnpm
   const pnpmPath = join(currPath, path);
-  if (pathExistsSync(pnpmPath)) return pnpmPath;
+  if (pathExistsSync(pnpmPath))
+    return pnpmPath;
 
   // bun
   const bunPath = join(process.cwd(), path);
   return bunPath;
 }
 
-export function searchCommand(currPath: string, command: string) {
+export function searchCommand(currPath: string, command: string): string {
   return joinExecPath(currPath, `./node_modules/.bin/${command}`);
 }
 
@@ -23,13 +33,14 @@ const hyphen = isWins ? '\\' : '/';
 export function resolveLibPath(
   libName: string,
   requireResolve: ImportMeta['resolve'],
-  relativePath = ''
-) {
+  relativePath = '',
+): string {
   let libPath = '';
 
   try {
     libPath = dirname(requireResolve(join(libName, 'package.json')));
-  } catch (err) {
+  }
+  catch {
     // err: Package subpath './package.json' is not defined by "exports" in xx
     libPath = requireResolve(libName);
     let isRootPath = false;
@@ -37,15 +48,16 @@ export function resolveLibPath(
     const compatibleLibName = libName.replace('/', hyphen);
 
     while (
-      !libPath.endsWith(`${hyphen}${compatibleLibName}`) &&
-      !isRootPath
+      !libPath.endsWith(`${hyphen}${compatibleLibName}`)
+      && !isRootPath
     ) {
       const path = dirname(libPath);
 
       // Prevent endless loop
       if (libPath !== path) {
         libPath = path;
-      } else {
+      }
+      else {
         isRootPath = true;
       }
     }
