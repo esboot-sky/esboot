@@ -1,17 +1,18 @@
-import { resolve } from 'node:path';
 import type { AddFunc } from '@/cfg/types';
+import { resolve } from 'node:path';
 
 export const addJSONRules: AddFunc<{ enableLangJsonPicker: boolean }> = async (
   cfg,
   webpackCfg,
-  options
+  options,
 ) => {
   const { entry } = cfg.config;
   const { enableLangJsonPicker } = options!;
 
-  if (!enableLangJsonPicker) return;
+  if (!enableLangJsonPicker)
+    return;
 
-  const list = Object.values(entry).map((item) => ({
+  const list = Object.values(entry).map(item => ({
     issuerLayer: item.chunkName,
     use: [
       {

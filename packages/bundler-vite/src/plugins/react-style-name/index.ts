@@ -12,7 +12,7 @@ interface Options {
   reactVariableName?: string;
 }
 
-function matchId(id: string) {
+function matchId(id: string): boolean {
   return id.endsWith('tsx');
 }
 
@@ -36,14 +36,15 @@ export default function reactStyleNamePlugin(options: Options = {}) {
         }
       },
       transform(source: string, id: string) {
-        if (!matchId(id)) return;
+        if (!matchId(id))
+          return;
         const { imports, updatedSource } = findStyleImports(source);
 
         if (imports.length) {
           return {
             code:
-              `${importStyleNameTransformer(updatedSource)}\n;\n` +
-              `${KEEP_STATEMENT};\n`,
+              `${importStyleNameTransformer(updatedSource)}\n;\n`
+              + `${KEEP_STATEMENT};\n`,
             map: null,
           };
         }
@@ -53,23 +54,23 @@ export default function reactStyleNamePlugin(options: Options = {}) {
       name: 'react-styleName-transform',
       enforce: 'post' as const,
       transform(source: string, id: string) {
-        if (matchId(id)) {
-          const { imports } = findStyleImports(source);
+        if (!matchId(id))
+          return;
+        const { imports } = findStyleImports(source);
 
-          if (imports.length) {
-            const formatted = formatVariableForStyleImports(source, imports);
+        if (imports.length) {
+          const formatted = formatVariableForStyleImports(source, imports);
 
-            source = applyStyleNameTransformer(
-              formatted.source,
-              formatted.variables,
-              reactVariableName
-            ).replace(KEEP_STATEMENT, '');
+          source = applyStyleNameTransformer(
+            formatted.source,
+            formatted.variables,
+            reactVariableName,
+          ).replace(KEEP_STATEMENT, '');
 
-            return {
-              code: source,
-              map: null,
-            };
-          }
+          return {
+            code: source,
+            map: null,
+          };
         }
       },
     },
