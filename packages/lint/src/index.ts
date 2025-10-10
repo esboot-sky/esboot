@@ -1,15 +1,14 @@
 import { resolve } from 'node:path';
 import process from 'node:process';
-import { fileURLToPath } from 'node:url';
 import { exec } from '@dz-web/esboot-common/execa';
 import {
   copySync,
   ensureDirSync,
   pathExistsSync,
 } from '@dz-web/esboot-common/fs-extra';
-import { error, info, resolveLibPath } from '@dz-web/esboot-common/helpers';
+import { createResolvePath, error, info, resolveLibPath } from '@dz-web/esboot-common/helpers';
 
-const resolvePath = (p: string): string => fileURLToPath(import.meta.resolve(p));
+const resolvePath = createResolvePath(import.meta.resolve);
 const _resolveLibPath = (p: string, relativePath = ''): string => resolveLibPath(p, resolvePath, relativePath);
 
 export async function lint({ cwd, args = [] }: { cwd: string; args: string[] }): Promise<void> {

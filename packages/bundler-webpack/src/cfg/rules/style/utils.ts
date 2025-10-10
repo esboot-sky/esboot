@@ -1,21 +1,27 @@
-import { fileURLToPath } from "node:url";
+import { createResolvePath } from '@dz-web/esboot-common/helpers';
 
-const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
+const resolvePath = createResolvePath(import.meta.resolve);
 
-export const getCssHashRule = () => '[local]__[contenthash:base64:8]';
-export const getStyleLoader = (): Record<string, any> => ({
-  loader: resolvePath('style-loader'),
-  options: {
+export const getCssHashRule = (): string => '[local]__[contenthash:base64:8]';
+export function getStyleLoader(): Record<string, any> {
+  return {
+    loader: resolvePath('style-loader'),
+    options: {
+      esModule: true,
+    },
+  };
+}
+
+export function getMiniCssExtractPluginOptions(): Record<string, any> {
+  return {
+    emit: true,
     esModule: true,
-  },
-});
+  };
+}
 
-export const getMiniCssExtractPluginOptions = (): Record<string, any> => ({
-  emit: true,
-  esModule: true,
-});
-
-export const getCssLoaderOptions = (): Record<string, any> => ({
-  esModule: true,
-  import: true,
-});
+export function getCssLoaderOptions(): Record<string, any> {
+  return {
+    esModule: true,
+    import: true,
+  };
+}

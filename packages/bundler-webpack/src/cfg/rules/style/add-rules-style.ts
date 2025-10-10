@@ -1,28 +1,29 @@
-import path from 'node:path';
-import { fileURLToPath } from "node:url";
-import { isUndefined } from '@dz-web/esboot-common/lodash';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import {
-  addPostcssPluginTailwindcss,
-  addPostcssPluginPx2rem,
-  addPostcssPluginESBoot,
-} from '@dz-web/esboot-bundler-common';
-import postcssPresetEnv from 'postcss-preset-env';
-import { getLocalIdent } from '@dz-web/babel-plugin-react-css-modules/utils';
-
 import type { AddFunc } from '@/cfg/types';
+import path from 'node:path';
+import { getLocalIdent } from '@dz-web/babel-plugin-react-css-modules/utils';
+import {
+  addPostcssPluginESBoot,
+  addPostcssPluginPx2rem,
+  addPostcssPluginTailwindcss,
+} from '@dz-web/esboot-bundler-common';
+import { createResolvePath } from '@dz-web/esboot-common/helpers';
+import { isUndefined } from '@dz-web/esboot-common/lodash';
 
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+import postcssPresetEnv from 'postcss-preset-env';
 import {
   getCssHashRule,
-  getStyleLoader,
-  getMiniCssExtractPluginOptions,
   getCssLoaderOptions,
+  getMiniCssExtractPluginOptions,
+  getStyleLoader,
 } from './utils';
+
 interface ParseScssModuleOpts {
   modules?: boolean;
 }
 
-const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
+const resolvePath = createResolvePath(import.meta.resolve);
 
 export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
   const { isDev, isSP, sourceMap, publicPath, rootPath } = cfg.config;
@@ -33,7 +34,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
   if (!isSP) {
     globalScssPathList.push(
       path.join(rootPath, './platforms/mobile/styles/'),
-      path.join(rootPath, './platforms/pc/styles/')
+      path.join(rootPath, './platforms/pc/styles/'),
     );
   }
 
@@ -43,7 +44,8 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
 
   const styleLoader = getStyleLoader();
   const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
-  if (publicPath === './') miniCssExtractPluginOptions.publicPath = '../';
+  if (publicPath === './')
+    miniCssExtractPluginOptions.publicPath = '../';
 
   const cssLoaderOptions = {
     sourceMap: isSourceMap,
@@ -133,7 +135,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
           use: parseScssModule({}),
         },
       ],
-    }
+    },
   );
 
   if (!isDev) {
@@ -141,7 +143,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
       new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:5].css',
         chunkFilename: 'css/[id].[contenthash:5].css',
-      })
+      }),
     );
   }
 };

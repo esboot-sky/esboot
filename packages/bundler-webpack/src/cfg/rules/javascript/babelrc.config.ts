@@ -1,11 +1,12 @@
-import path from 'node:path';
-import { fileURLToPath } from "node:url";
 import type { Configuration, ConfigurationInstance } from '@dz-web/esboot';
-import { addReactCompiler } from '@dz-web/esboot-bundler-common';
+import path from 'node:path';
+import process from 'node:process';
 import { generateScopedNameFactory } from '@dz-web/babel-plugin-react-css-modules/utils';
+import { addReactCompiler } from '@dz-web/esboot-bundler-common';
+import { createResolvePath } from '@dz-web/esboot-common/helpers';
 import { getCssHashRule } from '../style/utils';
 
-const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
+const resolvePath = createResolvePath(import.meta.resolve);
 export const presets = [
   [
     resolvePath('@babel/preset-env'),
@@ -23,7 +24,7 @@ export const presets = [
   ],
 ];
 
-export const getPlugins = (cfg: ConfigurationInstance, alias: Configuration['alias'], legacy: boolean) => {
+export function getPlugins(cfg: ConfigurationInstance, alias: Configuration['alias'], legacy: boolean) {
   const customAlias: Configuration['alias'] = {};
 
   for (const k in alias) {
@@ -51,7 +52,7 @@ export const getPlugins = (cfg: ConfigurationInstance, alias: Configuration['ali
         },
         generateScopedName:
           generateScopedNameFactory(
-            getCssHashRule()
+            getCssHashRule(),
           ),
         webpackHotModuleReloading: true,
         autoResolveMultipleImports: true,
@@ -59,7 +60,7 @@ export const getPlugins = (cfg: ConfigurationInstance, alias: Configuration['ali
       },
     ],
   ].filter(Boolean);
-};
+}
 
 export const env = {
   production: {

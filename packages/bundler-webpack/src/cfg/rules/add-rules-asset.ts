@@ -1,5 +1,5 @@
 import { merge } from '@dz-web/esboot-common/lodash';
-import { fileURLToPath } from "node:url";
+import { resolvePathFromUrl } from '@dz-web/esboot-common/helpers';
 
 import type { AddFunc } from '@/cfg/types';
 
@@ -9,7 +9,6 @@ const parser = {
   },
 };
 const filename = 'images/[name].[hash:8][ext]';
-const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
 
 export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
   const { svgr, svgrOptions = {} } = cfg.config;
@@ -40,7 +39,7 @@ export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
         resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
         use: [
           {
-            loader: resolvePath('@svgr/webpack'),
+            loader: resolvePathFromUrl('@svgr/webpack', import.meta.resolve),
             options: merge(
               {
                 icon: true,
@@ -48,13 +47,14 @@ export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
                 ext: 'tsx',
                 svgoConfig: {},
               },
-              svgrOptions
+              svgrOptions,
             ),
           },
         ],
-      }
+      },
     );
-  } else {
+  }
+  else {
     webpackCfg.module.rules.push(
       {
         test: /\.(svg)$/,
@@ -72,7 +72,7 @@ export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
           encoding: false,
           filename,
         },
-      }
+      },
     );
   }
 };
