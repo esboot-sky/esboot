@@ -50,7 +50,10 @@ export function findStyleImports(source: string): {
 export function formatVariableForStyleImports(
   source: string,
   imports: StyleImport[],
-) {
+): {
+  variables: string[];
+  source: string;
+} {
   for (const info of imports) {
     if (!info.variable) {
       const variable = makeVariableName();
@@ -69,7 +72,7 @@ export function formatVariableForStyleImports(
 }
 
 let nextId = 1;
-function makeVariableName() {
+function makeVariableName(): string {
   return `__cls_${nextId++}`;
 }
 
@@ -82,7 +85,7 @@ function makeVariableName() {
  * (Vite 下用 inline 的形式性能更好)
  */
 let transformerSource: string;
-export function importStyleNameTransformer(source: string, inline = true) {
+export function importStyleNameTransformer(source: string, inline = true): string {
   if (inline) {
     if (!transformerSource) {
       transformerSource = readFileSync(
@@ -106,7 +109,7 @@ export function applyStyleNameTransformer(
   source: string,
   classVariables: string[],
   reactVariableName: string,
-) {
+): string {
   source = source.replace(
     // 另两种包裹函数名的由来见：https://www.typescriptlang.org/docs/handbook/jsx.html
     new RegExp(
