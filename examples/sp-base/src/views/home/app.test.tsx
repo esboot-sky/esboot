@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { test, expect } from 'vitest';
+import { expect, it } from 'vitest';
 
 import App from './app';
 
-test('Demo', () => {
-  const { container } = render(<App />, { wrapper: MemoryRouter });
+it('demo', () => {
+  const { container } = render(<App />, { wrapper: MemoryRouter as any });
 
   expect(container.querySelector('p')?.textContent).toBe('close');
 });
