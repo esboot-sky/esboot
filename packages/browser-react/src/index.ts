@@ -17,5 +17,6 @@ export function useTest(): {
   };
 }
 
+export * from './error-boundary/default-fallback-render';
 export * from './error-boundary/error-boundary';
-export { useErrorBoundary, withErrorBoundary } from 'react-error-boundary';
+export { type FallbackProps, useErrorBoundary, withErrorBoundary } from 'react-error-boundary';

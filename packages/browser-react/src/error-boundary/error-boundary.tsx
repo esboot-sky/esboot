@@ -27,8 +27,6 @@ function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactElement {
   const { children, fallbackRender = defaultFallbackRender } = props;
 
   const logError = (error: Error, info: ErrorInfo): void => {
-    console.error('error1:', error);
-    console.error('info1:', info);
     props.onError?.(error, info);
     // Do something with the error, e.g. log to an external API
   };
@@ -39,7 +37,7 @@ function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactElement {
       | { reason: 'keys'; prev: any[] | undefined; next: any[] | undefined },
   ): void => {
     // Reset the state of your app so the error doesn't happen again
-    console.warn('reset from top error boundary:', details);
+    // console.warn('reset from top error boundary:', details);
     props.onReset?.(details);
   };
 
