@@ -25,10 +25,10 @@ import { addEntry } from './partials/add-entry';
 import { addResolve } from './partials/add-resolve';
 import { addStyle } from './partials/add-style';
 
-export async function getCfg(cfg: ConfigurationInstance, mode: Environment, options: {
+export async function getCfg(cfg: ConfigurationInstance, mode: Environment, options?: {
   onModifyBundlerConfig?: (cfg: CustomViteConfiguration) => CustomViteConfiguration;
 }): Promise<CustomViteConfiguration> {
-  const { onModifyBundlerConfig } = options;
+  const { onModifyBundlerConfig } = options || {};
   const { cwd, bundlerOptions = {}, publicPath, sourceMap } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerViteOptions;
 

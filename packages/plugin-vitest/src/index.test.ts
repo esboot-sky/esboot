@@ -1,17 +1,17 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import pluginVitest, { alias } from './index';
 
 describe('alias', () => {
   it('should return the correct alias', () => {
     expect(alias).toEqual({
-      vitest: expect.any(String),
+      'vitest': expect.any(String),
       '@testing-library/react': expect.any(String),
       '@testing-library/user-event': expect.any(String),
     });
   });
 });
 
-describe('Is a plugin', () => {
+describe('is a plugin', () => {
   it('should be a function', () => {
     expect(pluginVitest).toBeInstanceOf(Function);
   });
