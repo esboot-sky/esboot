@@ -1,8 +1,14 @@
 import type { ReactNode } from 'react';
 import type { FallbackProps } from 'react-error-boundary';
 
-export function defaultFallbackRender(props: FallbackProps): ReactNode {
-  const { error, resetErrorBoundary } = props;
+export interface DefaultFallbackRenderProps extends FallbackProps {
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+export function defaultFallbackRender(props: DefaultFallbackRenderProps): ReactNode {
+  const { error, resetErrorBoundary, className, style } = props;
+
   const containerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
@@ -16,6 +22,7 @@ export function defaultFallbackRender(props: FallbackProps): ReactNode {
     background: '#fafafa',
     textAlign: 'center',
     color: '#000',
+    ...(style || {}),
   };
 
   const messageStyle: React.CSSProperties = {
@@ -36,7 +43,7 @@ export function defaultFallbackRender(props: FallbackProps): ReactNode {
   };
 
   return (
-    <div role="alert" style={containerStyle}>
+    <div role="alert" style={containerStyle} className={className}>
       <h2>Something went wrong</h2>
       <pre style={messageStyle}>{error.message}</pre>
 
