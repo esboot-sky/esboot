@@ -1,6 +1,9 @@
 import { useState } from 'react';
 
-export function useTest() {
+export function useTest(): {
+  count: number;
+  setCount: (count: number) => void;
+} {
   const [count, setCount] = useState(0);
 
   // useEffect(() => {
