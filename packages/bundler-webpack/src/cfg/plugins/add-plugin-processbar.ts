@@ -1,17 +1,28 @@
-import webpack from 'webpack';
-import { info } from '@dz-web/esboot-common/helpers';
-import readline from 'node:readline';
-
 import type { AddFunc } from '@/cfg/types';
+import process from 'node:process';
+import readline from 'node:readline';
+import { info } from '@dz-web/esboot-common/helpers';
 
-export const addProcessbarPlugin: AddFunc = async (cfg, rspackCfg) => {
+import { ProgressPlugin } from 'webpack';
+
+export const addProcessbarPlugin: AddFunc = async (cfg, webpackCfg) => {
   const { isCIBuild } = cfg.config;
 
-  if (isCIBuild) return;
+  if (isCIBuild)
+    return;
 
   let lastPercentage = 0;
   let startTime = Date.now();
   let progressBarVisible = false;
+  let timeDisplayed = false; // 添加标志防止重复输出
+
+  let lastMessage = '';
+  const displayProgressBar = (percent: number, message: string): void => {
+    readline.clearLine(process.stdout, 0);
+    readline.cursorTo(process.stdout, 0);
+    process.stdout.write(`[${percent}%] ${message} `);
+    progressBarVisible = true;
+  };
 
   const originalConsoleLog = console.log;
   console.log = (...args) => {
@@ -25,44 +36,27 @@ export const addProcessbarPlugin: AddFunc = async (cfg, rspackCfg) => {
     }
   };
 
-  let lastMessage = '';
-  const displayProgressBar = (percent: number, message: string) => {
-    readline.clearLine(process.stdout, 0);
-    readline.cursorTo(process.stdout, 0);
-    process.stdout.write(`[${percent}%] ${message} `);
-    progressBarVisible = true;
-  };
-
   const handler = (percentage: number, message: string) => {
     const percent = Math.round(percentage * 100);
-    if (message === 'cache') return;
+    if (message === 'cache')
+      return;
 
-    if (lastPercentage === 0) {
+    if (lastPercentage === 0 && !timeDisplayed) {
       startTime = Date.now();
     }
 
     if (percent !== lastPercentage || message !== lastMessage) {
       displayProgressBar(percent, message);
 
-      if (percent === 100) {
+      if (percent === 100 && !timeDisplayed) {
         progressBarVisible = false;
+        timeDisplayed = true;
 
-        if (message !== 'end' && lastMessage !== 'end') {
-          // console.log(
-          //   `percent-${percent}`,
-          //   `message-${message}`,
-          //   `lastPercentage-${lastPercentage}`,
-          //   `lastMessage-${lastMessage}`
-          // );
-          readline.clearLine(process.stdout, 0);
-          readline.cursorTo(process.stdout, 0);
-          info(`Used time: ${Date.now() - startTime}ms`);
-        }
+        readline.clearLine(process.stdout, 0);
+        readline.cursorTo(process.stdout, 0);
+        info(`Used time: ${Date.now() - startTime}ms`);
 
         console.log = originalConsoleLog;
-        lastPercentage = 0;
-        lastMessage = '';
-        return;
       }
 
       lastPercentage = percent;
@@ -70,5 +64,5 @@ export const addProcessbarPlugin: AddFunc = async (cfg, rspackCfg) => {
     }
   };
 
-  rspackCfg.plugins.push(new webpack.ProgressPlugin(handler));
+  webpackCfg.plugins.push(new ProgressPlugin(handler));
 };

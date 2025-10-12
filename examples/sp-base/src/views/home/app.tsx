@@ -39,7 +39,7 @@ function Test() {
 
   return (
     <div className="page">
-      <div styleName="text text2 text3" className="page page2  ">
+      <div styleName="text text2" className="page page2  ">
         module css233
         {getCount2}
       </div>
