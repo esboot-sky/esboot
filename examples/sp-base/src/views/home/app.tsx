@@ -1,5 +1,5 @@
 import { cn } from '@dz-web/esboot-browser';
-import { useTest, useErrorBoundary } from '@dz-web/esboot-browser-react';
+import { useErrorBoundary, useTest } from '@dz-web/esboot-browser-react';
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';

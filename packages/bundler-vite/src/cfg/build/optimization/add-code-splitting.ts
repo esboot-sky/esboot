@@ -1,12 +1,12 @@
-import { mergeFrameworkBundles } from '@dz-web/esboot-bundler-common';
-
-import { CodeSplittingType } from '@/types';
-
-import type { BundlerViteOptions } from '@/types';
 import type { AddFunc } from '@/cfg/types';
 
+import type { BundlerViteOptions } from '@/types';
+
+import { mergeFrameworkBundles } from '@dz-web/esboot-bundler-common';
+import { CodeSplittingType } from '@/types';
+
 export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
-  const { bundlerOptions } = cfg.config;
+  const { bundlerOptions = {} } = cfg.config;
   const { codeSplitting } = bundlerOptions as BundlerViteOptions;
   const {
     jsStrategy = CodeSplittingType.granularChunks,
@@ -22,7 +22,8 @@ export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
     manualChunks = {
       framework: _frameworkBundles,
     };
-  } else if (jsStrategy === CodeSplittingType.bigVendors) {
+  }
+  else if (jsStrategy === CodeSplittingType.bigVendors) {
     manualChunks = (id: string) => {
       if (id.includes('node_modules')) {
         return 'vendors';

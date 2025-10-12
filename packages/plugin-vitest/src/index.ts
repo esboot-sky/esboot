@@ -1,5 +1,5 @@
 import type { Plugin } from '@dz-web/esboot';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PluginHooks } from '@dz-web/esboot';
 import { exec } from '@dz-web/esboot-common/execa';
@@ -7,6 +7,9 @@ import {
   resolveLibPath as baseResolveLibPath,
   searchCommand,
 } from '@dz-web/esboot-common/helpers';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function resolveLibPath(p: string): string {
   return fileURLToPath(baseResolveLibPath(p, import.meta.resolve));
@@ -24,10 +27,6 @@ export default (): Plugin => {
     [PluginHooks.registerCommands]: (cfg) => {
       const { cwd } = cfg;
 
-      console.log(
-        `${searchCommand(join(__dirname, '../'), 'vitest')}`,
-        'vitest',
-      );
       return [
         {
           name: 'vitest',

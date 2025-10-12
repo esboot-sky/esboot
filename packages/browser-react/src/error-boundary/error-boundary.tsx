@@ -24,7 +24,7 @@ interface ErrorBoundaryPropsByESBoot extends ErrorBoundarySharedProps {
   children: ReactNode;
 }
 
-function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactNode {
+function ErrorBoundary(props: ErrorBoundaryPropsByESBoot) {
   const { children, fallbackRender = defaultFallbackRender } = props;
 
   const logError = (error: Error, info: ErrorInfo): void => {
