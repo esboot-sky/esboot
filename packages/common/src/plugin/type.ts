@@ -1,6 +1,18 @@
+import type { PluginHooks } from './constants';
 import type { Configuration } from '@/cfg/types';
-import { PluginHooks } from './constants';
-import type { Command } from './register-commands';
+
+export interface Command {
+  name: string;
+  arguments?: {
+    name: string;
+    description: string;
+    defaultValue?: unknown;
+  }[];
+  description?: string;
+  allowUnknownOption?: boolean;
+  options?: string[];
+  action: (...args: any[]) => void;
+}
 
 type NormalConfig = Record<string, any>;
 export interface Plugin {

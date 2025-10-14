@@ -1,4 +1,5 @@
 import { cn } from '@dz-web/esboot-browser';
+import { useErrorBoundary, useTest } from '@dz-web/esboot-browser-react';
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -10,12 +11,16 @@ import { langBtn } from './variant';
 import './app.scss';
 import './test.css';
 
+// console.log(styles, 'styles');
+
 const a = 1;
 console.log(a);
 function Test() {
+  const { showBoundary } = useErrorBoundary();
   const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [count3, setCount3] = useState(0);
+  const { count: count4, setCount: setCount4 } = useTest();
 
   const getCount2 = (() => {
     console.log('exec count2');
@@ -23,6 +28,7 @@ function Test() {
   })();
 
   useEffect(() => {
+    const cc = count + count3;
     // login({
     //   username: 'admin',
     //   password: '123456',
@@ -33,7 +39,7 @@ function Test() {
 
   return (
     <div className="page">
-      <div styleName="text text2" className="page">
+      <div styleName="text text2" className="page page2  ">
         module css233
         {getCount2}
       </div>
@@ -58,6 +64,17 @@ function Test() {
 
       <Button onClick={() => setCount(count + 1)}>123</Button>
       <Button onClick={() => setCount3(count3 + 1)}>count3</Button>
+      <Button onClick={() => setCount4(count4 + 1)}>
+        count4:
+        {count4}
+      </Button>
+
+      <Button onClick={() => {
+        showBoundary(new Error('test'));
+      }}
+      >
+        throw error
+      </Button>
 
       <Outlet />
     </div>

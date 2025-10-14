@@ -1,14 +1,11 @@
 import type {
-  Environment,
-  PLATFORMS,
-  PAGE_TYPE,
-  JsMinifier,
   CSSMinifier,
-} from '@dz-web/esboot-common/constants';
+  Environment,
+  JsMinifier,
+  PAGE_TYPE,
+  PLATFORMS,
+} from '@/constants';
 import type { Plugin } from '@/plugin/type';
-
-import type { Bundler } from '../bundler';
-import type { BaseBundlerOptions } from '../bundler/types';
 
 interface Entry {
   chunkName: string;
@@ -41,10 +38,15 @@ export interface Proxy {
   pathRewrite?: Record<string, string>;
 }
 
-export interface UserOptions<BundlerOptions = unknown> {
+export type BabelPlugin = [string, Record<string, any>];
+
+export interface ReactCompiler {
+  enable?: boolean;
+  target: string;
+}
+
+export interface UserOptions {
   isSP?: boolean;
-  bundler: (new (config: BaseBundlerOptions) => Bundler) | null;
-  bundlerOptions?: BundlerOptions;
   outputPath?: string;
   publicPath?: string;
   useLangJsonPicker?: boolean;
@@ -73,6 +75,9 @@ export interface UserOptions<BundlerOptions = unknown> {
   externals?: Record<string, string>;
   useTailwindcss?: boolean;
   plugins?: Plugin[];
+  experimental?: {
+    reactCompiler?: ReactCompiler;
+  };
 }
 
 export interface ConfigurationForMP {
@@ -83,36 +88,37 @@ export interface ConfigurationForMP {
   contentRootPath: string;
 }
 
-type PreserveAttr =
-  | 'define'
-  | 'copy'
-  | 'jsMinifier'
-  | 'jsMinifierOptions'
-  | 'cssMinifierOptions'
-  | 'legacy'
-  | 'cssMinifier';
+type PreserveAttr
+  = | 'define'
+    | 'copy'
+    | 'jsMinifier'
+    | 'jsMinifierOptions'
+    | 'cssMinifierOptions'
+    | 'legacy'
+    | 'cssMinifier'
+    | 'experimental';
 
-export type Configuration<BundlerOptions = unknown> = {
-  [K in PreserveAttr]: Required<UserOptions<BundlerOptions>[K]>;
-} & Omit<Required<UserOptions<BundlerOptions>>, PreserveAttr> & {
-    isDev: boolean;
-    isCIBuild: boolean;
-    rootPath: string;
-    configRootPath: string;
-    configJSPath: string;
-    ipv4: string;
-    version: string;
-    cwd: string;
-    env: Environment;
-    entry: Record<string, Entry>;
-    isMobile: boolean;
-    isBrowser: boolean;
-    staticPathList: {
-      from: string;
-      to: string;
-    }[];
-    alias: Record<string, string>;
-  } & (
-    | { isSP: true; MPConfiguration: never }
-    | { isSP: false; MPConfiguration: ConfigurationForMP }
+export type Configuration<Options extends UserOptions = UserOptions> = {
+  [K in PreserveAttr]: Required<Options[K]>;
+} & Omit<Required<Options>, PreserveAttr> & {
+  isDev: boolean;
+  isCIBuild: boolean;
+  rootPath: string;
+  configRootPath: string;
+  configJSPath: string;
+  ipv4: string;
+  version: string;
+  cwd: string;
+  env: Environment;
+  entry: Record<string, Entry>;
+  isMobile: boolean;
+  isBrowser: boolean;
+  staticPathList: {
+    from: string;
+    to: string;
+  }[];
+  alias: Record<string, string>;
+} & (
+  | { isSP: true; MPConfiguration: never }
+  | { isSP: false; MPConfiguration: ConfigurationForMP }
   );

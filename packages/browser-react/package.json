@@ -1,0 +1,32 @@
+{
+  "name": "@dz-web/esboot-browser-react",
+  "version": "4.0.0-alpha.1",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "cross-env NODE_ENV=development tsup",
+    "prepublishOnly": "pnpm run build"
+  },
+  "files": [
+    "dist",
+    "index.css"
+  ],
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-error-boundary": "^4.1.2"
+  },
+  "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc",
+  "devDependencies": {
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.5"
+  }
+}

@@ -1,14 +1,14 @@
-import {
-  injectHtml,
-  addEntry as _addEntry,
-  type AddEntryCBParams,
-} from '@dz-web/esboot-bundler-common';
-import { join } from 'node:path';
-
-import { loadHtmlContent } from '@/helpers/load-html-content';
+import type { AddEntryCBParams } from '@dz-web/esboot-bundler-common';
+import type { AddFunc } from '@/cfg/types';
 
 import type { SharedConfig } from '@/types';
-import type { AddFunc } from '@/cfg/types';
+
+import { join } from 'node:path';
+import {
+  addEntry as _addEntry,
+  injectHtml,
+} from '@dz-web/esboot-bundler-common';
+import { loadHtmlContent } from '@/helpers/load-html-content';
 
 export const addEntry: AddFunc = async (cfg, viteCfg) => {
   const { cwd, MPConfiguration, isSP, isDev } = cfg.config;
@@ -29,17 +29,6 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
       entry: entry.replace(cwd, ''),
       title,
     };
-    // pages.push({
-    //   entry: entry.replace(cwd, ''),
-    //   filename: `${chunkName}.html`,
-    //   template: `${configRootPath}/${template}`.replace(`${cwd}`, ''),
-    //   title,
-    //   inject: {
-    //     data: {
-    //       isDev: isDev,
-    //     },
-    //   },
-    // });
   });
 
   viteCfg.plugins!.push({
@@ -51,9 +40,11 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
 
   viteCfg.appType = 'custom';
   viteCfg.sharedConfig.pages = pages;
-  if (isDev) return;
+  if (isDev)
+    return;
 
-  if (!viteCfg.build) viteCfg.build = {};
+  if (!viteCfg.build)
+    viteCfg.build = {};
   viteCfg.plugins!.push({
     name: 'vite-plugin-custom-html',
     resolveId(id) {
@@ -73,6 +64,7 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
     },
   });
 
-  if (!viteCfg.build.rollupOptions) viteCfg.build.rollupOptions = {};
+  if (!viteCfg.build.rollupOptions)
+    viteCfg.build.rollupOptions = {};
   viteCfg.build.rollupOptions.input = entryPages;
 };

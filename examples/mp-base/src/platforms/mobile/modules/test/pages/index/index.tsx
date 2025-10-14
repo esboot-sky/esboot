@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 import { genericMemo } from '@/utils/react-utils';
 
-import './index.scss';
+// import './index.scss';
 
-const Index = genericMemo(function Index() {
+const Index = genericMemo(() => {
   return (
     <div>
       <Link
@@ -13,9 +13,9 @@ const Index = genericMemo(function Index() {
         }}
         to="/detail"
       >
-        go to detail
+        go to detail1
       </Link>
-      <div styleName="w375">375 width in 750 design</div>
+      <div>375 width in 750 design</div>
     </div>
   );
 });

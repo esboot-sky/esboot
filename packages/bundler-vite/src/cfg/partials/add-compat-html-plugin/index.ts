@@ -1,5 +1,5 @@
-import { injectHtml } from '@dz-web/esboot-bundler-common';
 import type { AddFunc } from '@/cfg/types';
+import { injectHtml } from '@dz-web/esboot-bundler-common';
 
 // @deprecated see add-entry
 export const addCompatHtmlPlugin: AddFunc = async (cfg, viteCfg) => {

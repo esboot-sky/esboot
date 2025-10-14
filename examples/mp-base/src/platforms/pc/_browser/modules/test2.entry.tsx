@@ -1,6 +1,6 @@
+import generatePage from '@pc-browser/helpers/generate-page';
 import App from '@pc/modules/test2';
 import { store } from '@pc/modules/test2/model/store';
-import generatePage from '@pc-browser/helpers/generate-page';
 
 generatePage(<App />, {
   store,

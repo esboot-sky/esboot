@@ -1,12 +1,12 @@
+import type { Configuration } from '@/cfg';
 import { join, relative } from 'node:path';
-import { exec } from '@dz-web/esboot-common/execa';
 
-import type { Configuration } from '@/cfg/types';
+import { exec } from '@dz-web/esboot-common/execa';
 
 export async function mockBridge(
   options: Record<string, string>,
-  config: Configuration
-) {
+  config: Configuration,
+): Promise<void> {
   const { file, sampleFile } = options;
   const { configRootPath, MPConfiguration, isSP, cwd } = config;
 
@@ -24,7 +24,7 @@ export async function mockBridge(
     : join(folderPath, 'bridge-mock-sample.js');
 
   const bridgeMockBinPath = await import.meta.resolve(
-    '@dz-web/bridge-mock/bin'
+    '@dz-web/bridge-mock/bin',
   );
 
   exec(`node ${bridgeMockBinPath} -f "${filePath}" -s "${samplePath}"`, {

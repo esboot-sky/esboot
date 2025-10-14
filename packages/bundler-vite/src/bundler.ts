@@ -1,22 +1,24 @@
-import express from 'express';
-import { createServer as createViteServer, build } from 'vite';
 import { Bundler } from '@dz-web/esboot';
 import { logDevServer } from '@dz-web/esboot-bundler-common';
 import { Environment } from '@dz-web/esboot-common/constants';
+import express from 'express';
+import { build, createServer as createViteServer } from 'vite';
 
-import { loadHtmlContent } from './helpers/load-html-content';
 import { getCfg } from './cfg/get-cfg';
+import { loadHtmlContent } from './helpers/load-html-content';
 
 export class BundlerVite extends Bundler {
   name = 'vite';
 
-  getName() {
+  getName(): string {
     return this.name;
   }
 
-  async dev() {
+  dev = async (): Promise<void> => {
     const app = express();
-    const cfg = await getCfg(this.cfg, Environment.dev);
+    const cfg = await getCfg(this.cfg, Environment.dev, {
+      onModifyBundlerConfig: this.onModifyBundlerConfig,
+    });
     const {
       server: { port = 3000, host = '0.0.0.0' },
     } = this.cfg.config;
@@ -47,11 +49,12 @@ export class BundlerVite extends Bundler {
           const htmlContent = await vite.transformIndexHtml(
             _reqUrl,
             rawHtmlContent,
-            _reqUrl
+            _reqUrl,
           );
 
           res.status(200).send(htmlContent);
-        } else {
+        }
+        else {
           let list = '';
           for (const page of Object.keys(pages)) {
             const { title } = pages[page];
@@ -69,14 +72,16 @@ export class BundlerVite extends Bundler {
       logDevServer(port, false);
       this.onAfterCompile();
     });
-  }
+  };
 
-  async build() {
-    const cfg = await getCfg(this.cfg, Environment.prod);
+  build = async (): Promise<void> => {
+    const cfg = await getCfg(this.cfg, Environment.prod, {
+      onModifyBundlerConfig: this.onModifyBundlerConfig,
+    });
 
     await build(cfg);
     this.onAfterCompile();
-  }
+  };
 }
 
 export type { BundlerViteOptions } from './types';

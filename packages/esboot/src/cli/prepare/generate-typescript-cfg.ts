@@ -1,15 +1,16 @@
-import { join, isAbsolute } from 'node:path';
+import { isAbsolute, join } from 'node:path';
+
+import { cacheDir } from '@dz-web/esboot-common/constants';
+import { ensureDirSync, writeJSON } from '@dz-web/esboot-common/fs-extra';
+import { error, info } from '@dz-web/esboot-common/helpers';
+import { PluginHooks } from '@dz-web/esboot-common/plugin';
 
 import tsconfigJson from '@dz-web/esboot-lint/tsconfig.json' with { type: 'json' };
-import { writeJSON, ensureDirSync } from '@dz-web/esboot-common/fs-extra';
-import { cacheDir } from '@dz-web/esboot-common/constants';
-import { info, error } from '@dz-web/esboot-common/helpers';
-
-import cfg from '@/cfg';
-import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
+import { cfg } from '@/cfg';
 import { absListPath } from '@/helpers';
+import { callPluginHookOfModifyLintConfig } from '@/plugin';
 
-export function generateTypeScriptCfg() {
+export function generateTypeScriptCfg(): void {
   const { cwd, alias } = cfg.config;
   const _alias: Record<string, string[]> = {};
 
@@ -30,7 +31,7 @@ export function generateTypeScriptCfg() {
   callPluginHookOfModifyLintConfig(
     PluginHooks.modifyTypescriptConfig,
     cfg.config,
-    tsconfigJson
+    tsconfigJson,
   );
 
   const folderPath = join(cacheDir, 'typescript');

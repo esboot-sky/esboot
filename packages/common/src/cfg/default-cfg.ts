@@ -1,13 +1,14 @@
+import type { Configuration } from './types';
+import process from 'node:process';
+
 import {
+  CSSMinifier,
+  DEFAULT_DEV_PORT,
   Environment,
   JsMinifier,
-  CSSMinifier,
-  PLATFORMS,
   PAGE_TYPE,
-} from '@dz-web/esboot-common/constants';
-
-import { DEFAULT_DEV_PORT } from '@dz-web/esboot-common/constants';
-import type { Configuration } from './types';
+  PLATFORMS,
+} from '@/constants';
 
 export const defaultCfg: Configuration = {
   isDev: true,
@@ -29,8 +30,6 @@ export const defaultCfg: Configuration = {
   externals: {},
   cwd: process.cwd(),
   staticPathList: [],
-  bundler: null,
-  bundlerOptions: {},
   analyze: false,
   outputPath: 'dist',
   publicPath: '/',
@@ -58,4 +57,10 @@ export const defaultCfg: Configuration = {
     port: DEFAULT_DEV_PORT,
   },
   plugins: [],
+  experimental: {
+    reactCompiler: {
+      enable: true,
+      target: '19',
+    },
+  },
 };

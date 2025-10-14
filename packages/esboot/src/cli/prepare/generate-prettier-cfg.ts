@@ -1,18 +1,19 @@
 import { join } from 'node:path';
 
-import prettierConfig from '@dz-web/esboot-lint/prettier';
-import { writeJSON, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { cacheDir } from '@dz-web/esboot-common/constants';
-import { info, error } from '@dz-web/esboot-common/helpers';
+import { ensureFileSync, writeJSON } from '@dz-web/esboot-common/fs-extra';
+import { error, info } from '@dz-web/esboot-common/helpers';
+import { PluginHooks } from '@dz-web/esboot-common/plugin';
 
-import cfg from '@/cfg';
-import { callPluginHookOfModifyLintConfig, PluginHooks } from '@/plugin';
+import prettierConfig from '@dz-web/esboot-lint/prettier';
+import { cfg } from '@/cfg';
+import { callPluginHookOfModifyLintConfig } from '@/plugin';
 
-export function generatePrettierCfg() {
+export function generatePrettierCfg(): void {
   callPluginHookOfModifyLintConfig(
     PluginHooks.modifyPrettierConfig,
     cfg.config,
-    prettierConfig
+    prettierConfig,
   );
 
   const outputPath = join(cacheDir, 'prettier/index.json');

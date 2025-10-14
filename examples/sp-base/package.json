@@ -11,9 +11,15 @@
   ],
   "main": "index.js",
   "scripts": {
-    "dev": "esboot dev",
+    "dev:vite": "ESBOOT_BUNDLER=vite bun run sync-esbootrc.ts && esboot dev",
+    "dev:webpack": "ESBOOT_BUNDLER=webpack bun run sync-esbootrc.ts && esboot dev",
+    "dev:rspack": "ESBOOT_BUNDLER=rspack bun run sync-esbootrc.ts && esboot dev",
+    "build:vite": "ESBOOT_BUNDLER=vite bun run sync-esbootrc.ts && esboot build",
+    "build:webpack": "ESBOOT_BUNDLER=webpack bun run sync-esbootrc.ts && esboot build",
+    "build:rspack": "ESBOOT_BUNDLER=rspack bun run sync-esbootrc.ts && esboot build",
     "build": "esboot build",
     "esboot": "esboot",
+    "docs": "esboot docs dev",
     "postinstall": "esboot prepare",
     "test": "esboot vitest run"
   },
@@ -21,6 +27,7 @@
     "@dz-web/axios": "^0.0.6",
     "@dz-web/axios-middlewares": "^1.0.3",
     "@dz-web/esboot-browser": "workspace:*",
+    "@dz-web/esboot-browser-react": "workspace:*",
     "@loadable/component": "^5.16.4",
     "@tanstack/react-query": "^5.49.2",
     "ahooks": "^3.8.0",
@@ -30,8 +37,8 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-intl": "^7.1.11",
-    "react-router-dom": "^6.24.1",
-    "zustand": "^5.0.5"
+    "react-router-dom": "^7.8.2",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",
@@ -41,7 +48,7 @@
     "@dz-web/esboot-plugin-docs": "workspace:*",
     "@dz-web/esboot-plugin-vitest": "workspace:*",
     "@types/node": "^24.0.3",
-    "@types/react": "19.1.8",
+    "@types/react": "19.1.12",
     "@types/react-dom": "^19.1.5",
     "eslint": "^9.29.0",
     "stylelint": "^16.20.0"

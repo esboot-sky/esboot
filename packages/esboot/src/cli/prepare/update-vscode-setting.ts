@@ -1,15 +1,15 @@
 import { join } from 'node:path';
 
 import {
-  writeJSON,
   ensureFileSync,
   readJSON,
+  writeJSON,
 } from '@dz-web/esboot-common/fs-extra';
+import { error, info } from '@dz-web/esboot-common/helpers';
 import { merge } from '@dz-web/esboot-common/lodash';
-import { info, error } from '@dz-web/esboot-common/helpers';
-import cfg from '@/cfg';
+import { cfg } from '@/cfg';
 
-export function updateVSCodeSetting() {
+export function updateVSCodeSetting(): void {
   const { cwd } = cfg.config;
 
   const vscodeConfigFolder = join(cwd, '.vscode');
@@ -47,7 +47,7 @@ export function updateVSCodeSetting() {
         }),
         {
           spaces: 2,
-        }
+        },
       );
     })
     .then(() => {
@@ -76,7 +76,7 @@ export function updateVSCodeSetting() {
         }),
         {
           spaces: 2,
-        }
+        },
       );
     })
     .then(() => {

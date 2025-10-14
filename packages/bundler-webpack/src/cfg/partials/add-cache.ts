@@ -4,11 +4,14 @@ import {
   webpackCacheDir,
 } from '@dz-web/esboot-common/constants';
 import type { AddFunc } from '@/cfg/types';
+import type { BundlerWebpackOptions } from '@/types';
 
 export const addCache: AddFunc = async (cfg, webpackCfg) => {
-  const { isDev, isCIBuild, cwd } = cfg.config;
+  const { isDev, isCIBuild, cwd, bundlerOptions = {} } = cfg.config;
+  const { buildCache = false } = bundlerOptions as BundlerWebpackOptions;
 
-  if (isDev || isCIBuild) return;
+  if (isDev) return;
+  if (isCIBuild && !buildCache) return;
 
   webpackCfg.optimization = {
     runtimeChunk: 'single',
