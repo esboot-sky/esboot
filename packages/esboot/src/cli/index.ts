@@ -1,43 +1,40 @@
+import type { Bundler } from '@/bundler';
+import process from 'node:process';
+import { Environment } from '@dz-web/esboot-common';
+
+import { loadEnv } from '@dz-web/esboot-common/cfg';
 import { program } from 'commander';
 
-import cfg from '@/cfg';
-
-import { processPrepare } from './prepare';
-import { loadEnv } from './load-env';
-
-import { prepare } from './prepare/index';
-import { Environment } from '@dz-web/esboot-common';
+import { cfg } from '@/cfg';
 import { logBrand } from '@/helpers';
-import { preview } from './preview';
-import { mockBridge } from './mock/bridge';
-
+import { callPluginHookOfModifyConfig, callPluginHookOfRegisterCommands, pluginHooksDict, preparePlugins } from '@/plugin';
 import { writeMultiPlatform } from '@/scripts/write-multi-platform';
-
-import { preparePlugins } from '@/plugin';
-import {
-  callPluginHookOfModifyConfig,
-  callPluginHookOfRegisterCommands,
-  pluginHooksDict,
-} from '@/plugin';
 
 import pkg from '../../package.json' with { type: 'json' };
 
+import { mockBridge } from './mock/bridge';
+import { processPrepare } from './prepare';
+
+import { prepare } from './prepare/index';
+import { preview } from './preview';
+
 const cwd = process.cwd();
 
-async function loadCfg() {
+async function loadCfg(): Promise<void> {
   await cfg.load();
   preparePlugins(cfg.config);
   callPluginHookOfModifyConfig(cfg.config);
   callPluginHookOfRegisterCommands(cfg.config);
 }
 
-async function createBundler(environment: Environment) {
+async function createBundler(environment: Environment): Promise<Bundler | null> {
   process.env.NODE_ENV = environment;
   await loadCfg();
   const { config } = cfg;
 
   if (config.bundler) {
-    const bundler = new config.bundler({
+    const Bundler = config.bundler;
+    const bundler = new Bundler({
       configuration: cfg,
       pluginHooksDict,
     });
@@ -49,7 +46,7 @@ async function createBundler(environment: Environment) {
   return null;
 }
 
-export const run = async () => {
+export async function run(): Promise<void> {
   processPrepare();
   loadEnv({ root: cwd });
 
@@ -64,7 +61,8 @@ export const run = async () => {
     .allowUnknownOption(true)
     .action(async () => {
       const bundler = await createBundler(Environment.dev);
-      if (bundler) bundler.dev();
+      if (bundler)
+        bundler.dev();
     });
 
   program
@@ -73,7 +71,8 @@ export const run = async () => {
     .allowUnknownOption(true)
     .action(async () => {
       const bundler = await createBundler(Environment.prod);
-      if (bundler) bundler.build();
+      if (bundler)
+        bundler.build();
     });
 
   program
@@ -121,4 +120,4 @@ export const run = async () => {
 
   program.version(pkg.version);
   program.parse(process.argv);
-};
+}

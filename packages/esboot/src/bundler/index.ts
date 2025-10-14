@@ -1,10 +1,12 @@
+import type { BaseBundlerOptions, ConfigurationInstance } from './types';
+import type {
+  pluginHooksDict,
+} from '@/plugin';
+import { PluginHooks } from '@dz-web/esboot-common/plugin';
 import {
   callPluginHookOfModifyBundlerConfig,
   callPluginHookOfOnlyExec,
-  pluginHooksDict,
-  PluginHooks,
 } from '@/plugin';
-import type { ConfigurationInstance, BaseBundlerOptions } from './types';
 
 export abstract class Bundler {
   cfg: ConfigurationInstance;
@@ -20,22 +22,22 @@ export abstract class Bundler {
 
   abstract getName(): string;
 
-  public onModifyBundlerConfig<T>(config: T): T {
+  onModifyBundlerConfig = <T>(config: T): T => {
     callPluginHookOfModifyBundlerConfig<T>(
       this.pluginHooksDict,
       this.cfg.config,
       config,
-      this.getName()
+      this.getName(),
     );
 
     return config;
-  }
+  };
 
-  public onAfterCompile() {
+  onAfterCompile = (): void => {
     callPluginHookOfOnlyExec(
       PluginHooks.afterCompile,
       this.pluginHooksDict,
-      this.cfg.config
+      this.cfg.config,
     );
-  }
+  };
 }

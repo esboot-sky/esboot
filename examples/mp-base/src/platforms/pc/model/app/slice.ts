@@ -1,22 +1,27 @@
+import type { RaiseMode, ThemeValues } from '@pc/constants/config';
+import type { IRawAppUserConfig, IUserInfo } from '@pc/customize';
+import type { MinimalRootState } from '@pc/model/minimal-store';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import type { Language } from '@/constants/config';
 import { globalBlocker } from '@dz-web/axios-middlewares';
 import { CacheStore } from '@dz-web/cache';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-
+import { getRealPCNativeFontSizee } from '@pc-native/utils/pc-native-config';
+import { DEFAULT_RAISE_MODE, DEFAULT_THEME, SupportedThemes } from '@pc/constants/config';
+import { accessToken } from '@pc/customize';
+import { isSupportedTheme, isValidRaiseMode } from '@pc/utils/capacities';
+import { createSlice } from '@reduxjs/toolkit';
 import { CACHE_KEY_PC_USER_CONFIG, CACHE_KEY_PC_USER_INFO } from '@/constants/caches';
-import { Language, DEFAULT_LANGUAGE, supportedLanguage } from '@/constants/config';
+import { DEFAULT_LANGUAGE, supportedLanguage } from '@/constants/config';
 import { initPageQuery } from '@/helpers/init-page-query';
 import { isSupportedLanguage } from '@/utils/capacities';
 import { isBrowser } from '@/utils/platforms';
-import { DEFAULT_THEME, SupportedThemes, ThemeValues, RaiseMode, DEFAULT_RAISE_MODE } from '@pc/constants/config';
-import { IRawAppUserConfig, IUserInfo, accessToken } from '@pc/customize';
-import { MinimalRootState } from '@pc/model/minimal-store';
-import { isSupportedTheme, isValidRaiseMode } from '@pc/utils/capacities';
-import { getRealPCNativeFontSizee } from '@pc-native/utils/pc-native-config';
 
-const getDefaultTheme = (followSystem: boolean, defaultTheme: string) => {
+function getDefaultTheme(followSystem: boolean, defaultTheme: string) {
   const { theme } = initPageQuery;
   // 优先使用url指定的主题初始化
-  if (isSupportedTheme(theme)) return theme as ThemeValues;
+  if (isSupportedTheme(theme))
+    return theme as ThemeValues;
 
   // 浏览器模式下，设置了跟随系统设置, 则根据系统设置初始化
   if (followSystem) {
@@ -24,7 +29,7 @@ const getDefaultTheme = (followSystem: boolean, defaultTheme: string) => {
   }
 
   return defaultTheme;
-};
+}
 
 /**
  * 点证web app移动端标准用户设置
@@ -64,7 +69,8 @@ function createInitializedState(): IState {
     if (isBrowser()) {
       const v = run();
 
-      if (v) return v;
+      if (v)
+        return v;
 
       return defaultValue;
     }
@@ -101,11 +107,12 @@ function createInitializedState(): IState {
   // 每次都强制检测浏览器语言, 使用配置好的默认语言
   if (isBrowser() && (window as any).__force_detect_language_on_startup) {
     defaultState.userConfig.language = DEFAULT_LANGUAGE;
-  } else if (isSupportedLanguage(lang)) {
+  }
+  else if (isSupportedLanguage(lang)) {
     defaultState.userConfig.language = lang as Language;
   }
 
-  const intAdditionalSize = parseInt(additionalSize || '', 10);
+  const intAdditionalSize = Number.parseInt(additionalSize || '', 10);
   if (intAdditionalSize) {
     defaultState.userConfig.appFontSize = getRealPCNativeFontSizee(intAdditionalSize);
   }
@@ -136,10 +143,11 @@ export const slice = createSlice({
     setLanguage: (state, action: PayloadAction<any>) => {
       const language = action.payload;
 
-      const langs = Object.keys(supportedLanguage).map((key) => supportedLanguage[key]);
+      const langs = Object.keys(supportedLanguage).map(key => supportedLanguage[key]);
       if (langs.includes(language)) {
         state.userConfig.language = language;
-      } else {
+      }
+      else {
         console.error('无效语言设置: ', action.payload);
       }
     },
@@ -148,14 +156,16 @@ export const slice = createSlice({
       // 判断主题是否有效
       if (theme) {
         state.userConfig.theme = theme;
-      } else {
+      }
+      else {
         console.error('无效主题设置: ', action.payload);
       }
     },
     setRaise(state, action: PayloadAction<RaiseMode>) {
       if (action.payload === 'green' || action.payload === 'red') {
         state.userConfig.raise = action.payload;
-      } else {
+      }
+      else {
         console.error('无效涨跌颜色设置: ', action.payload);
       }
     },
@@ -166,11 +176,11 @@ export const slice = createSlice({
   },
 });
 
-export const { setUserConfig, setUserInfo, setTheme, setRaise, toggleFollowSystemPrefersColorSchemeWhenInBrowser } =
-  slice.actions;
+export const { setUserConfig, setUserInfo, setTheme, setRaise, toggleFollowSystemPrefersColorSchemeWhenInBrowser, setLanguage }
+  = slice.actions;
 
 export const selectUserConfig = (state: MinimalRootState) => state.app.userConfig;
 export const selectUserInfo = (state: MinimalRootState) => state.app.userInfo;
-export const selectLanguage: (state: MinimalRootState) => string = (state) => state.app.userConfig.language;
+export const selectLanguage: (state: MinimalRootState) => string = state => state.app.userConfig.language;
 
 export default slice.reducer;

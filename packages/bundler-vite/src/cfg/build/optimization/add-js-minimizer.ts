@@ -1,11 +1,11 @@
+import type { AddFunc } from '@/cfg/types';
 import { JsMinifier } from '@dz-web/esboot-common/constants';
+
 import { merge } from '@dz-web/esboot-common/lodash';
 
-import type { AddFunc } from '@/cfg/types';
-
 export const addJSMinimizer: AddFunc = async (cfg, viteCfg) => {
-  const { jsMinifier = JsMinifier.esbuild, jsMinifierOptions = {} } =
-    cfg.config;
+  const { jsMinifier = JsMinifier.esbuild, jsMinifierOptions = {} }
+    = cfg.config;
 
   const isCanMinify = jsMinifier !== JsMinifier.none;
 
@@ -23,7 +23,7 @@ export const addJSMinimizer: AddFunc = async (cfg, viteCfg) => {
 
     viteCfg.build!.terserOptions = merge(
       terserMinifyOptions,
-      jsMinifierOptions
+      jsMinifierOptions,
     );
   }
 };

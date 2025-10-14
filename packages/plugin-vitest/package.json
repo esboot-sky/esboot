@@ -1,28 +1,27 @@
 {
   "name": "@dz-web/esboot-plugin-vitest",
+  "type": "module",
   "version": "4.0.0-alpha.1",
   "description": "",
-  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "dist/index.js",
-  "module": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "files": [
+    "config",
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "cross-env NODE_ENV=development tsup",
     "prepublishOnly": "pnpm run build",
     "test": "vitest"
   },
-  "keywords": [],
-  "files": [
-    "dist",
-    "config"
-  ],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@dz-web/esboot": "workspace:*",
-    "@dz-web/esboot-bundler-vite": "workspace:*",
-    "@dz-web/esboot-common": "workspace:*"
+  "peerDependencies": {
+    "@dz-web/esboot": "*",
+    "@dz-web/esboot-bundler-vite": "*"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^6.5.0",
@@ -33,9 +32,10 @@
     "vite": "^7.1.1-esboot4.0",
     "vitest": "^3.1.4"
   },
-  "peerDependencies": {
-    "@dz-web/esboot": "*",
-    "@dz-web/esboot-bundler-vite": "*"
+  "devDependencies": {
+    "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot-bundler-vite": "workspace:*",
+    "@dz-web/esboot-common": "workspace:*"
   },
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

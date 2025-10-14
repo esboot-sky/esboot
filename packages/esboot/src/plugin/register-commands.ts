@@ -1,18 +1,7 @@
+import type { Command } from '@dz-web/esboot-common/plugin';
 import { program } from 'commander';
-export interface Command {
-  name: string;
-  arguments?: {
-    name: string;
-    description: string;
-    defaultValue?: unknown;
-  }[];
-  description?: string;
-  allowUnknownOption?: boolean;
-  options?: string[];
-  action: (...args: any[]) => void;
-}
 
-export function registerCommands(commands: Command[]) {
+export function registerCommands(commands: Command[]): void {
   for (const command of commands) {
     const {
       name,
@@ -25,14 +14,15 @@ export function registerCommands(commands: Command[]) {
 
     const cmd = program.command(name);
 
-    if (allowUnknownOption) cmd.allowUnknownOption(true);
+    if (allowUnknownOption)
+      cmd.allowUnknownOption(true);
+
     if (Array.isArray(args)) {
       for (const argument of args) {
-
         cmd.argument(
           argument.name,
           argument.description,
-          argument.defaultValue
+          argument.defaultValue,
         );
       }
     }

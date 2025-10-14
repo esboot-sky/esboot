@@ -1,4 +1,4 @@
-import { resolve as resolvePath, isAbsolute, dirname } from 'node:path';
+import { dirname, isAbsolute, resolve as resolvePath } from 'node:path';
 import { getTsconfig } from 'get-tsconfig';
 
 interface ResolveAliasOptions {
@@ -9,15 +9,15 @@ interface ResolveAliasOptions {
 
 type Paths = Record<string, string[]>;
 
-type ESMOpts = {
+interface ESMOpts {
   specifier: string;
   basedir: string;
   baseUrl: string;
   paths: Paths;
   projectRoot: string;
-};
+}
 
-export function resolveAlias(options: ResolveAliasOptions) {
+export function resolveAlias(options: ResolveAliasOptions): string {
   const { tsconfigPath, targetPath, currentPath } = options;
   const tsconfig = readTsconfig(tsconfigPath);
   const projectRoot = dirname(tsconfigPath);
@@ -30,14 +30,13 @@ export function resolveAlias(options: ResolveAliasOptions) {
     projectRoot,
   });
 
-  console.log('resolvedPath--1', targetPath, resolvedPath);
-
   return resolvedPath || targetPath;
 }
 
 let cachedTsconfig: any;
-function readTsconfig(tsconfigPath: string) {
-  if (cachedTsconfig) return cachedTsconfig;
+function readTsconfig(tsconfigPath: string): { paths: Paths; baseUrl: string; } {
+  if (cachedTsconfig)
+    return cachedTsconfig;
 
   try {
     const cfg = getTsconfig(tsconfigPath);
@@ -45,7 +44,8 @@ function readTsconfig(tsconfigPath: string) {
     const baseUrl = cfg?.config?.compilerOptions?.baseUrl ?? '.';
     cachedTsconfig = { paths, baseUrl };
     return cachedTsconfig;
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Error reading tsconfig', error);
     const fallback = { paths: {}, baseUrl: '.' };
     cachedTsconfig = fallback;
@@ -56,7 +56,8 @@ function readTsconfig(tsconfigPath: string) {
 function resolveImportSync(opts: ESMOpts): string | null {
   const { specifier, basedir, baseUrl, paths, projectRoot } = opts;
 
-  if (isAbsolute(specifier)) return specifier;
+  if (isAbsolute(specifier))
+    return specifier;
 
   if (specifier.startsWith('.')) {
     return resolvePath(basedir, specifier);
@@ -67,7 +68,6 @@ function resolveImportSync(opts: ESMOpts): string | null {
   const absBaseUrl = isAbsolute(baseUrl) ? baseUrl : resolvePath(projectRoot, baseUrl);
 
   for (const [aliasPattern, targetPaths] of Object.entries(paths)) {
-
     if (aliasPattern.includes('*')) {
       const prefix = aliasPattern.slice(0, aliasPattern.indexOf('*'));
       const suffix = aliasPattern.slice(aliasPattern.indexOf('*') + 1);
@@ -83,7 +83,8 @@ function resolveImportSync(opts: ESMOpts): string | null {
           return result;
         }
       }
-    } else {
+    }
+    else {
       if (cleanSpecifier === aliasPattern) {
         for (const targetPath of targetPaths) {
           const fullPath = resolvePath(absBaseUrl, targetPath);

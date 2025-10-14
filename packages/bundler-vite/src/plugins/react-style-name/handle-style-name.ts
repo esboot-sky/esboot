@@ -1,6 +1,7 @@
-import { resolve } from 'node:path';
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 interface StyleImport {
   statement: string;
   prefixStatement: string;
@@ -9,15 +10,13 @@ interface StyleImport {
 }
 // const importPattern =
 //   /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.(?:css|scss)(?:\?[^'"]*?)?)(?:'|");?/g;
-const importPattern =
-  /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.(?:scss)(?:\?[^'"]*?)?)(?:'|");?/g;
+const importPattern
+  = /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.scss(?:\?[^'"]*)?)(?:'|");?/g;
 
-export const findStyleImports = (
-  source: string
-): {
+export function findStyleImports(source: string): {
   imports: StyleImport[];
   updatedSource: string;
-} => {
+} {
   let updatedSource = source;
   const imports: StyleImport[] = [];
 
@@ -43,34 +42,37 @@ export const findStyleImports = (
 
   const result = { imports, updatedSource };
   return result;
-};
+}
 
 /**
  * 给没指定变量名的样式引入补充上变量名
  */
 export function formatVariableForStyleImports(
   source: string,
-  imports: StyleImport[]
-) {
+  imports: StyleImport[],
+): {
+  variables: string[];
+  source: string;
+} {
   for (const info of imports) {
     if (!info.variable) {
       const variable = makeVariableName();
       info.variable = variable;
       source = source.replace(
         info.statement,
-        `${info.prefixStatement}import ${variable} from '${info.filepath}';`
+        `${info.prefixStatement}import ${variable} from '${info.filepath}';`,
       );
     }
   }
 
   return {
-    variables: imports.map((info) => info.variable) as string[],
+    variables: imports.map(info => info.variable) as string[],
     source,
   };
 }
 
 let nextId = 1;
-function makeVariableName() {
+function makeVariableName(): string {
   return `__cls_${nextId++}`;
 }
 
@@ -83,14 +85,14 @@ function makeVariableName() {
  * (Vite 下用 inline 的形式性能更好)
  */
 let transformerSource: string;
-export function importStyleNameTransformer(source: string, inline = true) {
+export function importStyleNameTransformer(source: string, inline = true): string {
   if (inline) {
     if (!transformerSource) {
       transformerSource = readFileSync(
         resolve(
           fileURLToPath(import.meta.url),
-          '../plugins/react-style-name/transformStyleNameCreateElement.js'
-        )
+          '../plugins/react-style-name/transformStyleNameCreateElement.js',
+        ),
       ).toString();
     }
 
@@ -106,15 +108,15 @@ export function importStyleNameTransformer(source: string, inline = true) {
 export function applyStyleNameTransformer(
   source: string,
   classVariables: string[],
-  reactVariableName: string
-) {
+  reactVariableName: string,
+): string {
   source = source.replace(
     // 另两种包裹函数名的由来见：https://www.typescriptlang.org/docs/handbook/jsx.html
     new RegExp(
       `(${reactVariableName}\\.createElement|_?jsx|_?jsxs|_?jsxDEV)\\(`,
-      'g'
+      'g',
     ),
-    `TransformStyleNameCreateElement($1, [${classVariables.join(',')}], `
+    `TransformStyleNameCreateElement($1, [${classVariables.join(',')}], `,
   );
   return source;
 }

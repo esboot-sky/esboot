@@ -1,27 +1,27 @@
 import { resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import process from 'node:process';
 import { exec } from '@dz-web/esboot-common/execa';
-import { info, error, resolveLibPath } from '@dz-web/esboot-common/helpers';
 import {
   copySync,
-  pathExistsSync,
   ensureDirSync,
+  pathExistsSync,
 } from '@dz-web/esboot-common/fs-extra';
+import { createResolvePath, error, info, resolveLibPath } from '@dz-web/esboot-common/helpers';
 
-const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
-const _resolveLibPath = (p: string, relativePath = '') => resolveLibPath(p, resolvePath, relativePath);
+const resolvePath = createResolvePath(import.meta.resolve);
+const _resolveLibPath = (p: string, relativePath = ''): string => resolveLibPath(p, resolvePath, relativePath);
 
-export async function lint({ cwd, args = [] }: { cwd: string; args: string[] }) {
-  // exec(`node ${_resolveLibPath('stylelint', 'bin/stylelint.mjs')} '**/*.scss' ${args.join(' ')}`, {
-  //   onError: () => void 0,
-  // });
-  
+export async function lint({ cwd, args = [] }: { cwd: string; args: string[] }): Promise<void> {
+  exec(`node ${_resolveLibPath('stylelint', 'bin/stylelint.mjs')} '**/*.scss' ${args.join(' ')}`, {
+    onError: () => void 0,
+  });
+
   exec(`node ${_resolveLibPath('eslint', '/bin/eslint.js')} --ext .jsx,.js,.ts,.tsx ${resolve(cwd, 'src')} ${args}`, {
     onError: () => void 0,
   });
 }
 
-export function huskySetup({ configRootPath }: { configRootPath: string }) {
+export function huskySetup({ configRootPath }: { configRootPath: string }): void {
   const huskyCfgTarget = resolve(configRootPath, '.husky');
   if (!pathExistsSync(huskyCfgTarget)) {
     ensureDirSync(huskyCfgTarget);
@@ -34,7 +34,7 @@ export function huskySetup({ configRootPath }: { configRootPath: string }) {
   });
 }
 
-export async function execGitHooks(options: { type: string; cwd: string }) {
+export async function execGitHooks(options: { type: string; cwd: string }): Promise<void> {
   const { type, cwd } = options;
 
   switch (type) {
@@ -52,7 +52,7 @@ export async function execGitHooks(options: { type: string; cwd: string }) {
         `node ${resolvePath('@commitlint/cli')} --from HEAD~1 --to HEAD --edit $1`,
         {
           onError: () => process.exit(1),
-        }
+        },
       );
       info('Checking commit message done.');
       break;

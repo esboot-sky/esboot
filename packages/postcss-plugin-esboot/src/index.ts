@@ -1,17 +1,17 @@
-import fs from 'node:fs';
+import type { Node, Result, Root } from 'postcss';
 import crypto from 'node:crypto';
+import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { parse} from 'postcss';
 
-
-import type { Root, Result, Node } from 'postcss';
+import { parse } from 'postcss';
 
 const fileCache = new Map();
 
-function calculateContentHash(content: string) {
+function calculateContentHash(content: string): string | null {
   try {
     return crypto.createHash('md5').update(content, 'utf8').digest('hex');
-  } catch (error) {
+  }
+  catch {
     return null;
   }
 }
@@ -23,7 +23,7 @@ export default async (opts = { useTailwindcss: true }) => {
 
   if (useTailwindcss) {
     tailwindCssPath = fileURLToPath(
-      import.meta.resolve('tailwindcss/index.css')
+      import.meta.resolve('tailwindcss/index.css'),
     );
 
     tailwindCssContent = fs.readFileSync(tailwindCssPath, 'utf8');
@@ -39,7 +39,7 @@ export default async (opts = { useTailwindcss: true }) => {
           const filePath = result.opts.from;
 
           const isEntryFile = cssContent.startsWith(
-            '/* ESBOOT_SIGN_TAILWIND_CSS */'
+            '/* ESBOOT_SIGN_TAILWIND_CSS */',
           );
 
           if (isEntryFile && filePath) {
@@ -55,7 +55,8 @@ export default async (opts = { useTailwindcss: true }) => {
                   });
 
                   return root;
-                } catch (cacheError) {
+                }
+                catch {
                   fileCache.delete(filePath);
                 }
               }
@@ -67,7 +68,7 @@ export default async (opts = { useTailwindcss: true }) => {
           if (cssContent.startsWith('/* ESBOOT_SIGN_TAILWIND_CSS */')) {
             const updatedCssContent = cssContent.replace(
               commentRegex,
-              tailwindCssContent
+              tailwindCssContent,
             );
 
             const newRoot = parse(updatedCssContent, {
@@ -87,18 +88,20 @@ export default async (opts = { useTailwindcss: true }) => {
                     hash: currentHash,
                     processedRoot: root.clone(),
                   });
-                } catch (cacheError: unknown) {
+                }
+                catch (cacheError: unknown) {
                   console.warn(
                     '⚠️ Update esboot cache failed:',
-                    (cacheError as Error).message
+                    (cacheError as Error).message,
                   );
                 }
               }
             }
           }
-        } catch (error) {
-          const errorMessage =
-            error instanceof Error ? error.message : String(error);
+        }
+        catch (error) {
+          const errorMessage
+            = error instanceof Error ? error.message : String(error);
           console.error('❌ Process Tailwind CSS failed:', errorMessage);
         }
       }

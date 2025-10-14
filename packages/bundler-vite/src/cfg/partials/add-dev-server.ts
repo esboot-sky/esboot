@@ -7,7 +7,8 @@ export const addDevServer: AddFunc = async (cfg, viteCfg) => {
     server: { port = 3000, open, host, proxy },
   } = cfg.config;
 
-  if (!isDev) return;
+  if (!isDev)
+    return;
 
   const server: CustomViteConfiguration['server'] = {
     port,

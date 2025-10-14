@@ -1,13 +1,14 @@
-import { join } from 'node:path';
 import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { cacheDir } from '@dz-web/esboot-common/constants';
-import { info, error } from '@dz-web/esboot-common/helpers';
-import cfg from '@/cfg';
+import { error, info } from '@dz-web/esboot-common/helpers';
+import { cfg } from '@/cfg';
 
-export function generateTypeScriptTypes() {
+export function generateTypeScriptTypes(): void {
   const types = generateTypes();
 
-  if (!types) return;
+  if (!types)
+    return;
 
   const outputPath = join(cacheDir, 'typescript/esboot.d.ts');
   writeFile(outputPath, types)

@@ -1,10 +1,12 @@
-import { join, dirname, relative } from 'node:path';
+import type { Plugin } from '@dz-web/esboot';
+import { dirname, join, relative } from 'node:path';
+import process from 'node:process';
 import { fileURLToPath } from 'node:url';
-import { PluginHooks, type Plugin } from '@dz-web/esboot';
-import { exec } from '@dz-web/esboot-common/execa';
-import { ensureFileSync, copySync } from '@dz-web/esboot-common/fs-extra';
+import { PluginHooks } from '@dz-web/esboot';
 import { cacheDir } from '@dz-web/esboot-common';
-import { info } from '@dz-web/esboot-common/helpers';
+import { exec } from '@dz-web/esboot-common/execa';
+import { copySync, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
+import { info, resolveLibPath } from '@dz-web/esboot-common/helpers';
 
 const cfgPath = join(__dirname, '../config/.dumirc.ts');
 const targetPath = join(cacheDir, 'dumi/.dumirc.ts');
@@ -31,13 +33,13 @@ export default (): Plugin => {
             process.env.APP_ROOT = APP_ROOT;
             process.env.DUMI_THEME = dirname(
               fileURLToPath(
-                import.meta.resolve('dumi-theme-lobehub/package.json')
-              )
+                import.meta.resolve('dumi-theme-lobehub/package.json'),
+              ),
             );
 
+            const dumiPath = fileURLToPath(resolveLibPath('dumi', import.meta.resolve));
             const relativePath = relative(APP_ROOT, targetPath);
-            // pnpm --package=@dz-web/dumi-only-for-esboot@latest dlx docs-dumi
-            let cmd = `node ~/Code/fork-repos/dumi/bin/dumi.js ${subCommand} --config ${relativePath}`;
+            let cmd = `node ${dumiPath}/bin/dumi.js ${subCommand} --config ${relativePath}`;
             if (port) {
               process.env.port = port;
               cmd += ` --port ${port}`;

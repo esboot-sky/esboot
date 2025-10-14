@@ -1,6 +1,6 @@
+import generatePage from '@pc-native/helpers/generate-page';
 import App from '@pc/modules/test';
 import { store } from '@pc/modules/test/model/store';
-import generatePage from '@pc-native/helpers/generate-page';
 
 generatePage(<App />, {
   store,

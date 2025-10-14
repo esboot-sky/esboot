@@ -11,7 +11,6 @@ export default {
   tabWidth: 2,
   trailingComma: 'all',
   endOfLine: 'lf',
-  endingPosition: 'absolute-with-indent',
   customFunctions: ['clsx', 'cn', 'cva'],
   plugins: [
     resolvePath('prettier-plugin-tailwindcss'),

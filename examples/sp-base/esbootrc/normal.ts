@@ -1,9 +1,11 @@
-import { defineConfig, PluginHooks, type Configuration, definePlugin } from '@dz-web/esboot';
+import type { Configuration } from '@dz-web/esboot';
+import type { BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
+import { defineConfig, definePlugin, PluginHooks } from '@dz-web/esboot';
 // import { BundlerVite as Bundler, type BundlerViteOptions as BundlerOptions  } from '@dz-web/esboot-bundler-vite';
 // import { BundlerWebpack as Bundler, CodeSplittingType, type BundlerWebpackOptions as BundlerOptions } from '@dz-web/esboot-bundler-webpack';
-import { BundlerRspack as Bundler, type BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
-import pluginVitest from '@dz-web/esboot-plugin-vitest';
+import { BundlerRspack as Bundler } from '@dz-web/esboot-bundler-rspack';
 import pluginDocs from '@dz-web/esboot-plugin-docs';
+import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
 export default defineConfig<BundlerOptions>({
   plugins: [

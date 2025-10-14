@@ -1,12 +1,12 @@
-import Webpack from 'webpack';
-import WebpackDevServer from 'webpack-dev-server';
+import type { CustomWebpackConfiguration } from '@/cfg/types';
 import { Bundler } from '@dz-web/esboot';
 import { error } from '@dz-web/esboot-common/helpers';
 // import { watchOnFileChange } from '@dz-web/esboot-bundler-common';
 import kleur from '@dz-web/esboot-common/kleur';
+import Webpack from 'webpack';
 
+import WebpackDevServer from 'webpack-dev-server';
 import { getWebpackCfg } from './cfg';
-import type { CustomWebpackConfiguration } from '@/cfg/types';
 
 export class BundlerWebpack extends Bundler {
   name = 'webpack';
@@ -20,7 +20,7 @@ export class BundlerWebpack extends Bundler {
     const start = async () => {
       console.time('Create config');
       const webpackCfg = this.onModifyBundlerConfig<CustomWebpackConfiguration>(
-        await getWebpackCfg(this.cfg)
+        await getWebpackCfg(this.cfg),
       );
       console.timeEnd('Create config');
 
@@ -30,7 +30,8 @@ export class BundlerWebpack extends Bundler {
 
       try {
         await server.start();
-      } catch (err: unknown) {
+      }
+      catch (err: unknown) {
         error((err as Error).message);
       }
     };
@@ -46,7 +47,7 @@ export class BundlerWebpack extends Bundler {
 
   async build() {
     const webpackCfg = this.onModifyBundlerConfig<CustomWebpackConfiguration>(
-      await getWebpackCfg(this.cfg)
+      await getWebpackCfg(this.cfg),
     );
     const compiler = Webpack(webpackCfg)!;
 
@@ -58,15 +59,15 @@ export class BundlerWebpack extends Bundler {
 
       if (err || stats?.hasErrors()) {
         console.error(
-          kleur.red().bold(`Failed to compile with ${errorsCount} errors \n`)
+          kleur.red().bold(`Failed to compile with ${errorsCount} errors \n`),
         );
 
         errors.forEach((err, index) => {
           const { message, moduleName = '', loc = '' } = err;
           console.log(
             `${kleur.bgRed().bold(` ERROR ${index + 1} `)} in ${kleur.white(
-              moduleName
-            )} ${kleur.green(loc)} \n`
+              moduleName,
+            )} ${kleur.green(loc)} \n`,
           );
           console.log(`${message} \n`);
         });
@@ -86,5 +87,5 @@ export class BundlerWebpack extends Bundler {
   }
 }
 
-export * from './types';
 export * from './helpers/babel-import-plugin';
+export * from './types';

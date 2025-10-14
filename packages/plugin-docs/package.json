@@ -1,31 +1,31 @@
 {
   "name": "@dz-web/esboot-plugin-docs",
-  "version": "4.0.0-alpha.1",
   "type": "module",
+  "version": "4.0.0-alpha.1",
+  "author": "",
+  "license": "ISC",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "config",
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "cross-env NODE_ENV=development tsup",
     "prepublishOnly": "pnpm run build",
     "test": "vitest"
   },
-  "files": [
-    "dist",
-    "config"
-  ],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@dz-web/esboot": "workspace:*",
-    "@dz-web/esboot-common": "workspace:*"
+  "peerDependencies": {
+    "@dz-web/esboot": "*"
   },
   "dependencies": {
     "dumi-theme-lobehub": "^2.0.1"
   },
-  "peerDependencies": {
-    "@dz-web/esboot": "*"
+  "devDependencies": {
+    "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot-common": "workspace:*"
   },
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

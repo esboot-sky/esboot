@@ -1,9 +1,11 @@
-import { resolve, join } from 'node:path';
+import { join, resolve } from 'node:path';
+import process from 'node:process';
 
 export * from './environment';
 
-export const getUserConfigFile = (path: string) =>
-  resolve(path || process.cwd(), './.esbootrc.ts');
+export function getUserConfigFile(path: string): string {
+  return resolve(path || process.cwd(), './.esbootrc.ts');
+}
 
 export const isWins = process.platform === 'win32';
 export const DEFAULT_OUTPUT_PATH = 'dist';

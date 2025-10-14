@@ -1,14 +1,15 @@
+import type { GeneratePageOptions } from '@/types';
+import wrapBrowser from '@pc-browser/hoc/browser';
+import { TopErrorBoundaryFallback } from '@pc/components/top-error-boundary-fallback';
+import wrapI18n from '@pc/hoc/i18n';
+import { subscribeUserAndCache } from '@pc/model/subscriber';
 import { mounteReact } from '@/helpers/react';
 import { wrapReactQuery } from '@/hoc/query-client';
 import { wrapRedux } from '@/hoc/redux';
 import { wrapTopErrorBoundary } from '@/hoc/top-error-boundary';
+import 'rsuite/dist/rsuite.min.css';
 import '@/styles/index.scss';
-import { GeneratePageOptions } from '@/types';
-import { TopErrorBoundaryFallback } from '@pc/components/top-error-boundary-fallback';
-import wrapI18n from '@pc/hoc/i18n';
-import { subscribeUserAndCache } from '@pc/model/subscriber';
 import '@pc/styles/index.scss';
-import wrapBrowser from '@pc-browser/hoc/browser';
 
 export default function generatePage(App: React.ReactNode, options: GeneratePageOptions): void {
   const { i18n, store, disableStrictMode } = options;

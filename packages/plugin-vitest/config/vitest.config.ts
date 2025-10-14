@@ -1,12 +1,14 @@
-import { processPrepare, loadEnv, cfg } from '@dz-web/esboot';
-import { Environment } from '@dz-web/esboot-common/constants';
-import { omit } from '@dz-web/esboot-common/lodash';
+import type { CustomViteConfiguration } from '@dz-web/esboot-bundler-vite';
+import { join } from 'node:path';
+import process from 'node:process';
+import { cfg, processPrepare } from '@dz-web/esboot';
 import {
   getCfg,
-  type CustomViteConfiguration,
 } from '@dz-web/esboot-bundler-vite';
-import { join } from 'node:path';
-import { defineConfig, configDefaults, mergeConfig } from 'vitest/config';
+import { loadEnv } from '@dz-web/esboot-common/cfg';
+import { Environment } from '@dz-web/esboot-common/constants';
+import { omit } from '@dz-web/esboot-common/lodash';
+import { configDefaults, defineConfig, mergeConfig } from 'vitest/config';
 
 import { alias } from '../dist';
 
@@ -39,6 +41,6 @@ export default async () => {
         environment: 'jsdom',
         // globals: true,
       },
-    })
+    }),
   );
 };

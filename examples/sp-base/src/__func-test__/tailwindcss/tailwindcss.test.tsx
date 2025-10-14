@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
-import { test, expect } from 'vitest';
+import { expect, it } from 'vitest';
 
 import Tailwindcss from './tailwindcss';
 
-test('Tailwindcss is working', () => {
+it('tailwindcss is working', () => {
   const { container, getByText } = render(<Tailwindcss />);
   expect(getByText('Tailwindcss')).toBeInTheDocument();
 

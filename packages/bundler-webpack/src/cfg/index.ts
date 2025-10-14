@@ -1,38 +1,36 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
+import type { CustomWebpackConfiguration } from '@/cfg/types';
+
 import { Environment } from '@dz-web/esboot-common';
+import { addDevServer } from './add-dev-server';
+import { customConfig } from './helpers/custom-config';
+import { createMFSU, wrapCfgWithMfsu } from './helpers/mfsu';
+import { addOptimization } from './optimization/add-optimization';
+import { addCache } from './partials/add-cache';
+import { addDevtool } from './partials/add-devtool';
 
 import { addEntry } from './partials/add-entry';
-import { addOutput } from './partials/add-output';
-import { addResolve } from './partials/add-resolve';
-import { addDevtool } from './partials/add-devtool';
-import { addCache } from './partials/add-cache';
+
 import { addExternals } from './partials/add-externals';
 import { addOnlyDev } from './partials/add-only-dev';
 
-import { addOptimization } from './optimization/add-optimization';
+import { addOutput } from './partials/add-output';
+import { addResolve } from './partials/add-resolve';
+// import { addWebpackbarPlugin } from './plugins/add-plugin-webpackbar';
+import { addBundleAnalyzerPlugin } from './plugins/add-plugin-bundle-analyzer';
+import { addCopyPlugin } from './plugins/add-plugin-copy';
 
-import { createMFSU, wrapCfgWithMfsu } from './helpers/mfsu';
-import { customConfig } from './helpers/custom-config';
-
-import { addJavaScriptRules } from './rules/javascript/add-rules-javascript';
-import { addStyleRules } from './rules/style/add-rules-style';
+import { addDefinePlugin } from './plugins/add-plugin-define';
+import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
+import { addProcessbarPlugin } from './plugins/add-plugin-processbar';
 import { addAssetRules } from './rules/add-rules-asset';
 import { addJSONRules } from './rules/add-rules-json';
 
-import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
-import { addCopyPlugin } from './plugins/add-plugin-copy';
-import { addDefinePlugin } from './plugins/add-plugin-define';
-// import { addWebpackbarPlugin } from './plugins/add-plugin-webpackbar';
-import { addBundleAnalyzerPlugin } from './plugins/add-plugin-bundle-analyzer';
-import { addProcessbarPlugin } from './plugins/add-plugin-processbar';
+import { addJavaScriptRules } from './rules/javascript/add-rules-javascript';
 
-import { addDevServer } from './add-dev-server';
+import { addStyleRules } from './rules/style/add-rules-style';
 
-import type { CustomWebpackConfiguration } from '@/cfg/types';
-
-export const getWebpackCfg = async (
-  cfg: ConfigurationInstance
-): Promise<CustomWebpackConfiguration> => {
+export async function getWebpackCfg(cfg: ConfigurationInstance): Promise<CustomWebpackConfiguration> {
   const { useLangJsonPicker, isDev } = cfg.config;
 
   const webpackCfg: CustomWebpackConfiguration = {
@@ -83,4 +81,4 @@ export const getWebpackCfg = async (
   customConfig(cfg, webpackCfg);
 
   return wrapCfgWithMfsu(cfg, webpackCfg, { mfsu });
-};
+}

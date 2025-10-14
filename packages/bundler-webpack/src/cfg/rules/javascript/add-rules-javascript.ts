@@ -1,23 +1,25 @@
-import os from 'node:os';
-import { fileURLToPath } from "node:url";
 import type { Configuration } from '@dz-web/esboot';
-
-import type { BundlerWebpackOptions } from '@/types';
-import type { AddFunc } from '@/cfg/types';
-
 import type { MFSU } from '@/cfg/helpers/mfsu';
+import type { AddFunc } from '@/cfg/types';
+import type { BundlerWebpackOptions } from '@/types';
+import os from 'node:os';
+import { isAbsolute, resolve } from 'node:path';
 
-import { getPlugins, env, presets } from './babelrc.config';
+import { createResolvePath, resolveLibPath } from '@dz-web/esboot-common/helpers';
 
-const resolvePath = (p: string) => fileURLToPath(import.meta.resolve(p));
+import { isRegExp } from '@dz-web/esboot-common/lodash';
+
+import { env, getPlugins, presets } from './babelrc.config';
+
+const resolvePath = createResolvePath(import.meta.resolve);
 export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
   cfg,
   webpackCfg,
-  options
+  options,
 ) => {
   const { mfsu } = options!;
-  const { rootPath, isDev, alias, legacy, bundlerOptions } =
-    cfg.config as Configuration<BundlerWebpackOptions>;
+  const { rootPath, isDev, alias, legacy, bundlerOptions, cwd }
+    = cfg.config as Configuration<BundlerWebpackOptions>;
 
   const {
     extraBabelPlugins = [],
@@ -51,11 +53,40 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
       env,
       plugins: [
         ...extraBabelPlugins,
-        ...getPlugins(alias, legacy ?? false),
+        ...getPlugins(cfg, alias, legacy ?? false),
         ...(mfsu?.getBabelPlugins() ?? []),
         isDev && !isExtra && resolvePath('react-refresh/babel'),
       ].filter(Boolean),
     };
+  };
+
+  const getExtraBabelIncludes = (): RegExp[] | string[] => {
+    return [...extraBabelIncludes].filter(Boolean).map((item) => {
+      /**
+       * @copy from https://github.com/umijs/umi/blob/7228d9941ec76481a91cc4de81c8ad4ebcd714fc/packages/bundler-webpack/src/config/javaScriptRules.ts#L53
+       */
+      if (isRegExp(item))
+        return item;
+      if (isAbsolute(item as string))
+        return item;
+
+      // resolve npm package name
+      try {
+        if ((item as string).startsWith('./')) {
+          return resolve(cwd, item as string);
+        }
+
+        return resolveLibPath(item as string, resolvePath);
+      }
+      catch (e: any) {
+        if (e.code === 'MODULE_NOT_FOUND') {
+          throw new Error(`Cannot resolve extraBabelIncludes: ${item}`, {
+            cause: e,
+          });
+        }
+        throw e;
+      }
+    });
   };
 
   webpackCfg.module.rules.push(
@@ -74,7 +105,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
     },
     {
       test: /\.(js|mjs|cjs)$/,
-      include: [...extraBabelIncludes].filter(Boolean),
+      include: getExtraBabelIncludes(),
       exclude: [rootPath, /\.json$/],
       use: [
         {
@@ -85,6 +116,6 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
         },
         threadLoader,
       ],
-    }
+    },
   );
 };

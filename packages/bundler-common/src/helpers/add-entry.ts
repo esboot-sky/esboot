@@ -1,9 +1,9 @@
+import type { Configuration, ConfigurationInstance } from '@dz-web/esboot';
 import { readFileSync } from 'node:fs';
-import { basename, join } from 'node:path';
-import type { ConfigurationInstance } from '@dz-web/esboot';
 
+import { join } from 'node:path';
+import process from 'node:process';
 import { getExportProps } from '@umijs/ast';
-import type { Configuration } from '@dz-web/esboot';
 import { glob } from 'tinyglobby';
 
 interface EntryFileExportProps {
@@ -22,15 +22,11 @@ export interface AddEntryCBParams {
   urlParams?: string;
 }
 
-export const addEntry = async (
-  cfg: ConfigurationInstance,
-  cb?: (params: AddEntryCBParams) => void,
-  options: {
-    contentPath?: string;
-    pattern?: string;
-    ignore?: string;
-  } = {}
-) => {
+export async function addEntry(cfg: ConfigurationInstance, cb?: (params: AddEntryCBParams) => void, options: {
+  contentPath?: string;
+  pattern?: string;
+  ignore?: string;
+} = {}) {
   const {
     isSP,
     MPConfiguration,
@@ -52,27 +48,27 @@ export const addEntry = async (
   } = process.env;
 
   const ignoreList = ESBOOT_CONTENT_IGNORE
-    ? ESBOOT_CONTENT_IGNORE.split(',').map((v) => `**/${v}.entry.tsx`)
+    ? ESBOOT_CONTENT_IGNORE.split(',').map(v => `**/${v}.entry.ts?(x)`)
     : [];
 
   const cwd = join(contentRootPath, contentPath || ESBOOT_CONTENT_PATH);
   const files = await glob(
-    `${pattern || ESBOOT_CONTENT_PATTERN}.entry.tsx`,
+    `**/${pattern || ESBOOT_CONTENT_PATTERN}.entry.ts?(x)`,
     {
       cwd,
       ignore: ['**/node_modules/**', '**/test/**', ...ignoreList],
-    }
+    },
   );
 
   const entry: Configuration['entry'] = {};
 
   for (const file of files) {
     const _file = join(cwd, file);
-    const { title, template, name, langJsonPicker, urlParams } =
-      (getExportProps(readFileSync(_file, 'utf-8')) as EntryFileExportProps) ||
-      {};
+    const { title, template, name, langJsonPicker, urlParams }
+      = (getExportProps(readFileSync(_file, 'utf-8')) as EntryFileExportProps)
+        || {};
 
-    const fileName = basename(file, '.entry.tsx');
+    const fileName = (file.match(/([^/\\]+)\.entry\.(ts|tsx)$/) || [])[1] || '';
     const chunkName = name || fileName;
 
     const ensureTitle = title || fileName || 'ESBoot APP';
@@ -80,7 +76,7 @@ export const addEntry = async (
 
     cb?.({
       title: ensureTitle,
-      entry: file,
+      entry: _file,
       chunkName,
       template: tplRelativePath,
       urlParams,
@@ -91,7 +87,7 @@ export const addEntry = async (
       tpl: tplRelativePath,
       chunkName,
       fileName,
-      entry: file,
+      entry: _file,
       title: ensureTitle,
       url: `http://${ipv4}:${port}/${chunkName}.html`,
     };
@@ -105,4 +101,4 @@ export const addEntry = async (
   }
 
   cfg.patch({ entry });
-};
+}
