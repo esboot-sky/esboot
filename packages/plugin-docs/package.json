@@ -21,7 +21,7 @@
     "@dz-web/esboot": "*"
   },
   "dependencies": {
-    "dumi-theme-lobehub": "^2.0.1"
+    "dumi-theme-lobehub": "^2.0.9"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",

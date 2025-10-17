@@ -1,8 +1,11 @@
 {
   "name": "@dz-web/eslint-plugin-esboot",
+  "type": "module",
   "version": "4.0.0-alpha.1",
   "description": "",
-  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -10,9 +13,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc",
   "dependencies": {
     "@dz-web/esboot-common": "workspace:*"
