@@ -14,7 +14,7 @@ export const addProcessbarPlugin: AddFunc = async (cfg, webpackCfg) => {
   let lastPercentage = 0;
   let startTime = Date.now();
   let progressBarVisible = false;
-  let timeDisplayed = false; // 添加标志防止重复输出
+  let timeDisplayed = false;
 
   let lastMessage = '';
   const displayProgressBar = (percent: number, message: string): void => {
