@@ -8,7 +8,9 @@ import { login } from '@/api';
 
 import { langBtn } from './variant';
 // import A from './a';
-import * as styles from './app.scss';
+
+import styles from './app.scss';
+
 import './test.css';
 
 console.log(styles, 'styles');

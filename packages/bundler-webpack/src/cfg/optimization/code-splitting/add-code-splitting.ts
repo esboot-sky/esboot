@@ -1,10 +1,10 @@
 // granularChunks and depPerChunk from UMIJS
 import type { AddFunc } from '@/cfg/types';
-import { CodeSplittingType } from '@/types';
 import type {
   BundlerWebpackOptions,
   jsStrategyForGranularChunksOptions,
 } from '@/types';
+import { CodeSplittingType } from '@/types';
 
 import { granularChunks } from './granular-chunks';
 
@@ -21,7 +21,7 @@ export const addCodeSplitting: AddFunc = async (cfg, webpackCfg) => {
   switch (jsStrategy) {
     case CodeSplittingType.granularChunks:
       splitChunks = granularChunks(
-        jsStrategyOptions as jsStrategyForGranularChunksOptions
+        jsStrategyOptions as jsStrategyForGranularChunksOptions,
       );
       break;
     case CodeSplittingType.depPerChunk:
@@ -35,7 +35,8 @@ export const addCodeSplitting: AddFunc = async (cfg, webpackCfg) => {
               // e.g. node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es
               const path = module.context.replace(/.pnpm[\\/]/, '');
               const match = path.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
-              if (!match) return 'npm.unknown';
+              if (!match)
+                return 'npm.unknown';
               const packageName = match[1];
               return `npm.${packageName
                 .replace(/@/g, '_at_')

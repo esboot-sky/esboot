@@ -1,11 +1,13 @@
+import type { AddEntryCBParams } from '@dz-web/esboot-bundler-common';
+import type { Options } from 'html-webpack-plugin';
+import type { AddFunc } from '@/cfg/types';
 import { join } from 'node:path';
+
 import {
   addEntry as _addEntry,
-  type AddEntryCBParams,
-} from '@dz-web/esboot-bundler-common';
-import HtmlWebpackPlugin, { type Options } from 'html-webpack-plugin';
 
-import type { AddFunc } from '@/cfg/types';
+} from '@dz-web/esboot-bundler-common';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export const addEntry: AddFunc<{
   enableLangJsonPicker: boolean;
@@ -43,7 +45,8 @@ export const addEntry: AddFunc<{
         import: entry,
         layer: chunkName,
       };
-    } else {
+    }
+    else {
       webpackCfg.entry[chunkName] = entry;
     }
 
@@ -57,7 +60,7 @@ export const addEntry: AddFunc<{
           isDev,
         },
         ...htmlPluginCfg,
-      })
+      }),
     );
   });
 };

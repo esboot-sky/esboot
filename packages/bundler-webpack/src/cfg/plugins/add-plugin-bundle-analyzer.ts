@@ -1,4 +1,5 @@
 import type { AddFunc } from '@/cfg/types';
+import process from 'node:process';
 import { DEFAULT_ANALYZE_PORT } from '@dz-web/esboot-common';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
@@ -13,7 +14,7 @@ export const addBundleAnalyzerPlugin: AddFunc = async (cfg, webpackCfg) => {
         openAnalyzer: false,
         logLevel: 'info',
         defaultSizes: 'parsed',
-      })
+      }),
     );
   }
 };
