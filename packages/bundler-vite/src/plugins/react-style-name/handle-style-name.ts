@@ -31,10 +31,19 @@ export function findStyleImports(source: string): {
       const newStatement = statement.replace(importPath, newImportPath);
       updatedSource = updatedSource.replace(statement, newStatement);
 
+      // Handle import * as variableName syntax
+      let extractedVariable = variable;
+      if (variable && variable.includes('* as ')) {
+        const asMatch = variable.match(/\*\s+as\s+(\w+)/);
+        if (asMatch) {
+          extractedVariable = asMatch[1];
+        }
+      }
+
       imports.push({
         statement: newStatement,
         prefixStatement,
-        variable,
+        variable: extractedVariable,
         filepath: newImportPath,
       });
     }

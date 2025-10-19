@@ -8,10 +8,10 @@ import { login } from '@/api';
 
 import { langBtn } from './variant';
 // import A from './a';
-import './app.scss';
+import * as styles from './app.scss';
 import './test.css';
 
-// console.log(styles, 'styles');
+console.log(styles, 'styles');
 
 const a = 1;
 console.log(a);
