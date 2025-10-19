@@ -1,7 +1,7 @@
-import { merge } from '@dz-web/esboot-common/lodash';
+import type { AddFunc } from '@/cfg/types';
 import { resolvePathFromUrl } from '@dz-web/esboot-common/helpers';
 
-import type { AddFunc } from '@/cfg/types';
+import { merge } from '@dz-web/esboot-common/lodash';
 
 const parser = {
   dataUrlCondition: {

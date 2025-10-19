@@ -1,26 +1,29 @@
 import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
+import type { MFSU } from '@/cfg/helpers/mfsu';
+
+import type { AddFunc } from '@/cfg/types';
 import { logDevServer } from '@dz-web/esboot-bundler-common';
 
-import type { MFSU } from '@/cfg/helpers/mfsu';
-import type { AddFunc } from '@/cfg/types';
-
-const getServerType = (https: boolean, http2: boolean) => {
-  if (http2) return 'spdy';
-  if (https) return 'https';
+function getServerType(https: boolean, http2: boolean): string {
+  if (http2)
+    return 'spdy';
+  if (https)
+    return 'https';
   return 'http';
-};
+}
 
 export const addDevServer: AddFunc<{ mfsu: MFSU }> = async (
   cfg,
   webpackCfg,
-  options
+  options,
 ) => {
   const {
     isDev,
     server: { port, open, host, proxy, http2, https },
   } = cfg.config;
 
-  if (!isDev) return;
+  if (!isDev)
+    return;
 
   const { mfsu } = options!;
   const isHttps = !!https || !!http2;

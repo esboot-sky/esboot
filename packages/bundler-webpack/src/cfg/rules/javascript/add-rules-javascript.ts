@@ -18,14 +18,14 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
   options,
 ) => {
   const { mfsu } = options!;
-  const { rootPath, isDev, alias, legacy, bundlerOptions, cwd }
-    = cfg.config as Configuration<BundlerWebpackOptions>;
+  const { rootPath, isDev, alias, legacy, bundlerOptions = {}, cwd }
+    = cfg.config;
 
   const {
     extraBabelPlugins = [],
     extraBabelPresets = [],
     extraBabelIncludes = [],
-  } = bundlerOptions;
+  } = bundlerOptions as BundlerWebpackOptions;
 
   const babelLoader = resolvePath('babel-loader');
   const threadLoader = {

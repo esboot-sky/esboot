@@ -1,9 +1,9 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
 import type {
   Configuration,
-  WebpackPluginInstance,
   EntryObject,
   RuleSetRule,
+  WebpackPluginInstance,
 } from 'webpack';
 
 export interface CustomWebpackConfiguration extends Configuration {
