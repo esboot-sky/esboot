@@ -1,8 +1,7 @@
-import { join } from 'node:path';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { Compilation, Compiler } from 'webpack';
-import { injectHtml } from '@dz-web/esboot-bundler-common';
 import type { AddFunc } from '@/cfg/types';
+import { injectHtml } from '@dz-web/esboot-bundler-common';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const pluginName = 'HtmlModifyPlugin';
 

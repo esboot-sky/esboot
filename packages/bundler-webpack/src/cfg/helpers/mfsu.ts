@@ -1,15 +1,15 @@
-import { join } from 'path';
-import webpack from 'webpack';
-import { MFSU as _MFSU } from '@umijs/mfsu';
-import { isFunction, noop } from '@dz-web/esboot-common/lodash';
-import { cacheDir } from '@dz-web/esboot-common/constants';
 import type { ConfigurationInstance } from '@dz-web/esboot';
 import type { AddFunc, CustomWebpackConfiguration } from '@/cfg/types';
 import type { BundlerWebpackOptions } from '@/types';
+import { join } from 'node:path';
+import { cacheDir } from '@dz-web/esboot-common/constants';
+import { isFunction, noop } from '@dz-web/esboot-common/lodash';
+import { MFSU as _MFSU } from '@umijs/mfsu';
+import webpack from 'webpack';
 
 export type MFSU = _MFSU | null;
 const mfsuCacheDir = join(cacheDir, './mfsu');
-export const createMFSU = (cfg: ConfigurationInstance): MFSU => {
+export function createMFSU(cfg: ConfigurationInstance): MFSU {
   const { bundlerOptions, isDev, cwd } = cfg.config;
   const { mfsu = true, mfsuOptions } = bundlerOptions as BundlerWebpackOptions;
 
@@ -35,7 +35,7 @@ export const createMFSU = (cfg: ConfigurationInstance): MFSU => {
   }
 
   return mfsuInstance;
-};
+}
 
 export const wrapCfgWithMfsu: (
   ...args: Parameters<AddFunc<{ mfsu: MFSU }>>
@@ -43,14 +43,15 @@ export const wrapCfgWithMfsu: (
   const { isDev, useLangJsonPicker } = cfg.config;
   const { mfsu } = options!;
 
-  if (!mfsu || !isDev) return webpackCfg;
+  if (!mfsu || !isDev)
+    return webpackCfg;
 
   if (useLangJsonPicker) {
     for (const key of Object.keys(webpackCfg.entry)) {
       // EntryDescription
       if (
-        typeof webpackCfg.entry[key] === 'object' &&
-        'import' in webpackCfg.entry[key]
+        typeof webpackCfg.entry[key] === 'object'
+        && 'import' in webpackCfg.entry[key]
       ) {
         webpackCfg.entry[key] = webpackCfg.entry[key].import ?? '';
       }

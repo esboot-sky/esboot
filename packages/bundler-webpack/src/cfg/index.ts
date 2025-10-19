@@ -16,7 +16,6 @@ import { addOnlyDev } from './partials/add-only-dev';
 
 import { addOutput } from './partials/add-output';
 import { addResolve } from './partials/add-resolve';
-// import { addWebpackbarPlugin } from './plugins/add-plugin-webpackbar';
 import { addBundleAnalyzerPlugin } from './plugins/add-plugin-bundle-analyzer';
 import { addCopyPlugin } from './plugins/add-plugin-copy';
 
@@ -71,7 +70,6 @@ export async function getWebpackCfg(cfg: ConfigurationInstance): Promise<CustomW
   await addPluginModifyHtml(cfg, webpackCfg);
   await addCopyPlugin(cfg, webpackCfg);
   await addDefinePlugin(cfg, webpackCfg);
-  // await addWebpackbarPlugin(cfg, webpackCfg);
   await addProcessbarPlugin(cfg, webpackCfg);
   await addBundleAnalyzerPlugin(cfg, webpackCfg);
 

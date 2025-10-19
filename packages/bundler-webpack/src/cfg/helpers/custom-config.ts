@@ -6,7 +6,8 @@ export const customConfig: AddFunc = async (cfg, webpackCfg) => {
   const { bundlerOptions } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerWebpackOptions;
 
-  if (!customConfig || !isFunction(customConfig)) return;
+  if (!customConfig || !isFunction(customConfig))
+    return;
 
   webpackCfg = customConfig(webpackCfg, cfg.config);
 };

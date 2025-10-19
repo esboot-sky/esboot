@@ -1,6 +1,7 @@
-import { join } from 'node:path';
 import type { Configuration } from '@dz-web/esboot';
 import type { AddFunc } from '@/cfg/types';
+import { join } from 'node:path';
+import process from 'node:process';
 
 export const addResolve: AddFunc = async (cfg, webpackCfg) => {
   const { alias } = cfg.config;

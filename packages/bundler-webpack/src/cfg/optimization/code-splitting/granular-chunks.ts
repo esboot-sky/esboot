@@ -1,9 +1,7 @@
-import crypto from 'node:crypto';
 import type { jsStrategyForGranularChunksOptions } from '@/types';
+import crypto from 'node:crypto';
 
-export const granularChunks = (
-  options?: jsStrategyForGranularChunksOptions
-) => {
+export function granularChunks(options?: jsStrategyForGranularChunksOptions): Record<string, any> {
   const { frameworkBundles = [] } = options || {};
 
   const FRAMEWORK_BUNDLES = [
@@ -33,7 +31,7 @@ export const granularChunks = (
         name: 'framework',
         chunks: 'all',
         test: new RegExp(
-          `[\\\\/]node_modules[\\\\/](${FRAMEWORK_BUNDLES.join(`|`)})[\\\\/]`
+          `[\\\\/]node_modules[\\\\/](${FRAMEWORK_BUNDLES.join(`|`)})[\\\\/]`,
         ),
         priority: 40,
         enforce: true,
@@ -41,15 +39,15 @@ export const granularChunks = (
       lib: {
         test(module: any) {
           return (
-            !isModuleCSS(module) &&
-            module.size() > 160000 &&
-            /node_modules[/\\]/.test(module.identifier())
+            !isModuleCSS(module)
+            && module.size() > 160000
+            && /node_modules[/\\]/.test(module.identifier())
           );
         },
         name(module: any) {
-          const rawRequest =
-            module.rawRequest &&
-            module.rawRequest.replace(/^@(\w+)[/\\]/, '$1-');
+          const rawRequest
+            = module.rawRequest
+              && module.rawRequest.replace(/^@(\w+)[/\\]/, '$1-');
           if (rawRequest) {
             return `${
               // when `require()` a package with relative path,
@@ -61,11 +59,11 @@ export const granularChunks = (
 
           const identifier = module.identifier();
           const trimmedIdentifier = /(?:^|[/\\])node_modules[/\\](.*)/.exec(
-            identifier
+            identifier,
           );
           const processedIdentifier = trimmedIdentifier?.[1].replace(
             /^@(\w+)[/\\]/,
-            '$1-'
+            '$1-',
           );
 
           return `${processedIdentifier || identifier}-lib`;
@@ -82,7 +80,7 @@ export const granularChunks = (
             .update(
               chunks.reduce((acc: any, chunk: any) => {
                 return acc + chunk.name;
-              }, '')
+              }, ''),
             )
             .digest('base64')
             .replace(/\//g, '')
@@ -97,15 +95,15 @@ export const granularChunks = (
       },
     },
   };
-};
+}
 
-function isModuleCSS(module: { type: string }) {
+function isModuleCSS(module: { type: string }): boolean {
   return (
     // mini-css-extract-plugin
-    module.type === `css/mini-extract` ||
+    module.type === `css/mini-extract`
     // extract-css-chunks-webpack-plugin (old)
-    module.type === `css/extract-chunks` ||
+    || module.type === `css/extract-chunks`
     // extract-css-chunks-webpack-plugin (new)
-    module.type === `css/extract-css-chunks`
+    || module.type === `css/extract-css-chunks`
   );
 }
