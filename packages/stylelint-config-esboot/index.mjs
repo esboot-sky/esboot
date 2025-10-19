@@ -50,7 +50,7 @@ export default {
     'max-nesting-depth': 2,
     'color-function-notation': 'legacy',
     'color-function-alias-notation': 'with-alpha',
-    "function-name-case": "lower",
+    'function-name-case': 'lower',
     '@stylistic/color-hex-case': 'lower',
     '@stylistic/function-comma-space-after': 'always',
     '@stylistic/function-comma-space-before': 'never',

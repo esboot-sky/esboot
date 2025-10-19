@@ -52,7 +52,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
     ...getCssLoaderOptions(),
   };
 
-  const parseScssModule = (options: ParseScssModuleOpts) => {
+  const parseScssModule = (options: ParseScssModuleOpts): any[] => {
     const { modules = false } = options;
 
     const cssLoaderOptionsCopy = { ...cssLoaderOptions, importLoaders: 2 };
@@ -60,7 +60,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
     if (modules) {
       Object.assign(cssLoaderOptionsCopy, {
         modules: {
-          namedExport: true,
+          namedExport: false,
           localIdentContext: rootPath,
           getLocalIdent,
           localIdentName: getCssHashRule(),
