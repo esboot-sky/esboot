@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url';
 
-const resolvePath = (p) => fileURLToPath(import.meta.resolve(p));
+const resolvePath = p => fileURLToPath(import.meta.resolve(p));
 
 export default {
   $schema: 'http://json.schemastore.org/prettierrc',
@@ -11,6 +11,7 @@ export default {
   tabWidth: 2,
   trailingComma: 'all',
   endOfLine: 'lf',
+  cssWhitespaceSensitivity: 'strict',
   customFunctions: ['clsx', 'cn', 'cva'],
   plugins: [
     resolvePath('prettier-plugin-tailwindcss'),

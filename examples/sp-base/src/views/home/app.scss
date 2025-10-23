@@ -6,7 +6,7 @@
 
 .text {
   color: purple !important;
-  font-size: .3px;
+  font-size: 0.3px;
 }
 
 .text2 {
@@ -15,7 +15,7 @@
   transform: translate(1px, 1px) scale(1);
 }
 
-.text2_cls {
+.text2-cls {
   color: #008000;
   font-size: 1rem;
   transform: translate(1px, 1px) scale(1);
@@ -33,7 +33,7 @@ a {
 }
 
 // a {
-//   box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+//   box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);box-shadowbox-shadow
 // }
 
 .bar {
@@ -51,9 +51,7 @@ a + b {
   }
 }
 
-@media
-  screen and (color),
-  print and (color) {
+@media screen and (color), print and (color) {
   .bar {
     color: green;
   }

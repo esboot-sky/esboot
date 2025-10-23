@@ -1,7 +1,7 @@
 import path from 'node:path';
 
-import { extractPlatformAndType } from '../helpers/extract-platform-and-type.js';
 import { resolveAlias } from '@dz-web/esboot-common/helpers';
+import { extractPlatformAndType } from '../helpers/extract-platform-and-type.js';
 
 export default {
   meta: {
@@ -33,12 +33,13 @@ export default {
         });
         const importInfo = extractPlatformAndType(resolvedPath);
         // When import file is not platfrom's file
-        if (!importInfo) return;
+        if (!importInfo)
+          return;
 
-        const { platform: currPlatform, pageType: currPageType } =
-          currInfo || {};
-        const { platform: importPlatform, pageType: importPageType } =
-          importInfo || {};
+        const { platform: currPlatform, pageType: currPageType }
+          = currInfo || {};
+        const { platform: importPlatform, pageType: importPageType }
+          = importInfo || {};
 
         console.log(
           'resolvedPath',
@@ -48,10 +49,11 @@ export default {
           currPlatform,
           importPlatform,
           currPageType,
-          importPageType
+          importPageType,
         );
 
-        if (!currPlatform && !importPlatform) return;
+        if (!currPlatform && !importPlatform)
+          return;
 
         if (!currPlatform && importPlatform) {
           context.report({
@@ -90,7 +92,8 @@ export default {
         }
 
         if (currPlatform && importPlatform) {
-          if (!importPageType && currPageType) return;
+          if (!importPageType && currPageType)
+            return;
 
           // Not same pageType
           if (importPageType !== currPageType) {
@@ -101,7 +104,6 @@ export default {
                 desc: `You cannot import files from the ${importPageType} pageType here.`,
               },
             });
-            return;
           }
         }
       },

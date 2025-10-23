@@ -57,7 +57,7 @@ export default {
     '@stylistic/max-empty-lines': 1,
     '@stylistic/function-parentheses-space-inside': 'never',
     '@stylistic/function-whitespace-after': 'always',
-    '@stylistic/number-leading-zero': 'never',
+    '@stylistic/number-leading-zero': 'always',
     '@stylistic/number-no-trailing-zeros': true,
     '@stylistic/string-quotes': 'single',
     '@stylistic/unit-case': 'lower',
