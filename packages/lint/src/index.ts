@@ -6,7 +6,7 @@ import {
   ensureDirSync,
   pathExistsSync,
 } from '@dz-web/esboot-common/fs-extra';
-import { createResolvePath, error, info, resolveLibPath } from '@dz-web/esboot-common/helpers';
+import { createResolvePath, error, info, resolveLibPath, searchCommand } from '@dz-web/esboot-common/helpers';
 
 const resolvePath = createResolvePath(import.meta.resolve);
 const _resolveLibPath = (p: string, relativePath = ''): string => resolveLibPath(p, resolvePath, relativePath);
@@ -27,7 +27,7 @@ export function huskySetup({ configRootPath }: { configRootPath: string }): void
     ensureDirSync(huskyCfgTarget);
     copySync(resolve(__dirname, '../config/.husky'), huskyCfgTarget);
   }
-  exec(`node ${resolvePath('husky/lib/bin')} install config/.husky`, {
+  exec(`${_resolveLibPath('husky', './bin.js')} init config/.husky`, {
     onError: (err) => {
       error(err.message);
     },

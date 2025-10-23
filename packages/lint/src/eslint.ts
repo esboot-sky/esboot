@@ -1,8 +1,9 @@
 import antfu from '@antfu/eslint-config';
-// import esbootPlugin from '@dz-web/eslint-plugin-esboot';
+// @ts-ignore
+import esbootPlugin from '@dz-web/eslint-plugin-esboot';
 // import { FlatCompat } from '@eslint/eslintrc';
 import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
-// import reactHooks from 'eslint-plugin-react-hooks';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 // const compat = new FlatCompat();
 
@@ -67,12 +68,12 @@ export default async function createConfig(options?: Options): Promise<Config> {
       files: ['**/*.{jsx,ts,tsx}'],
       plugins: {
         'better-tailwindcss': eslintPluginBetterTailwindcss,
-        // ...reactHooks.configs['recommended-latest'].plugins['react-hooks'],
-        // ...esbootPlugin.configs.recommended.plugins,
+        ...reactHooks.configs['recommended-latest'].plugins['react-hooks'],
+        ...esbootPlugin.configs.recommended.plugins,
       },
       rules: {
-        // ...esbootPlugin.configs.recommended.rules,
-        // ...reactHooks.configs['recommended-latest'].rules,
+        ...esbootPlugin.configs.recommended.rules,
+        ...reactHooks.configs['recommended-latest'].rules,
         ...betterTailwindcssRules,
       },
     },

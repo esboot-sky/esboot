@@ -1,6 +1,6 @@
+import pkg from '../package.json' with { type: 'json' };
 import noCrossPlatformImports from './rules/no-cross-platform-imports.js';
 import noCrossPlatformLibImports from './rules/no-cross-platform-lib-imports.js';
-import pkg from '../package.json' with { type: 'json' };
 
 const plugin = {
   meta: {
@@ -17,7 +17,7 @@ const plugin = {
 
 // Assign configs here so we can reference `plugin`
 Object.assign(plugin.configs, {
-  recommended: {
+  'recommended': {
     plugins: {
       '@dz-web/esboot': plugin,
     },

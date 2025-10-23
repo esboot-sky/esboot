@@ -61,8 +61,6 @@ export function resolveLibPath(
         isRootPath = true;
       }
     }
-
-    return libPath;
   }
 
   return relativePath ? join(libPath, relativePath) : libPath;

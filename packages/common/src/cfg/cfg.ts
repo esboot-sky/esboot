@@ -2,18 +2,24 @@ import type { Configuration, ConfigurationForMP } from './types';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import process, { exit } from 'node:process';
+import { fileURLToPath } from 'node:url';
 import { createJiti } from 'jiti';
 import { DEFAULT_CONFIG_FOLDER, DEFAULT_SRC_FOLDER, Environment, getUserConfigFile, PAGE_TYPE, PLATFORMS } from '@/constants';
+
 import { error } from '@/helpers';
-
 import { getIpv4 } from '@/helpers/get-ipv4';
+
+import { resolveLibPath as baseResolveLibPath } from '@/helpers/path';
+
 import { isFunction, isUndefined, merge, pick } from '@/lodash';
-
 import pkg from '../../package.json' with { type: 'json' };
-
 import { defaultCfg } from './default-cfg';
 
 const jiti = createJiti(import.meta.url);
+
+function resolveLibPath(p: string): string {
+  return fileURLToPath(baseResolveLibPath(p, import.meta.resolve));
+}
 
 export class ESBootCfg<Options extends Configuration = Configuration> {
   #config: Options = defaultCfg as Options;
@@ -21,6 +27,13 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
   get config(): Options {
     return this.#config;
   }
+
+  #generateDefaultAlias = (): Record<string, string> => {
+    return {
+      '@': DEFAULT_SRC_FOLDER,
+      'tailwindcss': resolveLibPath('tailwindcss'),
+    };
+  };
 
   #generateSPCfg = (): void => {
     const { configRootPath } = this.#config;
@@ -37,7 +50,7 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
       },
     ] satisfies Configuration['staticPathList'];
     this.#config.alias = {
-      '@': DEFAULT_SRC_FOLDER,
+      ...this.#generateDefaultAlias(),
       ...this.#config.alias,
     } satisfies Options['alias'];
 
@@ -90,13 +103,13 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
       },
     ] satisfies Configuration['staticPathList'];
     this.#config.alias = {
+      ...this.#generateDefaultAlias(),
       '@mobile-native': `${DEFAULT_SRC_FOLDER}/platforms/mobile/_native`,
       '@mobile-browser': `${DEFAULT_SRC_FOLDER}/platforms/mobile/_browser`,
       '@pc-native': `${DEFAULT_SRC_FOLDER}/platforms/pc/_native`,
       '@pc-browser': `${DEFAULT_SRC_FOLDER}/platforms/pc/_browser`,
       '@mobile': `${DEFAULT_SRC_FOLDER}/platforms/mobile`,
       '@pc': `${DEFAULT_SRC_FOLDER}/platforms/pc`,
-      '@': DEFAULT_SRC_FOLDER,
       ...this.#config.alias,
     } satisfies Configuration['alias'];
 
