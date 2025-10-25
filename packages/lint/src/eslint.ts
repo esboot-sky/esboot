@@ -68,8 +68,8 @@ export default async function createConfig(options?: Options): Promise<Config> {
       files: ['**/*.{jsx,ts,tsx}'],
       plugins: {
         'better-tailwindcss': eslintPluginBetterTailwindcss,
-        ...reactHooks.configs['recommended-latest'].plugins['react-hooks'],
-        ...esbootPlugin.configs.recommended.plugins,
+        'react-hooks': reactHooks,
+        '@dz-web/esboot': esbootPlugin,
       },
       rules: {
         ...esbootPlugin.configs.recommended.rules,
@@ -79,9 +79,9 @@ export default async function createConfig(options?: Options): Promise<Config> {
     },
     {
       settings: {
-        tailwindcss: {
+        'better-tailwindcss': {
           variables: ['.*cls'],
-          entryPoint: 'src/styles/index.css',
+          entryPoint: 'src/styles/index.scss',
         },
       },
     },

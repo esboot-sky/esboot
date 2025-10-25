@@ -31,7 +31,7 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
   #generateDefaultAlias = (): Record<string, string> => {
     return {
       '@': DEFAULT_SRC_FOLDER,
-      'tailwindcss': resolveLibPath('tailwindcss'),
+      'tailwindcss/package.json': join(resolveLibPath('tailwindcss'), 'package.json'),
     };
   };
 

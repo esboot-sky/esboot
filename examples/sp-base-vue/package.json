@@ -12,7 +12,8 @@
     "postinstall": "esboot prepare",
     "preview": "esboot preview",
     "test:unit": "vitest",
-    "type-check": "vue-tsc --build"
+    "type-check": "vue-tsc --build",
+    "prepare": "husky"
   },
   "commitlint": {
     "extends": [
