@@ -85,6 +85,8 @@ export default async function createConfig(options?: Options): Promise<Config> {
         ...esbootPlugin.configs.recommended.rules,
         ...reactHooks.configs['recommended-latest'].rules,
         ...betterTailwindcssRules,
+        'react/no-missing-context-display-name': 'error',
+        'react/no-missing-component-display-name': 'error',
       },
     },
     {
