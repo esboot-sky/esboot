@@ -6,7 +6,7 @@ import {
   ensureDirSync,
   pathExistsSync,
 } from '@dz-web/esboot-common/fs-extra';
-import { createResolvePath, error, info, resolveLibPath, searchCommand } from '@dz-web/esboot-common/helpers';
+import { createResolvePath, error, info, resolveLibPath } from '@dz-web/esboot-common/helpers';
 
 const resolvePath = createResolvePath(import.meta.resolve);
 const _resolveLibPath = (p: string, relativePath = ''): string => resolveLibPath(p, resolvePath, relativePath);
