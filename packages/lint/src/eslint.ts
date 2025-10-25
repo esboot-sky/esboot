@@ -37,12 +37,9 @@ export default async function createConfig(options?: Options): Promise<Config> {
         semi: true,
         quotes: 'single',
         indent: 2,
-        // trailingComma: 'all',
-        // arrowParens: 'always',
-        // printWidth: 120,
-        // tabWidth: 2,
-        // useTabs: false,
-        // endOfLine: 'auto',
+        overrides: {
+          'style/max-len': ['error', { code: 120 }],
+        },
       },
       ignores: [
         '**/node_modules/**',
@@ -54,6 +51,19 @@ export default async function createConfig(options?: Options): Promise<Config> {
         '**/.nyc_output/**',
         '**/stats.html',
       ],
+    },
+    {
+      files: ['**/lang/*.{json,jsonc}'],
+      rules: {
+        'jsonc/key-name-casing': ['error', {
+          'camelCase': false,
+          'PascalCase': false,
+          'SCREAMING_SNAKE_CASE': false,
+          'kebab-case': false,
+          'snake_case': true,
+          'ignores': [],
+        }],
+      },
     },
     {
       files: ['**/*.{vue}'],

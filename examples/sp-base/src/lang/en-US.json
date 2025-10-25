@@ -1,0 +1,9 @@
+{
+  "key": "value",
+  "key_key": "value_key",
+  "keySSS": "valueSSS",
+  "key-key_key": "value_key_key",
+  "key2": {
+    "key": "value"
+  }
+}
