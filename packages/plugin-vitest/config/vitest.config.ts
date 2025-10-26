@@ -10,7 +10,7 @@ import { Environment } from '@dz-web/esboot-common/constants';
 import { omit } from '@dz-web/esboot-common/lodash';
 import { configDefaults, defineConfig, mergeConfig } from 'vitest/config';
 
-import { alias } from '../dist';
+import { alias } from '../src';
 
 export default async () => {
   const root = process.cwd();
@@ -25,6 +25,7 @@ export default async () => {
     ...viteConfig.resolve!.alias,
     ...alias,
   };
+
   viteConfig = omit(viteConfig, ['configFile', 'build']);
 
   return mergeConfig(

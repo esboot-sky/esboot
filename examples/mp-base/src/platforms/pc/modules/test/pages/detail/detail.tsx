@@ -1,11 +1,7 @@
-import { genericMemo } from '@/utils/react-utils';
-
-const Detail = genericMemo(function Index() {
+export default function Detail() {
   return (
     <div>
       detail
     </div>
   );
-});
-
-export default Detail;
+};

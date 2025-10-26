@@ -1,11 +1,11 @@
-import { describe, test, expect } from 'vitest';
-
-import '@mobile/helpers/theme';
+import { describe, expect, it } from 'vitest';
 
 import { getRaiseModeColor } from './colors';
 
+import '@mobile/helpers/theme';
+
 describe('测试', () => {
-  test('获取涨跌颜色函数存在', () => {
+  it('获取涨跌颜色函数存在', () => {
     expect(typeof getRaiseModeColor === 'function').toBeTruthy();
   });
 });

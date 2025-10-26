@@ -1,4 +1,5 @@
-import { RaiseModeColorScheme, RaiseMode } from '@mobile/constants/config';
+import type { RaiseMode } from '@mobile/constants/config';
+import { RaiseModeColorScheme } from '@mobile/constants/config';
 
 /**
  * 传入redux中的保存的涨跌颜色模式，返回对应的up down颜色, 如果与页面需求不一致，可以不使用这个，

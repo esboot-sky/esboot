@@ -13,7 +13,7 @@
     "preview": "esboot preview",
     "test:unit": "vitest",
     "type-check": "vue-tsc --build",
-    "prepare": "husky"
+    "prepare": "esboot prepare"
   },
   "commitlint": {
     "extends": [

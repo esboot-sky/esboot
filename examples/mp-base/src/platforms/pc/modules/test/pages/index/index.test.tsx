@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { expect, test } from 'vitest';
+import { expect, it } from 'vitest';
 
 import Index from './index';
 
-test('Index component should render correctly', async () => {
+it('index component should render correctly', async () => {
   const { container } = render(<MemoryRouter><Index /></MemoryRouter>);
 
   const link = container.querySelector('a')!;
