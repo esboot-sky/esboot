@@ -27,7 +27,7 @@ export function updateVSCodeSetting(): void {
 
           // Tailwind IntelliSense
           'tailwindCSS.experimental.configFile':
-            'node_modules/.cache/esboot/tailwindcss.config.js',
+            'src/styles/index.scss',
           'tailwindCSS.classAttributes': [
             'className',
             'class',
