@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import { genericMemo } from '@/utils/react-utils';
-
 import './index.scss';
 
-const Index = genericMemo(() => {
+function Index() {
   return (
     <div>
       <Link
@@ -27,6 +25,6 @@ const Index = genericMemo(() => {
       </div>
     </div>
   );
-});
+};
 
 export default Index;

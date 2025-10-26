@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
-import { test, expect } from 'vitest';
+import { expect, it } from 'vitest';
 
 import Detail from './detail';
 
-test('Detail Comp', () => {
+it('detail Comp', () => {
   const { container } = render(<Detail />);
 
   expect(container?.textContent).equals('detail');

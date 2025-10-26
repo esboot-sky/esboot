@@ -17,7 +17,7 @@
     "bridge-mock": "esboot mock:bridge",
     "postinstall": "esboot prepare",
     "create-page": "esboot-react-mp-tools create-page",
-    "prepare": "husky"
+    "prepare": "esboot prepare"
   },
   "author": "Roc <moonlitus@gmail.com>",
   "license": "ISC",

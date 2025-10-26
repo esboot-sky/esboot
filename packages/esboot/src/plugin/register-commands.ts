@@ -9,6 +9,7 @@ export function registerCommands(commands: Command[]): void {
       description,
       options,
       allowUnknownOption,
+      passThroughOptions,
       action,
     } = command;
 
@@ -16,6 +17,9 @@ export function registerCommands(commands: Command[]): void {
 
     if (allowUnknownOption)
       cmd.allowUnknownOption(true);
+
+    if (passThroughOptions)
+      cmd.passThroughOptions(true);
 
     if (Array.isArray(args)) {
       for (const argument of args) {

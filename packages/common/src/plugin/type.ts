@@ -10,6 +10,7 @@ export interface Command {
   }[];
   description?: string;
   allowUnknownOption?: boolean;
+  passThroughOptions?: boolean;
   options?: string[];
   action: (...args: any[]) => void;
 }

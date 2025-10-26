@@ -42,6 +42,7 @@ function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactElement {
   };
 
   return (
+    // @ts-ignore
     <ReactErrorBoundary
       onReset={onReset}
       onError={logError}

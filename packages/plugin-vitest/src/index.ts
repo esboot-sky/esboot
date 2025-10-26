@@ -31,10 +31,13 @@ export default (): Plugin => {
         {
           name: 'vitest',
           description: 'Start vitest',
+          arguments: [{ name: '[subCommand]', description: 'the sub command' }],
+          options: ['-p, --passThrough <passThrough>'],
           allowUnknownOption: true,
-          action: async (_, p) => {
+          action: async (_, options) => {
+            const { passThrough = '' } = options;
             exec(
-              `${searchCommand(join(__dirname, '../'), 'vitest')} ${p.args.join(' ')} -r ${cwd} -c ${resolve(__dirname, '../config/vitest.config.ts')}`,
+              `${searchCommand(join(__dirname, '../'), 'vitest')} ${passThrough} -r ${cwd} -c ${resolve(__dirname, '../config/vitest.config.ts')}`,
             );
           },
         },

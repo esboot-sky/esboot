@@ -1,7 +1,7 @@
 {
   "name": "@dz-web/esboot",
   "type": "module",
-  "version": "4.0.0-alpha.1",
+  "version": "4.0.0-alpha.2",
   "description": "",
   "author": "Roc",
   "license": "ISC",
@@ -45,7 +45,7 @@
     "@dz-web/bridge-mock": "^1.3.0",
     "@dz-web/esboot-common": "workspace:*",
     "@dz-web/esboot-lint": "workspace:*",
-    "commander": "^14.0.1",
+    "commander": "^14.0.2",
     "zod": "^4.1.12"
   },
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"

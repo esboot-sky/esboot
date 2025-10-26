@@ -4,5 +4,6 @@ export default defineProject({
   test: {
     name: 'node',
     environment: 'node',
+    projects: ['packages/*'],
   },
 });

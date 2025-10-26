@@ -22,7 +22,7 @@
     "docs": "esboot docs dev",
     "postinstall": "esboot prepare",
     "test": "esboot vitest run",
-    "prepare": "husky"
+    "prepare": "esboot prepare"
   },
   "dependencies": {
     "@dz-web/axios": "^0.0.6",

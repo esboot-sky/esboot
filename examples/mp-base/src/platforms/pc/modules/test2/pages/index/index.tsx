@@ -1,18 +1,17 @@
-import { Link } from 'react-router-dom';
+import { setLanguage } from '@pc/model/app/slice';
+import { useMinimalAppDispatch } from '@pc/model/minimal-store';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import { Button } from 'rsuite';
+import { supportedLanguage } from '@/constants/config';
 import CheckIcon from '@/images/check.svg';
 import CheckIcon2 from '@/images/check.svg?url';
-import { genericMemo } from '@/utils/react-utils';
 import './index.scss';
-import { supportedLanguage } from "@/constants/config";
-import { useMinimalAppDispatch } from '@pc/model/minimal-store';
-import { setLanguage } from '@pc/model/app/slice';
 
 const xcls = 'text-bold font-bold m-5';
 console.log(xcls);
 
-const Index = genericMemo(() => {
+function Index() {
   const dispatch = useMinimalAppDispatch();
 
   const changeLanguageToEn = () => {
@@ -64,6 +63,6 @@ const Index = genericMemo(() => {
       </div>
     </div>
   );
-});
+};
 
 export default Index;

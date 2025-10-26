@@ -1,33 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import pluginVitest, { alias } from './index';
-
-describe('alias', () => {
-  it('should return the correct alias', () => {
-    expect(alias).toEqual({
-      'vitest': expect.any(String),
-      '@testing-library/react': expect.any(String),
-      '@testing-library/user-event': expect.any(String),
-    });
-  });
-});
+import pluginVue from './index';
 
 describe('is a plugin', () => {
   it('should be a function', () => {
-    expect(pluginVitest).toBeInstanceOf(Function);
+    expect(pluginVue).toBeInstanceOf(Function);
   });
 
   it('should return the correct plugin', () => {
-    const plugin = pluginVitest();
+    const plugin = pluginVue();
 
     expect(plugin).toBeDefined();
-    expect(plugin.key).toBe('plugin-vitest');
-    expect(plugin.registerCommands).toBeDefined();
-    expect(plugin.registerCommands).toBeInstanceOf(Function);
-
-    expect(plugin.modifyConfig).toBeDefined();
-    expect(plugin.modifyConfig).toBeInstanceOf(Function);
-
-    expect(plugin.modifyTypescriptConfig).toBeDefined();
-    expect(plugin.modifyTypescriptConfig).toBeInstanceOf(Function);
+    expect(plugin.key).toBe('plugin-vue');
   });
 });
