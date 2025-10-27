@@ -1,0 +1,249 @@
+:global {
+  .market-statement-popup {
+    --max-width: 630px;
+    --adm-color-border: var(--divide-line-color);
+
+    width: 630px;
+
+    .adm-dialog-body {
+      width: 630px !important;
+      padding-top: 50px;
+    }
+
+    .adm-dialog-title {
+      font-size: 32px;
+    }
+
+    .adm-dialog-content {
+      padding: 34px 20px 40px 40px;
+    }
+
+    .adm-auto-center-content {
+      font-size: 28px;
+    }
+
+    .adm-dialog-button {
+      font-weight: bold;
+      color: var(--secondary-text-color);
+    }
+
+    .adm-dialog-button-bold {
+      color: var(--mian-color);
+    }
+  }
+
+  .adm-toast-icon {
+    display: flex;
+    justify-content: center;
+  }
+
+  .select-popup {
+    .adm-popup-body {
+      min-height: 402px;
+      max-height: 80vh;
+      border-radius: 24px 24px 0 0;
+    }
+  }
+
+  .popup {
+    padding: 0;
+  }
+}
+
+.personal-data-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+}
+
+.form-box-warp {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.form-section {
+  padding: 0 30px 15px;
+}
+
+.section-title {
+  padding: 23px 0 16px;
+  font-size: 26px;
+  color: var(--secondary-text-color);
+}
+
+.form-item-box {
+  padding: 0 32px;
+  border-radius: 16px;
+  background-color: var(--main-content-background);
+}
+
+.section-item {
+  padding-top: 24px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--divide-line-color);
+}
+
+.section-item:last-child {
+  border-bottom: none;
+}
+
+.section-item-title {
+  color: var(--main-text-color);
+  font-size: 28px;
+  line-height: 46px;
+}
+
+.required-mark {
+  color: #F9342C;
+}
+
+.input-box, .select-box, .select-date-box, .please-select-box {
+  margin-top: 16px;
+  padding-left: 24px;
+  padding-right: 32px;
+  height: 76px;line-height: 76px;
+  background-color: var(--input-background-color);
+  border-radius: 8px;
+
+  input {
+    font-size: 28px;
+  }
+
+  input::placeholder {
+    color: var(--secondary-text-color) !important;
+  }
+}
+
+.select-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 28px;
+  color: var(--main-text-color);
+
+  img {
+    width: 18px;
+    height: 10px;
+
+  }
+}
+
+.select-placeholder {
+  color: var(--secondary-text-color);
+}
+
+.select-popup-box {
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.select-popup-title {
+  padding-top: 60px;
+  padding-bottom: 40px;
+  text-align: center;
+  height: 146px;
+  font-size: 32px;
+  color: var(--main-text-color);
+  font-weight: bold;
+  position: relative;
+
+  p {
+    position: absolute;
+    top: 70px;
+    right: 36px;
+    width: 26px;
+    height: 26px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.input-item {
+  display: flex;
+}
+
+.please-select-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 168px;
+  padding-right: 23px;
+  font-size: 28px;
+  margin-right: 16px;
+}
+
+.select-drop-down {
+  width: 18px;
+  height: 10px;
+}
+
+.select-popup-content {
+  height: calc(100% - 146px);
+  overflow-y: auto;
+
+  ul {
+    padding-bottom: 10px;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px 0 32px;
+    font-size: 30px;
+    color: var(--main-text-color);
+    line-height: 42px;
+    height: 88px;
+
+    img {
+      width: 32px;
+      height: 24px;
+    }
+  }
+
+  .select-popup-item-active {
+    background-color: var(--select-item-background-color);
+  }
+
+  .select-popup-item-icon {
+    width: 32px;
+    height: 24px;
+  }
+}
+
+.select-popup-date-box {
+  height: 600px;
+}
+
+.button-box {
+  height: 98px;
+  display: flex;
+  margin-top: 10px;
+  overflow: hidden;
+  background-color: var(--main-content-background);
+
+  .btn {
+    width: 50%;
+    height: 88px;
+    line-height: 88px;
+    font-size: 32px;
+    text-align: center;
+    color: var(--secondary-text-color);
+  }
+
+  .confirm {
+    flex: 1;
+    font-weight: bold;
+    color: var(--active-tab-color-light);
+    background-color: var(--button-background-color);
+  }
+
+  .submit-disable {
+    opacity: 0.6;
+  }
+}

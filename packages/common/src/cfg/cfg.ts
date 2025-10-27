@@ -2,24 +2,17 @@ import type { Configuration, ConfigurationForMP } from './types';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import process, { exit } from 'node:process';
-import { fileURLToPath } from 'node:url';
 import { createJiti } from 'jiti';
 import { DEFAULT_CONFIG_FOLDER, DEFAULT_SRC_FOLDER, Environment, getUserConfigFile, PAGE_TYPE, PLATFORMS } from '@/constants';
 
 import { error } from '@/helpers';
 import { getIpv4 } from '@/helpers/get-ipv4';
 
-import { resolveLibPath as baseResolveLibPath } from '@/helpers/path';
-
 import { isFunction, isUndefined, merge, pick } from '@/lodash';
 import pkg from '../../package.json' with { type: 'json' };
 import { defaultCfg } from './default-cfg';
 
 const jiti = createJiti(import.meta.url);
-
-function resolveLibPath(p: string): string {
-  return fileURLToPath(baseResolveLibPath(p, import.meta.resolve));
-}
 
 export class ESBootCfg<Options extends Configuration = Configuration> {
   #config: Options = defaultCfg as Options;
@@ -31,7 +24,6 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
   #generateDefaultAlias = (): Record<string, string> => {
     return {
       '@': DEFAULT_SRC_FOLDER,
-      'tailwindcss/package.json': join(resolveLibPath('tailwindcss'), 'package.json'),
     };
   };
 

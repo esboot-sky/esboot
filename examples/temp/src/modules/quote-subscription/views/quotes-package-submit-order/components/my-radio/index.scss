@@ -1,0 +1,37 @@
+.base-inform {
+  // display: flex;
+  // margin-top: 26px;
+}
+
+.radio-check-img,
+.no-check-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  line-height: 40px;
+}
+
+.no-check-circle {
+  border: 3px solid var(--border-color);
+}
+
+.content {
+  font-size: 24px;
+}
+
+:global {
+  .radio {
+    // font-size: 24px;
+    height: 40px;
+    line-height: 40px;
+    align-items: flex-start;
+
+    --icon-size: 24px;
+    --font-size: 24px;
+
+    .adm-radio-content {
+      font-size: 24px;
+    }
+  }
+}

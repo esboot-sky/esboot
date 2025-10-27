@@ -1,0 +1,87 @@
+:global {
+  .market-statement-popup {
+    --max-width: 630px;
+    --adm-color-border: var(--divide-line-color);
+
+    width: 630px;
+
+    .adm-dialog-body {
+      width: 630px !important;
+      padding-top: 50px;
+    }
+
+    .adm-dialog-title {
+      font-size: 32px;
+    }
+
+    .adm-dialog-content {
+      padding: 34px 20px 40px 40px;
+    }
+
+    .adm-auto-center-content {
+      font-size: 28px;
+    }
+
+    .adm-dialog-button {
+      font-weight: bold;
+      color: var(--secondary-text-color);
+    }
+
+    .adm-dialog-button-bold {
+      color: var(--mian-color);
+    }
+  }
+}
+
+.statement-home {
+  background-color: var(--bg-color);
+  padding: 0 40px;
+}
+
+.logo-box {
+  padding-top: 60px;
+
+  img {
+     width: 88px;
+     height: 88px;
+  }
+}
+
+.title {
+  padding-top: 24px;
+  font-size: 46px;
+  line-height: 65px;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.subtitle {
+  padding-top: 10px;
+  padding-bottom: 39px;
+  font-size: 28px;
+  line-height: 40px;
+  color: var(--text-8-secondary);
+  border-bottom: 1px solid var(--divide-line-color);
+}
+
+.description {
+  padding-top: 40px;
+  font-size: 28px;
+  line-height: 48px;
+  color: var(--text-color);
+}
+
+.next-button {
+  padding: 80px 15px 10px;
+
+  .button {
+    height: 88px;
+    line-height: 88px;
+    text-align: center;
+    border-radius: 44px;
+    background-color: var(--main-theme-color);
+    color: var(--active-tab-color-light);
+    font-weight: bold;
+    font-family: PingFangSC-Semibold, sans-serif;
+  }
+}

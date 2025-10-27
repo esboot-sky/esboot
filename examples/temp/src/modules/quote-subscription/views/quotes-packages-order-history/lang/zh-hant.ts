@@ -1,0 +1,16 @@
+export default {
+  expected_effective_time: '期望生效時間',
+  order_time: '下單時間',
+  expiration_time: '到期時間',
+  current_status: '當前狀態',
+  expired: '過期',
+  order_duration: '訂購時長',
+  no_record_yet: '暫無訂購記錄',
+  header: '訂購記錄',
+  order_frequency: '訂購次數',
+  order_amount: '訂購金額',
+  auto_renew_deduction: '自動續費扣款',
+  overdue: '已過期',
+  pending: '待生效',
+  effect: '已生效',
+};

@@ -2,7 +2,7 @@
   "i18n-ally.localesPaths": [
     "src/lang"
   ],
-  "tailwindCSS.experimental.configFile": "node_modules/.cache/esboot/tailwindcss.config.js",
+  "tailwindCSS.experimental.configFile": "src/styles/index.scss",
   "stylelint.snippet": [
     "css",
     "less",

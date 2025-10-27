@@ -1,0 +1,154 @@
+:root {
+  --stock-decline-color: #ff2c00;
+  --stock-rise-color: #00c183;
+  --stock-default-color: #86909c; // 平盘颜色
+  //
+  --spacing-01: 4px;
+  --spacing-02: 10px;
+  --spacing-03: 20px;
+  --spacing-04: 30px;
+  --spacing-05: 40px;
+  --spacing-06: 50px;
+  --spacing-07: 60px;
+  --spacing-09: 80px;
+  --spacing-11: 100px;
+  --spacing-13: 120px;
+  --regular-11-minilabel: 22px;
+  --regular-12-body: 24px;
+  --regular-14-body: 28px;
+  --regular-15-body: 30px;
+  --regular-15-subtitle: 30px;
+  --regular-16-subtitle: 32px;
+  --regular-18-subtitle: 36px;
+  --regular-20-subtitle: 40px;
+  --regular-24-headline: 48px;
+  --regular-36-headline: 72px;
+  --regular-48-headline: 96px;
+  --regular-11-number: 22px;
+  --regular-12-number: 24px;
+  --regular-14-number: 28px;
+  --regular-16-number: 32px;
+  --regular-17-number: 34px;
+  --regular-18-number: 36px;
+  --regular-20-number: 40px;
+  --regular-23-number: 46px;
+  --regular-24-number: 48px;
+  --regular-36-number: 72px;
+  --regular-48-number: 96px;
+  --border-radius-0: 0;
+  --border-radius-2: 4px;
+  --border-radius-3: 6px;
+  --border-radius-5: 10px;
+  --border-radius-10: 20px;
+  --border-model-radius-3: 6px;
+  --border-model-radius-10: 20px;
+  --border-model-radius-15: 30px;
+  // --font-PingFangSC-Regular: PingFangSC-Regular, PingFang SC, 'Microsoft Yahei', sans-serif;
+  // // --font-DINOT-Medium: DINOT-Medium, DINOT, 'Microsoft Yahei', sans-serif;
+  // // --font-D-DIN: D-DIN, 'Microsoft Yahei', sans-serif;
+
+  // --font-DINOT-Medium: 'DIN 2014', 'DIN 2014 Demi', 'Microsoft Yahei', sans-serif;
+  // --font-D-DIN: 'DIN 2014', 'DIN 2014 Demi', 'DIN 2014 Bold', 'DIN 2014 Light', 'Microsoft Yahei', sans-serif;
+  --fixed-active-line-width: 32px;
+}
+
+html.white {
+  // gt
+  --bg-color: #f5f5f5;
+  --text-color: #111214;
+  --brand-2-disable: #b9d2fc;
+  --brand-4: #699ef5;
+  --brand-6-hover: #2971e9;
+  --brand-8-normal: #065bde;
+  --brand-10-press: #0338bc;
+  --brand-12: #03229c;
+  --red-2: #fababf;
+  --red-4: #f78d94;
+  --red-6-hover: #f36d78;
+  --red-8-normal-error: #eb4e5b;
+  --red-10-press: #cb3842;
+  --red-12: #9a1316;
+  --green-2: #8ce2c5;
+  --green-4: #5fd6ad;
+  --green-6-hover: #48c79c;
+  --green-8-normal-success: #03aa72;
+  --green-10-press: #08905f;
+  --green-12: #056535;
+  --warning-2: #f8c797;
+  --warning-4: #f6a976;
+  --warning-6-hover: #f0965c;
+  --warning-8-normal: #ef7d31;
+  --warning-10-press: #d65b21;
+  --warning-12: #a03711;
+  --violet-2: #e9ccfb;
+  --violet-4: #dcb4f5;
+  --violet-6-hover: #c289ef;
+  --violet-8-normal-success: #9c4eda;
+  --violet-10-press: #802ed1;
+  --violet-12: #671db0;
+  --text-2-light: #fdfdfd;
+  --text-4-disable: #c9cdd4;
+  --text-6-placeholder: #86909c;
+  --text-8-secondary: #86909c;
+  --text-10-primary: #111214;
+  --fill-1-card: #fff;
+  --fill-2-disable: #f7f8fa;
+  --fill-4: #f2f3f5;
+  --fill-6: #e5e6eb;
+  --fill-8-secondary: #c9cdd4;
+  --fill-10-primary: #4e5969;
+  --line-2-light: #f2f3f5;
+  --line-4-disable: #e5e6eb;
+  --line-6-placeholder: #c9cdd4;
+  --line-8-secondary: #86909c;
+  --line-10-primary: #111214;
+  --overlay-15: rgba(12, 18, 32, 15%); // #0C1220 15% 转换
+  --overlay-30: rgba(12, 18, 32, 30%); // #0C1220 30% 转换
+  --overlay-50: rgba(12, 18, 32, 50%); // #0C1220 50% 转换
+
+  // my
+  --second-page-background: #fff;
+  --collapse-background: #f6f7f9;
+  --pop-item-background: #f5f5f5;
+  --pop-wrap-background: #fff;
+  --pop-select-background: #f2f5ff;
+  --pop-bottom-border: #f2f2f5;
+  --date-title: #000;
+  --bottom-border-background: #eee;
+
+  // newer
+  --link-color: #187fff;
+  --border-line-color: #f1f1f1;
+  --border-line-color-light: #f7f8fc;
+  --main-tip-color: #888;
+  --main-content-color: #999; // 内容字体颜色
+  --main-content-color-light: #666; // 内容字体颜色
+  --main-title-color: #212121; // 标题 h1 h2
+  --main-warning-color: #e04848;
+  --theme-text-color: #06bfb3;
+  --second-tab-background: #f5f5f5;
+  --active-tab-background: #e9fffe;
+  --collapse-tab-background: #f2f2f5;
+  --tab-color: #979f9f;
+  --active-tab-color: #06bfb3;
+  --active-tab-color-light: #fff;
+  --active-tab-color-bg-image: linear-gradient(256deg, #7dcfcc 0%, #129d94 100%);
+  --buy-text-color: var(--theme-text-color);
+  --sell-text-color: #3c83e3;
+  --radio-border-color: #dbdbdb;
+
+  // Stanard
+  --main-theme-color: #bb874a;
+  --main-text-color: #111214;
+  --secondary-text-color: #86909c;
+  --link-text-color: #4F88BC;
+  --disable-text-color: rgba(17, 18, 20, 30%);
+  --third-text-color: #999;
+  --main-page-background: #f5f5f5;
+  --main-content-background: #fff;
+  --input-background-color: #f2f3f5;
+  --quote-tips-background-color: #f7f8fa;
+  --divide-line-color: #e5e6eb;
+  --sell-color: #5473c2;
+  --dialog-mask-background-color: rgba(17, 18, 20, 70%);
+}

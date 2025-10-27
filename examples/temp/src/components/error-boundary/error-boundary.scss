@@ -1,0 +1,55 @@
+html:global(.white) {
+  --theme-background: #f2f2f5;
+  --font-color: #212121;
+  --submit-option: #999;
+}
+
+html:global(.black) {
+  --theme-background: #000001;
+  --font-color: #ddd;
+  --submit-option: #666;
+}
+
+.wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 50px 20px;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: var(--main-page-background);
+}
+
+.header,
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 40px;
+  text-align: center;
+  color: var(--main-tip-color);
+  font-size: 24px;
+}
+
+.header {
+  .icon {
+    width: 240px;
+    height: 241px;
+  }
+}
+
+.content {
+  margin-top: 50px;
+
+  .click {
+    color: var(--main-title-color);
+  }
+
+  .no-network-button {
+    border-radius: 6px;
+    color: var(--link-color);
+  }
+}

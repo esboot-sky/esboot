@@ -1,0 +1,211 @@
+:global {
+  .my-modal {
+    .adm-space {
+      height: 80px;
+      flex-direction: row;
+      display: flex;
+      justify-content: space-around;
+      margin: 0 12px 38px;
+
+      .adm-space-item {
+        margin-bottom: 0 !important;
+        width: 45%;
+      }
+    }
+
+    .adm-modal-footer.adm-space .adm-button {
+      border-radius: 40px;
+    }
+
+    .adm-modal-main .adm-modal-footer {
+      padding: 0;
+
+      .adm-space.adm-space-block {
+        flex-direction: row;
+        justify-content: space-between;
+        height: 88px;
+      }
+    }
+
+    .adm-modal-body .adm-modal-content {
+      padding: 28px 0;
+    }
+
+    .adm-modal-main .adm-modal-body {
+      padding: 80px 12px;
+    }
+
+    .adm-modal-body .adm-modal-close {
+      top: 35px;
+    }
+
+    .confirm {
+      height: 100%;
+      color: #fff;
+      background: var(--active-tab-color-bg-image);
+    }
+
+    .cancel {
+      height: 100%;
+      color: var(--main-tip-color);
+      // background-color: #fff;
+    }
+  }
+}
+
+.package-wrap {
+  padding: 0 24px 15px;
+  box-sizing: border-box;
+
+  ::-webkit-scrollbar {
+    /* 隐藏滚轮 */
+    display: none;
+  }
+
+  .package-option {
+    margin-bottom: 24px;
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--font-color);
+  }
+}
+
+.item {
+  margin-bottom: 40px;
+  background: var(--subscribe-background);
+  box-shadow: var(--package-item-shadow);
+  padding: 20px 10px;
+  border-radius: 8px;
+
+  .item-top {
+    padding: 0 0 20px 20px;
+    border-bottom: 2px dashed var(--subscribe-border);
+
+    .item-name {
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--font-color);
+    }
+
+    .item-option {
+      padding: 8px 0 6px;
+      color: var(--secondary-text-color);
+    }
+
+    .item-sum {
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--main-theme-color);
+
+      .sum-currency {
+        padding-right: 5px;
+      }
+
+      .special {
+        margin-right: 15px;
+      }
+    }
+
+    :global {
+      .old-price {
+        color: var(--main-title-color);
+        text-decoration: line-through;
+        font-size: 24px;
+      }
+    }
+  }
+
+  .item-bottom {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 20px 0;
+    position: relative;
+
+    .item-button {
+      width: 240px;
+      height: 60px;
+      font-size: 28px;
+      border-radius: 30px;
+      text-align: center;
+      color: #fff;
+      line-height: 60px;
+    }
+
+    .cancel-item {
+      background: #fff;
+      border: 2px solid var(--active-tab-color);
+      color: var(--active-tab-color);
+    }
+
+    .button-order {
+      background: var(--main-theme-color);
+    }
+
+    .button-renewal {
+      background: var(--subscribe-background);
+      border: 2px solid var(--main-theme-color);
+      color: var(--main-theme-color);
+    }
+
+    .left,
+    .right {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      position: absolute;
+      top: -10px;
+      background-color: var(--theme-background);
+    }
+
+    .left {
+      left: -20px;
+    }
+
+    .right {
+      right: -20px;
+    }
+  }
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-top: 20px;
+}
+
+.update-tip {
+  // 定位放在最下面 并且固定在底部 居中展示，但是不能遮住上面的内容
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  color: var(--secondary-text-color);
+
+  span {
+    margin-left: 5px;
+    color: var(--main-theme-color);
+  }
+}
+
+// 新增：固定定位样式（当没有数据时使用）
+.update-tip-fixed {
+  @extend .update-tip;
+
+  position: fixed;
+  bottom: 20px;
+  margin-top: 0;
+}
+
+// 新增：相对定位样式（当有数据时使用）
+.update-tip-relative {
+  @extend .update-tip;
+
+  position: relative;
+  bottom: 20px;
+  margin-top: 20px;
+}
