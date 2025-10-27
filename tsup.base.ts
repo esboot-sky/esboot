@@ -1,4 +1,5 @@
 import type { Options } from 'tsup';
+import { env } from 'node:process';
 
 interface Config {
   base?: Options;
@@ -6,7 +7,7 @@ interface Config {
   prod?: Options;
 }
 
-export const defineConfig = (config: Config = {}): Options => {
+export function defineConfig(config: Config = {}): Options {
   const { base, dev, prod } = config;
 
   const baseConfig: Options = {
@@ -25,10 +26,13 @@ export const defineConfig = (config: Config = {}): Options => {
   };
 
   const prodConfig: Options = {
-    minify: true,
     ...baseConfig,
+    minify: true,
+    sourcemap: false,
+    clean: true,
+    dts: true,
     ...prod,
   };
 
-  return process.env.NODE_ENV === 'development' ? devConfig : prodConfig;
+  return env.NODE_ENV === 'development' ? devConfig : prodConfig;
 };
