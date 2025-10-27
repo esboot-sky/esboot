@@ -1,7 +1,9 @@
 import type { Configuration } from '@/cfg';
 import { join, relative } from 'node:path';
 
+import { fileURLToPath } from 'node:url';
 import { exec } from '@dz-web/esboot-common/execa';
+import { resolveLibPath as baseResolveLibPath } from '@dz-web/esboot-common/helpers';
 
 export async function mockBridge(
   options: Record<string, string>,
@@ -23,10 +25,7 @@ export async function mockBridge(
     ? relative(cwd, sampleFile)
     : join(folderPath, 'bridge-mock-sample.js');
 
-  const bridgeMockBinPath = await import.meta.resolve(
-    '@dz-web/bridge-mock/bin',
-  );
-
+  const bridgeMockBinPath = fileURLToPath(baseResolveLibPath('@dz-web/bridge-mock', import.meta.resolve, './bin/index.js'));
   exec(`node ${bridgeMockBinPath} -f "${filePath}" -s "${samplePath}"`, {
     options: {
       cwd,
