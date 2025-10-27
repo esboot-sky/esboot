@@ -1,0 +1,194 @@
+:global{
+  .adm-toast-icon {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.box {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  :global{
+    .adm-radio.adm-radio-checked .adm-radio-icon{
+      background-color: #b8874c;
+      border: #b8874c;
+    }
+
+    .adm-checkbox-icon {
+      position: relative;
+      top: 2px;
+    }
+
+    .adm-checkbox.adm-checkbox-checked .adm-checkbox-icon{
+      background-color: #b8874c;
+      border: #b8874c;
+    }
+
+    .adm-checkbox {
+      align-items: flex-start;
+    }
+
+    .adm-toast-icon {
+      display: flex;
+      justify-content: center;
+    }
+
+    .adm-checkbox-content {
+      font-size: 26px;
+      flex: 1;
+    }
+
+    .adm-checkbox-checked .adm-checkbox-content {
+      color: var(--main-text-color);
+    }
+
+    .adm-checkbox-custom-icon {
+      width: 42px !important;
+      height: 42px !important;
+    }
+  }
+}
+
+.title {
+  background-color: #FFF;
+  margin-bottom: 20px;
+}
+
+.hint {
+  width: 90%;
+  margin: 0 auto;
+  font-size: 26px;
+  font-weight: 400;
+  color: #86909C;
+  padding: 15px 0;
+}
+
+.cardbox {
+  width: 92%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.card-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 20px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 20%);
+    border-radius: 3px;
+  }
+}
+
+.ensure {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #FFF;
+  box-shadow: 0 -4px 6px 0 #86909c4d;
+  padding-top: 20px;
+  z-index: 100;
+}
+
+.agreement {
+  font-size: 26px;
+  color: #86909C;
+  width: 92%;
+  margin: 0 auto;
+  margin-top: 32px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.agreement > span {
+  margin-left: 10px;
+}
+
+.agreement-label {
+  flex: 1;
+  cursor: pointer;
+  margin-left: 8px;
+  color: inherit;
+}
+
+.ensure-btn {
+  display: flex;
+  width: 100%;
+  margin-top: 55px;
+}
+
+.laststep {
+  width: 50%;
+  text-align: center;
+  height: 88px;
+  line-height: 88px;
+  color: #86909C;
+  background-color: #FFF;
+  box-shadow: 0 -2px 0 0 #F7F8FC;
+  cursor: pointer;
+}
+
+.nextstep {
+  width: 50%;
+  text-align: center;
+  height: 88px;
+  line-height: 88px;
+  color: #FFF;
+  background-color: #b8874c;
+  box-shadow: 0 -2px 0 0 #F7F8FC;
+  cursor: pointer;
+}
+
+// 单选按钮样式
+// .adm-radio {
+//   &-icon {
+//     border-radius: 50%;
+//     border: 1px solid #b8874c;
+//     &-checked {
+//       background-color: #b8874c;
+//       border-color: #b8874c;
+//       &::after {
+//         border-color: white;
+//       }
+//     }
+//   }
+//   &-input {
+//     display: none;
+//   }
+// }
+
+// 复选框样式
+// .adm-checkbox {
+//   &-icon {
+//     border-radius: 4px;
+//     border: 1px solid #b8874c;
+//     &-checked {
+//       background-color: #b8874c;
+//       border-color: #b8874c;
+//       svg {
+//         color: white;
+//       }
+//     }
+//   }
+// }
+
+// 卡片标题样式
+.adm-card-header {
+  font-size: 28px;
+  font-weight: bold;
+  padding: 24px 16px;
+}
+
+// 卡片内容样式
+.adm-card-body {
+  padding: 16px;
+}

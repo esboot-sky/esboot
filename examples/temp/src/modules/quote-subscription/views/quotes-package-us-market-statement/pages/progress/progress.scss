@@ -1,0 +1,43 @@
+.progress-page {
+  height: 100%;
+  text-align: center;
+  background-color: var(--bg-color);
+}
+
+.progress-icon-box {
+  display: flex;
+  justify-content: center;
+  padding-top: 91px;
+}
+
+.progress-icon {
+  width: 200px;
+  height: 200px;
+}
+
+.progress-title {
+  padding-top: 51px;
+  font-size: 30px;
+  line-height: 42px;
+  color: var(--main-text-color);
+}
+
+.progress-description {
+  font-size: 26px;
+  line-height: 37px;
+  color: var(--secondary-text-color);
+  padding-top: 16px;
+}
+
+.progress-btn-box {
+  padding: 80px 55px 0;
+}
+
+.progress-btn {
+  height: 88px;
+  line-height: 88px;
+  border-radius: 44px;
+  text-align: center;
+  color: var(--active-tab-color-light);
+  background-color: var(--button-background-color);
+}

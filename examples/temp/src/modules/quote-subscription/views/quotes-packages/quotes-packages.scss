@@ -1,0 +1,44 @@
+// @import '@ipo/global-css/index';
+
+html:global(.white) {
+  --theme-background: #f5f5f5;
+  // TODO
+  // --header-background: linear-gradient(to bottom, #2758d1 0%, #2758d1  45%, #fff 46%, #fff 100%);
+  // --header-background: linear-gradient(to bottom, #2d67d6 0%, #2d67d6  45%, #fff 46%, #fff 100%);
+
+  // --header-background: linear-gradient(225deg, #306dd8 0%, #2758d1 100%);
+  --header-bottom-background: 0 4px 20px 0 rgba(230, 230, 230, 40%);
+  --font-color: #212121;
+  --subscribe-background: #fff;
+  --subscribe-border: #f2f2f5;
+  --package-item-shadow: 0 4px 20px 0 rgba(193, 193, 193, 40%);
+  --subscribe-option: #999;
+  --subscribe-price: #f55d5d;
+}
+
+html:global(.black) {
+  --theme-background: #000001;
+  --font-color: #ddd;
+  --subscribe-background: #191d26;
+  --header-background: linear-gradient(to bottom, #11151e 0%, #11151e 45%, #000001 46%, #000001 100%);
+  --subscribe-border: #000001;
+  --subscribe-option: #666;
+  --subscribe-price: #f55d5d;
+}
+
+// box-shadow:
+.subscribe {
+  height: 100%;
+  background-color: var(--main-page-background);
+
+}
+
+.content {
+  height: calc(100% - 100px);
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    /* 隐藏滚轮 */
+    display: none;
+  }
+}

@@ -1,0 +1,26 @@
+// echarts 自定义tooltip
+.custom-echarts-tooltip {
+  padding: 7px !important;
+  color: #666 !important;
+  font: 0.24rem / 0.38rem !important;
+
+  > h3 {
+    text-align: center;
+    font-size: 0.3rem !important;
+    font-weight: normal;
+  }
+
+  > ol {
+    font-size: 0.25rem !important;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+
+    > span:first-of-type {
+      margin-right: 0.2rem;
+      color: #999;
+    }
+  }
+}

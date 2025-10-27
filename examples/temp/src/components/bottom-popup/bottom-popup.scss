@@ -1,0 +1,35 @@
+.container {
+  position: relative;
+  padding-top: 60px;
+  border-radius: 12px 12px 0 0;
+  background-color: var(--order-content-background);
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  box-sizing: border-box;
+}
+
+.content {
+  padding: 0 50px;
+  padding-bottom: 50px;
+  font-size: 30px;
+  color: var(--main-title-color);
+  flex: 1;
+  overflow-y: auto;
+}
+
+.title {
+  margin-bottom: 37px;
+  text-align: center;
+  color: var(--check-title-text);
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.close-icon {
+  position: absolute;
+  top: 70px;
+  right: 24px;
+  width: 24px;
+  height: 24px;
+}

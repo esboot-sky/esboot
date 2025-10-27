@@ -1,0 +1,49 @@
+html:global(.white) {
+  --theme-background: #f2f2f5;
+  --font-color: #212121;
+  --submit-option: #999;
+}
+
+html:global(.black) {
+  --theme-background: #000001;
+  --font-color: #ddd;
+  --submit-option: #666;
+}
+
+.order-success {
+  background-color: var(--theme-background);
+  height: 100vh;
+  // padding: 120px 78px 0 58px;
+  box-sizing: border-box;
+
+  .img-wap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-top: 120px;
+
+    .img-ok {
+      overflow: hidden;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-size: cover;
+    }
+  }
+
+  .order-success-name {
+    padding: 36px 0 16px;
+    font-size: 30px;
+    text-align: center;
+    color: var(--font-color);
+    line-height: 42px;
+  }
+
+  .order-success-option {
+    font-size: 28px;
+    text-align: center;
+    text-indent: -2px;
+    color: var(--submit-option);
+    line-height: 48px;
+  }
+}

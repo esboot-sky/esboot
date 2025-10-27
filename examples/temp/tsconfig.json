@@ -1,0 +1,6 @@
+{
+  "extends": "./node_modules/.cache/esboot/typescript/tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "bundler"
+  }
+}

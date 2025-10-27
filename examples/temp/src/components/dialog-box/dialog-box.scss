@@ -1,0 +1,18 @@
+.mask-box {
+  padding: var(--spacing-06);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 630px;
+  height: 300px;
+  background: var(--fill-1-card);
+  border-radius: var(--border-model-radius-15);
+
+  .close-btn {
+    position: absolute;
+    bottom: -108px;
+    left: 50%;
+    transform: translate(-50%);
+  }
+}

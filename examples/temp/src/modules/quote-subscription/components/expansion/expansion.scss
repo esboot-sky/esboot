@@ -1,0 +1,47 @@
+:global {
+  * {
+    box-sizing: content-box;
+  }
+
+  .adm-ellipsis {
+    font-size: 30px;
+    font-weight: 500;
+    text-align: left;
+    color: #212121;
+    line-height: 42px;
+  }
+
+  .adm-ellipsis a {
+    display: inline-block;
+    height: 28px;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: left;
+    color: #2758d1;
+    line-height: 28px;
+    position: relative;
+  }
+
+  .adm-ellipsis a:after {
+    position: absolute;
+    height: 14px;
+    width: 12px;
+    display: block;
+    line-height: 28px;
+    vertical-align: bottom;
+    top: 2px;
+    right: -15px;
+  }
+}
+
+.expansion {
+  font-size: 28px;
+  font-weight: 400;
+  text-align: left;
+  color: #666;
+  line-height: 40px;
+
+  span {
+    color: #212121;
+  }
+}
