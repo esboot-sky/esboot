@@ -1,7 +1,7 @@
 {
   "name": "@dz-web/esboot-bundler-webpack",
   "type": "module",
-  "version": "4.0.0-alpha.6",
+  "version": "4.0.0-alpha.8",
   "description": "",
   "author": "Roc",
   "license": "ISC",
