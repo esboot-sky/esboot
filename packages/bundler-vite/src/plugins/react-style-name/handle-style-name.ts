@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import path, { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 interface StyleImport {
@@ -93,14 +93,16 @@ function makeVariableName(): string {
  *  为 false 则用 import 的形式引入
  * (Vite 下用 inline 的形式性能更好)
  */
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let transformerSource: string;
 export function importStyleNameTransformer(source: string, inline = true): string {
   if (inline) {
     if (!transformerSource) {
       transformerSource = readFileSync(
         resolve(
-          fileURLToPath(import.meta.url),
-          '../plugins/react-style-name/transformStyleNameCreateElement.js',
+          __dirname,
+          // './plugins/react-style-name/transformStyleNameCreateElement.js',
+          '../static/transformStyleNameCreateElement.js',
         ),
       ).toString();
     }
