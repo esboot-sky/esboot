@@ -1,5 +1,5 @@
 {
-  "name": "pingan-app-h5",
+  "name": "sp-real-citic-hk",
   "sideEffects": [
     "./src/**/*.scss",
     "./src/**/*.css"

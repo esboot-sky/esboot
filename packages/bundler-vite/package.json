@@ -1,7 +1,7 @@
 {
   "name": "@dz-web/esboot-bundler-vite",
   "type": "module",
-  "version": "4.0.0-alpha.9",
+  "version": "4.0.0-alpha.12",
   "description": "",
   "author": "Roc",
   "license": "ISC",
@@ -23,7 +23,6 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "patches",
     "static"
   ],
   "scripts": {
