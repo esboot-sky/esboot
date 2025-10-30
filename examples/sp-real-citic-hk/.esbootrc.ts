@@ -44,8 +44,8 @@ export default defineConfig<BundlerWebpackOptions>(() => {
     },
     experimental: {
       reactCompiler: {
-        enable: false,
-        target: 'es2022',
+        enable: true,
+        target: '18',
       },
     },
   } as UserOptions<BundlerViteOptions | BundlerWebpackOptions>;

@@ -42,7 +42,7 @@ export type BabelPlugin = [string, Record<string, any>];
 
 export interface ReactCompiler {
   enable?: boolean;
-  target: string;
+  target: '18' | '19';
 }
 
 export interface UserOptions {
