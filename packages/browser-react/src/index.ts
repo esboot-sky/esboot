@@ -1,22 +1,8 @@
-import { useState } from 'react';
+// Performance Monitoring
+export { monitorPerformance } from './aop/performance';
 
-export function useTest(): {
-  count: number;
-  setCount: (count: number) => void;
-} {
-  const [count, setCount] = useState(0);
-
-  // useEffect(() => {
-  //   setCount(count + 1);
-  //   console.log('count', count);
-  // }, [count]);
-
-  return {
-    count,
-    setCount,
-  };
-}
-
+// React Error Boundary
 export * from './error-boundary/default-fallback-render';
 export * from './error-boundary/error-boundary';
+
 export { type FallbackProps, useErrorBoundary, withErrorBoundary } from 'react-error-boundary';
