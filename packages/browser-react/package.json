@@ -19,14 +19,19 @@
     "dev": "cross-env NODE_ENV=development tsup",
     "prepublishOnly": "pnpm run build"
   },
-  "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-error-boundary": "^6.0.0"
-  },
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc",
+  "peerDependencies": {
+    "react": ">=18.3.0",
+    "react-dom": ">=18.3.0"
+  },
+  "dependencies": {
+    "react-error-boundary": "^6.0.0",
+    "react-scan": "^0.4.3"
+  },
   "devDependencies": {
     "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2"
+    "@types/react-dom": "^19.2.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   }
 }
