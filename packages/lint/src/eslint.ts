@@ -1,9 +1,11 @@
 import antfu from '@antfu/eslint-config';
-// @ts-ignore
+// @ts-expect-error - esbootPlugin may not have type definitions
 import esbootPlugin from '@dz-web/eslint-plugin-esboot';
 // import { FlatCompat } from '@eslint/eslintrc';
 import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import reactHooks from 'eslint-plugin-react-hooks';
+
+import esbootJsoncPlugin from './plugins/esboot-jsonc';
 
 // const compat = new FlatCompat();
 
@@ -54,6 +56,9 @@ export default async function createConfig(options?: Options): Promise<Config> {
     },
     {
       files: ['**/lang/*.{json,jsonc}'],
+      plugins: {
+        'esboot-jsonc': esbootJsoncPlugin,
+      },
       rules: {
         'jsonc/key-name-casing': ['error', {
           'camelCase': false,
@@ -63,6 +68,7 @@ export default async function createConfig(options?: Options): Promise<Config> {
           'snake_case': true,
           'ignores': [],
         }],
+        'esboot-jsonc/no-chinese-key': 'error',
       },
     },
     {
