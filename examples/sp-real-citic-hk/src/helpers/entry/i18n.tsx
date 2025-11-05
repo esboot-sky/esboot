@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IntlProvider } from 'react-intl';
 
-import { getPageI18n, type i18nMessageDict } from '@/helpers/import-locales';
+import { getPageI18n, type i18nMessageDict } from '@/helpers/import-locales.ts';
 import { useAppStore } from '@/model/app';
 
 /**
