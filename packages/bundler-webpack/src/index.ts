@@ -1,4 +1,5 @@
 import type { CustomWebpackConfiguration } from '@/cfg/types';
+import process from 'node:process';
 import { Bundler } from '@dz-web/esboot';
 import { error } from '@dz-web/esboot-common/helpers';
 // import { watchOnFileChange } from '@dz-web/esboot-bundler-common';
@@ -11,13 +12,13 @@ import { getWebpackCfg } from './cfg';
 export class BundlerWebpack extends Bundler {
   name = 'webpack';
 
-  getName() {
+  getName(): string {
     return this.name;
   }
 
-  async dev() {
+  async dev(): Promise<void> {
     let server: WebpackDevServer;
-    const start = async () => {
+    const start = async (): Promise<void> => {
       console.time('Create config');
       const webpackCfg = this.onModifyBundlerConfig<CustomWebpackConfiguration>(
         await getWebpackCfg(this.cfg),
@@ -45,7 +46,7 @@ export class BundlerWebpack extends Bundler {
     this.onAfterCompile();
   }
 
-  async build() {
+  async build(): Promise<void> {
     const webpackCfg = this.onModifyBundlerConfig<CustomWebpackConfiguration>(
       await getWebpackCfg(this.cfg),
     );
@@ -64,11 +65,13 @@ export class BundlerWebpack extends Bundler {
 
         errors.forEach((err, index) => {
           const { message, moduleName = '', loc = '' } = err;
+          // eslint-disable-next-line no-console
           console.log(
             `${kleur.bgRed().bold(` ERROR ${index + 1} `)} in ${kleur.white(
               moduleName,
             )} ${kleur.green(loc)} \n`,
           );
+          // eslint-disable-next-line no-console
           console.log(`${message} \n`);
         });
 

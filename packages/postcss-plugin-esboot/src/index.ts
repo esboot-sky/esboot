@@ -16,7 +16,7 @@ function calculateContentHash(content: string): string | null {
   }
 }
 
-export default async (opts = { useTailwindcss: true }) => {
+export default async (opts = { useTailwindcss: true }): Promise<any> => {
   const { useTailwindcss } = opts;
   let tailwindCssContent: string;
   let tailwindCssPath: string;
