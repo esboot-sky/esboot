@@ -39,7 +39,7 @@ export default async (opts = { useTailwindcss: true }): Promise<any> => {
           const filePath = result.opts.from;
 
           const isEntryFile = cssContent.startsWith(
-            '/* ESBOOT_SIGN_TAILWIND_CSS */',
+            'ESBOOT_SIGN_TAILWIND_CSS',
           );
 
           if (isEntryFile && filePath) {
@@ -63,9 +63,9 @@ export default async (opts = { useTailwindcss: true }): Promise<any> => {
             }
           }
 
-          const commentRegex = /\/\*\s*ESBOOT_SIGN_TAILWIND_CSS\s*\*\//g;
+          const commentRegex = /ESBOOT_SIGN_TAILWIND_CSS/g;
 
-          if (cssContent.startsWith('/* ESBOOT_SIGN_TAILWIND_CSS */')) {
+          if (cssContent.startsWith('ESBOOT_SIGN_TAILWIND_CSS')) {
             const updatedCssContent = cssContent.replace(
               commentRegex,
               tailwindCssContent,

@@ -1,8 +1,9 @@
-import { defineConfig, PluginHooks, definePlugin, type UserOptions } from '@dz-web/esboot';
-import { BundlerWebpack, CodeSplittingType as CodeSplittingTypeWebpack } from '@dz-web/esboot-bundler-webpack';
-import { BundlerVite, CodeSplittingType as CodeSplittingTypeVite } from '@dz-web/esboot-bundler-vite';
-import type { BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
+import type { UserOptions } from '@dz-web/esboot';
 import type { BundlerViteOptions } from '@dz-web/esboot-bundler-vite';
+import type { BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
+import { defineConfig, definePlugin, PluginHooks } from '@dz-web/esboot';
+import { BundlerVite, CodeSplittingType as CodeSplittingTypeVite } from '@dz-web/esboot-bundler-vite';
+import { BundlerWebpack, CodeSplittingType as CodeSplittingTypeWebpack } from '@dz-web/esboot-bundler-webpack';
 
 export default defineConfig<BundlerWebpackOptions>(() => {
   const bundlerOptions = process.env.ESBOOT_BUNDLER === 'vite' ? getBundlerViteOptions() : getBundlerWebpackOptions();
@@ -16,7 +17,8 @@ export default defineConfig<BundlerWebpackOptions>(() => {
         key: 'log',
         [PluginHooks.afterCompile]: (cfg) => {
           const { isDev } = cfg;
-          if (!isDev) return;
+          if (!isDev)
+            return;
 
           console.log(cfg.entry);
         },
@@ -51,7 +53,7 @@ export default defineConfig<BundlerWebpackOptions>(() => {
   } as UserOptions<BundlerViteOptions | BundlerWebpackOptions>;
 });
 
-const getBundlerViteOptions = (): UserOptions<BundlerViteOptions> => {
+function getBundlerViteOptions(): UserOptions<BundlerViteOptions> {
   return {
     bundler: BundlerVite,
     sourceMap: false,
@@ -79,7 +81,7 @@ const getBundlerViteOptions = (): UserOptions<BundlerViteOptions> => {
       },
     },
   };
-};
+}
 
 function getBundlerWebpackOptions(): UserOptions<BundlerWebpackOptions> {
   return {
@@ -87,14 +89,14 @@ function getBundlerWebpackOptions(): UserOptions<BundlerWebpackOptions> {
     // sourceMap: true,
     // minimize: true,
     bundlerOptions: {
-      customConfig: (webpackConfig) => {
-        webpackConfig.devServer.allowedHosts = ['all'];
-        webpackConfig.devServer.headers = {
-          'Access-Control-Allow-Origin': '*',
-        };
+      // customConfig: (webpackConfig) => {
+      //   webpackConfig.devServer.allowedHosts = ['all'];
+      //   webpackConfig.devServer.headers = {
+      //     'Access-Control-Allow-Origin': '*',
+      //   };
 
-        return webpackConfig;
-      },
+      //   return webpackConfig;
+      // },
       mfsu: false,
       extraBabelIncludes: [
         /filter-obj/i,

@@ -42,6 +42,26 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
   const postcssPluginPx2rem = await addPostcssPluginPx2rem(cfg);
   const postcssPluginTailwindcss = await addPostcssPluginTailwindcss(cfg);
 
+  const getPostcssLoaderConfig = (): Record<string, any> => ({
+    loader: resolvePath('postcss-loader'),
+    options: {
+      sourceMap: isSourceMap,
+      postcssOptions: {
+        plugins: [
+          postcssPluginESBoot,
+          postcssPluginTailwindcss,
+          postcssPluginPx2rem,
+          postcssPresetEnv({
+            autoprefixer: {
+              flexbox: 'no-2009',
+            },
+            stage: 3,
+          }),
+        ].filter(Boolean),
+      },
+    },
+  });
+
   const styleLoader = getStyleLoader();
   const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
   if (publicPath === './')
@@ -49,6 +69,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
 
   const cssLoaderOptions = {
     sourceMap: isSourceMap,
+    // importLoaders: 1,
     ...getCssLoaderOptions(),
   };
 
@@ -79,25 +100,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
         loader: resolvePath('css-loader'),
         options: cssLoaderOptionsCopy,
       },
-      {
-        loader: resolvePath('postcss-loader'),
-        options: {
-          sourceMap: isSourceMap,
-          postcssOptions: {
-            plugins: [
-              postcssPluginESBoot,
-              postcssPluginTailwindcss,
-              postcssPluginPx2rem,
-              postcssPresetEnv({
-                autoprefixer: {
-                  flexbox: 'no-2009',
-                },
-                stage: 3,
-              }),
-            ].filter(Boolean),
-          },
-        },
-      },
+      getPostcssLoaderConfig(),
       {
         loader: resolvePath('sass-loader'),
         options: { sourceMap: isSourceMap },
@@ -121,6 +124,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
           loader: resolvePath('css-loader'),
           options: cssLoaderOptions,
         },
+        // getPostcssLoaderConfig(),
       ],
     },
     {
