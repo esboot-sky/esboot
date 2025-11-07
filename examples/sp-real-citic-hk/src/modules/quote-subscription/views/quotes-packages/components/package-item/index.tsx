@@ -188,7 +188,7 @@ const PackageItem: React.FC<{ onRefresh: (isRefresh: boolean) => void; isRefresh
 
   return (
     <div styleName="package-wrap">
-      <div styleName="package-option">{formatMessage({ id: 'quote_package_order' })}</div>
+      <div styleName="package-option">{formatMessage({ id: 'quote_package_order' })}12</div>
       <Tab
         list={MarketTypeList}
         activeValue={activeTab}
