@@ -4,7 +4,7 @@ interface CreateExternalConsoleOptions {
   resourceUrl?: string;
 }
 
-export function createExternalConsole(options: CreateExternalConsoleOptions = {}): Promise<boolean> {
+export function createExternalConsole(options: CreateExternalConsoleOptions = {}): Promise<typeof window.eruda.init | false> {
   const {
     enabled = window?.GLOBAL_CONFIG?.debug ?? false,
     timeout = 10000,
@@ -18,6 +18,7 @@ export function createExternalConsole(options: CreateExternalConsoleOptions = {}
     const script = document.createElement('script');
     script.src = resourceUrl;
     script.async = true;
+    let eruda: typeof window.eruda.init;
 
     const timeoutId = setTimeout(() => {
       resolve(false);
@@ -25,8 +26,8 @@ export function createExternalConsole(options: CreateExternalConsoleOptions = {}
 
     script.onload = () => {
       clearTimeout(timeoutId);
-      window.eruda.init();
-      resolve(true);
+      eruda = window.eruda.init as typeof window.eruda.init;
+      resolve(eruda);
     };
 
     script.onerror = () => {
