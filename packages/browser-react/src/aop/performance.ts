@@ -1,11 +1,30 @@
-export async function monitorPerformance(): Promise<void> {
-  const ReactScan = await import('react-scan');
-  console.log(ReactScan, 'ReactScan');
-  const { scan } = ReactScan;
+interface MonitorPerformanceOptions {
+  enabledReactScan?: boolean;
+  showToolbar?: boolean;
+  showFPS?: boolean;
+}
 
-  scan({
-    enabled: true,
+export async function monitorPerformance(
+  options: MonitorPerformanceOptions = {
+    enabledReactScan: true,
     showToolbar: true,
     showFPS: true,
-  });
+  },
+): Promise<void> {
+  const {
+    enabledReactScan = true,
+    showToolbar = true,
+    showFPS = true,
+  } = options || {};
+
+  if (enabledReactScan) {
+    const ReactScan = await import('react-scan');
+    const { scan } = ReactScan;
+
+    scan({
+      enabled: enabledReactScan,
+      showToolbar,
+      showFPS,
+    });
+  }
 }

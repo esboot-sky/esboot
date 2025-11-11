@@ -1,3 +1,4 @@
+import { createExternalConsole } from '@dz-web/esboot-browser';
 import { monitorPerformance } from '@dz-web/esboot-browser-react';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
@@ -8,6 +9,7 @@ import router from './router';
 import '@/styles/index.scss';
 
 monitorPerformance();
+createExternalConsole({ enabled: true });
 ReactDOM.createRoot(document.getElementById('root') as Element).render(
   <StrictMode>
     <RouterProvider router={router} fallbackElement={<div>*</div>} />
