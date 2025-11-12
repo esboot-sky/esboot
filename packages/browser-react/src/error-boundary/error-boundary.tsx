@@ -1,4 +1,4 @@
-import type { ErrorInfo, ReactElement, ReactNode } from 'react';
+import type { ErrorInfo, PropsWithChildren, ReactNode } from 'react';
 import type { ErrorBoundaryProps, FallbackProps } from 'react-error-boundary';
 import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import { defaultFallbackRender } from './default-fallback-render';
@@ -18,12 +18,11 @@ interface ErrorBoundarySharedProps {
   }) => void;
 }
 
-interface ErrorBoundaryPropsByESBoot extends ErrorBoundarySharedProps {
+interface ErrorBoundaryPropsByESBoot extends ErrorBoundarySharedProps, PropsWithChildren {
   fallbackRender?: (props: FallbackProps) => ReactNode;
-  children: ReactNode;
 }
 
-function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactElement {
+function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactNode {
   const { children, fallbackRender = defaultFallbackRender } = props;
 
   const logError = (error: Error, info: ErrorInfo): void => {
@@ -42,7 +41,6 @@ function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactElement {
   };
 
   return (
-    // @ts-ignore
     <ReactErrorBoundary
       onReset={onReset}
       onError={logError}
