@@ -1,0 +1,37 @@
+@use './variable' as *;
+
+.header {
+  background-color: $bg-header;
+  .header-left {
+    color: $text-header;
+  }
+  .user-info {
+    color: $text-header;
+  }
+}
+
+.sidebar {
+  .el-menu {
+    background-color: $bg-menu;
+
+    .el-sub-menu__title {
+      color: $text-sub-menu !important;
+    }
+  }
+
+  .left {
+    background-color: $bg-sidebar-left;
+  }
+
+  .right {
+    background-color: $bg-sidebar-right;
+  }
+}
+
+.main {
+  background-color: $bg-main;
+}
+
+.icon-color {
+  color: $icon-color;
+}

@@ -1,0 +1,128 @@
+.el-dialog__header {
+  padding: 10px;
+  text-align: center;
+}
+
+.el-button.is-link.is-disabled {
+  color: #adadad !important;
+}
+
+.el-dialog {
+  padding: 0;
+}
+
+.el-dialog__body {
+  padding: 10px
+}
+
+.dialog-footer {
+  padding: 16px;
+}
+
+.el-menu {
+  .el-menu-item.is-active {
+    background-color: #fff;
+  }
+}
+
+.el-form {
+  .el-form-item {
+    margin-bottom: 18px;
+
+    .el-input {
+      width: 230px;
+
+      &.suffix-mobile {
+        .el-input {
+          width: 70px;
+        }
+      }
+    }
+
+    .el-select {
+      width: 230px;
+    }
+  }
+
+  margin-bottom: -15px;
+}
+
+.full-height-dialog {
+  .is-fullscreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+  }
+
+  .el-dialog__body {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    padding: 0 16px;
+  }
+}
+
+.header-none-dialog{
+  .el-dialog__header{
+    display: none;
+  }
+}
+
+.el-dialog__title{
+  margin-left: 20px;
+  font-weight: 500;
+}
+
+.el-dialog__footer {
+  padding-bottom: 20px;
+}
+
+.el-descriptions__header{
+  margin-bottom: 8px;
+}
+
+.horizontal{
+  --el-descriptions-table-border:1px solid #C8CAD2;
+
+  .el-descriptions__label.el-descriptions__cell.is-bordered-label{
+    background: #F1F2F4;
+    border-right: none;
+    font-size: 14px;
+    color: #212121;
+    font-weight: 500;
+  }
+
+  .el-descriptions__content.el-descriptions__cell.is-bordered-content{
+    border-left: none;
+    font-size: 14px;
+    color: #212121;
+    background: #FFF;
+  }
+}
+
+.vertical{
+  --el-descriptions-table-border:1px solid #C8CAD2;
+
+  .el-descriptions__label.el-descriptions__cell.is-bordered-label{
+    background: #E9EAEE;
+    font-size: 14px;
+    color: #212121;
+    font-weight: 500;
+  }
+
+  .el-descriptions__content.el-descriptions__cell.is-bordered-content{
+    font-size: 14px;
+    color: #212121;
+    background: #FFF;
+  }
+}
+
+.el-loading-mask.loading-icon.is-fullscreen {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+
+

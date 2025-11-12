@@ -11,17 +11,12 @@
   ],
   "main": "index.js",
   "scripts": {
-    "dev:vite": "ESBOOT_BUNDLER=vite bun run sync-esbootrc.ts && esboot dev",
-    "dev:webpack": "ESBOOT_BUNDLER=webpack bun run sync-esbootrc.ts && esboot dev",
-    "dev:rspack": "ESBOOT_BUNDLER=rspack bun run sync-esbootrc.ts && esboot dev",
-    "build:vite": "ESBOOT_BUNDLER=vite bun run sync-esbootrc.ts && esboot build",
-    "build:webpack": "ESBOOT_BUNDLER=webpack bun run sync-esbootrc.ts && esboot build",
-    "build:rspack": "ESBOOT_BUNDLER=rspack bun run sync-esbootrc.ts && esboot build",
     "build": "esboot build",
-    "esboot": "esboot",
-    "docs": "esboot docs dev",
+    "dev": "esboot dev",
     "postinstall": "esboot prepare",
-    "test": "esboot vitest run",
+    "preview": "esboot preview",
+    "test:unit": "vitest",
+    "type-check": "vue-tsc --build",
     "prepare": "esboot prepare"
   },
   "dependencies": {

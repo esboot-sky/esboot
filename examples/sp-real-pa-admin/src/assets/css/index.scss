@@ -1,0 +1,88 @@
+@use './variable' as *;
+@use './color' as *;
+@use './base';
+@use './elementui';
+@use './theme';
+
+@media screen and (min-height: 0) and (max-height: 770px){
+	.login-container {
+		.welcome-login {
+			.welcome .title2 {
+				font-size: 20px !important;
+			}
+
+			.login .login-wrap {
+				.title {
+					font-size: 20px !important;
+					margin-bottom: 10px !important;
+				}
+
+				.login-form .el-form-item {
+					margin-bottom: 20px;
+
+					.login-input input {
+						height: 60px;
+					}
+
+					.el-form-item__error {
+						font-size: 12px !important;
+					}
+				}
+
+				.login-btn {
+					height: 50px !important;
+					font-size: 20px !important;
+				}
+			}
+		}
+	}
+  }
+
+.page-container {
+	padding: 20px 40px;
+	border-radius: 5px;
+
+	// border: 1px solid #ddd;
+	background-color: #fff;
+}
+
+.operate-buttons {
+	position: relative;
+	padding-bottom: 20px;
+
+	&::after {
+		content: '';
+		width: 105%;
+		height: 1px;
+		background-color: #e9eaee;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		margin-left: -40px;
+	}
+}
+
+label.el-checkbox {
+	height: auto;
+}
+
+.operation-buttons {
+	background-color: #fff;
+	padding: 15px;
+	margin-bottom: 1px;
+}
+
+.text-primary {
+	color: $text-primary-color;
+	cursor: pointer;
+}
+
+.el-popper .el-popconfirm {
+	.el-popconfirm__main {
+		justify-content: center;
+	}
+
+	.el-popconfirm__action {
+		text-align: center;
+	}
+}

@@ -1,0 +1,28 @@
+export enum LANGUAGE_SERVER_DICT {
+  CN = 'zh-CN',
+  TW = 'zh-TW',
+  US = 'en-US'
+}
+
+export enum LANGUAGE_LOCAL_DICT {
+  CN = 'cn',
+  TW = 'hk',
+  US = 'us'
+}
+
+export const LANGUAGE_SERVER_MAP: Record<string, string> = {
+  [LANGUAGE_SERVER_DICT.CN]: LANGUAGE_LOCAL_DICT.CN,
+  [LANGUAGE_SERVER_DICT.TW]: LANGUAGE_LOCAL_DICT.TW,
+  [LANGUAGE_SERVER_DICT.US]: LANGUAGE_LOCAL_DICT.US
+}
+
+export const LANGUAGE_LOCAL_MAP: Record<string, string> = {
+  [LANGUAGE_LOCAL_DICT.CN]: LANGUAGE_SERVER_DICT.CN,
+  [LANGUAGE_LOCAL_DICT.TW]: LANGUAGE_SERVER_DICT.TW,
+  [LANGUAGE_LOCAL_DICT.US]: LANGUAGE_SERVER_DICT.US
+}
+
+export const DEFAULT_LANGUAGE_CONFIG = [
+  ['zh-CN', '简体'],
+  ['zh-TW', '繁体']
+]

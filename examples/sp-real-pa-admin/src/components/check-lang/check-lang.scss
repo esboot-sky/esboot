@@ -1,0 +1,50 @@
+.active.check-lang-item {
+  color: #0E67FF;
+  background-color: #fff;
+}
+
+.check-lang {
+  display: inline-flex;
+  border-radius: 4px;
+  width: 112px;
+  padding: 2px;
+  background-color: #f5f5f5;
+  color: #444;
+  height: max-content;
+}
+
+.check-lang-item {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  background-color: transparent;
+  border-radius: 4px;
+  line-height: 32px;
+  height: 32px;
+  color: #999;
+  cursor: pointer;
+
+  &::after,
+  &::before {
+    position: absolute;
+    content: '';
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    height: 16px;
+    width: 1px;
+    background-color: #ebebebff;
+  }
+
+  &::before {
+    left: 0
+  }
+
+  &:first-child:before {
+    display: none;
+  }
+
+  &:last-child:after {
+    display: none;
+  }
+}

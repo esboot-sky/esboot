@@ -1,0 +1,14 @@
+.base-filter {
+  background-color: #fff;
+  padding: 15px;
+}
+
+.el-input .el-input__suffix {
+  display: flex;
+  align-items: center;
+}
+
+.el-month-table td.current:not(.disabled) .cell {
+  color: #fff;
+  background-color: var(--el-datepicker-active-color);
+}

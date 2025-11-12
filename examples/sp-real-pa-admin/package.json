@@ -1,0 +1,63 @@
+{
+  "name": "quotation",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "esboot build",
+    "dev": "esboot dev",
+    "postinstall": "esboot prepare",
+    "preview": "esboot preview",
+    "test:unit": "vitest",
+    "type-check": "vue-tsc --build",
+    "prepare": "esboot prepare"
+  },
+  "dependencies": {
+    "@dz-web/axios": "^0.0.6",
+    "@dz-web/axios-middlewares": "^1.3.0",
+    "@element-plus/icons-vue": "2.3.2",
+    "axios": "^1.13.2",
+    "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.19",
+    "element-plus": "2.11.7",
+    "lodash": "^4.17.21",
+    "md5": "^2.3.0",
+    "normalize.css": "^8.0.1",
+    "svg-sprite-loader": "^6.0.11",
+    "vue": "^3.5.24",
+    "vue-i18n": "^9.2.0-beta.21",
+    "vue-router": "^4.0.14",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@dz-web/esboot": "workspace:*",
+    "@dz-web/esboot-bundler-vite": "workspace:*",
+    "@dz-web/esboot-plugin-docs": "workspace:*",
+    "@dz-web/esboot-plugin-vitest": "workspace:*",
+    "@dz-web/esboot-plugin-vue": "workspace:*",
+    "@types/node": "^22.16.5",
+    "eslint": "^9.29.0",
+    "stylelint": "^16.20.0",
+    "vue-tsc": "^3.0.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint",
+    "*.{scss,css}": "stylelint"
+  },
+  "browserslist": {
+    "development": [
+      "last 1 chrome version"
+    ],
+    "production": [
+      "Chrome >= 67"
+    ]
+  },
+  "prettier": "./node_modules/.cache/esboot/prettier",
+  "stylelint": {
+    "extends": [
+      "./node_modules/.cache/esboot/stylelint"
+    ]
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}

@@ -1,0 +1,23 @@
+html,
+body,
+#app {
+  height: 100%;
+  min-width: 1000px;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+ul, li {
+    list-style: none;
+}
+
+.mb20 {
+	margin-bottom: 20px;
+}

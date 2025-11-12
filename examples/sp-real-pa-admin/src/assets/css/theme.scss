@@ -1,0 +1,148 @@
+@use 'sass:map';
+
+$--colors: () !default;
+$--colors: map.deep-merge(
+  (
+    'white': #fff,
+    'black': #000,
+    'primary': (
+      'base': #409eff,
+    ),
+    'success': (
+      'base': #67c23a,
+    ),
+    'warning': (
+      'base': #e6a23c,
+    ),
+    'danger': (
+      'base': #f56c6c,
+    ),
+    'error': (
+      'base': #f56c6c,
+    ),
+    'info': (
+      'base': #909399,
+    ),
+  ),
+  $--colors
+);
+
+// You should use them in scss, because we calculate it by sass.
+// comment next lines to use default color
+@forward "element-plus/theme-chalk/src/common/var.scss" with
+  (
+    // do not use same name, it will override.
+    $colors: $--colors,
+    // $button-padding-horizontal: ("default": 50px)
+  );
+
+// button
+.el-button {
+  // --el-button-border-color: #0e67ff ;
+  // --el-button-text-color: #0e67ff ;
+
+  min-width: 36px;
+  height: 32px;
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: 400;
+
+}
+
+.el-button--primary {
+  --el-button-bg-color: #0e67ff !important;
+  --el-button-border-color: #0e67ff !important;
+  --el-button-hover-bg-color: #0e67ff !important;
+}
+
+.el-button--primary.is-plain{
+  --el-button-border-color: #0e67ff !important;
+  --el-button-text-color: #0e67ff !important;
+  --el-button-bg-color: #fff !important;
+}
+
+.el-button--info {
+  --el-button-bg-color: #FFF !important;
+  --el-button-border-color: #C8CAD2 !important;
+  --el-button-hover-bg-color: #FFF!important;
+  --el-button-hover-border-color: #0E67FF !important;
+  --el-button-active-bg-color: #FFF !important;
+  --el-button-active-border-color: #0E67FF !important;
+  --el-button-text-color: #999 !important;
+  --el-button-hover-text-color: #0E67FF !important;
+  --el-button-active-text-color: #0E67FF !important;
+
+
+}
+
+.pretty-btn {
+  --el-button-bg-color: #fff !important;
+  --el-button-border-color: #0e67ff !important;
+
+  color: #0e67ff;
+}
+
+// select
+.el-input-group__prepend .el-select {
+  --el-select-input-focus-border-color: #f5f7fa !important;
+}
+
+// table
+.el-table {
+  color: #212121;
+  border: 1px solid #c8cad2 !important;
+
+  .el-table__header-wrapper {
+    border-bottom: 1px solid #c8cad2;
+
+    tr {
+      th.el-table__cell,
+      th.el-table-fixed-column--right {
+        background-color: #e9eaee;
+        color: #212121;
+      }
+    }
+  }
+
+  td.el-table__cell {
+    border-bottom: 1px solid #c8cad2;
+  }
+}
+
+.el-table thead th{
+  font-weight: 500;
+}
+
+// checkbox
+.el-checkbox__input.is-indeterminate {
+  .el-checkbox__inner {
+    background-color: #0e67ff;
+    border-color: #0e67ff;
+  }
+}
+
+.el-checkbox__input.is-checked {
+  .el-checkbox__inner {
+    background-color: #0e67ff;
+    border-color: #0e67ff;
+  }
+}
+
+// dialog
+.el-dialog__header {
+  font-size: 20px;
+  font-weight: 500;
+
+  // padding: 18px;
+  color: #212121;
+  margin-right: 0;
+  background-color: #e9eaee;
+
+  .el-dialog__headerbtn .el-dialog__close {
+    color: #212121;
+  }
+}
+
+.el-dialog__headerbtn {
+  height: 49px;
+}
