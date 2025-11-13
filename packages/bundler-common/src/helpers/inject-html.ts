@@ -1,18 +1,15 @@
-import { join } from 'node:path';
-import { existsSync } from 'node:fs';
-import { isUndefined } from '@dz-web/esboot-common/lodash';
 import type { ConfigurationInstance } from '@dz-web/esboot';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import process from 'node:process';
+import { isUndefined } from '@dz-web/esboot-common/lodash';
 
-const getVersion = async (cwd: string) => {
+async function getVersion(cwd: string): Promise<string> {
   const pkg = await import(join(cwd, 'package.json'), { with: { type: 'json' } });
   return pkg.version;
-};
+}
 
-export const injectHtml = async (
-  html: string,
-  cfg: ConfigurationInstance,
-  title?: string
-) => {
+export async function injectHtml(html: string, cfg: ConfigurationInstance, title?: string): Promise<string> {
   const { BRIDGE_MOCK_HOST, BRIDGE_MOCK_PORT, BUILD_VERSION } = process.env;
   const { isBrowser, ipv4, publicPath, isDev, cwd, configJSPath } = cfg.config;
 
@@ -34,10 +31,10 @@ export const injectHtml = async (
 
   let _html = html.replace(
     '<body>',
-    `<body>${isConfigJSExists ? importCfgScript : ''}${injectBridgeMockScript}`
+    `<body>${isConfigJSExists ? importCfgScript : ''}${injectBridgeMockScript}`,
   );
   if (!isUndefined(title))
     _html = _html.replace('<head>', `<head><title>${title}</title>`);
 
   return _html;
-};
+}

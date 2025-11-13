@@ -1,11 +1,12 @@
+import type { AddEntryCBParams } from '@dz-web/esboot-bundler-common';
+import type { AddFunc } from '@/cfg/types';
 import { join } from 'node:path';
 import {
   addEntry as _addEntry,
-  type AddEntryCBParams,
-} from '@dz-web/esboot-bundler-common';
-import { HtmlRspackPlugin } from '@rspack/core';
 
-import type { AddFunc } from '@/cfg/types';
+} from '@dz-web/esboot-bundler-common';
+
+import { HtmlRspackPlugin } from '@rspack/core';
 
 export const addEntry: AddFunc = async (cfg, rspackCfg) => {
   const {
@@ -30,7 +31,8 @@ export const addEntry: AddFunc = async (cfg, rspackCfg) => {
         import: entry,
         layer: chunkName,
       };
-    } else {
+    }
+    else {
       rspackCfg.entry[chunkName] = entry;
     }
     rspackCfg.plugins.push(
@@ -51,7 +53,7 @@ export const addEntry: AddFunc = async (cfg, rspackCfg) => {
         //     },
         //   },
         // },
-      })
+      }),
     );
   });
   console.log(rspackCfg.entry, '<-- rspackCfg.entry');

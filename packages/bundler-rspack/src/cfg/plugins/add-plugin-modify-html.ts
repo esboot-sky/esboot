@@ -1,7 +1,7 @@
-import { HtmlRspackPlugin } from '@rspack/core';
 import type { Compilation, Compiler } from '@rspack/core';
-import { injectHtml } from '@dz-web/esboot-bundler-common';
 import type { AddFunc } from '@/cfg/types';
+import { injectHtml } from '@dz-web/esboot-bundler-common';
+import { HtmlRspackPlugin } from '@rspack/core';
 
 const pluginName = 'HtmlModifyPlugin';
 
