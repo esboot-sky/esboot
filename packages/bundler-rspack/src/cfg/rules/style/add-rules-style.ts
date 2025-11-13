@@ -48,7 +48,8 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
 
   const styleLoader = getStyleLoader();
   const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
-  if (publicPath === './') miniCssExtractPluginOptions.publicPath = '../';
+  if (publicPath === './')
+    miniCssExtractPluginOptions.publicPath = '../';
 
   const cssLoaderOptions = {
     sourceMap: isSourceMap,
