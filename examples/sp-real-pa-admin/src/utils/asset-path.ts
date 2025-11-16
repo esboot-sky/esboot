@@ -3,7 +3,7 @@ export function getAssetPath(relativePath: string): string {
   const cleanPublicPath = publicPath.endsWith('/') ? publicPath : `${publicPath}/`
   const cleanRelativePath = relativePath.startsWith('/') ? relativePath.slice(1) : relativePath
 
-  return `${cleanPublicPath}${cleanRelativePath}`
+  return `${cleanPublicPath}static/${cleanRelativePath}`
 }
 
 export default getAssetPath
