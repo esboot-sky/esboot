@@ -19,6 +19,7 @@ export default defineConfig<BundlerOptions>({
   ],
   bundler: Bundler,
   isSP: true,
+  svgr: false,
   bundlerOptions: {},
   sourceMap: false,
   alias: {

@@ -83,7 +83,7 @@ import importDialog from '../import-dialog/import-dialog.vue'
 import baseTable from '@/components/base-table/base-table'
 import { cloneDeep } from '@/utils/common'
 import { userDeclarationExportOrder, getByTypes } from '@/api/quotation'
-import { mount } from "@/main"
+import { mount } from "@/index.entry"
 
 const { t } = useI18n()
 const isExportLoading = ref(false)

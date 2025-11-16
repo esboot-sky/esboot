@@ -1,9 +1,9 @@
 import { defineComponent, getCurrentInstance, computed } from 'vue';
 import { useI18n } from 'vue-i18n'
 import './check-lang.scss'
-import IconZh from './image/zh.svg';
-import IconHk from './image/hk.svg';
-import IconEn from './image/en.svg';
+import IconZh from './image/zh.svg?url';
+import IconHk from './image/hk.svg?url';
+import IconEn from './image/en.svg?url';
 
 export function getLangIcon(lang: string) {
   if (lang === 'zh_TW') return IconHk;
