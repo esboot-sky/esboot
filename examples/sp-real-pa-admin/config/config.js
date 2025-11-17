@@ -1,7 +1,7 @@
 window.APP_CONFIG = {
   COMMON_SERVERS: {
-    base: 'http://hk-admin.uat.qa.pab.com.cn/stock/admin',
-    // base: 'http://10.10.11.93:6003',
+    // base: 'http://hk-admin.uat.qa.pab.com.cn/stock/admin',
+    base: 'http://10.10.11.93:6003',
   },
   subModuleList: {
     // 系统设置

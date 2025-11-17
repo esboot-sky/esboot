@@ -1,24 +1,11 @@
 import type { jsStrategyForGranularChunksOptions } from '@/types';
 import crypto from 'node:crypto';
+import { mergeFrameworkBundles } from '@dz-web/esboot-bundler-common';
 
 export function granularChunks(options?: jsStrategyForGranularChunksOptions): Record<string, any> {
   const { frameworkBundles = [] } = options || {};
 
-  const FRAMEWORK_BUNDLES = [
-    // React Series
-    'react-dom',
-    'react',
-    'react-intl',
-    'react-router',
-    'react-router-dom',
-    'classnames',
-    //
-    'lodash',
-    'dayjs',
-    'zustand',
-    '@loadable/component',
-    ...frameworkBundles,
-  ];
+  const FRAMEWORK_BUNDLES = mergeFrameworkBundles(frameworkBundles);
 
   return {
     chunks: 'all',
