@@ -9,7 +9,11 @@ export default defineConfig<BundlerOptions>({
   plugins: [
     pluginDocs(),
     pluginVitest(),
-    pluginVue(),
+    pluginVue({
+      jsxOptions: {
+        enable: true,
+      }
+    }),
     definePlugin({
       key: 'test1',
       [PluginHooks.afterCompile]: (cfg) => {
@@ -28,17 +32,15 @@ export default defineConfig<BundlerOptions>({
   server: {
     port: 4000,
     http2: false,
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://10.10.11.93:6003',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    ],
   },
-  // analyze: true,
-  // extraBabelIncludes: [
-  //   /filter-obj/i,
-  //   /immer/i,
-  //   /zustand/i,
-  //   /query-string/i,
-  //   /react-intl/i,
-  //   /d3-/i,
-  //   /@tanstack/i,
-  //   /@react-spring/i,
-  //   /@floating-ui/i,
-  // ],
 });
