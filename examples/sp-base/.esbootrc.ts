@@ -19,6 +19,10 @@ export default defineConfig<BundlerOptions>({
   isSP: true,
   bundlerOptions: {},
   sourceMap: false,
+  publicPath: '/test/',
+  define: {
+    'process.env.test': 'test',
+  },
   alias: {
     '@@': 'src',
   },

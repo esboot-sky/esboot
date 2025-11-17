@@ -166,10 +166,16 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
     const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
 
     const { isDev } = this.#config;
+    const defaultPublicPath = isDev ? '/' : './';
+    const defaultDefine = {
+      'process.env.isMobile': this.#config.isMobile,
+      'process.env.isBrowser': this.#config.isBrowser,
+      'process.env.publicPath': userCfg.publicPath || defaultPublicPath,
+    };
 
     this.#config = merge(
       this.#config,
-      { publicPath: isDev ? '/' : './' },
+      { publicPath: defaultPublicPath, define: defaultDefine },
       userCfg,
     );
 

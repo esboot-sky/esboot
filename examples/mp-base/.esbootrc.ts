@@ -41,7 +41,7 @@ export default defineConfig<BundlerOptions>((cfg) => ({
           '@loadable/component',
           'classnames',
           'perfect-scrollbar',
-        ]
+        ],
       },
     },
   },
