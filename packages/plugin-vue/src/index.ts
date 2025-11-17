@@ -36,6 +36,7 @@ export default (options: PluginVueOptions = {}): Plugin => {
       bundlerName,
     ): void => {
       if (bundlerName === 'vite') {
+        // Modify Plugin
         bundlerConfig.plugins = bundlerConfig.plugins.filter(
           (plugin: { name?: string } | { name?: string }[]) => {
             if (isArray(plugin)) {
@@ -47,6 +48,22 @@ export default (options: PluginVueOptions = {}): Plugin => {
             return !plugin.name || !plugin.name.toLowerCase().includes('react');
           },
         );
+
+        // Add manualChunks
+        try {
+          let { framework } = bundlerConfig.build!.rollupOptions!.output!.manualChunks;
+
+          framework = framework.filter((chunk: string) => !chunk.startsWith('react'));
+
+          bundlerConfig.build!.rollupOptions!.output!.manualChunks!.framework = [
+            'vue',
+            ...framework,
+          ];
+        }
+        catch (error) {
+          console.error(`[Plugin Vue] Failed to add manualChunks: ${error}`);
+        }
+
         bundlerConfig.plugins.unshift(vue(), vueDevToolsPlugin, vueJsxPlugin);
       }
       else {
