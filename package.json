@@ -24,7 +24,8 @@
     "pub": "pnpm run test run && lerna publish --force-publish=* --no-private",
     "biome": "biome",
     "clean:dep": "pnpm -r exec -- rm -rf node_modules && rm -rf node_modules && rm pnpm-lock.yaml",
-    "clean:dist": "pnpm -r exec -- rm -rf dist"
+    "clean:dist": "pnpm -r exec -- rm -rf dist",
+    "restore-version": "bun run scripts/restore-version.ts"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.2.0",
