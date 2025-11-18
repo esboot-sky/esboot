@@ -168,6 +168,8 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
     const { isDev } = this.#config;
     const defaultPublicPath = isDev ? '/' : './';
     const defaultDefine = {
+      'process.env.VERSION': JSON.stringify(pkg.version),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.isMobile': this.#config.isMobile,
       'process.env.isBrowser': this.#config.isBrowser,
       'process.env.publicPath': userCfg.publicPath || defaultPublicPath,
