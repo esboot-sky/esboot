@@ -4,7 +4,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noResolve": false,
     "paths": {
     },

@@ -1,7 +1,8 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
+import process from 'node:process';
 
 type AddDefineRes = Record<string, unknown>;
-export const addDefine = (cfg: ConfigurationInstance): AddDefineRes => {
+export function addDefine(cfg: ConfigurationInstance): AddDefineRes {
   const { version, define = {} } = cfg.config;
 
   const customDefine: AddDefineRes = {};
@@ -10,8 +11,6 @@ export const addDefine = (cfg: ConfigurationInstance): AddDefineRes => {
   }
 
   return {
-    'process.env.VERSION': JSON.stringify(version),
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     ...customDefine,
   };
-};
+}
