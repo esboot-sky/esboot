@@ -1,12 +1,13 @@
-import { cn } from '@dz-web/esboot-browser';
+import type { IQuoList } from '@/api/quotation/query';
+import { cn, cva } from '@dz-web/esboot-browser';
 import { toSlice, toThousand } from '@dz-web/o-orange';
-import { Toast } from 'antd-mobile';
+import { Button, Toast } from 'antd-mobile';
 import cx from 'classnames';
 import * as React from 'react';
-import { useIntl } from 'react-intl';
-import { useSearchParam } from 'react-use';
+import { FormattedMessage, useIntl } from 'react-intl';
 
-import { requestCancelRenew, requestQuoList, IQuoList, AuthProgress } from '@/api/quotation/query';
+import { useSearchParam } from 'react-use';
+import { AuthProgress, requestCancelRenew, requestQuoList } from '@/api/quotation/query';
 import Empty from '@/components/empty/empty';
 import Loading from '@/components/loading/loading';
 import Modal from '@/components/modal/modal';
@@ -20,6 +21,7 @@ import { count } from '@/modules/quote-subscription/utils/share';
 import autoDesc from '../../images/white/icon_desc.svg?url';
 
 import './index.scss';
+import { CancelOrChangeType } from '@/api/trade/operate/operate';
 
 const { memo, useEffect, useState, useMemo, useRef } = React;
 
@@ -32,6 +34,22 @@ const progressToPageMap = {
   [AuthProgress.REVIEW_ING]: `${US_MARKET_STATEMENT_PAGE}progress`,
   [AuthProgress.REJECT]: `${US_MARKET_STATEMENT_PAGE}progress`,
 };
+
+// 取消移动端点击高亮
+export const OrderButton = cva(
+  ' font-regular-32 text-white flex-1 rounded-[36px] py-[14px] transition-all duration-300 active:scale-95 ',
+  {
+    variants: {
+      color: {
+        buy: '!bg-[var(--main-theme-color)]',
+        sell: '!bg-[var(--sell-color)]',
+      },
+      modalAction: {
+        button: ' !transform-none !border-none before:hidden ',
+      },
+    },
+  },
+);
 
 const PackageItem: React.FC<{ onRefresh: (isRefresh: boolean) => void; isRefresh: boolean }> = ({
   onRefresh,
@@ -188,7 +206,19 @@ const PackageItem: React.FC<{ onRefresh: (isRefresh: boolean) => void; isRefresh
 
   return (
     <div styleName="package-wrap">
-      <div styleName="package-option">{formatMessage({ id: 'quote_package_order' })}12</div>
+      <div styleName="package-option">
+        {formatMessage({ id: 'quote_package_order' })}
+        12
+      </div>
+
+      <Button type="primary" className="text-red-500">
+        Primary Button
+      </Button>
+
+      <Button className={OrderButton({ color: 'sell' })}>
+        <FormattedMessage id="subscription" />
+      </Button>
+
       <Tab
         list={MarketTypeList}
         activeValue={activeTab}

@@ -40,10 +40,10 @@ export default defineConfig<BundlerWebpackOptions>(() => {
       exclude: [/node_modules/],
     },
     useLangJsonPicker: true,
-    ...bundlerOptions,
     server: {
       port: 11113,
     },
+    ...bundlerOptions,
     experimental: {
       reactCompiler: {
         enable: true,
@@ -87,6 +87,9 @@ function getBundlerWebpackOptions(): UserOptions<BundlerWebpackOptions> {
   return {
     bundler: BundlerWebpack,
     // sourceMap: true,
+    server: {
+      port: 11119,
+    },
     // minimize: true,
     bundlerOptions: {
       // customConfig: (webpackConfig) => {
