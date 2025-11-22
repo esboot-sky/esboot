@@ -211,7 +211,7 @@ const PackageItem: React.FC<{ onRefresh: (isRefresh: boolean) => void; isRefresh
         12
       </div>
 
-      <Button type="primary" className="text-red-500">
+      <Button type="primary" className="text-red-500 font-regular-20">
         Primary Button
       </Button>
 

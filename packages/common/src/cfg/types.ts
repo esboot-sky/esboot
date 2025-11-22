@@ -74,6 +74,7 @@ export interface UserOptions {
   legacy?: boolean;
   externals?: Record<string, string>;
   useTailwindcss?: boolean;
+  useSeparateTailwindImports?: boolean;
   plugins?: Plugin[];
   experimental?: {
     reactCompiler?: ReactCompiler;

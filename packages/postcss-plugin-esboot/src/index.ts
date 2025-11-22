@@ -1,109 +1,206 @@
 import type { Node, Result, Root } from 'postcss';
-import crypto from 'node:crypto';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-
 import { parse } from 'postcss';
+
+import { calculateContentHash } from './helpers';
 
 const fileCache = new Map();
 
-function calculateContentHash(content: string): string | null {
-  try {
-    return crypto.createHash('md5').update(content, 'utf8').digest('hex');
-  }
-  catch {
-    return null;
-  }
+interface TailwindFileCache {
+  content: string;
+  mtime: number;
 }
 
-export default async (opts = { useTailwindcss: true }): Promise<any> => {
-  const { useTailwindcss } = opts;
-  let tailwindCssContent: string;
+const tailwindFileCache = new Map<string, TailwindFileCache>();
+
+function getTailwindFileContent(filePath: string): string {
+  const cached = tailwindFileCache.get(filePath);
+  const stats = fs.statSync(filePath);
+  const currentMtime = stats.mtimeMs;
+
+  if (cached && cached.mtime === currentMtime) {
+    return cached.content;
+  }
+
+  const content = fs.readFileSync(filePath, 'utf8');
+  tailwindFileCache.set(filePath, {
+    content,
+    mtime: currentMtime,
+  });
+
+  return content;
+}
+
+export default async (opts = { useTailwindcss: true, useSeparateTailwindImports: true, isDev: true }): Promise<any> => {
+  const { useTailwindcss, useSeparateTailwindImports = true, isDev = true } = opts;
   let tailwindCssPath: string;
+  let themeCssPath: string;
+  let preflightCssPath: string;
+  let utilitiesCssPath: string;
 
   if (useTailwindcss) {
-    tailwindCssPath = fileURLToPath(
-      import.meta.resolve('tailwindcss/index.css'),
-    );
-
-    tailwindCssContent = fs.readFileSync(tailwindCssPath, 'utf8');
+    if (useSeparateTailwindImports) {
+      themeCssPath = fileURLToPath(
+        import.meta.resolve('tailwindcss/theme.css'),
+      );
+      preflightCssPath = fileURLToPath(
+        import.meta.resolve('tailwindcss/preflight.css'),
+      );
+      utilitiesCssPath = fileURLToPath(
+        import.meta.resolve('tailwindcss/utilities.css'),
+      );
+    }
+    else {
+      tailwindCssPath = fileURLToPath(
+        import.meta.resolve('tailwindcss/index.css'),
+      );
+    }
   }
 
   return {
     postcssPlugin: 'postcss-plugin-esboot',
 
     Once(root: Root, { result }: { result: Result }) {
-      if (useTailwindcss && tailwindCssContent) {
-        try {
-          const cssContent = root.toString();
-          const filePath = result.opts.from;
+      if (!useTailwindcss) {
+        return root;
+      }
 
-          const isEntryFile = cssContent.startsWith(
-            'ESBOOT_SIGN_TAILWIND_CSS',
-          );
+      try {
+        const filePath = result.opts.from;
+        let isEntryFile = false;
+        let cssContent: string | null = null;
 
-          if (isEntryFile && filePath) {
-            const currentHash = calculateContentHash(cssContent);
+        const firstNode = root.first;
+        if (firstNode && firstNode.type === 'comment') {
+          const firstComment = firstNode.toString();
+          isEntryFile = firstComment.includes('ESBOOT_SIGN_TAILWIND_CSS');
+        }
 
-            if (currentHash) {
-              const cachedData = fileCache.get(filePath);
-              if (cachedData && cachedData.hash === currentHash) {
-                try {
-                  root.removeAll();
-                  cachedData.processedRoot.each((node: Node) => {
-                    root.append(node.clone());
-                  });
+        if (!isEntryFile) {
+          cssContent = root.toString();
+          isEntryFile = cssContent.startsWith('ESBOOT_SIGN_TAILWIND_CSS');
+        }
 
-                  return root;
-                }
-                catch {
-                  fileCache.delete(filePath);
-                }
+        if (!isEntryFile) {
+          return root;
+        }
+
+        if (!cssContent) {
+          cssContent = root.toString();
+        }
+
+        if (!isDev && filePath && cssContent) {
+          const currentHash = calculateContentHash(cssContent);
+
+          if (currentHash) {
+            const cachedData = fileCache.get(filePath);
+            if (cachedData && cachedData.hash === currentHash) {
+              try {
+                root.removeAll();
+                cachedData.processedRoot.each((node: Node) => {
+                  root.append(node.clone());
+                });
+
+                return root;
               }
-            }
-          }
-
-          const commentRegex = /ESBOOT_SIGN_TAILWIND_CSS/g;
-
-          if (cssContent.startsWith('ESBOOT_SIGN_TAILWIND_CSS')) {
-            const updatedCssContent = cssContent.replace(
-              commentRegex,
-              tailwindCssContent,
-            );
-
-            const newRoot = parse(updatedCssContent, {
-              from: tailwindCssPath,
-            });
-
-            root.removeAll();
-            newRoot.each((node) => {
-              root.append(node.clone());
-            });
-
-            if (isEntryFile && filePath) {
-              const currentHash = calculateContentHash(cssContent);
-              if (currentHash) {
-                try {
-                  fileCache.set(filePath, {
-                    hash: currentHash,
-                    processedRoot: root.clone(),
-                  });
-                }
-                catch (cacheError: unknown) {
-                  console.warn(
-                    '⚠️ Update esboot cache failed:',
-                    (cacheError as Error).message,
-                  );
-                }
+              catch {
+                fileCache.delete(filePath);
               }
             }
           }
         }
-        catch (error) {
-          const errorMessage
-            = error instanceof Error ? error.message : String(error);
-          console.error('❌ Process Tailwind CSS failed:', errorMessage);
+
+        const commentRegex = /ESBOOT_SIGN_TAILWIND_CSS/g;
+        const updatedCssContent = cssContent!.replace(commentRegex, '');
+
+        if (useSeparateTailwindImports) {
+          const themeCssContent = getTailwindFileContent(themeCssPath);
+          const preflightCssContent = getTailwindFileContent(preflightCssPath);
+          const utilitiesCssContent = getTailwindFileContent(utilitiesCssPath);
+
+          const themeRoot = parse(themeCssContent, {
+            from: themeCssPath,
+          });
+
+          const preflightRoot = parse(preflightCssContent, {
+            from: preflightCssPath,
+          });
+
+          const utilitiesRoot = parse(utilitiesCssContent, {
+            from: utilitiesCssPath,
+          });
+
+          const contentRoot = parse(updatedCssContent, {
+            from: filePath,
+          });
+
+          root.removeAll();
+
+          themeRoot.each((node) => {
+            root.append(node.clone());
+          });
+
+          preflightRoot.each((node) => {
+            root.append(node.clone());
+          });
+
+          utilitiesRoot.each((node) => {
+            root.append(node.clone());
+          });
+
+          contentRoot.each((node) => {
+            root.append(node.clone());
+          });
         }
+        else {
+          if (!tailwindCssPath) {
+            return root;
+          }
+
+          const tailwindCssContent = getTailwindFileContent(tailwindCssPath);
+
+          const tailwindRoot = parse(tailwindCssContent, {
+            from: tailwindCssPath,
+          });
+
+          const contentRoot = parse(updatedCssContent, {
+            from: filePath || tailwindCssPath,
+          });
+
+          root.removeAll();
+
+          tailwindRoot.each((node) => {
+            root.append(node.clone());
+          });
+
+          contentRoot.each((node) => {
+            root.append(node.clone());
+          });
+        }
+
+        if (!isDev && filePath && cssContent) {
+          const currentHash = calculateContentHash(cssContent);
+          if (currentHash) {
+            try {
+              fileCache.set(filePath, {
+                hash: currentHash,
+                processedRoot: root.clone(),
+              });
+            }
+            catch (cacheError: unknown) {
+              console.warn(
+                '⚠️ Update esboot cache failed:',
+                (cacheError as Error).message,
+              );
+            }
+          }
+        }
+      }
+      catch (error) {
+        const errorMessage
+          = error instanceof Error ? error.message : String(error);
+        console.error('❌ Process Tailwind CSS failed:', errorMessage);
       }
 
       return root;
