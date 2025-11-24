@@ -64,7 +64,7 @@ export default async function createConfig(options?: Options): Promise<Config> {
           'camelCase': false,
           'PascalCase': false,
           'SCREAMING_SNAKE_CASE': false,
-          'kebab-case': false,
+          'kebab-case': true,
           'snake_case': true,
           'ignores': [],
         }],
@@ -101,6 +101,11 @@ export default async function createConfig(options?: Options): Promise<Config> {
           variables: ['.*cls'],
           entryPoint: 'src/styles/index.scss',
         },
+      },
+    },
+    {
+      rules: {
+        'no-console': 'off',
       },
     },
   );

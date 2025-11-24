@@ -41,6 +41,7 @@ export const defaultCfg: Configuration = {
   isBrowser: true,
   minimize: true,
   useTailwindcss: true,
+  useSeparateTailwindImports: false,
   isCIBuild: false,
   legacy: false,
   define: {},
