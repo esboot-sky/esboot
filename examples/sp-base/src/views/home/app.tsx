@@ -38,6 +38,8 @@ function Test() {
     // });
   }, []);
 
+  console.log('process.env.isMobile, ', process.env.isMobile);
+
   return (
     <div className="page">
       <div styleName="text text2" className="page page2">
