@@ -1,4 +1,5 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
+import { isBoolean, isNumber } from '@dz-web/esboot-common/lodash';
 
 type AddDefineRes = Record<string, unknown>;
 export function addDefine(cfg: ConfigurationInstance): AddDefineRes {
@@ -6,7 +7,13 @@ export function addDefine(cfg: ConfigurationInstance): AddDefineRes {
 
   const customDefine: AddDefineRes = {};
   for (const key in define) {
-    customDefine[key] = JSON.stringify(define[key]);
+    const value = define[key];
+    if (isBoolean(value) || isNumber(value)) {
+      customDefine[key] = value;
+    }
+    else {
+      customDefine[key] = JSON.stringify(value);
+    }
   }
 
   return {

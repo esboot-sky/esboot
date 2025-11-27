@@ -42,7 +42,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@dz-web/bridge-mock": "^1.3.0",
+    "@dz-web/bridge-mock": "^2.0.0",
     "@dz-web/esboot-common": "workspace:*",
     "@dz-web/esboot-lint": "workspace:*",
     "commander": "^14.0.2",

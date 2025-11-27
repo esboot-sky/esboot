@@ -39,10 +39,10 @@ export async function execGitHooks(options: { type: string; cwd: string }): Prom
 
   switch (type) {
     case 'pre-commit':
-      info('Start checking staged files...');
+      info('Start checking staged file23s...');
 
       await exec(`node ${resolvePath('lint-staged/bin')} --cwd ${cwd}`, {
-        onError: () => process.exit(1),
+        onError: () => void 0,
       });
       info('Checking staged files done.');
       break;

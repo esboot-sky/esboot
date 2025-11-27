@@ -57,12 +57,12 @@ export interface UserOptions {
   cssMinifierOptions?: Record<string, any>;
   analyze?: boolean;
   alias?: Record<string, string>;
-  define?: Record<string, string>;
+  define?: Record<string, string | boolean | number>;
   sourceMap?: boolean;
   copy?: Record<string, string>;
   px2rem?: Px2rem;
   svgr?: boolean;
-  svgrOptions?: Record<string, any>;
+  svgrOptions?: Record<string, string>;
   server?: {
     host?: string;
     https?: boolean;
