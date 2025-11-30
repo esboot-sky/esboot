@@ -14,7 +14,7 @@ export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
   const { svgr, svgrOptions = {} } = cfg.config;
 
   webpackCfg.module.rules.push({
-    test: /\.(jpg|gif|png|ico)$/,
+    test: /\.(jpg|gif|png|ico|webp)$/,
     type: 'asset',
     parser,
     generator: {

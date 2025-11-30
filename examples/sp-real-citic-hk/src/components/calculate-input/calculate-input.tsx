@@ -46,7 +46,7 @@ const CalculateInput: React.FC<IProps> = ({
 
   function getChangeValue(val: string): boolean {
     // const replaceStr = val.replace(/[^a-zA-Z\d\u4E00-\u9FA5]/g, '');
-    if (/[^a-zA-Z\d\u4E00-\u9FA5]/g.test(val)) {
+    if (/[^a-z\d\u4E00-\u9FA5]/i.test(val)) {
       setTips(formatMessage({ id: 'watchlist.inp_value_tip_1' }));
       // setTips('只能输入英文字母、数字、中文');
       return true;
@@ -80,7 +80,7 @@ const CalculateInput: React.FC<IProps> = ({
       // }
     }
     // 修改为从本地判断是否存相同名称的分组
-    if (watchListGroups.find((group) => group.name === val.trim())) {
+    if (watchListGroups.find(group => group.name === val.trim())) {
       setTips(formatMessage({ id: 'watchlist.name_conflict' }));
       return true;
     }
@@ -95,7 +95,8 @@ const CalculateInput: React.FC<IProps> = ({
 
   const closeMask = useCallback(() => {
     setVisible(false);
-    if (defaultValue) return;
+    if (defaultValue)
+      return;
     setInputValue('');
     setTips('');
   }, [defaultValue]);
@@ -105,7 +106,8 @@ const CalculateInput: React.FC<IProps> = ({
   }, [defaultValue]);
 
   useEffect(() => {
-    if (visible) return;
+    if (visible)
+      return;
     setTips('');
     setInputValue(defaultValue || '');
   }, [visible, defaultValue]);
@@ -115,7 +117,7 @@ const CalculateInput: React.FC<IProps> = ({
       showCloseBtn={false}
       styles={{ padding: '0', height: 'auto' }}
       visible={visible}
-      content={
+      content={(
         <>
           <div styleName="new-group-box">
             <p styleName="mask-title">{maskTitle}</p>
@@ -175,7 +177,7 @@ const CalculateInput: React.FC<IProps> = ({
             />
           </div>
         </>
-      }
+      )}
       setVisible={(v) => {
         setVisible(v);
         setTips('');
