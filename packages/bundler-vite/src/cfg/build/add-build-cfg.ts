@@ -6,7 +6,7 @@ import { addJSMinimizer } from './optimization/add-js-minimizer';
 import { addBundleAnalyzerPlugin } from './plugins/add-plugin-bundle-analyzer';
 
 export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
-  const { sourceMap, outputPath, isDev, minimize = true } = cfg.config;
+  const { sourceMap, outputPath, isDev, minimize = true, assetsInlineLimit } = cfg.config;
 
   if (isDev)
     return;
@@ -20,6 +20,7 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
     sourcemap: sourceMap,
     outDir: outputPath,
     minify: minimize,
+    assetsInlineLimit,
   });
   viteCfg.plugins.push(legacy());
 

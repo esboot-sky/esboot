@@ -57,6 +57,7 @@ export const defaultCfg: Configuration = {
     open: false,
     port: DEFAULT_DEV_PORT,
   },
+  assetsInlineLimit: 4 * 1024, // 4 KB
   plugins: [],
   experimental: {
     reactCompiler: {

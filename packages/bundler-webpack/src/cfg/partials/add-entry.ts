@@ -5,7 +5,6 @@ import { join } from 'node:path';
 
 import {
   addEntry as _addEntry,
-
 } from '@dz-web/esboot-bundler-common';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 

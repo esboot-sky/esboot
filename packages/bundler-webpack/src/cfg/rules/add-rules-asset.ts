@@ -3,15 +3,16 @@ import { resolvePathFromUrl } from '@dz-web/esboot-common/helpers';
 
 import { merge } from '@dz-web/esboot-common/lodash';
 
-const parser = {
-  dataUrlCondition: {
-    maxSize: 8 * 1024, // 8 KB
-  },
-};
 const filename = 'images/[name].[hash:8][ext]';
 
 export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
-  const { svgr, svgrOptions = {} } = cfg.config;
+  const { svgr, svgrOptions = {}, assetsInlineLimit } = cfg.config;
+
+  const parser = {
+    dataUrlCondition: {
+      maxSize: assetsInlineLimit,
+    },
+  };
 
   webpackCfg.module.rules.push({
     test: /\.(jpg|gif|png|ico|webp)$/,

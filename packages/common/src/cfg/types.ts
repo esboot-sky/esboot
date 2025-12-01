@@ -63,6 +63,7 @@ export interface UserOptions {
   px2rem?: Px2rem;
   svgr?: boolean;
   svgrOptions?: Record<string, string>;
+  assetsInlineLimit?: number;
   server?: {
     host?: string;
     https?: boolean;
