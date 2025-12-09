@@ -62,7 +62,7 @@ export interface UserOptions {
   copy?: Record<string, string>;
   px2rem?: Px2rem;
   svgr?: boolean;
-  svgrOptions?: Record<string, string>;
+  svgrOptions?: Record<string, any>;
   assetsInlineLimit?: number;
   server?: {
     host?: string;

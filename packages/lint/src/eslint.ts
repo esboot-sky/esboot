@@ -1,13 +1,11 @@
 import antfu from '@antfu/eslint-config';
+import { merge } from '@dz-web/esboot-common/lodash';
 // @ts-expect-error - esbootPlugin may not have type definitions
 import esbootPlugin from '@dz-web/eslint-plugin-esboot';
-// import { FlatCompat } from '@eslint/eslintrc';
 import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import reactHooks from 'eslint-plugin-react-hooks';
 
 import esbootJsoncPlugin from './plugins/esboot-jsonc';
-
-// const compat = new FlatCompat();
 
 const betterTailwindcssRules = {
   ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
@@ -21,95 +19,217 @@ const betterTailwindcssRules = {
 } as any;
 
 type Config = ReturnType<typeof antfu>;
+type AntfuConfigItem = Parameters<typeof antfu>[number];
+
+interface FlatConfigItem {
+  files?: string | string[];
+  plugins?: Record<string, unknown>;
+  rules?: Record<string, unknown>;
+  settings?: Record<string, unknown>;
+  [key: string]: unknown;
+}
 
 interface Options {
-  react: boolean;
-  vue: boolean;
+  react?: boolean;
+  vue?: boolean;
+  base?: Parameters<typeof antfu>[0];
+  // jsonc?: Partial<FlatConfigItem>;
+  vueConfig?: Partial<FlatConfigItem>;
+  reactConfig?: Partial<FlatConfigItem>;
+  settings?: Record<string, unknown>;
+  globalRules?: Record<string, unknown>;
+  extends?: AntfuConfigItem[];
+}
+
+function buildBaseConfig(customBase?: Parameters<typeof antfu>[0], react = true, vue = false): Parameters<typeof antfu>[0] {
+  const defaultBase: Parameters<typeof antfu>[0] = {
+    vue,
+    react,
+    typescript: true,
+    stylistic: {
+      semi: true,
+      quotes: 'single',
+      indent: 2,
+      overrides: {
+        'style/max-len': ['error', { code: 120 }],
+      },
+    },
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/lib/**',
+      '**/.cache/**',
+      '**/coverage/**',
+      '**/.nyc_output/**',
+      '**/stats.html',
+    ],
+  };
+
+  return customBase ? merge({}, defaultBase, customBase) : defaultBase;
+}
+
+function buildJsoncConfig(customJsonc?: Partial<FlatConfigItem>): AntfuConfigItem {
+  const defaultConfig: FlatConfigItem = {
+    files: ['**/lang/*.{json,jsonc}'],
+    plugins: {
+      'esboot-jsonc': esbootJsoncPlugin,
+    },
+    rules: {
+      'jsonc/key-name-casing': ['error', {
+        'camelCase': false,
+        'PascalCase': false,
+        'SCREAMING_SNAKE_CASE': false,
+        'kebab-case': true,
+        'snake_case': true,
+        'ignores': [],
+      }],
+      'jsonc/no-useless-escape': 'off',
+      'esboot-jsonc/no-chinese-key': 'error',
+    },
+  };
+
+  if (!customJsonc) {
+    return defaultConfig as AntfuConfigItem;
+  }
+
+  const merged: FlatConfigItem = { ...defaultConfig };
+
+  if (customJsonc.files !== undefined) {
+    merged.files = customJsonc.files;
+  }
+
+  if (customJsonc.plugins) {
+    merged.plugins = merge({}, defaultConfig.plugins || {}, customJsonc.plugins) as Record<string, unknown>;
+  }
+
+  if (customJsonc.rules) {
+    merged.rules = merge({}, defaultConfig.rules || {}, customJsonc.rules) as Record<string, unknown>;
+  }
+
+  return merge({}, merged, customJsonc) as AntfuConfigItem;
+}
+
+function buildVueConfig(customVue?: Partial<FlatConfigItem>): AntfuConfigItem {
+  const defaultConfig: FlatConfigItem = {
+    files: ['**/*.{vue}'],
+    plugins: {
+      'better-tailwindcss': eslintPluginBetterTailwindcss,
+    },
+    rules: {
+      ...betterTailwindcssRules,
+    },
+  };
+
+  if (!customVue) {
+    return defaultConfig as AntfuConfigItem;
+  }
+
+  const merged: FlatConfigItem = { ...defaultConfig };
+
+  if (customVue.files !== undefined) {
+    merged.files = customVue.files;
+  }
+
+  if (customVue.plugins) {
+    merged.plugins = merge({}, defaultConfig.plugins || {}, customVue.plugins) as Record<string, unknown>;
+  }
+
+  if (customVue.rules) {
+    merged.rules = merge({}, defaultConfig.rules || {}, customVue.rules) as Record<string, unknown>;
+  }
+
+  return merge({}, merged, customVue) as AntfuConfigItem;
+}
+
+function buildReactConfig(customReact?: Partial<FlatConfigItem>): AntfuConfigItem {
+  const defaultConfig: FlatConfigItem = {
+    files: ['**/*.{jsx,ts,tsx}'],
+    plugins: {
+      'better-tailwindcss': eslintPluginBetterTailwindcss,
+      '@dz-web/esboot': esbootPlugin,
+    },
+    rules: {
+      ...esbootPlugin.configs.recommended.rules,
+      ...reactHooks.configs['recommended-latest'].rules,
+      ...betterTailwindcssRules,
+      'react/no-missing-context-display-name': 'error',
+      'react/no-missing-component-display-name': 'error',
+    },
+  };
+
+  if (!customReact) {
+    return defaultConfig as AntfuConfigItem;
+  }
+
+  const merged: FlatConfigItem = { ...defaultConfig };
+
+  if (customReact.files !== undefined) {
+    merged.files = customReact.files;
+  }
+
+  if (customReact.plugins) {
+    merged.plugins = merge({}, defaultConfig.plugins || {}, customReact.plugins) as Record<string, unknown>;
+  }
+
+  if (customReact.rules) {
+    merged.rules = merge({}, defaultConfig.rules || {}, customReact.rules) as Record<string, unknown>;
+  }
+
+  return merge({}, merged, customReact) as AntfuConfigItem;
+}
+
+function buildSettingsConfig(customSettings?: Record<string, unknown>): AntfuConfigItem {
+  const defaultSettings = {
+    'better-tailwindcss': {
+      variables: ['.*cls'],
+      entryPoint: 'src/styles/index.scss',
+    },
+  };
+
+  return {
+    settings: customSettings ? merge({}, defaultSettings, customSettings) : defaultSettings,
+  } as AntfuConfigItem;
+}
+
+function buildGlobalRulesConfig(customGlobalRules?: Record<string, unknown>): AntfuConfigItem {
+  const defaultRules: Record<string, unknown> = {
+    'no-console': 'off',
+  };
+
+  return {
+    rules: customGlobalRules ? merge({}, defaultRules, customGlobalRules) : defaultRules,
+  } as AntfuConfigItem;
 }
 
 export default async function createConfig(options?: Options): Promise<Config> {
-  const { react = true, vue = false } = options || {};
+  const {
+    react = true,
+    vue = false,
+    base,
+    vueConfig,
+    reactConfig,
+    settings,
+    globalRules,
+    extends: extendsConfigs = [],
+  } = options || {};
+
+  const baseConfig = buildBaseConfig(base, react, vue);
+  const jsoncConfig = buildJsoncConfig();
+  const vueConfigItem = buildVueConfig(vueConfig);
+  const reactConfigItem = buildReactConfig(reactConfig);
+  const settingsConfig = buildSettingsConfig(settings);
+  const globalRulesConfig = buildGlobalRulesConfig(globalRules);
 
   const config = antfu(
-    {
-      vue,
-      react,
-      typescript: true,
-      stylistic: {
-        semi: true,
-        quotes: 'single',
-        indent: 2,
-        overrides: {
-          'style/max-len': ['error', { code: 120 }],
-        },
-      },
-      ignores: [
-        '**/node_modules/**',
-        '**/dist/**',
-        '**/build/**',
-        '**/lib/**',
-        '**/.cache/**',
-        '**/coverage/**',
-        '**/.nyc_output/**',
-        '**/stats.html',
-      ],
-    },
-    {
-      files: ['**/lang/*.{json,jsonc}'],
-      plugins: {
-        'esboot-jsonc': esbootJsoncPlugin,
-      },
-      rules: {
-        'jsonc/key-name-casing': ['error', {
-          'camelCase': false,
-          'PascalCase': false,
-          'SCREAMING_SNAKE_CASE': false,
-          'kebab-case': true,
-          'snake_case': true,
-          'ignores': [],
-        }],
-        'esboot-jsonc/no-chinese-key': 'error',
-      },
-    },
-    {
-      files: ['**/*.{vue}'],
-      plugins: {
-        'better-tailwindcss': eslintPluginBetterTailwindcss,
-      },
-      rules: {
-        ...betterTailwindcssRules,
-      },
-    },
-    {
-      files: ['**/*.{jsx,ts,tsx}'],
-      plugins: {
-        'better-tailwindcss': eslintPluginBetterTailwindcss,
-        'react-hooks': reactHooks,
-        '@dz-web/esboot': esbootPlugin,
-      },
-      rules: {
-        ...esbootPlugin.configs.recommended.rules,
-        ...reactHooks.configs['recommended-latest'].rules,
-        ...betterTailwindcssRules,
-        'react/no-missing-context-display-name': 'error',
-        'react/no-missing-component-display-name': 'error',
-      },
-    },
-    {
-      settings: {
-        'better-tailwindcss': {
-          variables: ['.*cls'],
-          entryPoint: 'src/styles/index.scss',
-        },
-      },
-    },
-    {
-      rules: {
-        'no-console': 'off',
-      },
-    },
+    baseConfig,
+    jsoncConfig as NonNullable<AntfuConfigItem>,
+    vueConfigItem as NonNullable<AntfuConfigItem>,
+    reactConfigItem as NonNullable<AntfuConfigItem>,
+    settingsConfig as NonNullable<AntfuConfigItem>,
+    globalRulesConfig as NonNullable<AntfuConfigItem>,
+    ...extendsConfigs.filter((item): item is NonNullable<AntfuConfigItem> => item !== undefined),
   );
 
-  // return modifyConfig ? modifyConfig(config) : config;
   return config;
 }
