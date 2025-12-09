@@ -7,6 +7,7 @@ export const addCopyPlugin: AddFunc = async (cfg, viteCfg) => {
   const { staticPathList, cwd } = cfg.config;
   const { viteStaticCopy } = await import('vite-plugin-static-copy');
 
+  console.log(staticPathList, '<-- staticPathList');
   const filteredStaticPathList = staticPathList
     .map((item) => {
       if (pathExistsSync(item.from)) {

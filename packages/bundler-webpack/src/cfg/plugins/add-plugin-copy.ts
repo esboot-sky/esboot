@@ -10,6 +10,8 @@ export const addCopyPlugin: AddFunc = async (cfg, webpackCfg) => {
     pathExistsSync(item.from),
   );
 
+  console.log(filteredStaticPathList, '<-- filteredStaticPathList');
+
   webpackCfg.plugins.push(
     new CopyPlugin({
       patterns: [...filteredStaticPathList],
