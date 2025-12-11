@@ -12,6 +12,10 @@ interface PluginVueOptions {
   jsxOptions?: VueJsxOptions & { enable?: boolean };
 }
 
+function filterPlugin(plugin: { name?: string }): boolean {
+  return !plugin?.name || !plugin?.name?.toLowerCase().includes('react');
+}
+
 export default (options: PluginVueOptions = {}): Plugin => {
   const {
     vueDevToolsOptions = { enable: true },
@@ -27,7 +31,8 @@ export default (options: PluginVueOptions = {}): Plugin => {
   return {
     key: 'plugin-vue',
     [PluginHooks.modifyConfig]: (cfg) => {
-      cfg.svgrOptions!.plugins = cfg.svgrOptions!.plugins.filter((plugin: string) => plugin !== '@svgr/plugin-jsx');
+      const currentPlugins = cfg.svgrOptions.plugins || [];
+      cfg.svgrOptions!.plugins = ['@svgr/plugin-svgo', ...currentPlugins];
       return cfg;
     },
     [PluginHooks.modifyBundlerConfig]: (
@@ -41,11 +46,10 @@ export default (options: PluginVueOptions = {}): Plugin => {
           (plugin: { name?: string } | { name?: string }[]) => {
             if (isArray(plugin)) {
               return plugin.some(
-                (item: { name?: string }) =>
-                  !item.name || !item.name.toLowerCase().includes('react'),
+                filterPlugin,
               );
             }
-            return !plugin.name || !plugin.name.toLowerCase().includes('react');
+            return filterPlugin(plugin);
           },
         );
 
