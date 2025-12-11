@@ -1,6 +1,6 @@
-import { merge } from '@dz-web/esboot-common/lodash';
-
 import type { AddFunc } from '@/cfg/types';
+
+import { merge } from '@dz-web/esboot-common/lodash';
 
 const parser = {
   dataUrlCondition: {
@@ -46,13 +46,14 @@ export const addAssetRules: AddFunc = async (cfg, rspackCfg) => {
                 ext: 'tsx',
                 svgoConfig: {},
               },
-              svgrOptions
+              svgrOptions,
             ),
           },
         ],
-      }
+      },
     );
-  } else {
+  }
+  else {
     rspackCfg.module.rules.push(
       {
         test: /\.(svg)$/,
@@ -70,7 +71,7 @@ export const addAssetRules: AddFunc = async (cfg, rspackCfg) => {
           encoding: false,
           filename,
         },
-      }
+      },
     );
   }
 };
