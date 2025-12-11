@@ -27,7 +27,7 @@ export default (options: PluginVueOptions = {}): Plugin => {
   return {
     key: 'plugin-vue',
     [PluginHooks.modifyConfig]: (cfg) => {
-      cfg.svgrOptions.plugins = ['@svgr/plugin-svgo'];
+      cfg.svgrOptions!.plugins = cfg.svgrOptions!.plugins.filter((plugin: string) => plugin !== '@svgr/plugin-jsx');
       return cfg;
     },
     [PluginHooks.modifyBundlerConfig]: (
