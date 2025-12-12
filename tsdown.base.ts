@@ -1,16 +1,16 @@
-import type { Options } from 'tsup';
+import type { UserConfig } from 'tsdown';
 import { env } from 'node:process';
 
-interface Config {
-  base?: Options;
-  dev?: Options;
-  prod?: Options;
+interface BaseConfig {
+  base?: UserConfig;
+  dev?: UserConfig;
+  prod?: UserConfig;
 }
 
-export function defineConfig(config: Config = {}): Options {
+export function defineConfig(config: BaseConfig = {}): UserConfig {
   const { base, dev, prod } = config;
 
-  const baseConfig: Options = {
+  const baseConfig: UserConfig = {
     entry: ['src/index.ts'],
     clean: false,
     dts: true,
@@ -18,14 +18,14 @@ export function defineConfig(config: Config = {}): Options {
     ...base,
   };
 
-  const devConfig: Options = {
+  const devConfig: UserConfig = {
     watch: true,
     sourcemap: true,
     ...baseConfig,
     ...dev,
   };
 
-  const prodConfig: Options = {
+  const prodConfig: UserConfig = {
     ...baseConfig,
     minify: true,
     sourcemap: false,

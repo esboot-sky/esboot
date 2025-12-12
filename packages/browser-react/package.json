@@ -15,8 +15,8 @@
     "index.css"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "cross-env NODE_ENV=development tsup",
+    "build": "tsdown",
+    "dev": "cross-env NODE_ENV=development tsdown",
     "prepublishOnly": "pnpm run build"
   },
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc",

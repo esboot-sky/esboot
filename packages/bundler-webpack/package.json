@@ -12,8 +12,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "cross-env NODE_ENV=development tsup",
+    "build": "tsdown",
+    "dev": "cross-env NODE_ENV=development tsdown",
     "prepublishOnly": "pnpm run build"
   },
   "peerDependencies": {

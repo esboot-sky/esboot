@@ -1,8 +1,7 @@
-import { defineConfig } from '../../tsup.base';
+import { defineConfig } from '../../tsdown.base';
 
 export default defineConfig({
   base: {
-    format: ['esm'],
     external: ['postcss', 'tailwindcss'],
-  }
+  },
 });
