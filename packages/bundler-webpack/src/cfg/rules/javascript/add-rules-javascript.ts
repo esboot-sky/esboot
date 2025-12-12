@@ -1,4 +1,3 @@
-import type { Configuration } from '@dz-web/esboot';
 import type { MFSU } from '@/cfg/helpers/mfsu';
 import type { AddFunc } from '@/cfg/types';
 import type { BundlerWebpackOptions } from '@/types';
@@ -61,7 +60,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
   };
 
   const getExtraBabelIncludes = (): RegExp[] | string[] => {
-    return [...extraBabelIncludes].filter(Boolean).map((item) => {
+    return [...extraBabelIncludes].filter(Boolean).map((item: any) => {
       /**
        * @copy from https://github.com/umijs/umi/blob/7228d9941ec76481a91cc4de81c8ad4ebcd714fc/packages/bundler-webpack/src/config/javaScriptRules.ts#L53
        */
