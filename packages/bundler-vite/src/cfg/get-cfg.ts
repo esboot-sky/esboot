@@ -3,7 +3,6 @@ import type { Environment } from '@dz-web/esboot-common';
 import type { BundlerViteOptions, CustomViteConfiguration } from '../types';
 
 import { join } from 'node:path';
-import process from 'node:process';
 import {
   addDefine,
   addPostcssPluginESBoot,
@@ -49,7 +48,6 @@ export async function getCfg(cfg: ConfigurationInstance, mode: Environment, opti
     root: cwd,
     cacheDir: join(cacheDir, '.vite'),
     define: {
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       ...addDefine(cfg),
     },
     css: {
