@@ -1,3 +1,8 @@
+import type { yParser } from '@umijs/utils';
+import type { UmiTemplate } from './template';
+import { existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+
 import {
   BaseGenerator,
   chalk,
@@ -6,16 +11,12 @@ import {
   fsExtra,
   getGitInfo,
   installWithNpmClient,
+  lodash,
   logger,
   pkgUp,
   tryPaths,
-  lodash,
 } from '@umijs/utils';
-import { existsSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { ERegistry, unpackTemplate, type UmiTemplate } from './template';
-
-import type { yParser } from '@umijs/utils';
+import { ERegistry, unpackTemplate } from './template';
 
 interface ITemplateArgs {
   template?: UmiTemplate;
@@ -57,26 +58,27 @@ enum ENpmClient {
 }
 
 export enum ETemplate {
-  'mp' = 'mp',
-  'sp' = 'sp',
-  'demo' = 'demo',
+  mp = 'mp',
+  sp = 'sp',
+  demo = 'demo',
 }
 
 export interface IDefaultData extends ITemplateParams {
   appTemplate?: ETemplate;
 }
 
-const getRepoName = (url: string) => {
-  const projectNameMatch = url.match(/\/([^\/]+)\.git$/);
+function getRepoName(url: string) {
+  const projectNameMatch = url.match(/\/([^/]+)\.git$/);
 
   if (projectNameMatch && projectNameMatch.length > 1) {
     const projectName = projectNameMatch[1];
     return projectName;
   }
   return 'esboot-react-mp';
-};
+}
 
 const pkg = require('../package');
+
 const DEFAULT_DATA = {
   pluginName: 'umi-plugin-demo',
   email: 'i@domain.com',
@@ -233,7 +235,8 @@ export default async ({
         logger.info('Initial commit');
         await execa.execa('git', ['push', '-u', 'origin', '--all']);
         logger.info('Done!');
-      } catch (error) {
+      }
+      catch (error) {
         logger.error('Error:', error);
       }
       return;
@@ -328,7 +331,8 @@ export default async ({
   // init git
   if (shouldInitGit) {
     await initGit(context);
-  } else {
+  }
+  else {
     logger.info('Skip Git init');
   }
 
@@ -337,23 +341,25 @@ export default async ({
   if (!useDefaultData && args.install !== false) {
     if (isPnpm8) {
       await installWithPnpm8(target);
-    } else {
+    }
+    else {
       installWithNpmClient({ npmClient, cwd: target });
     }
-  } else {
+  }
+  else {
     logger.info('Skip install deps');
     if (isPnpm8) {
       logger.warn(
         chalk.yellow(
-          'You current using pnpm v8, it will install minimal version of dependencies'
-        )
+          'You current using pnpm v8, it will install minimal version of dependencies',
+        ),
       );
       logger.warn(
         chalk.green(
           `Recommended that you run ${chalk.bold.cyan(
-            'pnpm up -L'
-          )} to install latest version of dependencies`
-        )
+            'pnpm up -L',
+          )} to install latest version of dependencies`,
+        ),
       );
     }
   }
@@ -392,10 +398,12 @@ async function moveNpmrc(opts: IContext) {
 async function initGit(opts: IContext) {
   const { projectRoot } = opts;
   const isGit = existsSync(join(projectRoot, '.git'));
-  if (isGit) return;
+  if (isGit)
+    return;
   try {
     await execa.execa('git', ['init'], { cwd: projectRoot });
-  } catch {
+  }
+  catch {
     logger.error('Initial the git repo failed');
   }
 }
@@ -418,12 +426,13 @@ async function getPnpmMajorVersion() {
   try {
     const { stdout } = await execa.execa('pnpm', ['--version']);
     return Number.parseInt(stdout.trim().split('.')[0], 10);
-  } catch (e) {
+  }
+  catch (e) {
     throw new Error('Please install pnpm first', { cause: e });
   }
 }
 
-const getLatestVersion = async (packageName: string): Promise<string> => {
+async function getLatestVersion(packageName: string): Promise<string> {
   try {
     const { stdout } = await execa.execa('npm', [
       'view',
@@ -431,8 +440,9 @@ const getLatestVersion = async (packageName: string): Promise<string> => {
       'version',
     ]);
     return stdout.trim();
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`Failed to fetch latest version for ${packageName}:`, error);
     return 'latest'; // 失败时返回 'latest' 标签
   }
-};
+}

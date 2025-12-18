@@ -1,24 +1,24 @@
 {
   "name": "create-esboot",
-  "version": "3.1.6",
+  "version": "4.0.0",
   "description": "create-esboot",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": ""
   },
-  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
     "create-esboot": "bin/create-esboot.js"
   },
   "files": [
-    "dist",
     "bin",
+    "dist",
     "templates",
+    "templates/demo/.gitignore",
     "templates/mp/.gitignore",
-    "templates/sp/.gitignore",
-    "templates/demo/.gitignore"
+    "templates/sp/.gitignore"
   ],
   "scripts": {
     "build": "tsup",
