@@ -223,12 +223,12 @@ export default async function createConfig(options?: Options): Promise<Config> {
 
   const config = antfu(
     baseConfig,
-    jsoncConfig as NonNullable<AntfuConfigItem>,
-    vueConfigItem as NonNullable<AntfuConfigItem>,
-    reactConfigItem as NonNullable<AntfuConfigItem>,
-    settingsConfig as NonNullable<AntfuConfigItem>,
-    globalRulesConfig as NonNullable<AntfuConfigItem>,
-    ...extendsConfigs.filter((item): item is NonNullable<AntfuConfigItem> => item !== undefined),
+    jsoncConfig as any,
+    vueConfigItem as any,
+    reactConfigItem as any,
+    settingsConfig as any,
+    globalRulesConfig as any,
+    ...extendsConfigs.filter((item): item is any => item !== undefined),
   );
 
   return config;
