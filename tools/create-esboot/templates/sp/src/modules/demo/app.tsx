@@ -4,7 +4,7 @@ function Demo() {
   const [status, setStatus] = useState(false);
 
   const clickHandler = useCallback(() => {
-    setStatus((prevStatus) => !prevStatus);
+    setStatus(prevStatus => !prevStatus);
   }, []);
 
   return (

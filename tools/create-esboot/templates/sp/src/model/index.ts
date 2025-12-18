@@ -6,9 +6,9 @@ interface AppStore {
 }
 
 const useAppStore = create<AppStore>()(
-  (set) => ({
+  set => ({
     bears: 0,
-    increase: () => set((state) => ({
+    increase: () => set(state => ({
       bears: state.bears + 1,
     })),
   }),

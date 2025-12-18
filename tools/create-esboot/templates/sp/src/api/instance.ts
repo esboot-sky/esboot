@@ -24,7 +24,7 @@ export const authedAxiosInst = createDZAxiosInstance(
       addHeaders: () => {
         const { language, token } = { language: 'zh-CN', token: '' };
         return {
-          sessionCode: token,
+          'sessionCode': token,
           'Accept-Language': language,
         };
       },
@@ -32,13 +32,13 @@ export const authedAxiosInst = createDZAxiosInstance(
       // 正常返回，但业务code指示为非0，业务错误
       onBusinessError: (data) => {
         if (data.code === 401) {
-          console.log(423);
+          console.error(423);
         }
       },
       // 非2xx请求，或网络错误
-      onFatalError(error, res) {
+      onFatalError(_error, res) {
         if (res.status === 401) {
-          console.log(24332);
+          console.error('24332');
         }
       },
     }),
