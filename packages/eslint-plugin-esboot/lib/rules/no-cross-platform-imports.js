@@ -41,17 +41,6 @@ export default {
         const { platform: importPlatform, pageType: importPageType }
           = importInfo || {};
 
-        console.log(
-          'resolvedPath',
-          resolvedPath,
-          currInfo,
-          importInfo,
-          currPlatform,
-          importPlatform,
-          currPageType,
-          importPageType,
-        );
-
         if (!currPlatform && !importPlatform)
           return;
 
