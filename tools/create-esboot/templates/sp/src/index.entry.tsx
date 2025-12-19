@@ -19,5 +19,5 @@ ReactDOM.createRoot(document.getElementById('root') as Element).render(
 );
 
 export default {
-  title: 'PC Browser',
+  title: 'ESBoot',
 };
