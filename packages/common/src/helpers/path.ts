@@ -38,11 +38,11 @@ export function resolveLibPath(
   let libPath = '';
 
   try {
-    libPath = dirname(requireResolve(join(libName, 'package.json')));
+    libPath = dirname(fileURLToPath(requireResolve(join(libName, 'package.json'))));
   }
   catch {
     // err: Package subpath './package.json' is not defined by "exports" in xx
-    libPath = requireResolve(libName);
+    libPath = fileURLToPath(requireResolve(libName));
     let isRootPath = false;
     // For windows path
     const compatibleLibName = libName.replace('/', hyphen);

@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 function resolveLibPath(p: string): string {
-  return fileURLToPath(baseResolveLibPath(p, import.meta.resolve));
+  return baseResolveLibPath(p, import.meta.resolve);
 }
 
 export const alias = {
