@@ -37,7 +37,7 @@ export default (): Plugin => {
               ),
             );
 
-            const dumiPath = fileURLToPath(resolveLibPath('dumi', import.meta.resolve));
+            const dumiPath = resolveLibPath('dumi', import.meta.resolve);
             const relativePath = relative(APP_ROOT, targetPath);
             let cmd = `node ${dumiPath}/bin/dumi.js ${subCommand} --config ${relativePath}`;
             if (port) {
