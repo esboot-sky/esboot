@@ -55,14 +55,17 @@ export default (options: PluginVueOptions = {}): Plugin => {
 
         // Add manualChunks
         try {
-          let { framework } = bundlerConfig.build!.rollupOptions!.output!.manualChunks;
+          const manualChunks = bundlerConfig.build?.rollupOptions?.output?.manualChunks;
+          if (manualChunks && typeof manualChunks === 'object' && 'framework' in manualChunks) {
+            let { framework } = manualChunks;
 
-          framework = framework.filter((chunk: string) => !chunk.startsWith('react'));
+            framework = framework.filter((chunk: string) => !chunk.startsWith('react'));
 
-          bundlerConfig.build!.rollupOptions!.output!.manualChunks!.framework = [
-            'vue',
-            ...framework,
-          ];
+            bundlerConfig.build!.rollupOptions!.output!.manualChunks!.framework = [
+              'vue',
+              ...framework,
+            ];
+          }
         }
         catch (error) {
           console.error(`[Plugin Vue] Failed to add manualChunks: ${error}`);
