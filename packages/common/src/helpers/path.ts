@@ -38,7 +38,7 @@ export function resolveLibPath(
   let libPath = '';
 
   try {
-    libPath = dirname(fileURLToPath(requireResolve(join(libName, 'package.json'))));
+    libPath = dirname(fileURLToPath(requireResolve(`${libName}/package.json`)));
   }
   catch {
     // err: Package subpath './package.json' is not defined by "exports" in xx
