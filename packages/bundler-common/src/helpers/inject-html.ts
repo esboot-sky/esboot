@@ -2,10 +2,11 @@ import type { ConfigurationInstance } from '@dz-web/esboot';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import process from 'node:process';
+import { pathToFileURL } from 'node:url';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
 
 async function getVersion(cwd: string): Promise<string> {
-  const pkg = await import(join(cwd, 'package.json'), { with: { type: 'json' } });
+  const pkg = await import(pathToFileURL(join(cwd, 'package.json')).href, { with: { type: 'json' } });
   return pkg.version;
 }
 

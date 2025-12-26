@@ -11,7 +11,7 @@ export const addCopyPlugin: AddFunc = async (cfg, viteCfg) => {
     .map((item) => {
       if (pathExistsSync(item.from)) {
         return {
-          src: relative(cwd, normalizePath(item.from)),
+          src: normalizePath(relative(cwd, item.from)),
           dest: '.',
         };
       }

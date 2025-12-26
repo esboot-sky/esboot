@@ -55,7 +55,7 @@ function Test() {
           active:bg-violet-700
         `}
       >
-        Hello, TailwindCSS4!
+        Hello, TailwindCSS!
       </div>
       <button onClick={() => navigate('/test')} type="button">
         To Test
