@@ -19,7 +19,7 @@ export default defineConfig<BundlerOptions>({
   isSP: true,
   bundlerOptions: {},
   sourceMap: false,
-  publicPath: '/test/',
+  // publicPath: '/test/',
   define: {
     'process.env.test': 'test',
   },
