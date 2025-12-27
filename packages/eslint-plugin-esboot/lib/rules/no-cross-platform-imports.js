@@ -57,7 +57,6 @@ export default {
 
         // Not same platform
         if (importPlatform && currPlatform !== importPlatform) {
-          console.log('noImportOtherPlatforms', importPlatform, currPlatform);
           context.report({
             node,
             messageId: 'noImportOtherPlatforms',
