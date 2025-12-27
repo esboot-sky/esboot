@@ -206,8 +206,8 @@ export default async ({
 
       const upstream = isString(args.upstream)
         ? args.upstream
-        : 'http://git.web.dz/WebTeam/common-library/esboot/esboot-react-mp.git';
-      const branch = isString(args.branch) ? args.branch : 'main';
+        : 'https://git.dztec.net/teams/web-team/dz-web/esboot/esboot-react-mp.git';
+      const branch = isString(args.branch) ? args.branch : 'v3';
       const name = isString(args.name) ? args.name : getRepoName(url);
 
       try {
@@ -228,8 +228,9 @@ export default async ({
         await execa.execa('git', ['remote', 'set-url', 'origin', url]);
         await execa.execa('git', ['remote', 'add', 'upstream', upstream]);
         logger.info('Track upstream');
-        await execa.execa('git', ['fetch', 'upstream', 'main']);
-        await execa.execa('git', ['branch', '-u', 'upstream/main', 'upstream']);
+        await execa.execa('git', ['fetch', 'upstream', 'v3']);
+        await execa.execa('git', ['branch', '-u', 'upstream/v3', 'upstream']);
+        await execa.execa('git', ['branch', '-D', branch]);
         logger.info('Initial commit');
         await execa.execa('git', ['push', '-u', 'origin', '--all']);
         logger.info('Done!');
