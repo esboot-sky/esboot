@@ -28,7 +28,7 @@ async function sync() {
     await $`rm -rf ${repoDir}`;
   }
 
-  await $`git clone --depth=1 ${repoUrl} ${repoDir}`;
+  await $`git clone --depth=1 -b v3 --single-branch ${repoUrl} ${repoDir}`;
   logger.info(`Successfully cloned to ${repoDir}`);
 
   const { stdout: commitHash } = await $`cd ${repoDir} && git rev-parse HEAD`;
