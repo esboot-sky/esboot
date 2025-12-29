@@ -3,3 +3,6 @@ packages:
   - examples/*
   - tools/*
   - tmp/*
+
+overrides:
+  nx: "22.0.3"
