@@ -31,10 +31,15 @@
     "prettier": "latest",
     "tsup": "^8.3.0",
     "turbo": "^2.1.2",
-    "vite": "^5.4.8",
+    "vite": "^6.0.3-esboot.0",
     "vitest": "^2.1.1"
   },
   "packageManager": "pnpm@9.1.0",
+  "pnpm": {
+    "overrides": {
+      "nx": "22.0.3"
+    }
+  },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=7.0.0"
