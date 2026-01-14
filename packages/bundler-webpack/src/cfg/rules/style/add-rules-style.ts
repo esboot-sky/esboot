@@ -57,7 +57,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
     if (modules) {
       Object.assign(cssLoaderOptionsCopy, {
         modules: {
-          namedExport: true,
+          namedExport: false,
           localIdentContext: rootPath,
           getLocalIdent,
           localIdentName: getCssHashRule(),
