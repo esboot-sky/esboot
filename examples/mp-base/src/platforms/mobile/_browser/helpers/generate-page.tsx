@@ -1,19 +1,16 @@
+import type { GeneratePageOptions } from '@/types';
+import wrapBrowser from '@mobile-browser/hoc/browser';
+import { TopErrorBoundaryFallback } from '@mobile/components/top-error-boundary-fallback';
+import { subscribeUserAndCache } from '@mobile/model/subscriber';
 import { mounteReact } from '@/helpers/react';
+import wrapI18n from '@/hoc/i18n';
 import { wrapReactQuery } from '@/hoc/query-client';
-import { wrapRedux } from '@/hoc/redux';
 import { wrapTopErrorBoundary } from '@/hoc/top-error-boundary';
 import '@/styles/index.scss';
-import { TopErrorBoundaryFallback } from '@mobile/components/top-error-boundary-fallback';
-import '@mobile/helpers/v-console';
-import wrapI18n from '@mobile/hoc/i18n';
-import { subscribeUserAndCache } from '@mobile/model/subscriber';
 import '@mobile/styles/index.scss';
-import wrapBrowser from '@mobile-browser/hoc/browser';
 
-import type { GeneratePageOptions } from '@/types';
-
-export default function generatePage(App: React.ReactNode, options: GeneratePageOptions): void {
-  const { i18n, store, disableStrictMode } = options;
+export default function generatePage(App: React.ReactNode, options?: GeneratePageOptions): void {
+  const { i18n = true, disableStrictMode = false } = options || {};
   let wrapApp: React.ReactNode = App;
 
   wrapApp = wrapBrowser(wrapApp);
@@ -21,8 +18,7 @@ export default function generatePage(App: React.ReactNode, options: GeneratePage
 
   wrapApp = wrapTopErrorBoundary(wrapApp, TopErrorBoundaryFallback);
   wrapApp = wrapI18n(wrapApp, i18n);
-  wrapApp = wrapRedux(wrapApp, store);
   mounteReact(wrapApp as React.ReactElement, disableStrictMode);
 
-  subscribeUserAndCache(store);
+  subscribeUserAndCache();
 }

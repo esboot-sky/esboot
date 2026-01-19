@@ -1,16 +1,8 @@
 {
   "global": {
-    "project": "测试项目名称",
-    "boundaryErrorTitle": "哎呀，出错了！",
-    "apologize": "抱歉，应用程序遇到了一些问题。",
-    "retry": "重试"
-  },
-  "south-stock-ranking": {},
-  "north-model": {},
-  "test": {
-    "title": "測試"
-  },
-  "test2": {
-    "title": "測試2"
+    "project": "測試項目名稱",
+    "boundary_error_title": "哎呀，出錯了！",
+    "apologize": "抱歉，應用程序遇到了一些問題。",
+    "retry": "重試"
   }
 }

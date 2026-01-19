@@ -1,10 +1,7 @@
 import App from '@pc/modules/<%= pageName %>';
-import { store } from '@pc/modules/<%= pageName %>/model/store';
 import generatePage from '@pc-native/helpers/generate-page';
 
-generatePage(<App />, {
-  store,
-});
+generatePage(<App />);
 
 export default {
   title: 'pc-Native',

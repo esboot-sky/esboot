@@ -3,18 +3,6 @@
     "src/lang"
   ],
   "tailwindCSS.experimental.configFile": "src/styles/index.scss",
-  "stylelint.snippet": [
-    "css",
-    "less",
-    "postcss",
-    "scss"
-  ],
-  "stylelint.validate": [
-    "css",
-    "less",
-    "postcss",
-    "scss"
-  ],
   "tailwindCSS.classAttributes": [
     "className",
     "class",
@@ -38,5 +26,18 @@
       "cva\\(([^)]*)\\)",
       "[\"'`]([^\"'`]*).*?[\"'`]"
     ]
-  ]
+  ],
+  "stylelint.snippet": [
+    "css",
+    "less",
+    "postcss",
+    "scss"
+  ],
+  "stylelint.validate": [
+    "css",
+    "less",
+    "postcss",
+    "scss"
+  ],
+  "i18n-ally.keystyle": "nested"
 }

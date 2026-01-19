@@ -27,7 +27,7 @@ export const authedAxiosInst = createDZAxiosInstance(
       addHeaders: () => {
         const { language, token } = getPlatformIndependentUserConfig();
         return {
-          sessionCode: token,
+          'sessionCode': token,
           'Accept-Language': language,
         };
       },
@@ -43,7 +43,7 @@ export const authedAxiosInst = createDZAxiosInstance(
       },
       // 非2xx请求，或网络错误
       onFatalError(error, res) {
-        if (res.status === 401) {
+        if (res?.status === 401 && error) {
           logout({
             code: 76,
             message: res.statusText,

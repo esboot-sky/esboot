@@ -1,19 +1,21 @@
+import type { UserInfo } from '@pc/types';
+
 import { bridge } from '@dz-web/bridge';
 
-import { IUserInfo, oldStyle2Standard } from '@pc/customize';
+import { oldStyle2Standard } from '@pc/helpers/customize';
 
 /**
  * 换肤等配置信息变化
  *
  */
 export function onUpdateUserConfig(handle: (data: any) => void) {
-  return bridge.register('updateUserConfig', ((res) => handle(oldStyle2Standard(res))) as any);
+  return bridge.register('updateUserConfig', (res: any) => handle(oldStyle2Standard(res)));
 }
 
 /**
  * 用户账户信息变化
  *
  */
-export function onUpdateUserInfo(handle: (data: IUserInfo) => void) {
-  return bridge.register<typeof handle>('updateUserInfo', handle);
+export function onUpdateUserInfo(handle: (data: UserInfo) => void) {
+  return bridge.register('updateUserInfo', handle);
 }

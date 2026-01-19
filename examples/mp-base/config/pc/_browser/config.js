@@ -1,3 +1,1 @@
-var GLOBAL_CONFIG = {
-  test: 1,
-};
+window.GLOBAL_CONFIG = {};

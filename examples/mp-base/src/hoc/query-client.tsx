@@ -1,6 +1,7 @@
+import type { ReactNode } from 'react';
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import { enableReactQueryDevTool } from '@/constants/config';
 import { GlobalEvents, globalEventsCenter } from '@/global-events';
@@ -26,7 +27,8 @@ function handleRequestError(error?: Error, meta?: IMeta) {
 
       globalEventsCenter.emit(GlobalEvents.REACT_QUERY_REQUEST_ERROR, message, error, meta);
     }
-  } else {
+  }
+  else {
     const message = error?.message || '系统异常';
     globalEventsCenter.emit(GlobalEvents.REACT_QUERY_REQUEST_ERROR, message, error, meta);
   }

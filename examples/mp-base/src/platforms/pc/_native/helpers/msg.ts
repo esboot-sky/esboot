@@ -1,6 +1,8 @@
+import type { UserInfo } from '@pc/types';
+
 import { bridge } from '@dz-web/bridge';
 
-import { IUserInfo, oldStyle2Standard } from '@pc/customize';
+import { oldStyle2Standard } from '@pc/helpers/customize';
 
 /**
  * 中信等app在用的获取用户信息的方法, 新版app请用bridge自带的同名方法
@@ -12,7 +14,7 @@ export function getUserConfig() {
 /**
  * 中信等app在用的获取用户信息的方法, 新版app请用bridge自带的同名方法
  */
-export function getUserInfo(): Promise<IUserInfo> {
+export function getUserInfo(): Promise<UserInfo> {
   return bridge.sendMsg('userInfo');
 }
 

@@ -1,17 +1,14 @@
-/**
- * 此文件为项目标准格式，禁止修改，需要修改请联系负责人进行迭代
- */
+import type { OriginalUserInfo } from '@mobile/helpers/customize';
+import type { ComponentPropsWithoutRef, FC, ReactNode } from 'react';
+import type { ServerErrorResponse } from '@/global-events';
+import { getUserConfig, getUserInfo, sendLoginStatus } from '@mobile-native/helpers/msg';
+import { onUpdateUserConfig, onUpdateUserInfo } from '@mobile-native/helpers/register';
+import { setUserConfig, setUserInfo, useAppStore } from '@mobile/model/mobile';
 import { useQueryClient } from '@tanstack/react-query';
 import deepMerge from 'deepmerge';
-import { useEffect, FC, ComponentPropsWithoutRef, ReactNode } from 'react';
+import { useEffect } from 'react';
 import isDeepEqual from 'react-fast-compare';
-
 import { cancelListenLoginExpired, listenLoginExpired } from '@/global-events';
-import { useUserConfig } from '@mobile/hooks/use-user-config';
-import { useUserInfo } from '@mobile/hooks/use-user-info';
-import { MinimalStoreType } from '@mobile/model/minimal-store';
-import { getUserInfo, getUserConfig, sendLoginStatus } from '@mobile-native/helpers/msg';
-import { onUpdateUserConfig, onUpdateUserInfo } from '@mobile-native/helpers/register';
 
 export interface IWithNativeOptions {
   disabledLoginExpired?: boolean;
@@ -25,29 +22,23 @@ export function withNative(Component: FC<any>, options: IWithNativeOptions = {})
   const mergeOptions = deepMerge(defaultOptions, options);
 
   return function NativeApp(props: ComponentPropsWithoutRef<typeof Component>) {
-    const { setUserConfig } = useUserConfig();
-
-    const { setUserInfo } = useUserInfo();
-
     const queryClient = useQueryClient();
 
     useEffect(() => {
       getUserConfig()
-        .then(setUserConfig)
-        .catch((err) => console.log(`获取用户配置失败: ${err}`));
+        .then((setUserConfig))
+        .catch(err => console.log(`获取用户配置失败: ${err}`));
 
       const disposeUserConfigListener = onUpdateUserConfig(setUserConfig);
 
       getUserInfo()
         .then(setUserInfo)
-        .catch((err) => console.log('err:', err));
+        .catch(err => console.log('err:', err));
 
-      const disposeUserInfoListener = onUpdateUserInfo((res) => {
+      const disposeUserInfoListener = onUpdateUserInfo((res: OriginalUserInfo) => {
         console.log('收到用户信息更新: ', res);
 
-        const store = (window as any).__mobile_store__ as MinimalStoreType;
-        const { userInfo } = store.getState().app;
-        // 用户信息变化，重置react query缓存
+        const { userInfo } = useAppStore.getState();
         if (!isDeepEqual(userInfo, res)) {
           console.log('用户信息有变化: ', res);
           setUserInfo(res);
@@ -63,9 +54,10 @@ export function withNative(Component: FC<any>, options: IWithNativeOptions = {})
     }, []);
 
     useEffect(() => {
-      if (mergeOptions.disabledLoginExpired) return () => {};
+      if (mergeOptions.disabledLoginExpired)
+        return () => {};
 
-      const onLoginExpired = (serverResponse) => {
+      const onLoginExpired = (serverResponse: ServerErrorResponse) => {
         console.warn('原生app登录过期, 调用退出登录交互');
         sendLoginStatus({
           code: serverResponse?.code || 76,

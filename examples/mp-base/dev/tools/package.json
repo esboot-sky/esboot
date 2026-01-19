@@ -2,10 +2,10 @@
   "name": "@dz-web/esboot-react-mp-tools",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "create-page.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "bin": {
     "esboot-react-mp-tools": "bin/index.js"
   },
@@ -13,9 +13,9 @@
     "bin",
     "src"
   ],
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "@inquirer/prompts": "^3.3.0",
     "commander": "^11.1.0",

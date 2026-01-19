@@ -2,7 +2,12 @@ import { FormattedMessage } from 'react-intl';
 
 import './index.scss';
 
-export function TopErrorBoundaryFallback({ error, resetErrorBoundary }) {
+interface FallbackProps {
+  error?: Error;
+  resetErrorBoundary?: () => void;
+}
+
+export function TopErrorBoundaryFallback({ error, resetErrorBoundary }: FallbackProps) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
 
   return (

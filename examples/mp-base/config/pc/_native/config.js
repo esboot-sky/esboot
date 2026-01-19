@@ -1,1 +1,1 @@
-var GLOBAL_CONFIG = {};
+window.GLOBAL_CONFIG = {};

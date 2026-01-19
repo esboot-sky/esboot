@@ -116,9 +116,9 @@ async function createPage() {
   }
 
   if (answers.useReactRouter) {
-    srcPagePath = path.join(srcPagePath, 'router-demo');
+    srcPagePath = path.join(srcPagePath, 'router');
   } else {
-    srcPagePath = path.join(srcPagePath, 'trade');
+    srcPagePath = path.join(srcPagePath, 'no-router');
   }
 
   const distFolderPath = path.join(targetPlatformPath, 'modules', answers.pageName);

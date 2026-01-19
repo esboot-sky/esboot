@@ -1,7 +1,7 @@
 /**
  * 多皮肤
  */
-export const SupportedThemes = {
+export const supportedThemes = {
   light: 'light',
   dark: 'dark',
   // 安卓端中信app会返回black与theme，临时加上
@@ -10,9 +10,9 @@ export const SupportedThemes = {
   yellow: 'yellow',
 } as const;
 
-export type ThemeValues = (typeof SupportedThemes)[keyof typeof SupportedThemes];
+export type ThemeValues = (typeof supportedThemes)[keyof typeof supportedThemes];
 
-export const DEFAULT_THEME = SupportedThemes.light;
+export const DEFAULT_THEME = supportedThemes.light;
 
 /**
  * 字体设置相关
@@ -32,7 +32,7 @@ export const PC_FONT_SIZE_MAPPER = {
   '-21': 2,
 };
 
-export const RaiseModeColorScheme = {
+export const quotesUpDownColorScheme = {
   // 红涨绿跌
   red: {
     up: '#2d9e00',
@@ -56,7 +56,7 @@ export const RaiseModeColorScheme = {
 /**
  * 涨跌颜色模式, pc端支持多种颜色配置
  */
-export const validRaiseMode = {
+export const supportedQuotesUpDownColors = {
   /**
    * 红跌绿涨
    */
@@ -71,8 +71,8 @@ export const validRaiseMode = {
   pink: 'pink',
 } as const;
 
-export type RaiseMode = keyof typeof validRaiseMode;
+export type QuotesUpDownColor = keyof typeof supportedQuotesUpDownColors;
 
-export const DEFAULT_RAISE_MODE = validRaiseMode.green;
+export const DEFAULT_QUOTES_UP_DOWN_COLOR = supportedQuotesUpDownColors.green;
 
 export const TOKEN_KEY = 'sessionCode';

@@ -1,10 +1,7 @@
 import App from '@mobile/modules/<%= pageName %>';
-import { store } from '@mobile/modules/<%= pageName %>/model/store';
 import generatePage from '@mobile-native/helpers/generate-page';
 
-generatePage(<App />, {
-  store,
-});
+generatePage(<App />);
 
 export default {
   title: 'Mobile-Native',

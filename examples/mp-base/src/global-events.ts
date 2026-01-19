@@ -13,15 +13,19 @@ export const GlobalEvents = {
 } as const;
 
 export type ErrorCallback = (friendlyMessage: string, error: Error, meta: IMeta) => void;
+export interface ServerErrorResponse {
+  code: string;
+  message: string;
+}
 
 export function listenReactQueryError(callback: ErrorCallback) {
   globalEventsCenter.on(GlobalEvents.REACT_QUERY_REQUEST_ERROR, callback);
 }
 
-export function listenLoginExpired(callback: (serverResponse) => void) {
+export function listenLoginExpired(callback: (serverResponse: ServerErrorResponse) => void) {
   globalEventsCenter.on(GlobalEvents.LOGIN_EXPIRED, callback);
 }
 
-export function cancelListenLoginExpired(callback: (serverResponse) => void) {
+export function cancelListenLoginExpired(callback: (serverResponse: ServerErrorResponse) => void) {
   globalEventsCenter.removeListener(GlobalEvents.LOGIN_EXPIRED, callback);
 }

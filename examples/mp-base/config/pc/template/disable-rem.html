@@ -69,13 +69,17 @@
     </script>
     <script>
       (function () {
-        var theme = anyQs(window.location.href).theme || 'light';
+        var theme = anyQs(window.location.href).theme;
         if (theme === 'black') {
           theme = 'dark';
         } else if (theme === 'white') {
           theme = 'light';
         }
-        document.documentElement.classList.add('dz-theme-' + theme);
+
+        if (theme) {
+          document.documentElement.classList.add('dz-theme-' + theme);
+        }
+
         if (theme === 'dark') {
           document.documentElement.classList.add('rs-theme-dark');
 
