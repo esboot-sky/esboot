@@ -6,6 +6,7 @@ export { addEntry, type AddEntryCBParams } from './helpers/add-entry';
 export { logDevServer } from './helpers/dev-server';
 
 export { mergeFrameworkBundles } from './helpers/framework-bundles';
+export { getGlobalScssPathList, isGlobalStyleFile } from './helpers/global-style';
 export { injectHtml } from './helpers/inject-html';
 
 export { watchOnFileChange } from './helpers/watch-on-file-change';

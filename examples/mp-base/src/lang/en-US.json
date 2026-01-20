@@ -4,5 +4,6 @@
     "boundary_error_title": "Oops, something went wrong!",
     "apologize": "Sorry, the application encountered some problems.",
     "retry": "Retry"
-  }
+  },
+  "test": {}
 }
