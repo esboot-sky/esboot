@@ -28,11 +28,14 @@ export interface CustomViteConfiguration extends Omit<InlineConfig, 'plugins'> {
 
 export type CustomConfig = (
   config: CustomViteConfiguration,
-  cfg: ESBootConfiguration
+  cfg: ESBootConfiguration,
 ) => CustomViteConfiguration;
 
-export type BundlerViteOptions = {
+export interface BundlerViteOptions {
   customConfig?: CustomConfig;
+  legacy?: {
+    enable?: boolean;
+  };
   codeSplitting?: {
     jsStrategy: CodeSplittingType;
     jsStrategyOptions?:

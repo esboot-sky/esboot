@@ -1,4 +1,5 @@
 import type { AddFunc } from '@/cfg/types';
+import type { BundlerViteOptions } from '@/types';
 import legacy from '@vitejs/plugin-legacy';
 import { addCodeSplitting } from './optimization/add-code-splitting';
 import { addCSSMinimizer } from './optimization/add-css-minimizer';
@@ -6,7 +7,8 @@ import { addJSMinimizer } from './optimization/add-js-minimizer';
 import { addBundleAnalyzerPlugin } from './plugins/add-plugin-bundle-analyzer';
 
 export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
-  const { sourceMap, outputPath, isDev, minimize = true, assetsInlineLimit } = cfg.config;
+  const { sourceMap, outputPath, isDev, minimize = true, assetsInlineLimit, bundlerOptions = {} } = cfg.config;
+  const { legacy: { enable: enableLegacy = false } = { enable: false } } = bundlerOptions as BundlerViteOptions;
 
   if (isDev)
     return;
@@ -22,7 +24,10 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
     minify: minimize,
     assetsInlineLimit,
   });
-  viteCfg.plugins.push(legacy());
+
+  if (enableLegacy) {
+    viteCfg.plugins.push(legacy());
+  }
 
   if (minimize) {
     addJSMinimizer(cfg, viteCfg);

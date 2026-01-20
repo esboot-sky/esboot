@@ -19,7 +19,11 @@ export default defineConfig<BundlerOptions>({
   ],
   bundler: Bundler,
   isSP: true,
-  bundlerOptions: {},
+  bundlerOptions: {
+    legacy: {
+      enable: false,
+    },
+  },
   sourceMap: false,
   alias: {
     '@@': 'src',
