@@ -1,6 +1,6 @@
 import { cn } from '@dz-web/esboot-browser';
 import { Button } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 
 import './test.css';
@@ -13,6 +13,7 @@ import './app.scss';
 
 function Test() {
   const navigate = useNavigate();
+  const [size, setSize] = useState<'small' | 'middle' | 'large'>('small');
 
   useEffect(() => {
     // login({
@@ -25,7 +26,16 @@ function Test() {
 
   return (
     <div className="page">
-      <div styleName="text text2" className="page">
+      <div styleName={`${size}`} className="page">
+        <Button type="primary" onClick={() => setSize('small')}>
+          small
+        </Button>
+        <Button type="primary" onClick={() => setSize('middle')}>
+          middle
+        </Button>
+        <Button type="primary" onClick={() => setSize('large')}>
+          large
+        </Button>
         module css12343242
       </div>
       <div

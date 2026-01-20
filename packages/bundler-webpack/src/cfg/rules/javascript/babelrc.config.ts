@@ -19,7 +19,11 @@ export const presets = [
   ],
 ];
 
-export const getPlugins = (alias: Configuration['alias'], legacy: boolean) => {
+export const getPlugins = (
+  alias: Configuration['alias'],
+  legacy: boolean,
+  isDev: boolean
+) => {
   const customAlias: Configuration['alias'] = {};
 
   for (const k in alias) {
@@ -50,7 +54,7 @@ export const getPlugins = (alias: Configuration['alias'], legacy: boolean) => {
           ),
         webpackHotModuleReloading: true,
         autoResolveMultipleImports: true,
-        handleMissingStyleName: legacy ? 'warn' : 'throw',
+        handleMissingStyleName: legacy || !isDev ? 'warn' : 'throw',
       },
     ],
   ];

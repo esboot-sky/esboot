@@ -17,7 +17,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
   options
 ) => {
   const { mfsu } = options!;
-  const { rootPath, isDev, alias, legacy, bundlerOptions, cwd } =
+  const { rootPath, isDev, alias, legacy = false, bundlerOptions, cwd } =
     cfg.config as Configuration<BundlerWebpackOptions>;
 
   const {
@@ -52,7 +52,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
       env,
       plugins: [
         ...extraBabelPlugins,
-        ...getPlugins(alias, legacy),
+        ...getPlugins(alias, legacy, isDev),
         ...(mfsu?.getBabelPlugins() ?? []),
         isDev && !isExtra && require.resolve('react-refresh/babel'),
       ].filter(Boolean),
