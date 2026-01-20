@@ -316,7 +316,7 @@ importers:
         version: 0.0.1
       "@dz-web/babel-plugin-react-css-modules":
         specifier: ^6.11.4
-        version: 6.13.7(css-loader@7.1.2(@rspack/core@1.3.13)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)))(postcss@8.5.4)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+        version: 6.13.7(css-loader@7.1.2(@rspack/core@1.3.13(@swc/helpers@0.5.17))(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)))(postcss@8.5.4)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       "@dz-web/esboot-bundler-common":
         specifier: workspace:*
         version: link:../bundler-common
@@ -340,7 +340,7 @@ importers:
         version: 10.4.21(postcss@8.5.4)
       css-loader:
         specifier: ^7.1.2
-        version: 7.1.2(@rspack/core@1.3.13)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+        version: 7.1.2(@rspack/core@1.3.13(@swc/helpers@0.5.17))(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       postcss:
         specifier: ^8.4.47
         version: 8.5.4
@@ -349,7 +349,7 @@ importers:
         version: 5.0.2(postcss@8.5.4)
       postcss-loader:
         specifier: ^8.1.1
-        version: 8.1.1(@rspack/core@1.3.13)(postcss@8.5.4)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+        version: 8.1.1(@rspack/core@1.3.13(@swc/helpers@0.5.17))(postcss@8.5.4)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       postcss-normalize:
         specifier: ^13.0.0
         version: 13.0.1(browserslist@4.25.0)(postcss@8.5.4)
@@ -367,7 +367,7 @@ importers:
         version: 1.89.1
       sass-loader:
         specifier: ^16.0.1
-        version: 16.0.5(@rspack/core@1.3.13)(sass-embedded@1.89.1)(sass@1.89.1)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+        version: 16.0.5(@rspack/core@1.3.13(@swc/helpers@0.5.17))(sass-embedded@1.89.1)(sass@1.89.1)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       style-loader:
         specifier: ^4.0.0
         version: 4.0.0(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
@@ -438,7 +438,7 @@ importers:
         version: 7.27.1(@babel/core@7.27.4)
       "@dz-web/babel-plugin-react-css-modules":
         specifier: ^6.11.4
-        version: 6.13.7(css-loader@7.1.2(@rspack/core@1.3.13)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)))(postcss@8.5.4)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+        version: 6.13.7(css-loader@7.1.2(@rspack/core@1.3.13(@swc/helpers@0.5.17))(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)))(postcss@8.5.4)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       "@dz-web/esboot-bundler-common":
         specifier: workspace:*
         version: link:../bundler-common
@@ -471,7 +471,7 @@ importers:
         version: 3.42.0
       css-loader:
         specifier: ^7.1.2
-        version: 7.1.2(@rspack/core@1.3.13)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+        version: 7.1.2(@rspack/core@1.3.13(@swc/helpers@0.5.17))(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       css-minimizer-webpack-plugin:
         specifier: ^7.0.0
         version: 7.0.2(esbuild@0.25.5)(lightningcss@1.22.1)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
@@ -486,7 +486,7 @@ importers:
         version: 5.0.2(postcss@8.5.4)
       postcss-loader:
         specifier: ^8.1.1
-        version: 8.1.1(@rspack/core@1.3.13)(postcss@8.5.4)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+        version: 8.1.1(@rspack/core@1.3.13(@swc/helpers@0.5.17))(postcss@8.5.4)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       postcss-normalize:
         specifier: ^13.0.1
         version: 13.0.1(browserslist@4.25.0)(postcss@8.5.4)
@@ -507,7 +507,7 @@ importers:
         version: 1.89.1
       sass-loader:
         specifier: ^16.0.2
-        version: 16.0.5(@rspack/core@1.3.13)(sass-embedded@1.89.1)(sass@1.89.1)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+        version: 16.0.5(@rspack/core@1.3.13(@swc/helpers@0.5.17))(sass-embedded@1.89.1)(sass@1.89.1)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       style-loader:
         specifier: ^4.0.0
         version: 4.0.0(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
@@ -26406,7 +26406,7 @@ snapshots:
     dependencies:
       axios: 1.9.0
 
-  "@dz-web/babel-plugin-react-css-modules@6.13.7(css-loader@7.1.2(@rspack/core@1.3.13)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)))(postcss@8.5.4)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))":
+  "@dz-web/babel-plugin-react-css-modules@6.13.7(css-loader@7.1.2(@rspack/core@1.3.13(@swc/helpers@0.5.17))(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)))(postcss@8.5.4)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))":
     dependencies:
       "@babel/core": 7.27.4
       "@babel/plugin-syntax-jsx": 7.27.1(@babel/core@7.27.4)
@@ -26414,7 +26414,7 @@ snapshots:
       "@dr.pogodin/postcss-modules-parser": 1.3.0(postcss@8.5.4)
       ajv: 8.17.1
       ajv-keywords: 5.1.0(ajv@8.17.1)
-      css-loader: 7.1.2(@rspack/core@1.3.13)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+      css-loader: 7.1.2(@rspack/core@1.3.13(@swc/helpers@0.5.17))(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       cssesc: 3.0.0
       loader-utils: 3.3.1
       postcss: 8.5.4
@@ -29931,11 +29931,11 @@ snapshots:
       lodash: 4.17.21
       node-libs-browser-okam: 2.2.5
       piscina: 4.9.2
-      postcss-loader: 8.1.1(@rspack/core@1.3.13)(postcss@8.5.4)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+      postcss-loader: 8.1.1(@rspack/core@1.3.13(@swc/helpers@0.5.17))(postcss@8.5.4)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       react-error-overlay: 6.0.9
       react-refresh: 0.14.2
       resolve: 1.22.10
-      sass-loader: 16.0.5(@rspack/core@1.3.13)(sass-embedded@1.89.1)(sass@1.89.1)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+      sass-loader: 16.0.5(@rspack/core@1.3.13(@swc/helpers@0.5.17))(sass-embedded@1.89.1)(sass@1.89.1)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       semver: 7.7.2
       yargs-parser: 21.1.1
     optionalDependencies:
@@ -31935,7 +31935,7 @@ snapshots:
       semver: 7.7.2
       webpack: 5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)
 
-  css-loader@7.1.2(@rspack/core@1.3.13)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)):
+  css-loader@7.1.2(@rspack/core@1.3.13(@swc/helpers@0.5.17))(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)):
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.4)
       postcss: 8.5.4
@@ -38137,7 +38137,7 @@ snapshots:
       postcss: 8.5.4
       yaml: 2.8.0
 
-  postcss-loader@8.1.1(@rspack/core@1.3.13)(postcss@8.5.4)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)):
+  postcss-loader@8.1.1(@rspack/core@1.3.13(@swc/helpers@0.5.17))(postcss@8.5.4)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)):
     dependencies:
       cosmiconfig: 9.0.0(typescript@5.8.3)
       jiti: 1.21.7
@@ -40447,7 +40447,7 @@ snapshots:
       sass-embedded-win32-arm64: 1.89.1
       sass-embedded-win32-x64: 1.89.1
 
-  sass-loader@16.0.5(@rspack/core@1.3.13)(sass-embedded@1.89.1)(sass@1.89.1)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)):
+  sass-loader@16.0.5(@rspack/core@1.3.13(@swc/helpers@0.5.17))(sass-embedded@1.89.1)(sass@1.89.1)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)):
     dependencies:
       neo-async: 2.6.2
     optionalDependencies:
