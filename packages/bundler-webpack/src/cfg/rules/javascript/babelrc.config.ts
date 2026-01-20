@@ -26,6 +26,7 @@ export const presets = [
 
 export function getPlugins(cfg: ConfigurationInstance, alias: Configuration['alias'], legacy: boolean) {
   const customAlias: Configuration['alias'] = {};
+  const { isDev } = cfg.config;
 
   for (const k in alias) {
     const value = path.resolve(process.cwd(), `./${alias[k]}/`);
@@ -56,7 +57,7 @@ export function getPlugins(cfg: ConfigurationInstance, alias: Configuration['ali
           ),
         webpackHotModuleReloading: true,
         autoResolveMultipleImports: true,
-        handleMissingStyleName: legacy ? 'warn' : 'throw',
+        handleMissingStyleName: legacy || !isDev ? 'warn' : 'throw',
       },
     ],
   ].filter(Boolean);
