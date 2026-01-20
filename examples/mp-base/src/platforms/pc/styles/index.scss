@@ -10,4 +10,5 @@ body {
 // rsuite会修改背景色，黑色的rs-theme-dark是后加上去的，黑色皮肤下会看到一瞬间的白色背景, 此处高优先级覆盖一下
 html body {
   background: var(--dz-bg-color);
+  color: red;
 }

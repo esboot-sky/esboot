@@ -6,6 +6,7 @@ export { logDevServer } from './helpers/dev-server';
 export { injectHtml } from './helpers/inject-html';
 
 export { watchOnFileChange } from './helpers/watch-on-file-change';
+export { getGlobalScssPathList, isGlobalStyleFile } from './helpers/global-style';
 export { mergeFrameworkBundles } from './helpers/framework-bundles';
 
 export { addPostcssPluginTailwindcss } from './postcss/add-plugin-tailwindcss';
