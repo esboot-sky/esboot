@@ -11,7 +11,7 @@ export const addCache: AddFunc = async (cfg, webpackCfg) => {
   const { buildCache = false } = bundlerOptions as BundlerWebpackOptions;
 
   if (isDev) return;
-  if (isCIBuild && !buildCache) return;
+  if (isCIBuild || !buildCache) return;
 
   webpackCfg.optimization = {
     runtimeChunk: 'single',
