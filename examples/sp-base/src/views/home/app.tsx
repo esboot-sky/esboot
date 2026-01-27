@@ -38,7 +38,6 @@ function Test() {
         <Button type="primary" onClick={() => setSize('large')}>
           large
         </Button>
-        module css12343242
       </div>
       <div
         className="mb-[20px] flex items-center justify-between bg-blue-500 p-4 text-[36px] font-semibold text-white
@@ -55,6 +54,8 @@ function Test() {
       <div className={langBtn()}>module2 css323</div>
 
       <Button>123</Button>
+
+      <p styleName="text-test">module css12343242</p>
 
       <Outlet />
     </div>
