@@ -34,6 +34,11 @@ export const defaultCfg: Configuration = {
   outputPath: 'dist',
   publicPath: '/',
   alias: {},
+  css: {
+    modules: {
+      localsConvention: 'asIs',
+    },
+  },
   px2rem: {},
   svgr: true,
   svgrOptions: {},
@@ -50,6 +55,7 @@ export const defaultCfg: Configuration = {
   jsMinifierOptions: {},
   cssMinifier: CSSMinifier.cssnano,
   cssMinifierOptions: {},
+  tailwindcssOptions: (c: any) => c,
   useLangJsonPicker: false,
   sourceMap: false,
   server: {

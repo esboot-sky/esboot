@@ -40,6 +40,20 @@ export interface Proxy {
 
 export type BabelPlugin = [string, Record<string, any>];
 
+export type LocalsConvention =
+  | 'camelCase'
+  | 'camelCaseOnly'
+  | 'asIs'
+  | 'dashes'
+  | 'dashesOnly'
+  | ((name: string) => string);
+
+export interface CSSOptions {
+  modules?: {
+    localsConvention?: LocalsConvention;
+  };
+}
+
 export interface ReactCompiler {
   enable?: boolean;
   target: '18' | '19';
@@ -60,6 +74,7 @@ export interface UserOptions {
   define?: Record<string, string | boolean | number>;
   sourceMap?: boolean;
   copy?: Record<string, string>;
+  css?: CSSOptions;
   px2rem?: Px2rem;
   svgr?: boolean;
   svgrOptions?: Record<string, any>;
@@ -76,6 +91,7 @@ export interface UserOptions {
   externals?: Record<string, string>;
   useTailwindcss?: boolean;
   useSeparateTailwindImports?: boolean;
+  tailwindcssOptions?: any;
   plugins?: Plugin[];
   experimental?: {
     reactCompiler?: ReactCompiler;
@@ -90,15 +106,17 @@ export interface ConfigurationForMP {
   contentRootPath: string;
 }
 
-type PreserveAttr
-  = | 'define'
-    | 'copy'
-    | 'jsMinifier'
-    | 'jsMinifierOptions'
-    | 'cssMinifierOptions'
-    | 'legacy'
-    | 'cssMinifier'
-    | 'experimental';
+type PreserveAttr =
+  | 'define'
+  | 'copy'
+  | 'jsMinifier'
+  | 'jsMinifierOptions'
+  | 'cssMinifierOptions'
+  | 'tailwindcssOptions'
+  | 'legacy'
+  | 'cssMinifier'
+  | 'css'
+  | 'experimental';
 
 export type Configuration<Options extends UserOptions = UserOptions> = {
   [K in PreserveAttr]: Required<Options[K]>;

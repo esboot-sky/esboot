@@ -56,6 +56,13 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
     },
   });
 
+  const { localsConvention } = cfg.config.css?.modules || {};
+  let exportLocalsConvention: any = localsConvention;
+
+  if (!exportLocalsConvention) {
+    exportLocalsConvention = 'asIs';
+  }
+
   const styleLoader = getStyleLoader();
   const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
   if (publicPath === './')
@@ -77,6 +84,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
         modules: {
           namedExport: false,
           localIdentContext: rootPath,
+          exportLocalsConvention,
           getLocalIdent,
           localIdentName: getCssHashRule(),
         },
