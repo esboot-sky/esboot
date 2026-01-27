@@ -91,7 +91,6 @@ export interface UserOptions {
   externals?: Record<string, string>;
   useTailwindcss?: boolean;
   useSeparateTailwindImports?: boolean;
-  tailwindcssOptions?: any;
   plugins?: Plugin[];
   experimental?: {
     reactCompiler?: ReactCompiler;
@@ -112,7 +111,6 @@ type PreserveAttr =
   | 'jsMinifier'
   | 'jsMinifierOptions'
   | 'cssMinifierOptions'
-  | 'tailwindcssOptions'
   | 'legacy'
   | 'cssMinifier'
   | 'css'

@@ -55,7 +55,6 @@ export const defaultCfg: Configuration = {
   jsMinifierOptions: {},
   cssMinifier: CSSMinifier.cssnano,
   cssMinifierOptions: {},
-  tailwindcssOptions: (c: any) => c,
   useLangJsonPicker: false,
   sourceMap: false,
   server: {
