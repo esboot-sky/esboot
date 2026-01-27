@@ -15,23 +15,19 @@ export function TransformStyleNameCreateElement<Props extends StyleProps>(
   if (typeof props.styleName === 'string') {
     const { className, styleName } = props;
 
-    let classNames = className?.trim() || '';
-
-    const styleNameKeyMap: { [name: string]: string } = {};
-    for (const item of classVariables) {
-      Object.assign(styleNameKeyMap, item);
-    }
-
+    const classNames = [className];
     for (const item of styleName.split(' ')) {
-      if (item in styleNameKeyMap) {
-        classNames += ` ${styleNameKeyMap[item]}`;
-      }
-      else {
-        console.warn(`styleName ${item} not found in classVariables`);
-      }
+      classNames.push(
+        ...classVariables.map((variable) => {
+          if (variable[item]) return variable[item];
+          return variable[
+            item.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''))
+          ];
+        }),
+      );
     }
 
-    props.className = classNames;
+    props.className = classNames.join(' ');
     delete props.styleName;
   }
   return origCreateElement(name, props, ...extra);
