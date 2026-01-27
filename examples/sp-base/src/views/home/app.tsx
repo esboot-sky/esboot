@@ -9,7 +9,9 @@ import { langBtn } from './variant';
 // import { login } from '@/api';
 
 // import A from './a';
-import './app.scss';
+import styles from './app.scss';
+
+console.log(styles, 'styles');
 
 function Test() {
   const navigate = useNavigate();

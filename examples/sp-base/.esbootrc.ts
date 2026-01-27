@@ -87,6 +87,11 @@ export default defineConfig<BundlerOptions>({
       jsStrategy: CodeSplittingType.granularChunks,
     },
   },
+  css: {
+    modules: {
+      localsConvention: 'camelCaseOnly',
+    },
+  },
   sourceMap: false,
   alias: {
     '@@': 'src',

@@ -34,6 +34,13 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
   const postcssPluginPx2rem = addPostcssPluginPx2rem(cfg);
   const postcssPluginTailwindcss = addPostcssPluginTailwindcss(cfg);
 
+  const { localsConvention } = cfg.config.css?.modules || {};
+  let exportLocalsConvention: any = localsConvention;
+
+  if (!exportLocalsConvention) {
+    exportLocalsConvention = 'asIs';
+  }
+
   const styleLoader = getStyleLoader();
   const miniCssExtractPluginOptions = getMiniCssExtractPluginOptions();
   if (publicPath === './') miniCssExtractPluginOptions.publicPath = '../';
@@ -53,6 +60,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
         modules: {
           namedExport: false,
           localIdentContext: rootPath,
+          exportLocalsConvention,
           getLocalIdent,
           localIdentName: getCssHashRule(),
         },

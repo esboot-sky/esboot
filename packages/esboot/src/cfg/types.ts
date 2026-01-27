@@ -42,6 +42,20 @@ export interface Proxy {
   pathRewrite?: Record<string, string>;
 }
 
+export type LocalsConvention =
+  | 'camelCase'
+  | 'camelCaseOnly'
+  | 'asIs'
+  | 'dashes'
+  | 'dashesOnly'
+  | ((name: string) => string);
+
+export interface CSSOptions {
+  modules?: {
+    localsConvention?: LocalsConvention;
+  };
+}
+
 export interface UserOptions<BundlerOptions = unknown> {
   isSP?: boolean;
   bundler: (new (config: BaseBundlerOptions) => Bundler) | null;
@@ -59,6 +73,7 @@ export interface UserOptions<BundlerOptions = unknown> {
   define?: Record<string, string>;
   sourceMap?: boolean;
   copy?: Record<string, string>;
+  css?: CSSOptions;
   px2rem?: Px2rem;
   svgr?: boolean;
   svgrOptions?: Record<string, any>;
@@ -93,7 +108,8 @@ type PreserveAttr =
   | 'cssMinifierOptions'
   | 'tailwindcssOptions'
   | 'legacy'
-  | 'cssMinifier';
+  | 'cssMinifier'
+  | 'css';
 
 export type Configuration<BundlerOptions = unknown> = {
   [K in PreserveAttr]: Required<UserOptions<BundlerOptions>[K]>;
