@@ -40,16 +40,17 @@ export interface Proxy {
 
 export type BabelPlugin = [string, Record<string, any>];
 
-export type LocalsConvention =
-  | 'camelCase'
-  | 'camelCaseOnly'
-  | 'asIs'
-  | 'dashes'
-  | 'dashesOnly'
-  | ((name: string) => string);
+export type LocalsConvention
+  = | 'camelCase'
+    | 'camelCaseOnly'
+    | 'asIs'
+    | 'dashes'
+    | 'dashesOnly'
+    | ((name: string) => string);
 
 export interface CSSOptions {
   modules?: {
+    useStyleName?: boolean;
     localsConvention?: LocalsConvention;
   };
 }
@@ -105,16 +106,16 @@ export interface ConfigurationForMP {
   contentRootPath: string;
 }
 
-type PreserveAttr =
-  | 'define'
-  | 'copy'
-  | 'jsMinifier'
-  | 'jsMinifierOptions'
-  | 'cssMinifierOptions'
-  | 'legacy'
-  | 'cssMinifier'
-  | 'css'
-  | 'experimental';
+type PreserveAttr
+  = | 'define'
+    | 'copy'
+    | 'jsMinifier'
+    | 'jsMinifierOptions'
+    | 'cssMinifierOptions'
+    | 'legacy'
+    | 'cssMinifier'
+    | 'css'
+    | 'experimental';
 
 export type Configuration<Options extends UserOptions = UserOptions> = {
   [K in PreserveAttr]: Required<Options[K]>;

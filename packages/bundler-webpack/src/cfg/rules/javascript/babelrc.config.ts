@@ -34,6 +34,8 @@ export function getPlugins(cfg: ConfigurationInstance, alias: Configuration['ali
     customAlias[k] = value;
   }
 
+  const { useStyleName } = cfg.config.css?.modules || {};
+
   return [
     addReactCompiler(cfg),
     [
@@ -43,7 +45,7 @@ export function getPlugins(cfg: ConfigurationInstance, alias: Configuration['ali
         extensions: ['.ts', '.tsx', '.json', '.svg'],
       },
     ],
-    [
+    useStyleName && [
       resolvePath('@dz-web/babel-plugin-react-css-modules'),
       {
         filetypes: {

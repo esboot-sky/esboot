@@ -36,6 +36,7 @@ export const defaultCfg: Configuration = {
   alias: {},
   css: {
     modules: {
+      useStyleName: true,
       localsConvention: 'asIs',
     },
   },

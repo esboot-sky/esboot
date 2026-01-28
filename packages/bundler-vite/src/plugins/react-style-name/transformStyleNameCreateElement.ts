@@ -19,7 +19,8 @@ export function TransformStyleNameCreateElement<Props extends StyleProps>(
     for (const item of styleName.split(' ')) {
       classNames.push(
         ...classVariables.map((variable) => {
-          if (variable[item]) return variable[item];
+          if (variable[item])
+            return variable[item];
           return variable[
             item.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''))
           ];

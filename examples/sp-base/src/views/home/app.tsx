@@ -6,14 +6,14 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 import { login } from '@/api';
 
-import { langBtn } from './variant';
+// import styles from './app.scss';
 // import A from './a';
 
-import styles from './app.scss';
+import { langBtn } from './variant';
 
 import './test.css';
 
-console.log(styles, 'styles');
+// console.log(styles, 'styles');
 
 const a = 1;
 console.log(a);
@@ -30,6 +30,8 @@ function Test() {
 
   useEffect(() => {
     const cc = count + count3;
+
+    debugger
     // login({
     //   username: 'admin',
     //   password: '123456',
@@ -42,16 +44,16 @@ function Test() {
 
   return (
     <div className="page">
-      <div styleName="text text2" className="page page2">
+      <div className="text text2" styleName="text2-cls">
         module css233
         {getCount2}
       </div>
       <div
         className={`
-          mb-[20px] flex items-center justify-between bg-blue-500 p-5 text-[36px] font-semibold
-          text-white
+          bg-blue-500 p-5 font-semibold text-white mb-[20px] flex items-center justify-between
+          text-[36px]
           hover:bg-violet-600
-          focus:ring focus:ring-violet-300 focus:outline-none
+          focus:ring-violet-300 focus:ring focus:outline-none
           active:bg-violet-700
         `}
       >

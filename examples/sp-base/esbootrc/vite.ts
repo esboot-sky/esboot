@@ -30,6 +30,11 @@ export default defineConfig<BundlerOptions>({
     port: 4000,
     http2: false,
   },
+  css: {
+    modules: {
+      useStyleName: false,
+    },
+  },
   // analyze: true,
   // extraBabelIncludes: [
   //   /filter-obj/i,

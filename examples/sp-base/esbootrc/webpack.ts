@@ -92,6 +92,11 @@ export default defineConfig<BundlerOptions>({
   alias: {
     '@@': 'src',
   },
+  // css: {
+  //   modules: {
+  //     useStyleName: false,
+  //   },
+  // },
   server: {
     port: 4200,
     http2: false,

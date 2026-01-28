@@ -22,8 +22,10 @@ export function generateTypeScriptTypes(): void {
 
 function generateTypes(): string {
   const { svgr } = cfg.config;
+  const { useStyleName } = cfg.config.css?.modules || {};
 
-  const baseTypes = `
+  const styleNameTypes = useStyleName
+    ? `
     declare namespace React {
       interface Attributes {
         styleName?: string | undefined;
@@ -35,7 +37,10 @@ function generateTypes(): string {
         styleName?: string | undefined;
       }
     }
+  `
+    : '';
 
+  const baseTypes = `
     declare module '*.png';
     declare module '*.jpg';
     declare module '*.webp';
@@ -71,5 +76,5 @@ function generateTypes(): string {
     }
   `;
 
-  return baseTypes + svgTypes;
+  return styleNameTypes + baseTypes + svgTypes;
 }

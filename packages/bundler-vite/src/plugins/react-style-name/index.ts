@@ -14,6 +14,7 @@ interface Options {
   reactVariableName?: string;
   rootPath?: string;
   isSP?: boolean;
+  useStyleName?: boolean;
 }
 
 function matchId(id: string): boolean {
@@ -24,7 +25,7 @@ const filterStyleFiles = createFilter(['**/*.scss']);
 const KEEP_STATEMENT = 'console.log(TransformStyleNameCreateElement)'; // To ensure that the TransformStyleNameCreateElement() introduced by the previous plugin is not removed due to dependency analysis
 
 export default function reactStyleNamePlugin(options: Options = {}): Plugin[] {
-  const { reactVariableName = 'React', rootPath = '', isSP = false } = options;
+  const { reactVariableName = 'React', rootPath = '', isSP = false, useStyleName = true } = options;
 
   const globalScssPathList = getGlobalScssPathList(rootPath, isSP);
 
@@ -46,6 +47,8 @@ export default function reactStyleNamePlugin(options: Options = {}): Plugin[] {
         }
       },
       transform(source: string, id: string) {
+        if (!useStyleName)
+          return;
         if (!matchId(id))
           return;
         const { imports, updatedSource } = findStyleImports(source);
@@ -64,6 +67,8 @@ export default function reactStyleNamePlugin(options: Options = {}): Plugin[] {
       name: 'react-styleName-transform',
       enforce: 'post' as const,
       transform(source: string, id: string) {
+        if (!useStyleName)
+          return;
         if (!matchId(id))
           return;
         const { imports } = findStyleImports(source);
