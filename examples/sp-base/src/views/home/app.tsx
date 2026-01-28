@@ -18,6 +18,7 @@ function Test() {
   const [size, setSize] = useState<'small' | 'middle' | 'large'>('small');
 
   useEffect(() => {
+    debugger;
     // login({
     //   username: 'admin',
     //   password: '123456',
