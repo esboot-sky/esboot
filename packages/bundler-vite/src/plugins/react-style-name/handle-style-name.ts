@@ -7,6 +7,8 @@ interface StyleImport {
   prefixStatement: string;
   variable?: string;
   filepath: string;
+  start: number;
+  end: number;
 }
 // const importPattern =
 //   /(^|\n)\s*import(?:\s+(.+?)\s+from)?\s+(?:'|")(.+?\.(?:css|scss)(?:\?[^'"]*?)?)(?:'|");?/g;
@@ -24,8 +26,9 @@ export function findStyleImports(source: string): {
 
   for (const match of matches) {
     const [statement, prefixStatement, variable, importPath] = match;
+    const { index } = match;
 
-    if (!importPath.includes('styles/')) {
+    if (!importPath.includes('styles/') && index !== undefined) {
       const newImportPath = importPath;
 
       const newStatement = statement.replace(importPath, newImportPath);
@@ -45,6 +48,8 @@ export function findStyleImports(source: string): {
         prefixStatement,
         variable: extractedVariable,
         filepath: newImportPath,
+        start: index,
+        end: index + statement.length,
       });
     }
   }
@@ -53,9 +58,16 @@ export function findStyleImports(source: string): {
   return result;
 }
 
-/**
- * 给没指定变量名的样式引入补充上变量名
- */
+// ... existing formatVariableForStyleImports (can be used but we might rewrite usage) ...
+
+export function REACT_CREATE_ELEMENT_REGEX_GENERATOR(reactVariableName: string): RegExp {
+  return new RegExp(
+    `(${reactVariableName}\\.createElement|_?jsx|_?jsxs|_?jsxDEV)\\(`,
+    'g',
+  );
+}
+
+// ... keep existing functions for now but maybe unused ...
 export function formatVariableForStyleImports(
   source: string,
   imports: StyleImport[],
@@ -81,52 +93,40 @@ export function formatVariableForStyleImports(
 }
 
 let nextId = 1;
-function makeVariableName(): string {
+export function makeVariableName(): string {
   return `__cls_${nextId++}`;
 }
 
-/**
- * 将 styleName 转换函数引入代码
- *
- * inline:
- *  为 true 则将 TransformStyleNameCreateElement 的代码直接插入 source
- *  为 false 则用 import 的形式引入
- * (Vite 下用 inline 的形式性能更好)
- */
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let transformerSource: string;
+export function getTransformerSource(): string {
+  if (!transformerSource) {
+    transformerSource = readFileSync(
+      resolve(
+        __dirname,
+        // './plugins/react-style-name/transformStyleNameCreateElement.js',
+        '../static/transformStyleNameCreateElement.js',
+      ),
+    ).toString();
+  }
+  return transformerSource;
+}
+
 export function importStyleNameTransformer(source: string, inline = true): string {
   if (inline) {
-    if (!transformerSource) {
-      transformerSource = readFileSync(
-        resolve(
-          __dirname,
-          // './plugins/react-style-name/transformStyleNameCreateElement.js',
-          '../static/transformStyleNameCreateElement.js',
-        ),
-      ).toString();
-    }
-
-    return `${transformerSource} \n ${source}`;
+    return `${getTransformerSource()} \n ${source}`;
   }
 
   return `import { TransformStyleNameCreateElement } from '@dz-web/esboot-bundler-vite/transformStyleNameCreateElement'; \n ${source}`;
 }
 
-/**
- * 用 styleName 转换函数包裹原 React.createElement() 调用
- */
 export function applyStyleNameTransformer(
   source: string,
   classVariables: string[],
   reactVariableName: string,
 ): string {
   source = source.replace(
-    // 另两种包裹函数名的由来见：https://www.typescriptlang.org/docs/handbook/jsx.html
-    new RegExp(
-      `(${reactVariableName}\\.createElement|_?jsx|_?jsxs|_?jsxDEV)\\(`,
-      'g',
-    ),
+    REACT_CREATE_ELEMENT_REGEX_GENERATOR(reactVariableName),
     `TransformStyleNameCreateElement($1, [${classVariables.join(',')}], `,
   );
   return source;

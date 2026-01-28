@@ -3,11 +3,12 @@ import path from 'node:path';
 
 import { getGlobalScssPathList, isGlobalStyleFile } from '@dz-web/esboot-bundler-common';
 import { createFilter } from '@rollup/pluginutils';
+import MagicString from 'magic-string';
 import {
-  applyStyleNameTransformer,
   findStyleImports,
-  formatVariableForStyleImports,
-  importStyleNameTransformer,
+  getTransformerSource,
+  makeVariableName,
+  REACT_CREATE_ELEMENT_REGEX_GENERATOR,
 } from './handle-style-name';
 
 interface Options {
@@ -22,7 +23,6 @@ function matchId(id: string): boolean {
 }
 
 const filterStyleFiles = createFilter(['**/*.scss']);
-const KEEP_STATEMENT = 'console.log(TransformStyleNameCreateElement)'; // To ensure that the TransformStyleNameCreateElement() introduced by the previous plugin is not removed due to dependency analysis
 
 export default function reactStyleNamePlugin(options: Options = {}): Plugin[] {
   const { reactVariableName = 'React', rootPath = '', isSP = false, useStyleName = true } = options;
@@ -31,8 +31,8 @@ export default function reactStyleNamePlugin(options: Options = {}): Plugin[] {
 
   return [
     {
-      name: 'react-styleName-import',
-      enforce: 'pre' as const,
+      name: 'react-styleName',
+      enforce: 'post' as const,
       resolveId(source: string, importer: string | undefined) {
         if (source.endsWith('.scss') && importer) {
           const resolvedPath = path.resolve(path.dirname(importer), source);
@@ -51,40 +51,51 @@ export default function reactStyleNamePlugin(options: Options = {}): Plugin[] {
           return;
         if (!matchId(id))
           return;
-        const { imports, updatedSource } = findStyleImports(source);
-
-        if (imports.length) {
-          return {
-            code:
-              `${importStyleNameTransformer(updatedSource)}\n;\n`
-              + `${KEEP_STATEMENT};\n`,
-            map: null,
-          };
-        }
-      },
-    },
-    {
-      name: 'react-styleName-transform',
-      enforce: 'post' as const,
-      transform(source: string, id: string) {
-        if (!useStyleName)
-          return;
-        if (!matchId(id))
-          return;
         const { imports } = findStyleImports(source);
 
         if (imports.length) {
-          const formatted = formatVariableForStyleImports(source, imports);
+          // console.log('[DEBUG] Transforming:', id);
+          const s = new MagicString(source);
+          const variables: string[] = [];
 
-          source = applyStyleNameTransformer(
-            formatted.source,
-            formatted.variables,
-            reactVariableName,
-          ).replace(KEEP_STATEMENT, '');
+          // Format imports and collect variables
+          for (const info of imports) {
+            let variable = info.variable;
+            if (!variable) {
+              variable = makeVariableName();
+              // Replace import statement to include variable
+              s.overwrite(
+                info.start,
+                info.end,
+                `${info.prefixStatement}import ${variable} from '${info.filepath}';`,
+              );
+            }
+            variables.push(variable);
+          }
+
+          // Apply styleName transformer wrapping
+          const regex = REACT_CREATE_ELEMENT_REGEX_GENERATOR(reactVariableName);
+          // MagicString handles index drift implicitly if we use original indices,
+          // but we must use original source for matching.
+
+          const matches = [...source.matchAll(regex)];
+          for (const m of matches) {
+            const index = m.index!;
+            const fullMatch = m[0];
+            const captureGroup = m[1]; // e.g. React.createElement
+
+            // We want to replace `React.createElement(` with `TransformStyleNameCreateElement(React.createElement, [vars], `
+            // Logic: `TransformStyleNameCreateElement($1, [${classVariables.join(',')}], `
+
+            const replacement = `TransformStyleNameCreateElement(${captureGroup}, [${variables.join(',')}], `;
+            s.overwrite(index, index + fullMatch.length, replacement);
+          }
+
+          s.prepend(`${getTransformerSource()}\n;\n`);
 
           return {
-            code: source,
-            map: null,
+            code: s.toString(),
+            map: s.generateMap({ hires: true }),
           };
         }
       },

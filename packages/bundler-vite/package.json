@@ -43,6 +43,7 @@
     "@vitejs/plugin-legacy": "^7.2.1",
     "@vitejs/plugin-react": "^5.0.4",
     "express": "^5.1.0",
+    "magic-string": "^0.30.17",
     "rollup-plugin-visualizer": "^6.0.5",
     "sass-embedded": "^1.93.3",
     "terser": "^5.44.0",
