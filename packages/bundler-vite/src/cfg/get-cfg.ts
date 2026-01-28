@@ -28,7 +28,7 @@ export async function getCfg(cfg: ConfigurationInstance, mode: Environment, opti
   onModifyBundlerConfig?: (cfg: CustomViteConfiguration) => CustomViteConfiguration;
 }): Promise<CustomViteConfiguration> {
   const { onModifyBundlerConfig } = options || {};
-  const { cwd, bundlerOptions = {}, publicPath, sourceMap } = cfg.config;
+  const { cwd, bundlerOptions = {}, publicPath, sourceMap, isDev } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerViteOptions;
 
   let viteCfg: CustomViteConfiguration = {
@@ -36,7 +36,11 @@ export async function getCfg(cfg: ConfigurationInstance, mode: Environment, opti
       react(
         {
           babel: {
-            plugins: [addReactCompiler(cfg)].filter(Boolean) as BabelPlugin[],
+            /**
+             * React Compiler Vite installation docs with "vite-plugin-babel" cause sourcemap issues
+             * @see https://github.com/reactjs/react.dev/issues/8215
+             */
+            plugins: [!isDev && addReactCompiler(cfg)].filter(Boolean) as BabelPlugin[],
           },
         },
       ),
