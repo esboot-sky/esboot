@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": "true",
   "description": "",
-  "author": "Roc", 
+  "author": "Roc",
   "license": "ISC",
   "sideEffects": [
     "./src/**/*.scss",
@@ -29,6 +29,7 @@
     "@dz-web/esboot-browser": "workspace:*",
     "@dz-web/esboot-browser-react": "workspace:*",
     "@loadable/component": "^5.16.4",
+    "@swc/helpers": "^0.5.18",
     "@tanstack/react-query": "^5.49.2",
     "ahooks": "^3.8.0",
     "antd": "^5.21.4",

@@ -7,5 +7,9 @@ export default defineConfig({
       'src/loaders/lang-json-picker/index.ts',
       // 'src/loaders/stylename/index.ts',
     ],
+    target: 'esnext',
+    esbuildOptions(options) {
+      options.target = 'esnext';
+    },
   },
 });

@@ -1,9 +1,13 @@
-import { rspack } from '@rspack/core';
+import type { BaseBundlerOptions } from '@dz-web/esboot';
+
+import type { CustomRspackConfiguration } from './cfg/types';
+import process from 'node:process';
+import { Bundler } from '@dz-web/esboot';
 import { error, warn } from '@dz-web/esboot-common/helpers';
+import kleur from '@dz-web/esboot-common/kleur';
+import { rspack } from '@rspack/core';
+
 import { RspackDevServer } from '@rspack/dev-server';
-
-import { Bundler, type BaseBundlerOptions } from '@dz-web/esboot';
-
 import { getRspackCfg } from './cfg';
 
 export class BundlerRspack extends Bundler {
@@ -13,24 +17,34 @@ export class BundlerRspack extends Bundler {
     super(options);
   }
 
-  getName() {
+  getName(): string {
     return this.name;
   }
 
-  async dev() {
-    const rspackCfg = await getRspackCfg(this.cfg);
+  async dev(): Promise<void> {
+    // console.time('Create config');
+    const rspackCfg = this.onModifyBundlerConfig<CustomRspackConfiguration>(
+      await getRspackCfg(this.cfg),
+    );
+    // console.timeEnd('Create config');
+
     const compiler = rspack(rspackCfg);
 
     const devServer = new RspackDevServer(rspackCfg.devServer, compiler);
 
-    devServer.start();
-    // devServer.listen(8080, 'localhost', () => {
-    //   console.log('dev server listening on port 8080');
-    // });
+    try {
+      await devServer.start();
+      this.onAfterCompile();
+    }
+    catch (err: unknown) {
+      error((err as Error).message);
+    }
   }
 
-  async build() {
-    const rspackCfg = await getRspackCfg(this.cfg);
+  async build(): Promise<void> {
+    const rspackCfg = this.onModifyBundlerConfig<CustomRspackConfiguration>(
+      await getRspackCfg(this.cfg),
+    );
     const compiler = rspack(rspackCfg);
 
     compiler.run((err, stats) => {
@@ -42,8 +56,17 @@ export class BundlerRspack extends Bundler {
       const info = stats?.toJson();
 
       if (stats?.hasErrors()) {
-        for (const err of info?.errors ?? []) {
-          error(err.message);
+        const errors = info?.errors ?? [];
+        console.error(
+          kleur.red().bold(`Failed to compile with ${errors.length} errors \\n`),
+        );
+
+        for (const [index, err] of errors.entries()) {
+          console.error(
+            `${kleur.bgRed().bold(` ERROR ${index + 1} `)} ${kleur.white(
+              err.message,
+            )} \\n`,
+          );
         }
       }
 
@@ -58,6 +81,7 @@ export class BundlerRspack extends Bundler {
           console.error(closeErr);
           process.exit(1);
         }
+        this.onAfterCompile();
       });
     });
   }

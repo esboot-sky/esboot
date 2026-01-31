@@ -1,39 +1,41 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
-import { Environment } from '@dz-web/esboot-common';
-
-// Partials
-import { addEntry } from './partials/add-entry';
-import { addOutput } from './partials/add-output';
-import { addResolve } from './partials/add-resolve';
-import { addDevtool } from './partials/add-devtool';
-import { addReact } from './partials/add-react';
-import { addDevServer } from './add-dev-server';
-import { addCache } from './partials/add-cache';
-import { addExternals } from './partials/add-externals';
-
-// Optimization
-import { addOptimization } from './optimization/add-optimization';
-
-// Plugins
-import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
-import { addCopyPlugin } from './plugins/add-plugin-copy';
-import { addDefinePlugin } from './plugins/add-plugin-define';
-import { addProcessbarPlugin } from './plugins/add-plugin-processbar';
-
-// Rules
-import { addAssetRules } from './rules/add-rules-assets';
-import { addStyleRules } from './rules/style/add-rules-style';
-import { addJSONRules } from './rules/add-rules-json';
-import { addJavaScriptRules } from './rules/add-rules-javascript';
-
 import type { CustomRspackConfiguration } from './types';
 
+import { Environment } from '@dz-web/esboot-common';
+import { addDevServer } from './add-dev-server';
 import { customConfig } from './custom-config';
+// Optimization
+import { addOptimization } from './optimization/add-optimization';
+// Partials
+import { addCache } from './partials/add-cache';
+import { addDevtool } from './partials/add-devtool';
+import { addEntry } from './partials/add-entry';
+import { addExternals } from './partials/add-externals';
+
 import { addOnlyDev } from './partials/add-only-dev';
 
-export const getRspackCfg = async (
-  cfg: ConfigurationInstance
-): Promise<CustomRspackConfiguration> => {
+import { addOutput } from './partials/add-output';
+
+import { addReact } from './partials/add-react';
+import { addResolve } from './partials/add-resolve';
+// Plugins
+import { addBundleAnalyzerPlugin } from './plugins/add-plugin-bundle-analyzer';
+import { addCopyPlugin } from './plugins/add-plugin-copy';
+import { addDefinePlugin } from './plugins/add-plugin-define';
+
+import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
+import { addProcessbarPlugin } from './plugins/add-plugin-processbar';
+// Rules
+import { addAssetRules } from './rules/add-rules-assets';
+import { addJavaScriptRules } from './rules/add-rules-javascript';
+
+import { addJSONRules } from './rules/add-rules-json';
+
+import { addStyleRules } from './rules/style/add-rules-style';
+
+export async function getRspackCfg(
+  cfg: ConfigurationInstance,
+): Promise<CustomRspackConfiguration> {
   const { isDev } = cfg.config;
 
   const rspackCfg: CustomRspackConfiguration = {
@@ -41,6 +43,7 @@ export const getRspackCfg = async (
     performance: {
       hints: isDev ? false : 'warning',
     },
+    cache: false,
     entry: {},
     plugins: [],
     devServer: {},
@@ -73,6 +76,7 @@ export const getRspackCfg = async (
   await addCopyPlugin(cfg, rspackCfg);
   await addDefinePlugin(cfg, rspackCfg);
   await addProcessbarPlugin(cfg, rspackCfg);
+  await addBundleAnalyzerPlugin(cfg, rspackCfg);
 
   // Only Dev
   await addDevServer(cfg, rspackCfg);
@@ -82,4 +86,4 @@ export const getRspackCfg = async (
   await customConfig(cfg, rspackCfg);
 
   return rspackCfg;
-};
+}

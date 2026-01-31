@@ -1,5 +1,6 @@
+import type { BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
 import { defineConfig } from '@dz-web/esboot';
-import { BundlerRspack as Bundler, type BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
+import { BundlerRspack as Bundler } from '@dz-web/esboot-bundler-rspack';
 
 export default defineConfig<BundlerOptions>({
   bundler: Bundler,
@@ -10,7 +11,7 @@ export default defineConfig<BundlerOptions>({
     '@@': 'src',
   },
   server: {
-    port: 4001,
+    port: 4005,
     http2: false,
   },
   // analyze: true,

@@ -6,14 +6,14 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 import { login } from '@/api';
 
-// import styles from './app.scss';
+import styles from './app.scss';
 // import A from './a';
 
 import { langBtn } from './variant';
 
 import './test.css';
 
-// console.log(styles, 'styles');
+console.log(styles, 'styles');
 
 const a = 1;
 console.log(a);
@@ -31,7 +31,7 @@ function Test() {
   useEffect(() => {
     const cc = count + count3;
 
-    debugger
+    // debugger
     // login({
     //   username: 'admin',
     //   password: '123456',
@@ -44,7 +44,7 @@ function Test() {
 
   return (
     <div className="page">
-      <div className="text text2" styleName="text2-cls">
+      <div className={styles.text} styleName="text2-cls">
         module css233
         {getCount2}
       </div>

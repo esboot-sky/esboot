@@ -1,21 +1,29 @@
+import type { AddFunc } from '@/cfg/types';
+
 import path from 'node:path';
-import { CssExtractRspackPlugin as MiniCssExtractPlugin } from '@rspack/core';
+
+// @ts-expect-error - no types available
+import pxtorem from '@alitajs/postcss-plugin-px2rem';
+import { getLocalIdent } from '@dz-web/babel-plugin-react-css-modules/utils';
+import {
+  addPostcssPluginESBoot,
+  addPostcssPluginTailwindcss,
+} from '@dz-web/esboot-bundler-common';
+import { createResolvePath } from '@dz-web/esboot-common/helpers';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
-import { addPostcssPluginTailwindcss } from '@dz-web/esboot-bundler-common';
-const {
-  getLocalIdent,
-} = require('@dz-web/babel-plugin-react-css-modules/utils');
+import { CssExtractRspackPlugin as MiniCssExtractPlugin } from '@rspack/core';
+// @ts-expect-error - no types available
+import postcssNormalize from 'postcss-normalize';
+import postcssPresetEnv from 'postcss-preset-env';
 
 import {
   getCssHashRule,
-  getStyleLoader,
-  getMiniCssExtractPluginOptions,
   getCssLoaderOptions,
+  getMiniCssExtractPluginOptions,
+  getStyleLoader,
 } from './utils';
 
-import type { AddFunc } from '@/cfg/types';
-
-const pxtorem = require('@alitajs/postcss-plugin-px2rem');
+const resolvePath = createResolvePath(import.meta.resolve);
 
 interface ParseScssModuleOpts {
   modules?: boolean;
@@ -42,7 +50,7 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
   if (!isSP) {
     globalScssPathList.push(
       path.join(rootPath, './platforms/mobile/styles/'),
-      path.join(rootPath, './platforms/pc/styles/')
+      path.join(rootPath, './platforms/pc/styles/'),
     );
   }
 
@@ -55,7 +63,35 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
     sourceMap: isSourceMap,
     ...getCssLoaderOptions(),
   };
-  const tailwindCSS = addPostcssPluginTailwindcss(cfg);
+
+  const postcssPluginESBoot = await addPostcssPluginESBoot(cfg);
+  const tailwindCSS = await addPostcssPluginTailwindcss(cfg);
+
+  const postcssPlugins = [
+    postcssPluginESBoot,
+    tailwindCSS,
+    enablePxToRemByCompatibility
+    && pxtorem({
+      rootValue: 200,
+      unitPrecision: 5,
+      propWhiteList: [],
+      propBlackList: [],
+      exclude: false,
+      selectorBlackList: [],
+      ignoreIdentifier: false,
+      replace: true,
+      mediaQuery: false,
+      minPixelValue: 0,
+      ...pxtoremCustom,
+    }),
+    postcssPresetEnv({
+      autoprefixer: {
+        flexbox: 'no-2009',
+      },
+      stage: 3,
+    }),
+    postcssNormalize(),
+  ].filter(Boolean);
 
   const parseScssModule = (options: ParseScssModuleOpts) => {
     const { modules = false } = options;
@@ -65,7 +101,7 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
     if (modules) {
       Object.assign(cssLoaderOptionsCopy, {
         modules: {
-          namedExport: true,
+          namedExport: false,
           localIdentContext: rootPath,
           getLocalIdent,
           localIdentName: getCssHashRule(),
@@ -81,47 +117,24 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
             options: miniCssExtractPluginOptions,
           },
       {
-        loader: require.resolve('css-loader'),
+        loader: resolvePath('css-loader'),
         options: cssLoaderOptionsCopy,
       },
       {
-        loader: require.resolve('postcss-loader'),
+        loader: resolvePath('postcss-loader'),
         options: {
           sourceMap: isSourceMap,
           postcssOptions: {
-            plugins: [
-              tailwindCSS,
-              enablePxToRemByCompatibility &&
-                pxtorem({
-                  rootValue: 200,
-                  unitPrecision: 5,
-                  propWhiteList: [],
-                  propBlackList: [],
-                  exclude: false,
-                  selectorBlackList: [],
-                  ignoreIdentifier: false,
-                  replace: true,
-                  mediaQuery: false,
-                  minPixelValue: 0,
-                  ...pxtoremCustom,
-                }),
-              require('postcss-preset-env')({
-                autoprefixer: {
-                  flexbox: 'no-2009',
-                },
-                stage: 3,
-              }),
-              postcssNormalize(),
-            ].filter(Boolean),
+            plugins: postcssPlugins,
           },
         },
       },
       {
-        loader: require.resolve('sass-loader'),
+        loader: resolvePath('sass-loader'),
         options: {
           sourceMap: isSourceMap,
           api: 'modern-compiler',
-          implementation: require.resolve('sass-embedded'),
+          implementation: resolvePath('sass-embedded'),
         },
       },
     ];
@@ -140,8 +153,17 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
               options: getMiniCssExtractPluginOptions(),
             },
         {
-          loader: require.resolve('css-loader'),
+          loader: resolvePath('css-loader'),
           options: cssLoaderOptions,
+        },
+        {
+          loader: resolvePath('postcss-loader'),
+          options: {
+            sourceMap: isSourceMap,
+            postcssOptions: {
+              plugins: postcssPlugins,
+            },
+          },
         },
       ],
     },
@@ -157,7 +179,7 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
           use: parseScssModule({}),
         },
       ],
-    }
+    },
   );
 
   if (!isDev) {
@@ -165,7 +187,7 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
       new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:5].css',
         chunkFilename: 'css/[id].[contenthash:5].css',
-      })
+      }),
     );
   }
 };

@@ -1,0 +1,14 @@
+[package]
+name = "rspack-plugin-stylename"
+version = "0.1.0"
+edition = "2021"
+authors = ["Roc"]
+description = "SWC plugin for transforming styleName to className in JSX"
+license = "ISC"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+swc_core = { version = "0.78", features = ["ecma_plugin_transform"] }
+serde = { version = "1", features = ["derive"] }

@@ -1,6 +1,9 @@
 import type { AddFunc } from '@/cfg/types';
 
+import { createResolvePath } from '@dz-web/esboot-common/helpers';
 import { merge } from '@dz-web/esboot-common/lodash';
+
+const resolvePath = createResolvePath(import.meta.resolve);
 
 const parser = {
   dataUrlCondition: {
@@ -38,7 +41,7 @@ export const addAssetRules: AddFunc = async (cfg, rspackCfg) => {
         resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
         use: [
           {
-            loader: require.resolve('@svgr/webpack'),
+            loader: resolvePath('@svgr/webpack'),
             options: merge(
               {
                 icon: true,

@@ -1,0 +1,29 @@
+{
+  "name": "@dz-web/rspack-plugin-stylename",
+  "version": "0.1.0",
+  "description": "Rust-based SWC plugin for transforming styleName to className in JSX",
+  "author": "Roc",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "directory": "packages/rspack-plugin-stylename"
+  },
+  "keywords": [
+    "rspack",
+    "swc",
+    "plugin",
+    "stylename",
+    "css-modules",
+    "jsx",
+    "wasm"
+  ],
+  "main": "transform.wasm",
+  "files": [
+    "README.md",
+    "transform.wasm"
+  ],
+  "scripts": {
+    "build": "cargo build --target wasm32-wasi --release && cp target/wasm32-wasi/release/rspack_plugin_stylename.wasm transform.wasm",
+    "prepublishOnly": "pnpm run build"
+  }
+}

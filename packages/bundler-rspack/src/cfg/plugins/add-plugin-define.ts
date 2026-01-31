@@ -1,11 +1,11 @@
-import { EnvironmentPlugin, DefinePlugin } from '@rspack/core';
+import type { AddFunc } from '@/cfg/types';
 import { addDefine } from '@dz-web/esboot-bundler-common';
 
-import type { AddFunc } from '@/cfg/types';
+import { DefinePlugin, EnvironmentPlugin } from '@rspack/core';
 
 export const addDefinePlugin: AddFunc = async (cfg, rspackCfg) => {
   rspackCfg.plugins.push(
     new EnvironmentPlugin(['NODE_ENV']),
-    new DefinePlugin(addDefine(cfg))
+    new DefinePlugin(addDefine(cfg)),
   );
 };
