@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite';
-import path from 'node:path';
+
 
 import { getGlobalScssPathList, isGlobalStyleFile } from '@dz-web/esboot-bundler-common';
 import { createFilter } from '@rollup/pluginutils';
@@ -32,14 +32,25 @@ export default function reactStyleNamePlugin(options: Options = {}): Plugin[] {
   return [
     {
       name: 'react-styleName',
-      enforce: 'post' as const,
-      resolveId(source: string, importer: string | undefined) {
+      enforce: 'pre' as const,
+      async resolveId(source: string, importer: string | undefined, options: any) {
         if (source.endsWith('.scss') && importer) {
-          const resolvedPath = path.resolve(path.dirname(importer), source);
+          const resolution = await this.resolve(source, importer, {
+            skipSelf: true,
+            ...options,
+          });
+
+          if (!resolution?.id) {
+            return null;
+          }
+
+          const resolvedPath = resolution.id;
+
           // If it is a global style file, do not add ?module parameter
           if (isGlobalStyleFile(resolvedPath, globalScssPathList)) {
             return null;
           }
+
           if (filterStyleFiles(resolvedPath)) {
             const hasQuery = resolvedPath.includes('?');
             return `${resolvedPath}${hasQuery ? '&module' : '?module'}`;
