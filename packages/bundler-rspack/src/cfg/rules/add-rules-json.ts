@@ -1,12 +1,13 @@
-import { resolve } from 'node:path';
 import type { AddFunc } from '@/cfg/types';
+import { resolve } from 'node:path';
 
 export const addJSONRules: AddFunc = async (cfg, rspack) => {
   const { useLangJsonPicker, entry } = cfg.config;
 
-  if (!useLangJsonPicker) return;
+  if (!useLangJsonPicker)
+    return;
 
-  const list = Object.values(entry).map((item) => ({
+  const list = Object.values(entry).map(item => ({
     issuerLayer: item.chunkName,
     use: [
       {
@@ -18,7 +19,6 @@ export const addJSONRules: AddFunc = async (cfg, rspack) => {
     ],
   }));
 
-  rspack.experiments.layers = true;
   rspack.module.rules.push({
     test: /\.json$/,
     type: 'javascript/auto',

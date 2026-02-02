@@ -33,6 +33,7 @@
     "@dz-web/babel-plugin-react-css-modules": "^6.13.7",
     "@dz-web/esboot-bundler-common": "workspace:*",
     "@dz-web/esboot-common": "workspace:*",
+    "@dz-web/rspack-plugin-stylename": "workspace:*",
     "@rollup/pluginutils": "^5.3.0",
     "@rspack/core": "^1.7.4",
     "@rspack/dev-server": "^1.2.1",

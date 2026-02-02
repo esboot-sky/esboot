@@ -23,7 +23,7 @@
     "transform.wasm"
   ],
   "scripts": {
-    "build": "cargo build --target wasm32-wasi --release && cp target/wasm32-wasi/release/rspack_plugin_stylename.wasm transform.wasm",
+    "build": "cargo build --target wasm32-wasip1 --release && cp target/wasm32-wasip1/release/rspack_plugin_stylename.wasm transform.wasm",
     "prepublishOnly": "pnpm run build"
   }
 }

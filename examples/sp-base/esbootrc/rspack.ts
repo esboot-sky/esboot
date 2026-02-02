@@ -11,7 +11,7 @@ export default defineConfig<BundlerOptions>({
     '@@': 'src',
   },
   server: {
-    port: 4005,
+    port: 4006,
     http2: false,
   },
   // analyze: true,

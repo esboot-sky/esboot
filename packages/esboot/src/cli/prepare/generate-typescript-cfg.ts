@@ -1,14 +1,19 @@
+import { readFileSync } from 'node:fs';
 import { isAbsolute, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import { ensureDirSync, writeJSON } from '@dz-web/esboot-common/fs-extra';
 import { error, info } from '@dz-web/esboot-common/helpers';
 import { PluginHooks } from '@dz-web/esboot-common/plugin';
 
-import tsconfigJson from '@dz-web/esboot-lint/tsconfig.json' with { type: 'json' };
 import { cfg } from '@/cfg';
 import { absListPath } from '@/helpers';
 import { callPluginHookOfModifyLintConfig } from '@/plugin';
+
+// Load tsconfig.json using readFileSync to avoid Node.js v22 import attribute issues
+const tsconfigPath = fileURLToPath(import.meta.resolve('@dz-web/esboot-lint/tsconfig.json'));
+const tsconfigJson = JSON.parse(readFileSync(tsconfigPath, 'utf-8'));
 
 export function generateTypeScriptCfg(): void {
   const { cwd, alias } = cfg.config;

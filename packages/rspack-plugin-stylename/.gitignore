@@ -2,6 +2,7 @@
 /target/
 **/*.rs.bk
 *.pdb
+transform.wasm
 
 # WASM output (generated, but we keep transform.wasm for npm package)
 # /transform.wasm

@@ -1,6 +1,5 @@
-import type { BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
 import { defineConfig } from '@dz-web/esboot';
-import { BundlerRspack as Bundler } from '@dz-web/esboot-bundler-rspack';
+import { BundlerRspack as Bundler, type BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
 
 export default defineConfig<BundlerOptions>({
   bundler: Bundler,

@@ -15,10 +15,10 @@ export function defineConfig(config: Config = {}): Options {
     clean: false,
     dts: true,
     format: ['esm'],
-    target: 'es2017',
-    esbuildOptions(options) {
-      options.target = 'es2017';
-    },
+    // target: 'es2020',
+    // esbuildOptions(options) {
+    //   options.target = 'es2020';
+    // },
     external: [/^@swc\/helpers/],
     ...base,
   };
