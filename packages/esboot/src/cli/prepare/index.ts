@@ -29,7 +29,7 @@ export function prepare(): void {
       huskySetup({ configRootPath: cfg.config.configRootPath });
     }
     catch (err) {
-      error((err as Error).message);
+      error(`Setup husky failed: ${(err as Error).message}`);
     }
   }
 

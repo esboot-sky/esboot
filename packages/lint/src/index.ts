@@ -9,7 +9,7 @@ import {
 import { createResolvePath, error, info, resolveLibPath } from '@dz-web/esboot-common/helpers';
 
 const resolvePath = createResolvePath(import.meta.resolve);
-const _resolveLibPath = (p: string, relativePath = ''): string => resolveLibPath(p, resolvePath, relativePath);
+const _resolveLibPath = (p: string, relativePath = ''): string => resolveLibPath(p, import.meta.resolve, relativePath);
 
 export async function lint({ cwd, args = [] }: { cwd: string; args: string[] }): Promise<void> {
   exec(`node ${_resolveLibPath('stylelint', 'bin/stylelint.mjs')} '**/*.scss' ${args.join(' ')}`, {
@@ -22,11 +22,17 @@ export async function lint({ cwd, args = [] }: { cwd: string; args: string[] }):
 }
 
 export function huskySetup({ configRootPath }: { configRootPath: string }): void {
+  if (!pathExistsSync(resolve(process.cwd(), '.git'))) {
+    return;
+  }
+
   const huskyCfgTarget = resolve(configRootPath, '.husky');
+
   if (!pathExistsSync(huskyCfgTarget)) {
     ensureDirSync(huskyCfgTarget);
     copySync(resolve(__dirname, '../config/.husky'), huskyCfgTarget);
   }
+
   exec(`${_resolveLibPath('husky', './lib/bin.js')} install config/.husky`, {
     onError: (err) => {
       error(err.message);
