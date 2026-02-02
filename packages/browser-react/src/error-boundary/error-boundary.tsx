@@ -1,5 +1,5 @@
 import type { ErrorInfo, PropsWithChildren, ReactNode } from 'react';
-import type { ErrorBoundaryProps, FallbackProps } from 'react-error-boundary';
+import type { FallbackProps } from 'react-error-boundary';
 import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import { defaultFallbackRender } from './default-fallback-render';
 
@@ -44,7 +44,7 @@ function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactNode {
     <ReactErrorBoundary
       onReset={onReset}
       onError={logError}
-      fallbackRender={fallbackRender as ErrorBoundaryProps['fallbackRender']}
+      fallbackRender={fallbackRender}
     >
       {/* @ts-ignore */}
       {children}
