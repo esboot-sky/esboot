@@ -31,5 +31,5 @@ export const defineConfig = (config: Config = {}): Options => {
     ...prod,
   };
 
-  return process.env.NODE_ENV === 'development' ? devConfig : prodConfig;
+  return process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
 };
