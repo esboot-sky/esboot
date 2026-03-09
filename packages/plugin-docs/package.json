@@ -12,8 +12,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "cross-env NODE_ENV=development tsup",
+    "build": "cross-env NODE_ENV=production tsup",
+    "dev": "tsup",
     "prepublishOnly": "pnpm run build",
     "test": "vitest"
   },

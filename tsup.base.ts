@@ -39,5 +39,5 @@ export function defineConfig(config: Config = {}): Options {
     ...prod,
   };
 
-  return env.NODE_ENV === 'development' ? devConfig : prodConfig;
+  return env.NODE_ENV === 'production' ? prodConfig : devConfig;
 };

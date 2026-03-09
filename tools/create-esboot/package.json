@@ -21,8 +21,8 @@
     "templates/sp/.gitignore"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "cross-env NODE_ENV=development tsup",
+    "build": "cross-env NODE_ENV=production tsup",
+    "dev": "tsup",
     "prepublishOnly": "pnpm run build",
     "sync": "bun run ./lib/sync/index.ts",
     "sync:all": "pnpm run sync mp && pnpm run sync sp && pnpm run sync demo",
