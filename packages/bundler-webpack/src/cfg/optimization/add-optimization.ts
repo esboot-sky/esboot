@@ -14,8 +14,7 @@ export const addOptimization: AddFunc = async (cfg, webpackCfg) => {
     emitOnErrors: true,
     usedExports: true,
     sideEffects: true,
-    // For fixing the moduleID is not number
-    moduleIds: 'natural',
+    moduleIds: 'deterministic',
     minimize,
     minimizer: [],
   };

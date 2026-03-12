@@ -141,8 +141,8 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
   if (!isDev) {
     webpackCfg.plugins.push(
       new MiniCssExtractPlugin({
-        filename: 'css/[name].[contenthash:5].css',
-        chunkFilename: 'css/[id].[contenthash:5].css',
+        filename: 'css/[name].[contenthash:8].css',
+        chunkFilename: 'css/[id].[contenthash:8].css',
       })
     );
   }
