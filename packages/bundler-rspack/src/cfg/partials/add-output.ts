@@ -10,6 +10,6 @@ export const addOutput: AddFunc = async (cfg, rspackCfg) => {
     publicPath,
     clean: !isDev,
     path: resolve(cwd, outputPath || DEFAULT_OUTPUT_PATH),
-    filename: isDev ? 'js/[name].js' : 'js/[name].[chunkhash:5].js',
+    filename: isDev ? 'js/[name].js' : 'js/[name].[chunkhash:8].js',
   };
 };

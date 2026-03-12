@@ -185,8 +185,8 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
   if (!isDev) {
     rspackCfg.plugins.push(
       new MiniCssExtractPlugin({
-        filename: 'css/[name].[contenthash:5].css',
-        chunkFilename: 'css/[id].[contenthash:5].css',
+        filename: 'css/[name].[contenthash:8].css',
+        chunkFilename: 'css/[id].[contenthash:8].css',
       }),
     );
   }
