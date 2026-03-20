@@ -1,4 +1,3 @@
-import type { Configuration } from '@dz-web/esboot';
 import type { MFSU } from '@/cfg/helpers/mfsu';
 import type { AddFunc } from '@/cfg/types';
 import type { BundlerWebpackOptions } from '@/types';
@@ -76,7 +75,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
           return resolve(cwd, item as string);
         }
 
-        return resolveLibPath(item as string, resolvePath);
+        return resolveLibPath(item as string, import.meta.resolve);
       }
       catch (e: any) {
         if (e.code === 'MODULE_NOT_FOUND') {
