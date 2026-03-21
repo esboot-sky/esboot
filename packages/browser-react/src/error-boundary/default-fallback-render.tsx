@@ -45,7 +45,7 @@ export function defaultFallbackRender(props: DefaultFallbackRenderProps): ReactN
   return (
     <div role="alert" style={containerStyle} className={className}>
       <h2>Something went wrong</h2>
-      <pre style={messageStyle}>{error.message}</pre>
+      <pre style={messageStyle}>{error instanceof Error ? error.message : String(error)}</pre>
 
       <button type="button" style={buttonStyle} onClick={resetErrorBoundary}>
         Retry

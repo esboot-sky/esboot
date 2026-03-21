@@ -7,7 +7,7 @@ import { defaultFallbackRender } from './default-fallback-render';
  * Copy from react-error-boundary
  */
 interface ErrorBoundarySharedProps {
-  onError?: (error: Error, info: ErrorInfo) => void;
+  onError?: (error: unknown, info: ErrorInfo) => void;
   onReset?: (details: {
     reason: 'imperative-api';
     args: any[];
@@ -25,7 +25,7 @@ interface ErrorBoundaryPropsByESBoot extends ErrorBoundarySharedProps, PropsWith
 function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactNode {
   const { children, fallbackRender = defaultFallbackRender } = props;
 
-  const logError = (error: Error, info: ErrorInfo): void => {
+  const logError = (error: unknown, info: ErrorInfo): void => {
     props.onError?.(error, info);
     // Do something with the error, e.g. log to an external API
   };
@@ -46,7 +46,6 @@ function ErrorBoundary(props: ErrorBoundaryPropsByESBoot): ReactNode {
       onError={logError}
       fallbackRender={fallbackRender}
     >
-      {/* @ts-ignore */}
       {children}
     </ReactErrorBoundary>
   );
