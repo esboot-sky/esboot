@@ -20,7 +20,7 @@ export default {
     schema: [],
   },
   create(context) {
-    const currentFilename = context.getFilename();
+    const currentFilename = context.filename;
     const currInfo = extractPlatformAndType(currentFilename);
 
     return {

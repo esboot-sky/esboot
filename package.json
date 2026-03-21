@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@10.24.0",
   "engines": {
-    "node": ">=22.12.0",
+    "node": ">=22.13.0",
     "npm": ">=7.0.0"
   },
   "scripts": {
@@ -28,12 +28,12 @@
     "restore-version": "bun run scripts/restore-version.ts"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^6.2.0",
+    "@antfu/eslint-config": "^7.7.3",
     "@types/bun": "^1.3.2",
     "@types/node": "^24.10.0",
     "@vitest/ui": "^4.0.8",
     "cross-env": "^10.1.0",
-    "eslint": "^9.39.1",
+    "eslint": "^10.1.0",
     "lerna": "^9.0.0",
     "prettier": "latest",
     "tsup": "^8.5.0",
@@ -42,7 +42,7 @@
     "vitest": "^4.0.8"
   },
   "volta": {
-    "node": "22.12.0",
+    "node": "22.13.0",
     "pnpm": "10.14.0"
   }
 }

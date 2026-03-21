@@ -58,8 +58,8 @@
     "@types/react": "19.2.7",
     "@types/react-dom": "^19.2.3",
     "cross-env": "^10.1.0",
-    "eslint": "^9.39.2",
-    "stylelint": "^16.26.1",
+    "eslint": "^10.1.0",
+    "stylelint": "^17.5.0",
     "typescript": "^5.9.3"
   },
   "lint-staged": {

@@ -10,9 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@stylistic/stylelint-plugin": "^4.0.0",
+    "@stylistic/stylelint-plugin": "^5.0.1",
     "postcss-scss": "^4.0.9",
-    "stylelint-config-standard": "39.0.1",
-    "stylelint-scss": "6.12.1"
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-scss": "^7.0.0"
   }
 }

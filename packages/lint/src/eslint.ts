@@ -145,6 +145,12 @@ function buildVueConfig(customVue?: Partial<FlatConfigItem>): AntfuConfigItem {
 function buildReactConfig(customReact?: Partial<FlatConfigItem>): AntfuConfigItem {
   const defaultConfig: FlatConfigItem = {
     files: ['**/*.{jsx,ts,tsx}'],
+    languageOptions: {
+      parserOptions: {
+        // Enable type-aware services without requiring every consumer to wire parserOptions.project manually.
+        projectService: true,
+      },
+    },
     plugins: {
       'better-tailwindcss': eslintPluginBetterTailwindcss,
       '@dz-web/esboot': esbootPlugin,

@@ -78,7 +78,7 @@ const noChineseKeyRule: Rule.RuleModule = {
         }
       },
       Program(_node: any) {
-        const sourceCode = context.getSourceCode();
+        const sourceCode = context.sourceCode;
         const ast = sourceCode.ast as any;
         if (ast.type === 'JSONRoot' && ast.body && ast.body.length > 0) {
           traverse(ast.body[0]);

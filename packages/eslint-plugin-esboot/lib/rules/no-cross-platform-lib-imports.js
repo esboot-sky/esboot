@@ -37,7 +37,7 @@ export default {
     ],
   },
   create(context) {
-    const currentFilename = context.getFilename();
+    const currentFilename = context.filename;
     const currInfo = extractPlatformAndType(currentFilename);
 
     const options = context.options;
