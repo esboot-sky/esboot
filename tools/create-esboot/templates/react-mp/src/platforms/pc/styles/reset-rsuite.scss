@@ -1,0 +1,10 @@
+// 修复chrome 67 日历宽度不兼容
+.rs-calendar {
+  width: 264px;
+
+  .rs-calendar-table-cell {
+    &:focus {
+      outline: none;
+    }
+  }
+}

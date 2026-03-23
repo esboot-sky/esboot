@@ -58,9 +58,10 @@ enum ENpmClient {
 }
 
 export enum ETemplate {
-  mp = 'mp',
-  sp = 'sp',
-  demo = 'demo',
+  mp = 'react-mp',
+  sp = 'react-sp',
+  reactAdmin = 'react-admin',
+  demo = 'react-demo',
 }
 
 export interface IDefaultData extends ITemplateParams {
@@ -128,6 +129,7 @@ export default async ({
         { label: 'React Demo App', value: ETemplate.demo },
         { label: 'React Multiple Platforms App', value: ETemplate.mp },
         { label: 'React Single Platform App', value: ETemplate.sp },
+        { label: 'React Admin App', value: ETemplate.reactAdmin },
       ],
       initialValue: ETemplate.demo,
     })) as ETemplate;

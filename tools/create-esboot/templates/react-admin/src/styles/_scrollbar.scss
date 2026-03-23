@@ -1,0 +1,27 @@
+:root {
+  --scrollbar-width: 9px;
+  --scrollbar-height: 9px;
+}
+
+html {
+  ::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+    height: var(--scrollbar-height);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    border-right: 1px solid var(--scrollbar-thumb-border-color);
+    border-left: 1px solid var(--scrollbar-thumb-border-color);
+    background-image: linear-gradient(to right, var(--scrollbar-thumb-background-start), var(--scrollbar-thumb-background-end));
+    background-size: 100%;
+  }
+
+  ::-webkit-scrollbar-track-piece {
+    background-color: var(--scrollbar-track-color);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background-color: var(--scrollbar-track-color);
+  }
+}

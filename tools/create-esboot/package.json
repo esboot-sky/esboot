@@ -1,6 +1,6 @@
 {
   "name": "create-esboot",
-  "version": "4.0.3",
+  "version": "4.1.1",
   "description": "create-esboot",
   "license": "MIT",
   "repository": {
@@ -16,16 +16,17 @@
     "bin",
     "dist",
     "templates",
-    "templates/demo/.gitignore",
-    "templates/mp/.gitignore",
-    "templates/sp/.gitignore"
+    "templates/react-admin/.gitignore",
+    "templates/react-demo/.gitignore",
+    "templates/react-mp/.gitignore",
+    "templates/react-sp/.gitignore"
   ],
   "scripts": {
     "build": "cross-env NODE_ENV=production tsup",
     "dev": "tsup",
     "prepublishOnly": "pnpm run build",
     "sync": "bun run ./lib/sync/index.ts",
-    "sync:all": "pnpm run sync mp && pnpm run sync sp && pnpm run sync demo",
+    "sync:all": "pnpm run sync react-mp && pnpm run sync react-sp && pnpm run sync react-demo && pnpm run sync react-admin",
     "test:init": "bun run ./lib/test-init/index.ts"
   },
   "dependencies": {

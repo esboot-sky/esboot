@@ -1,0 +1,10 @@
+import App from '@pc/modules/<%= pageName %>';
+import generatePage from '@pc-native/helpers/generate-page';
+
+generatePage(<App />);
+
+export default {
+  title: 'pc-Native',
+  template: 'disable-rem',
+  langJsonPicker: ['<%= pageName %>', 'global'],
+};

@@ -1,9 +1,10 @@
+import type { ETemplate } from '../constant';
 import { existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { logger } from '@umijs/utils';
-import { $ } from 'bun';
 
-import { supportedTemplate, type ETemplate } from '../constant';
+import { $ } from 'bun';
+import { supportedTemplate } from '../constant';
 
 const owner = 'esboot-sky';
 const templateName = process.argv[2];
@@ -12,7 +13,7 @@ if (!supportedTemplate.includes(templateName as ETemplate)) {
   throw new Error(`Not supported template: ${templateName}`);
 }
 
-const repo = `esboot-react-${templateName}`;
+const repo = `esboot-${templateName}`;
 
 async function sync() {
   const targetDir = './tmp';
@@ -44,7 +45,7 @@ async function sync() {
 
   await Bun.write(
     join(templateDir, 'package.json.tpl'),
-    JSON.stringify(pkg, null, 2)
+    JSON.stringify(pkg, null, 2),
   );
   logger.info('Successfully upgraded template');
 

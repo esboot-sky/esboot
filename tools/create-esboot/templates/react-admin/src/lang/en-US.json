@@ -1,0 +1,33 @@
+{
+  "login": {
+    "hi_welcome_back": "Hi, welcome back~",
+    "management_platform": "Bookkeeping system management platform",
+    "login": "Login",
+    "please_enter_your_account_number_mobile_phone_number": "Please enter account/mobile number",
+    "please_enter_your_password": "Please enter password",
+    "please_enter_the_verification_code": "Please enter verification code"
+  },
+  "rolemanagement": {
+    "role_management": "Role management",
+    "role_name": "Role name",
+    "please_enter_role_name": "Please enter role name",
+    "parent_role": "Parent role",
+    "remark": "Remark",
+    "permissions": "Permissions",
+    "create_new_role": "Create role",
+    "create_successfully": "Created successfully",
+    "edit_role": "Edit role",
+    "edit_successfully": "Updated successfully",
+    "batch_delete": "Batch delete",
+    "confirm_batch_delete": "Are you sure to batch delete?",
+    "please_select_role_to_delete": "Please select roles to delete",
+    "confirm_delete": "Are you sure to delete?",
+    "click_to_set": "Click to set",
+    "please_select_parent_role_first": "Please select parent role first",
+    "please_select_parent_role": "Please select parent role",
+    "delete": "Delete",
+    "edit": "Edit"
+  },
+  "logout": "Logout",
+  "name": "Name"
+}

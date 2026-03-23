@@ -1,0 +1,32 @@
+{
+  "login": {
+    "hi_welcome_back": "Hi，歡迎回來～",
+    "management_platform": "簿記系統管理平台",
+    "login": "登入",
+    "please_enter_your_account_number_mobile_phone_number": "請輸入帳號/手機號",
+    "please_enter_your_password": "請輸入密碼",
+    "please_enter_the_verification_code": "請輸入驗證碼"
+  },
+  "rolemanagement": {
+    "role_management": "角色管理",
+    "role_name": "角色名稱",
+    "please_enter_role_name": "請輸入角色名稱",
+    "parent_role": "上級角色",
+    "remark": "備註",
+    "permissions": "權限",
+    "create_new_role": "新建角色",
+    "create_successfully": "新建成功",
+    "edit_role": "修改角色",
+    "edit_successfully": "修改成功",
+    "batch_delete": "批量刪除",
+    "confirm_batch_delete": "確定批量刪除？",
+    "please_select_role_to_delete": "請選擇要刪除的角色",
+    "confirm_delete": "確定刪除？",
+    "click_to_set": "點擊設置",
+    "please_select_parent_role_first": "請先選擇上級角色",
+    "please_select_parent_role": "請選擇上級角色",
+    "delete": "刪除",
+    "edit": "編輯"
+  },
+  "logout": "退出登入"
+}

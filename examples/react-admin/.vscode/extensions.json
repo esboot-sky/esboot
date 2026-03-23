@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "bradlc.vscode-tailwindcss",
+    "stylelint.vscode-stylelint",
+    "rvest.vs-code-prettier-eslint",
+    "esbenp.prettier-vscode",
+    "moonlitusun.esboot"
+  ]
+}
