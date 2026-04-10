@@ -44,7 +44,7 @@ function Test() {
 
   return (
     <div className="page">
-      <div className={styles.text} styleName="text2-cls">
+      <div styleName="text2-cls">
         module css233
         {getCount2}
       </div>

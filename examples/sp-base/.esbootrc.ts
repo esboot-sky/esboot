@@ -32,7 +32,7 @@ export default defineConfig<BundlerOptions>({
   },
   css: {
     modules: {
-      useStyleName: true,
+      useStyleName: false,
     },
   },
   // analyze: true,

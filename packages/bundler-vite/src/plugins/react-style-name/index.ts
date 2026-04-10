@@ -1,6 +1,5 @@
 import type { Plugin } from 'vite';
 
-
 import { getGlobalScssPathList, isGlobalStyleFile } from '@dz-web/esboot-bundler-common';
 import { createFilter } from '@rollup/pluginutils';
 import MagicString from 'magic-string';
@@ -9,6 +8,7 @@ import {
   getTransformerSource,
   makeVariableName,
   REACT_CREATE_ELEMENT_REGEX_GENERATOR,
+  transformJSXStyleName,
 } from './handle-style-name';
 
 interface Options {
@@ -84,6 +84,8 @@ export default function reactStyleNamePlugin(options: Options = {}): Plugin[] {
             variables.push(variable);
           }
 
+          const hasJSXStyleNameTransform = transformJSXStyleName(s, source, variables);
+
           // Apply styleName transformer wrapping
           const regex = REACT_CREATE_ELEMENT_REGEX_GENERATOR(reactVariableName);
           // MagicString handles index drift implicitly if we use original indices,
@@ -102,12 +104,16 @@ export default function reactStyleNamePlugin(options: Options = {}): Plugin[] {
             s.overwrite(index, index + fullMatch.length, replacement);
           }
 
-          s.prepend(`${getTransformerSource()}\n;\n`);
+          if (matches.length) {
+            s.prepend(`${getTransformerSource()}\n;\n`);
+          }
 
-          return {
-            code: s.toString(),
-            map: s.generateMap({ hires: true }),
-          };
+          if (hasJSXStyleNameTransform || matches.length) {
+            return {
+              code: s.toString(),
+              map: s.generateMap({ hires: true }),
+            };
+          }
         }
       },
     },

@@ -6,6 +6,7 @@ import reactStyleName from '@/plugins/react-style-name';
 export const addStyle: AddFunc = async (cfg, viteCfg) => {
   const { rootPath, isSP } = cfg.config;
   const { localsConvention, useStyleName } = cfg.config.css?.modules || {};
+
   viteCfg.plugins!.push(reactStyleName({ rootPath, isSP, useStyleName }) as Plugin[]);
   let viteLocalsConvention: any = localsConvention;
 
