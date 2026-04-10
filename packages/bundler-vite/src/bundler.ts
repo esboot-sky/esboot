@@ -5,6 +5,7 @@ import express from 'express';
 import { build, createServer as createViteServer } from 'vite';
 
 import { getCfg } from './cfg/get-cfg';
+import { isHtmlRequest } from './helpers/html-request';
 import { loadHtmlContent } from './helpers/load-html-content';
 
 export class BundlerVite extends Bundler {
@@ -29,9 +30,7 @@ export class BundlerVite extends Bundler {
     app.use(vite.middlewares);
 
     app.use('/', async (req, res) => {
-      const isHtmlRequest = req.headers.accept?.includes('text/html');
-
-      if (isHtmlRequest) {
+      if (isHtmlRequest(req)) {
         const { originalUrl } = req;
         const _reqUrl = originalUrl.includes('.html')
           ? originalUrl

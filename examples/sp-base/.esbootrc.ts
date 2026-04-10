@@ -27,12 +27,12 @@ export default defineConfig<BundlerOptions>({
     '@@': 'src',
   },
   server: {
-    port: 4000,
+    port: 4100,
     http2: false,
   },
   css: {
     modules: {
-      useStyleName: false,
+      useStyleName: true,
     },
   },
   // analyze: true,

@@ -3,17 +3,25 @@ import type { Configuration } from '@/cfg';
 import { PluginHooks } from '@dz-web/esboot-common/plugin';
 
 export const pluginHooksDict = new (class PluginHooksDict {
-  state: Record<PluginHooks, any[]> = {
-    [PluginHooks.registerCommands]: [],
-    [PluginHooks.prepare]: [],
-    [PluginHooks.modifyConfig]: [],
-    [PluginHooks.modifyTypescriptConfig]: [],
-    [PluginHooks.modifyPrettierConfig]: [],
-    [PluginHooks.modifyStylelintConfig]: [],
-    [PluginHooks.modifyEslintConfig]: [],
-    [PluginHooks.modifyBundlerConfig]: [],
-    [PluginHooks.afterCompile]: [],
-  };
+  state: Record<PluginHooks, any[]> = this.createState();
+
+  createState(): Record<PluginHooks, any[]> {
+    return {
+      [PluginHooks.registerCommands]: [],
+      [PluginHooks.prepare]: [],
+      [PluginHooks.modifyConfig]: [],
+      [PluginHooks.modifyTypescriptConfig]: [],
+      [PluginHooks.modifyPrettierConfig]: [],
+      [PluginHooks.modifyStylelintConfig]: [],
+      [PluginHooks.modifyEslintConfig]: [],
+      [PluginHooks.modifyBundlerConfig]: [],
+      [PluginHooks.afterCompile]: [],
+    };
+  }
+
+  reset(): void {
+    this.state = this.createState();
+  }
 
   addListener(key: PluginHooks, fn: any): void {
     this.state[key].push(fn);
@@ -30,6 +38,8 @@ export const pluginHooksDict = new (class PluginHooksDict {
 
 export function preparePlugins(cfg: Configuration): void {
   const { plugins = [] } = cfg;
+
+  pluginHooksDict.reset();
 
   for (const plugin of plugins) {
     const { key, onActivated, ...hooks } = plugin;

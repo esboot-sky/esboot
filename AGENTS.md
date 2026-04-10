@@ -311,6 +311,33 @@ Functional changes must follow red-green TDD:
 - Verify: rerun the focused test, then run lint/build checks appropriate to the
   changed package or example.
 
+Before optimization or refactoring, build a broad characterization test baseline
+first. Do not start by changing implementation. Work from small to large:
+
+- Unit tests for pure helpers, config merging, env derivation, path resolution,
+  entry discovery, style/global-style decisions, code splitting helpers, and
+  plugin hook behavior.
+- Package-level integration tests for ESBoot config loading, prepare output,
+  plugin registration, and each bundler config factory.
+- Cross-bundler contract tests for user-facing behavior that should stay
+  aligned across Vite, Webpack, and Rspack: entries, aliases, defines, CSS
+  Modules, `styleName`, static copy, lang JSON picker, Tailwind, px2rem,
+  minification, and code splitting.
+- Example-app tests for `examples/sp-base`, `examples/mp-base`,
+  `examples/react-admin`, and `examples/sp-base-vue`.
+- UI and browser behavior tests must use Playwright where a real browser is
+  needed. Cover page rendering, routing, generated HTML, CSS Modules,
+  `styleName` styling, static assets, runtime config loading, language JSON
+  behavior, and visible UI regressions.
+- For UI changes, include interaction assertions and screenshots or visual
+  checks when layout/styling is part of the behavior.
+- Do not skip "boring" paths. CLI commands, generated config files, templates,
+  example apps, and error paths need tests too.
+
+The goal before large optimization is a safety net that captures existing
+behavior. If behavior is unclear, write characterization tests that document the
+current behavior before proposing changes.
+
 Useful focused checks:
 
 - `pnpm exec vitest run packages/bundler-vite/src/plugins/react-style-name/index.test.ts`

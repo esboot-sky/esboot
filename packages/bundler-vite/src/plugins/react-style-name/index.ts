@@ -51,7 +51,8 @@ export default function reactStyleNamePlugin(options: Options = {}): Plugin[] {
             return null;
           }
 
-          if (filterStyleFiles(resolvedPath)) {
+          const [resolvedPathWithoutQuery] = resolvedPath.split('?');
+          if (filterStyleFiles(resolvedPathWithoutQuery)) {
             const hasQuery = resolvedPath.includes('?');
             return `${resolvedPath}${hasQuery ? '&module' : '?module'}`;
           }

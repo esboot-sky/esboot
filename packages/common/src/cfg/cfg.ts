@@ -15,7 +15,7 @@ import { defaultCfg } from './default-cfg';
 const jiti = createJiti(import.meta.url);
 
 export class ESBootCfg<Options extends Configuration = Configuration> {
-  #config: Options = defaultCfg as Options;
+  #config: Options = structuredClone(defaultCfg) as Options;
 
   get config(): Options {
     return this.#config;

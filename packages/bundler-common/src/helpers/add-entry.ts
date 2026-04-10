@@ -6,6 +6,8 @@ import process from 'node:process';
 import { getExportProps } from '@umijs/ast';
 import { glob } from 'tinyglobby';
 
+const ENTRY_FILENAME_RE = /([^/\\]+)\.entry\.(ts|tsx)$/;
+
 interface EntryFileExportProps {
   title?: string;
   template?: string;
@@ -26,7 +28,7 @@ export async function addEntry(cfg: ConfigurationInstance, cb?: (params: AddEntr
   contentPath?: string;
   pattern?: string;
   ignore?: string;
-} = {}) {
+} = {}): Promise<void> {
   const {
     isSP,
     MPConfiguration,
@@ -68,8 +70,14 @@ export async function addEntry(cfg: ConfigurationInstance, cb?: (params: AddEntr
       = (getExportProps(readFileSync(_file, 'utf-8')) as EntryFileExportProps)
         || {};
 
-    const fileName = (file.match(/([^/\\]+)\.entry\.(ts|tsx)$/) || [])[1] || '';
+    const fileName = (file.match(ENTRY_FILENAME_RE) || [])[1] || '';
     const chunkName = name || fileName;
+
+    if (entry[chunkName]) {
+      throw new Error(
+        `Duplicate entry chunkName "${chunkName}" for "${entry[chunkName].entry}" and "${_file}".`,
+      );
+    }
 
     const ensureTitle = title || fileName || 'ESBoot APP';
     const tplRelativePath = `template/${template || 'index'}.html`;
