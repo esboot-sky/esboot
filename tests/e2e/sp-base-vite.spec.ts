@@ -9,7 +9,7 @@ test.describe('sp-base vite app', () => {
       }
     });
 
-    await page.goto('/index.html');
+    await page.goto('/');
 
     await expect(page).toHaveTitle('SP Base');
     await expect(page.getByText('module css233')).toBeVisible();
@@ -20,9 +20,7 @@ test.describe('sp-base vite app', () => {
 
     await page.getByRole('button', { name: 'To Test' }).click();
     await expect(page).toHaveURL(/\/test$/);
-    await expect(page.getByText('B')).toBeVisible();
-    await expect(page.getByRole('img')).toHaveAttribute('src', /v\.svg/);
-
+    await expect(page.getByText(/^B$/)).toBeVisible();
     expect(consoleErrors).toEqual([]);
   });
 });

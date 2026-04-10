@@ -8,6 +8,8 @@ import { getCfg } from './cfg/get-cfg';
 import { isHtmlRequest } from './helpers/html-request';
 import { loadHtmlContent } from './helpers/load-html-content';
 
+const HTML_PAGE_RE = /\/(.*?)\.html/;
+
 export class BundlerVite extends Bundler {
   name = 'vite';
 
@@ -36,7 +38,7 @@ export class BundlerVite extends Bundler {
           ? originalUrl
           : '/index.html';
 
-        const pageName = _reqUrl.match(/\/(.*?)\.html/)?.[1] ?? '';
+        const pageName = _reqUrl.match(HTML_PAGE_RE)?.[1] ?? '';
 
         if (pages[pageName]) {
           const rawHtmlContent = await loadHtmlContent(pageName, pages);
