@@ -1,16 +1,11 @@
 import type { AddFunc } from '@/cfg/types';
-
-const DEFAULT_DEVTOOL = 'cheap-module-source-map';
+import { resolveDevtoolIntent } from '@dz-web/esboot-bundler-common';
 
 export const addDevtool: AddFunc = async (cfg, webpackCfg) => {
   const { isDev, sourceMap } = cfg.config;
+  const devtool = resolveDevtoolIntent({ isDev, sourceMap });
 
-  if (sourceMap) {
-    webpackCfg.devtool = 'source-map';
-    return;
-  }
-
-  if (isDev) {
-    webpackCfg.devtool = DEFAULT_DEVTOOL;
+  if (devtool) {
+    webpackCfg.devtool = devtool;
   }
 };

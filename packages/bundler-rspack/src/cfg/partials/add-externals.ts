@@ -1,9 +1,11 @@
 import type { AddFunc } from '@/cfg/types';
+import { resolveExternalsIntent } from '@dz-web/esboot-bundler-common';
 
 export const addExternals: AddFunc = async (cfg, rspackCfg) => {
   const { externals } = cfg.config;
+  const resolvedExternals = resolveExternalsIntent(externals);
 
-  if (externals) {
-    rspackCfg.externals = externals;
+  if (resolvedExternals) {
+    rspackCfg.externals = resolvedExternals;
   }
 };

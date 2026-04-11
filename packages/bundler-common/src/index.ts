@@ -3,6 +3,11 @@ export { defaultTemplate } from './constants/default-template';
 export { addDefine } from './helpers/add-define';
 
 export { addEntry, type AddEntryCBParams } from './helpers/add-entry';
+export {
+  createOutputIntent,
+  resolveDevtoolIntent,
+  resolveExternalsIntent,
+} from './helpers/bundler-intent';
 export { logDevServer } from './helpers/dev-server';
 
 export { mergeFrameworkBundles } from './helpers/framework-bundles';

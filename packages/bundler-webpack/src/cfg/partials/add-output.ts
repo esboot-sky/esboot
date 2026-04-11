@@ -1,15 +1,13 @@
 import type { AddFunc } from '@/cfg/types';
-import { resolve } from 'node:path';
-
-import { DEFAULT_OUTPUT_PATH } from '@dz-web/esboot-common/constants';
+import { createOutputIntent } from '@dz-web/esboot-bundler-common';
 
 export const addOutput: AddFunc = async (cfg, webpackCfg) => {
   const { cwd, isDev, publicPath, outputPath } = cfg.config;
 
-  webpackCfg.output = {
+  webpackCfg.output = createOutputIntent({
+    cwd,
+    isDev,
     publicPath,
-    clean: !isDev,
-    path: resolve(cwd, outputPath || DEFAULT_OUTPUT_PATH),
-    filename: isDev ? 'js/[name].js' : 'js/[name].[chunkhash:8].js',
-  };
+    outputPath,
+  });
 };
