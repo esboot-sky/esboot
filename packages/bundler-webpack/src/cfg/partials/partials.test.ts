@@ -18,13 +18,13 @@ describe('webpack cfg partials', () => {
     expect(webpackCfg.devtool).toBe('source-map');
   });
 
-  it('uses cheap devtool during development when sourceMap is disabled', async () => {
+  it('uses eval cheap devtool during development when sourceMap is disabled', async () => {
     const { addDevtool } = await import('./add-devtool');
     const webpackCfg: Record<string, unknown> = {};
 
     await addDevtool({ config: { isDev: true, sourceMap: false } } as any, webpackCfg as any);
 
-    expect(webpackCfg.devtool).toBe('cheap-module-source-map');
+    expect(webpackCfg.devtool).toBe('eval-cheap-module-source-map');
   });
 
   it('writes output config with hashed filenames in production', async () => {

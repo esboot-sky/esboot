@@ -55,6 +55,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
   const getBabelLoaderOptions = (isExtra = false): Record<string, any> => {
     return {
       cacheDirectory: true,
+      cacheCompression: false,
       presets: [...extraBabelPresets, ...presets].filter(Boolean),
       env,
       plugins: [

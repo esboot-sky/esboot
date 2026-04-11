@@ -30,11 +30,13 @@ describe('webpack javascript rules', () => {
     expect(webpackCfg.module.rules[0].use[0]).toMatchObject({
       options: expect.objectContaining({
         cacheDirectory: true,
+        cacheCompression: false,
       }),
     });
     expect(webpackCfg.module.rules[1].use[0]).toMatchObject({
       options: expect.objectContaining({
         cacheDirectory: true,
+        cacheCompression: false,
       }),
     });
   });
