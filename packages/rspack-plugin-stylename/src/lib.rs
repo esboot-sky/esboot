@@ -329,3 +329,27 @@ pub fn process_transform(mut program: Program, metadata: TransformPluginProgramM
     program.visit_mut_with(&mut transformer);
     program
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn converts_kebab_and_snake_case_to_camel_case() {
+        assert_eq!(to_camel_case("text2-cls"), "text2Cls");
+        assert_eq!(to_camel_case("text_value"), "textValue");
+        assert_eq!(to_camel_case("plain"), "plain");
+    }
+
+    #[test]
+    fn identifies_local_scss_imports_but_skips_global_styles_directory() {
+        let transformer = StyleNameTransformer::new(Config {
+            hash_pattern: default_hash_pattern(),
+        });
+
+        assert!(transformer.is_style_import("./app.scss"));
+        assert!(transformer.is_style_import("../views/home/app.scss"));
+        assert!(!transformer.is_style_import("./styles/index.scss"));
+        assert!(!transformer.is_style_import("./app.css"));
+    }
+}

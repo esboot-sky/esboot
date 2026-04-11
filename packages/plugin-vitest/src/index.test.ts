@@ -1,5 +1,22 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import pluginVitest, { alias } from './index';
+
+const { exec, searchCommand } = vi.hoisted(() => ({
+  exec: vi.fn(),
+  searchCommand: vi.fn(() => '/resolved/vitest'),
+}));
+
+vi.mock('@dz-web/esboot-common/execa', () => ({
+  exec,
+}));
+
+vi.mock('@dz-web/esboot-common/helpers', async () => {
+  const actual = await vi.importActual<object>('@dz-web/esboot-common/helpers');
+  return {
+    ...actual,
+    searchCommand,
+  };
+});
 
 describe('alias', () => {
   it('should return the correct alias', () => {
@@ -29,5 +46,15 @@ describe('is a plugin', () => {
 
     expect(plugin.modifyTypescriptConfig).toBeDefined();
     expect(plugin.modifyTypescriptConfig).toBeInstanceOf(Function);
+  });
+
+  it('registers a vitest command that forwards passThrough arguments', async () => {
+    const plugin = pluginVitest();
+    const [command] = plugin.registerCommands!({ cwd: '/repo/app' } as any);
+
+    await command.action?.('', { passThrough: '--runInBand' });
+
+    expect(searchCommand).toHaveBeenCalled();
+    expect(exec).toHaveBeenCalledWith(expect.stringContaining('/resolved/vitest --runInBand -r /repo/app -c '));
   });
 });

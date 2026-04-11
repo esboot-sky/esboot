@@ -8,5 +8,5 @@ export const customConfig: AddFunc = async (cfg, rspackCfg) => {
 
   if (!customConfig || !isFunction(customConfig)) return;
 
-  rspackCfg = customConfig(rspackCfg, cfg.config);
+  Object.assign(rspackCfg, customConfig(rspackCfg, cfg.config));
 };

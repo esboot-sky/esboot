@@ -9,5 +9,5 @@ export const customConfig: AddFunc = async (cfg, webpackCfg) => {
   if (!customConfig || !isFunction(customConfig))
     return;
 
-  webpackCfg = customConfig(webpackCfg, cfg.config);
+  Object.assign(webpackCfg, customConfig(webpackCfg, cfg.config));
 };
