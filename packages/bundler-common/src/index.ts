@@ -19,6 +19,7 @@ export {
   shouldEnableCacheIntent,
 } from './helpers/cache-intent';
 export { createSplitChunksIntent } from './helpers/code-splitting-intent';
+export { createResolveIntent } from './helpers/resolve-intent';
 
 export { mergeFrameworkBundles } from './helpers/framework-bundles';
 export { getGlobalScssPathList, isGlobalStyleFile } from './helpers/global-style';
