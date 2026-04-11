@@ -28,7 +28,7 @@ export default defineConfig<BundlerOptions>(cfg => ({
   },
   // publicPath: '/test',
   server: {
-    port: 4000,
+    port: 4100,
     http2: true,
     https: true,
     proxy: [

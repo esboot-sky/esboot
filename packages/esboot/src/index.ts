@@ -6,6 +6,7 @@ export * from './cfg';
 export * from './cfg/define-config';
 
 export * from './cli/prepare';
+export * from './page';
 export { definePlugin } from './plugin';
 
 export * from './plugin/hooks-action';

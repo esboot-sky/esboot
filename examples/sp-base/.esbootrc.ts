@@ -27,7 +27,7 @@ export default defineConfig<BundlerOptions>({
     '@@': 'src',
   },
   server: {
-    port: 4100,
+    port: 4000,
     http2: false,
   },
   css: {

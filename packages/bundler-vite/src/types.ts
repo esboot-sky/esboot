@@ -1,5 +1,5 @@
-import type { InlineConfig } from 'vite';
 import type { Configuration as ESBootConfiguration } from '@dz-web/esboot';
+import type { InlineConfig } from 'vite';
 
 export enum CodeSplittingType {
   bigVendors = 'bigVendors',
@@ -15,6 +15,7 @@ export interface SharedConfig {
     string,
     {
       entry: string;
+      sourceEntry: string;
       title: string;
       template: string;
     }

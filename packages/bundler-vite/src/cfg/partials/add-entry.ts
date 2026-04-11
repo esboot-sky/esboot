@@ -27,6 +27,7 @@ export const addEntry: AddFunc = async (cfg, viteCfg) => {
     pages[chunkName] = {
       template: join(configRootPath, template),
       entry: entry.replace(cwd, ''),
+      sourceEntry: entry,
       title,
     };
   });
