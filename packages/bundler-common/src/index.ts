@@ -14,6 +14,10 @@ export {
   createHtmlPageIntent,
   resolveTemplateRootPath,
 } from './helpers/entry-intent';
+export {
+  createRuntimeOptimizationIntent,
+  shouldEnableCacheIntent,
+} from './helpers/cache-intent';
 
 export { mergeFrameworkBundles } from './helpers/framework-bundles';
 export { getGlobalScssPathList, isGlobalStyleFile } from './helpers/global-style';

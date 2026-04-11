@@ -5,20 +5,20 @@ import {
   getUserConfigFile,
   webpackCacheDir,
 } from '@dz-web/esboot-common/constants';
+import {
+  createRuntimeOptimizationIntent,
+  shouldEnableCacheIntent,
+} from '@dz-web/esboot-bundler-common';
 
 export const addCache: AddFunc = async (cfg, webpackCfg) => {
   const { isDev, isCIBuild, cwd, bundlerOptions = {} } = cfg.config;
   const { buildCache = false } = bundlerOptions as BundlerWebpackOptions;
 
-  if (isDev)
+  if (!shouldEnableCacheIntent({ isDev, isCIBuild, buildCache })) {
     return;
-  if (isCIBuild && !buildCache)
-    return;
+  }
 
-  webpackCfg.optimization = {
-    runtimeChunk: 'single',
-    moduleIds: 'deterministic',
-  };
+  webpackCfg.optimization = createRuntimeOptimizationIntent();
 
   webpackCfg.cache = {
     type: 'filesystem',

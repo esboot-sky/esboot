@@ -1,12 +1,13 @@
 import type { AddFunc } from '@/cfg/types';
+import {
+  createRuntimeOptimizationIntent,
+  shouldEnableCacheIntent,
+} from '@dz-web/esboot-bundler-common';
 
 export const addCache: AddFunc = async (cfg, rspackCfg) => {
   const { isDev, isCIBuild } = cfg.config;
 
-  if (isDev || isCIBuild) return;
+  if (!shouldEnableCacheIntent({ isDev, isCIBuild })) return;
 
-  rspackCfg.optimization = {
-    runtimeChunk: 'single',
-    moduleIds: 'deterministic',
-  };
+  rspackCfg.optimization = createRuntimeOptimizationIntent();
 };
