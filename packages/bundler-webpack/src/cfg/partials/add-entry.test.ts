@@ -5,9 +5,13 @@ const HtmlWebpackPlugin = vi.fn(function MockHtmlWebpackPlugin(this: Record<stri
   this.options = options;
 });
 
-vi.mock('@dz-web/esboot-bundler-common', () => ({
-  addEntry: addEntryHelper,
-}));
+vi.mock('@dz-web/esboot-bundler-common', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@dz-web/esboot-bundler-common')>();
+  return {
+    ...actual,
+    addEntry: addEntryHelper,
+  };
+});
 
 vi.mock('html-webpack-plugin', () => ({
   default: HtmlWebpackPlugin,

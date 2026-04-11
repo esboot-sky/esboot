@@ -9,6 +9,11 @@ export {
   resolveExternalsIntent,
 } from './helpers/bundler-intent';
 export { logDevServer } from './helpers/dev-server';
+export {
+  createEntryValueIntent,
+  createHtmlPageIntent,
+  resolveTemplateRootPath,
+} from './helpers/entry-intent';
 
 export { mergeFrameworkBundles } from './helpers/framework-bundles';
 export { getGlobalScssPathList, isGlobalStyleFile } from './helpers/global-style';

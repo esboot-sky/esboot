@@ -5,9 +5,13 @@ const HtmlRspackPlugin = vi.fn(function MockHtmlRspackPlugin(this: Record<string
   this.options = options;
 });
 
-vi.mock('@dz-web/esboot-bundler-common', () => ({
-  addEntry: addEntryHelper,
-}));
+vi.mock('@dz-web/esboot-bundler-common', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@dz-web/esboot-bundler-common')>();
+  return {
+    ...actual,
+    addEntry: addEntryHelper,
+  };
+});
 
 vi.mock('@rspack/core', () => ({
   HtmlRspackPlugin,
@@ -27,7 +31,6 @@ describe('rspack addEntry partial', () => {
   });
 
   it('registers html plugin and layered entries when lang json picker is enabled', async () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     const { addEntry } = await import('./add-entry');
     const rspackCfg = {
       entry: {},
@@ -59,6 +62,5 @@ describe('rspack addEntry partial', () => {
       template: '/repo/app/config/template/index.html',
       minify: true,
     }));
-    logSpy.mockRestore();
   });
 });

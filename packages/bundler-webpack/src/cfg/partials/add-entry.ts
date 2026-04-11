@@ -1,10 +1,12 @@
 import type { AddEntryCBParams } from '@dz-web/esboot-bundler-common';
 import type { Options } from 'html-webpack-plugin';
 import type { AddFunc } from '@/cfg/types';
-import { join } from 'node:path';
 
 import {
   addEntry as _addEntry,
+  createEntryValueIntent,
+  createHtmlPageIntent,
+  resolveTemplateRootPath,
 } from '@dz-web/esboot-bundler-common';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
@@ -12,10 +14,11 @@ export const addEntry: AddFunc<{
   enableLangJsonPicker: boolean;
 }> = async (cfg, webpackCfg, options) => {
   const { configRootPath, MPConfiguration, isSP, isDev } = cfg.config;
-  let tplRootPath = configRootPath;
-  if (!isSP && MPConfiguration) {
-    tplRootPath = MPConfiguration.configRootPathOfPlatfrom;
-  }
+  const tplRootPath = resolveTemplateRootPath({
+    configRootPath,
+    MPConfiguration,
+    isSP,
+  });
   const { enableLangJsonPicker } = options!;
   const htmlPluginCfg: Options = {
     inject: true,
@@ -37,26 +40,28 @@ export const addEntry: AddFunc<{
 
   await _addEntry(cfg, (params: AddEntryCBParams) => {
     const { chunkName, template, entry, title } = params;
-    const ensureTpl = join(tplRootPath, template);
+    const pageIntent = createHtmlPageIntent({
+      chunkName,
+      title,
+      template,
+      templateRootPath: tplRootPath,
+      isDev,
+    });
 
-    if (enableLangJsonPicker) {
-      webpackCfg.entry[chunkName] = {
-        import: entry,
-        layer: chunkName,
-      };
-    }
-    else {
-      webpackCfg.entry[chunkName] = entry;
-    }
+    webpackCfg.entry[chunkName] = createEntryValueIntent({
+      chunkName,
+      entry,
+      enableLangJsonPicker,
+    });
 
     webpackCfg.plugins.push(
       new HtmlWebpackPlugin({
-        chunks: [chunkName],
-        filename: `${chunkName}.html`,
-        title,
-        template: ensureTpl,
+        chunks: pageIntent.chunks,
+        filename: pageIntent.filename,
+        title: pageIntent.title,
+        template: pageIntent.template,
         templateParameters: {
-          isDev,
+          isDev: pageIntent.isDev,
         },
         ...htmlPluginCfg,
       }),

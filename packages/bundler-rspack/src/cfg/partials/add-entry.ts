@@ -1,9 +1,10 @@
 import type { AddEntryCBParams } from '@dz-web/esboot-bundler-common';
 import type { AddFunc } from '@/cfg/types';
-import { join } from 'node:path';
 import {
   addEntry as _addEntry,
-
+  createEntryValueIntent,
+  createHtmlPageIntent,
+  resolveTemplateRootPath,
 } from '@dz-web/esboot-bundler-common';
 
 import { HtmlRspackPlugin } from '@rspack/core';
@@ -17,34 +18,38 @@ export const addEntry: AddFunc = async (cfg, rspackCfg) => {
     publicPath,
     useLangJsonPicker,
   } = cfg.config;
-  const tplRootPath = isSP
-    ? configRootPath
-    : MPConfiguration!.configRootPathOfPlatfrom;
+  const tplRootPath = resolveTemplateRootPath({
+    configRootPath,
+    MPConfiguration,
+    isSP,
+  });
 
   const enableLangJsonPicker = useLangJsonPicker;
   await _addEntry(cfg, (params: AddEntryCBParams) => {
     const { chunkName, template, entry, title } = params;
-    const ensureTpl = join(tplRootPath, template);
+    const pageIntent = createHtmlPageIntent({
+      chunkName,
+      title,
+      template,
+      templateRootPath: tplRootPath,
+      isDev,
+    });
 
-    if (enableLangJsonPicker) {
-      rspackCfg.entry[chunkName] = {
-        import: entry,
-        layer: chunkName,
-      };
-    }
-    else {
-      rspackCfg.entry[chunkName] = entry;
-    }
+    rspackCfg.entry[chunkName] = createEntryValueIntent({
+      chunkName,
+      entry,
+      enableLangJsonPicker,
+    });
     rspackCfg.plugins.push(
       new HtmlRspackPlugin({
         publicPath,
-        chunks: [chunkName],
-        filename: `${chunkName}.html`,
-        title,
-        template: ensureTpl,
+        chunks: pageIntent.chunks,
+        filename: pageIntent.filename,
+        title: pageIntent.title,
+        template: pageIntent.template,
         inject: true,
         hash: true,
-        minify: !isDev,
+        minify: !pageIntent.isDev,
         scriptLoading: 'defer',
         // templateParameters: {
         //   htmlWebpackPlugin: {
@@ -56,5 +61,4 @@ export const addEntry: AddFunc = async (cfg, rspackCfg) => {
       }),
     );
   });
-  console.log(rspackCfg.entry, '<-- rspackCfg.entry');
 };
