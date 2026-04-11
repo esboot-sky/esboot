@@ -4,7 +4,10 @@ interface CacheIntentOptions {
   buildCache?: boolean;
 }
 
-export function createRuntimeOptimizationIntent() {
+export function createRuntimeOptimizationIntent(): {
+  runtimeChunk: 'single';
+  moduleIds: 'deterministic';
+} {
   return {
     runtimeChunk: 'single',
     moduleIds: 'deterministic',

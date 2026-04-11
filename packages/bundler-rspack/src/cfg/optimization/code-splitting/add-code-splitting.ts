@@ -1,10 +1,7 @@
 import type { AddFunc } from '@/cfg/types';
-import type {
-  BundlerRspackOptions,
-  jsStrategyForGranularChunksOptions,
-} from '@/types';
-import { CodeSplittingType } from '@/types';
+import type { BundlerRspackOptions } from '@/types';
 import { createSplitChunksIntent } from '@dz-web/esboot-bundler-common';
+import { CodeSplittingType } from '@/types';
 
 import { granularChunks } from './granular-chunks';
 

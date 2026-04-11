@@ -14,7 +14,12 @@ interface DevtoolIntentOptions {
   sourceMap?: boolean;
 }
 
-export function createOutputIntent(options: OutputIntentOptions) {
+export function createOutputIntent(options: OutputIntentOptions): {
+  publicPath: string;
+  clean: boolean;
+  path: string;
+  filename: string;
+} {
   const { cwd, isDev, publicPath, outputPath } = options;
 
   return {

@@ -21,6 +21,7 @@ import { addCopyPlugin } from './plugins/add-plugin-copy';
 
 import { addDefinePlugin } from './plugins/add-plugin-define';
 import { addPluginModifyHtml } from './plugins/add-plugin-modify-html';
+import { addPerformancePlugin } from './plugins/add-plugin-performance';
 import { addProcessbarPlugin } from './plugins/add-plugin-processbar';
 import { addAssetRules } from './rules/add-rules-asset';
 import { addJSONRules } from './rules/add-rules-json';
@@ -71,6 +72,7 @@ export async function getWebpackCfg(cfg: ConfigurationInstance): Promise<CustomW
   await addCopyPlugin(cfg, webpackCfg);
   await addDefinePlugin(cfg, webpackCfg);
   await addProcessbarPlugin(cfg, webpackCfg);
+  await addPerformancePlugin(cfg, webpackCfg);
   await addBundleAnalyzerPlugin(cfg, webpackCfg);
 
   await addDevServer(cfg, webpackCfg, { mfsu });

@@ -32,7 +32,10 @@ export function resolveTemplateRootPath(options: ResolveTemplateRootPathOptions)
   return MPConfiguration.configRootPathOfPlatfrom;
 }
 
-export function createEntryValueIntent(options: CreateEntryValueIntentOptions) {
+export function createEntryValueIntent(options: CreateEntryValueIntentOptions): string | {
+  import: string;
+  layer: string;
+} {
   const { chunkName, entry, enableLangJsonPicker } = options;
 
   if (!enableLangJsonPicker) {
@@ -45,7 +48,15 @@ export function createEntryValueIntent(options: CreateEntryValueIntentOptions) {
   };
 }
 
-export function createHtmlPageIntent(options: CreateHtmlPageIntentOptions) {
+export function createHtmlPageIntent(options: CreateHtmlPageIntentOptions): {
+  chunks: string[];
+  filename: string;
+  title: string;
+  template: string;
+  inject: true;
+  hash: true;
+  isDev: boolean;
+} {
   const { chunkName, title, template, templateRootPath, isDev } = options;
 
   return {

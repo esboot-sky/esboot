@@ -7,7 +7,9 @@ import {
 export const addCache: AddFunc = async (cfg, rspackCfg) => {
   const { isDev, isCIBuild } = cfg.config;
 
-  if (!shouldEnableCacheIntent({ isDev, isCIBuild })) return;
+  if (!shouldEnableCacheIntent({ isDev, isCIBuild })) {
+    return;
+  }
 
   rspackCfg.optimization = createRuntimeOptimizationIntent();
 };

@@ -1,6 +1,26 @@
 import { describe, expect, it } from 'vitest';
 
 describe('webpack more partials', () => {
+  it('enables filesystem cache in development to speed up repeated startups', async () => {
+    const { addCache } = await import('./add-cache');
+    const webpackCfg: Record<string, any> = {};
+
+    await addCache({
+      config: {
+        cwd: '/repo/app',
+        isDev: true,
+        isCIBuild: false,
+        bundlerOptions: {},
+      },
+    } as any, webpackCfg);
+
+    expect(webpackCfg.optimization).toEqual({
+      runtimeChunk: 'single',
+      moduleIds: 'deterministic',
+    });
+    expect(webpackCfg.cache.type).toBe('filesystem');
+  });
+
   it('enables filesystem cache for prod builds outside CI or when build cache is enabled', async () => {
     const { addCache } = await import('./add-cache');
     const webpackCfg: Record<string, any> = {};

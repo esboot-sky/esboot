@@ -8,22 +8,21 @@ export {
   resolveDevtoolIntent,
   resolveExternalsIntent,
 } from './helpers/bundler-intent';
+export {
+  createRuntimeOptimizationIntent,
+  shouldEnableCacheIntent,
+} from './helpers/cache-intent';
+export { createSplitChunksIntent } from './helpers/code-splitting-intent';
 export { logDevServer } from './helpers/dev-server';
 export {
   createEntryValueIntent,
   createHtmlPageIntent,
   resolveTemplateRootPath,
 } from './helpers/entry-intent';
-export {
-  createRuntimeOptimizationIntent,
-  shouldEnableCacheIntent,
-} from './helpers/cache-intent';
-export { createSplitChunksIntent } from './helpers/code-splitting-intent';
-export { createResolveIntent } from './helpers/resolve-intent';
-
 export { mergeFrameworkBundles } from './helpers/framework-bundles';
 export { getGlobalScssPathList, isGlobalStyleFile } from './helpers/global-style';
 export { injectHtml } from './helpers/inject-html';
+export { createResolveIntent } from './helpers/resolve-intent';
 
 export { watchOnFileChange } from './helpers/watch-on-file-change';
 export { addPostcssPluginESBoot } from './postcss/add-plugin-esboot';

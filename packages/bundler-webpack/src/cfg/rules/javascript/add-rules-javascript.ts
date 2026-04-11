@@ -11,6 +11,12 @@ import { isRegExp } from '@dz-web/esboot-common/lodash';
 import { env, getPlugins, presets } from './babelrc.config';
 
 const resolvePath = createResolvePath(import.meta.resolve);
+const TS_JS_RE = /\.tsx?$/;
+const NODE_MODULES_RE = /node_modules/;
+const CONFIG_JS_RE = /config\.js$/;
+const EXTRA_JS_RE = /\.(js|mjs|cjs)$/;
+const JSON_RE = /\.json$/;
+
 export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
   cfg,
   webpackCfg,
@@ -45,9 +51,10 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
       transpileOnly: true,
     },
   };
-  const getBabelLoaderOptions = (isExtra = false) => {
+  const threadLoaders = isDev ? [] : [threadLoader];
+  const getBabelLoaderOptions = (isExtra = false): Record<string, any> => {
     return {
-      cacheDirectory: !isDev,
+      cacheDirectory: true,
       presets: [...extraBabelPresets, ...presets].filter(Boolean),
       env,
       plugins: [
@@ -90,22 +97,22 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
 
   webpackCfg.module.rules.push(
     {
-      test: /\.tsx?$/,
+      test: TS_JS_RE,
       include: [rootPath],
-      exclude: [/node_modules/, /config\.js$/],
+      exclude: [NODE_MODULES_RE, CONFIG_JS_RE],
       use: [
         {
           loader: babelLoader,
           options: getBabelLoaderOptions(),
         },
-        threadLoader,
+        ...threadLoaders,
         tsLoader,
       ],
     },
     {
-      test: /\.(js|mjs|cjs)$/,
+      test: EXTRA_JS_RE,
       include: getExtraBabelIncludes(),
-      exclude: [rootPath, /\.json$/],
+      exclude: [rootPath, JSON_RE],
       use: [
         {
           loader: babelLoader,
@@ -113,7 +120,7 @@ export const addJavaScriptRules: AddFunc<{ mfsu: MFSU }> = async (
             ...getBabelLoaderOptions(true),
           },
         },
-        threadLoader,
+        ...threadLoaders,
       ],
     },
   );

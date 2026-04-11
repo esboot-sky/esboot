@@ -17,8 +17,13 @@ const DEFAULT_EXTENSIONS = [
   '.tsx',
   '.json',
 ];
+const DEFAULT_MAIN_FIELDS = ['module', 'browser', 'main'];
 
-export function createResolveIntent(options: ResolveIntentOptions) {
+export function createResolveIntent(options: ResolveIntentOptions): {
+  alias: Record<string, string>;
+  extensions: string[];
+  mainFields?: string[];
+} {
   const { alias, cwd = process.cwd(), includeMainFields = false } = options;
   const resolvedAlias: Record<string, string> = {};
 
@@ -29,6 +34,6 @@ export function createResolveIntent(options: ResolveIntentOptions) {
   return {
     alias: resolvedAlias,
     extensions: DEFAULT_EXTENSIONS,
-    mainFields: includeMainFields ? ['module', 'browser', 'main'] : undefined,
+    mainFields: includeMainFields ? DEFAULT_MAIN_FIELDS : undefined,
   };
 }
