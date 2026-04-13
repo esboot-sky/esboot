@@ -1,7 +1,6 @@
 import type { BabelPlugin, ConfigurationInstance } from '@dz-web/esboot';
 import type { Environment } from '@dz-web/esboot-common';
 import type { BundlerViteOptions, CustomViteConfiguration } from '../types';
-
 import { join } from 'node:path';
 import {
   addDefine,
@@ -11,16 +10,15 @@ import {
   addReactCompiler,
 } from '@dz-web/esboot-bundler-common';
 import { cacheDir } from '@dz-web/esboot-common';
+import { resolveTailwindConfig } from '@dz-web/esboot-common/cfg';
 import react from '@vitejs/plugin-react';
 import { addCopyPlugin } from '../plugins/add-plugin-copy';
 import { addLangJsonPicker } from '../plugins/add-plugin-lang-json-picker';
-
 import { addSvgrPlugin } from '../plugins/add-plugin-svgr';
+import { addTailwindPlugin } from '../plugins/add-plugin-tailwind';
 import { addBuildCfg } from './build/add-build-cfg';
 import { addDevServer } from './partials/add-dev-server';
-
 import { addEntry } from './partials/add-entry';
-
 import { addResolve } from './partials/add-resolve';
 import { addStyle } from './partials/add-style';
 
@@ -30,6 +28,7 @@ export async function getCfg(cfg: ConfigurationInstance, mode: Environment, opti
   const { onModifyBundlerConfig } = options || {};
   const { cwd, bundlerOptions = {}, publicPath, sourceMap, isDev } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerViteOptions;
+  const { enable, version: tailwindVersion } = resolveTailwindConfig(cfg.config);
 
   let viteCfg: CustomViteConfiguration = {
     plugins: [
@@ -62,7 +61,7 @@ export async function getCfg(cfg: ConfigurationInstance, mode: Environment, opti
       postcss: {
         plugins: [
           await addPostcssPluginESBoot(cfg),
-          await addPostcssPluginTailwindcss(cfg),
+          enable && tailwindVersion === '3' ? await addPostcssPluginTailwindcss(cfg) : false,
           await addPostcssPluginPx2rem(cfg),
         ].filter(Boolean),
       },
@@ -80,6 +79,9 @@ export async function getCfg(cfg: ConfigurationInstance, mode: Environment, opti
   await addEntry(cfg, viteCfg);
   await addDevServer(cfg, viteCfg);
   await addResolve(cfg, viteCfg);
+  if (enable && tailwindVersion === 'next') {
+    await addTailwindPlugin(cfg, viteCfg);
+  }
 
   await addSvgrPlugin(cfg, viteCfg);
   await addCopyPlugin(cfg, viteCfg);

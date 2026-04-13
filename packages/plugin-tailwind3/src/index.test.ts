@@ -28,6 +28,6 @@ describe('plugin-tailwind3', () => {
       dependencies?: Record<string, string>;
     };
 
-    expect(packageJson.dependencies?.tailwindcss).toBe('^3.4.17');
+    expect(packageJson.dependencies?.tailwindcss).toBe('^3.4.19');
   });
 });

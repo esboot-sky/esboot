@@ -1,5 +1,6 @@
 import type { Plugin } from '@dz-web/esboot-common/plugin';
 import { PluginHooks } from '@dz-web/esboot-common/plugin';
+import { prepareTailwind3, tailwind3Config } from './prepare';
 
 export default function pluginTailwind3(): Plugin {
   return {
@@ -13,5 +14,8 @@ export default function pluginTailwind3(): Plugin {
         },
       },
     }) as any,
+    [PluginHooks.prepare]: prepareTailwind3,
   };
 }
+
+export { tailwind3Config };

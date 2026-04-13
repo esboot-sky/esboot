@@ -1,16 +1,10 @@
 import type { Node, Result, Root } from 'postcss';
-import fs from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { parse } from 'postcss';
 
 import { calculateContentHash } from './helpers';
+import { getTailwindPreludeRoot } from './tailwind-prelude';
 
 type TailwindVersion = '3' | 'next';
-
-interface TailwindFileCache {
-  content: string;
-  mtime: number;
-}
 
 interface ProcessedRootCache {
   hash: string;
@@ -18,55 +12,7 @@ interface ProcessedRootCache {
 }
 
 const fileCache = new Map<string, ProcessedRootCache>();
-const tailwindFileCache = new Map<string, TailwindFileCache>();
 const tailwindSignRegex = /ESBOOT_SIGN_TAILWIND_CSS/g;
-
-function getTailwindFileContent(filePath: string): string {
-  const cached = tailwindFileCache.get(filePath);
-  const stats = fs.statSync(filePath);
-  const currentMtime = stats.mtimeMs;
-
-  if (cached && cached.mtime === currentMtime) {
-    return cached.content;
-  }
-
-  const content = fs.readFileSync(filePath, 'utf8');
-  tailwindFileCache.set(filePath, {
-    content,
-    mtime: currentMtime,
-  });
-
-  return content;
-}
-
-function getTailwindPrelude(tailwindVersion: TailwindVersion, useSeparateTailwindImports: boolean): string {
-  console.log('Getting Tailwind CSS prelude for version:', tailwindVersion, 'with separate imports:', useSeparateTailwindImports);
-  if (tailwindVersion === '3') {
-    return '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n';
-  }
-
-  if (useSeparateTailwindImports) {
-    const themeCssContent = getTailwindFileContent(
-      fileURLToPath(import.meta.resolve('tailwindcss/theme.css')),
-    );
-    const preflightCssContent = getTailwindFileContent(
-      fileURLToPath(import.meta.resolve('tailwindcss/preflight.css')),
-    );
-    const utilitiesCssContent = getTailwindFileContent(
-      fileURLToPath(import.meta.resolve('tailwindcss/utilities.css')),
-    );
-
-    return [
-      themeCssContent,
-      preflightCssContent,
-      utilitiesCssContent,
-    ].join('\n');
-  }
-
-  return getTailwindFileContent(
-    fileURLToPath(import.meta.resolve('tailwindcss/index.css')),
-  );
-}
 
 function getCacheKey(filePath: string, tailwindVersion: TailwindVersion, useSeparateTailwindImports: boolean): string {
   return `${filePath}:${tailwindVersion}:${useSeparateTailwindImports ? 'separate' : 'combined'}`;
@@ -143,10 +89,13 @@ export default async (opts = {
         }
 
         const updatedCssContent = cssContent.replace(tailwindSignRegex, '');
-        const tailwindPrelude = getTailwindPrelude(tailwindVersion, useSeparateTailwindImports);
-        const tailwindRoot = parse(tailwindPrelude, {
-          from: filePath || undefined,
-        });
+        console.warn('Getting Tailwind CSS prelude for version:', tailwindVersion, 'with separate imports:', useSeparateTailwindImports);
+        const { prelude: tailwindPrelude, root: tailwindRoot } = getTailwindPreludeRoot(
+          tailwindVersion,
+          useSeparateTailwindImports,
+          filePath || undefined,
+        );
+        console.warn('tailwindPrelude', tailwindPrelude);
         const contentRoot = parse(updatedCssContent, {
           from: filePath || undefined,
         });

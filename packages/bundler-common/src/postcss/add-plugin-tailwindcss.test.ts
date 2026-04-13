@@ -20,6 +20,19 @@ const importModuleFromPackage = vi.fn(async (moduleName: string, packageName: st
     return { default: tailwind3Plugin };
   }
 
+  if (moduleName === '@dz-web/esboot-plugin-tailwind3') {
+    return {
+      tailwind3Config: {
+        darkMode: ['selector', '.dz-theme-dark'],
+        content: ['./src/**/*.{js,jsx,ts,tsx}'],
+        theme: {
+          extend: {},
+        },
+        plugins: [],
+      },
+    };
+  }
+
   return { default: tailwindPostcssPlugin };
 });
 
@@ -76,6 +89,34 @@ describe('addPostcssPluginTailwindcss', () => {
       },
     } as any)).resolves.toBe('tailwind-3');
     expect(tailwind3Plugin).toHaveBeenCalledTimes(1);
+    expect(tailwind3Plugin).toHaveBeenCalledWith(expect.objectContaining({
+      content: ['./src/**/*.{js,jsx,ts,tsx}'],
+      darkMode: ['selector', '.dz-theme-dark'],
+      plugins: [],
+    }));
     expect(importModuleFromPackage).toHaveBeenCalledWith('tailwindcss', '@dz-web/esboot-plugin-tailwind3', expect.any(String));
+    expect(importModuleFromPackage).toHaveBeenCalledWith('@dz-web/esboot-plugin-tailwind3', '@dz-web/esboot-plugin-tailwind3', expect.any(String));
+  });
+
+  it('passes a contentful config to tailwindcss for version 3', async () => {
+    const { addPostcssPluginTailwindcss } = await import('./add-plugin-tailwindcss');
+
+    await addPostcssPluginTailwindcss({
+      config: {
+        css: {
+          tailwind: {
+            enable: true,
+            version: '3',
+            separateImports: false,
+          },
+        },
+      },
+    } as any);
+
+    expect(tailwind3Plugin).toHaveBeenCalledWith(expect.objectContaining({
+      content: ['./src/**/*.{js,jsx,ts,tsx}'],
+      darkMode: ['selector', '.dz-theme-dark'],
+      plugins: [],
+    }));
   });
 });

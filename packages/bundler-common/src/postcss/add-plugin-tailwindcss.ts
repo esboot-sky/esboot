@@ -12,11 +12,21 @@ export async function addPostcssPluginTailwindcss(cfg: ConfigurationInstance): P
     return false;
 
   if (version === '3') {
-    return importModuleFromPackage<{ default: () => any }>(
+    return importModuleFromPackage<{ default: (tailwindConfig: Record<string, unknown>) => any }>(
       'tailwindcss',
       '@dz-web/esboot-plugin-tailwind3',
       cwd,
-    ).then(({ default: plugin }) => plugin());
+    ).then(async ({ default: plugin }) => {
+      const { tailwind3Config } = await importModuleFromPackage<{
+        tailwind3Config: Record<string, unknown>;
+      }>(
+        '@dz-web/esboot-plugin-tailwind3',
+        '@dz-web/esboot-plugin-tailwind3',
+        cwd,
+      );
+
+      return plugin(tailwind3Config);
+    });
   }
 
   return importModuleFromCwd<{ default: () => any }>('@tailwindcss/postcss', cwd).then(({ default: plugin }) => plugin());
