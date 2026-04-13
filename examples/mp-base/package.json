@@ -28,6 +28,7 @@
     "@dz-web/cache": "^2.0.0",
     "@dz-web/esboot-browser": "workspace:*",
     "@dz-web/esboot-browser-react": "workspace:*",
+    "@dz-web/esboot-plugin-tailwind3": "workspace:*",
     "@dz-web/o-orange": "^4.3.0",
     "@tanstack/react-query": "^5.62.2",
     "@tanstack/react-query-devtools": "^5.62.2",

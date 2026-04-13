@@ -53,12 +53,19 @@ export interface CSSOptions {
     useStyleName?: boolean;
     localsConvention?: LocalsConvention;
   };
+  tailwind?: {
+    enable?: boolean;
+    version?: TailwindVersion;
+    separateImports?: boolean;
+  };
 }
 
 export interface ReactCompiler {
   enable?: boolean;
   target: '18' | '19';
 }
+
+export type TailwindVersion = '3' | 'next';
 
 export interface UserOptions {
   isSP?: boolean;
@@ -90,8 +97,6 @@ export interface UserOptions {
   };
   legacy?: boolean;
   externals?: Record<string, string>;
-  useTailwindcss?: boolean;
-  useSeparateTailwindImports?: boolean;
   plugins?: Plugin[];
   experimental?: {
     reactCompiler?: ReactCompiler;

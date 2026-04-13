@@ -26,6 +26,16 @@ afterEach(async () => {
 });
 
 describe('esboot cfg', () => {
+  it('defaults tailwind config under css', () => {
+    const cfg = new ESBootCfg();
+
+    expect(cfg.config.css.tailwind).toEqual({
+      enable: true,
+      version: 'next',
+      separateImports: false,
+    });
+  });
+
   it('creates isolated default configuration for each instance', () => {
     const first = new ESBootCfg();
 

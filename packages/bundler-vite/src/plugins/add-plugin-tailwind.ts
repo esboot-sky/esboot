@@ -1,4 +1,5 @@
 import type { AddFunc } from '@/cfg/types';
+import { resolveTailwindConfig } from '@dz-web/esboot-common/cfg';
 
 /**
  * @deprecated
@@ -6,9 +7,9 @@ import type { AddFunc } from '@/cfg/types';
  *
  */
 export const addTailwindPlugin: AddFunc = async (cfg, viteCfg) => {
-  const { useTailwindcss } = cfg.config;
+  const { enable } = resolveTailwindConfig(cfg.config);
 
-  if (!useTailwindcss)
+  if (!enable)
     return;
   const { default: vitePluginTailwindcss } = await import('@tailwindcss/vite');
 

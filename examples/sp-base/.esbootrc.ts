@@ -1,39 +1,22 @@
-import type { BundlerViteOptions as BundlerOptions } from '@dz-web/esboot-bundler-vite';
-import { defineConfig, definePlugin, PluginHooks } from '@dz-web/esboot';
-import { BundlerVite as Bundler } from '@dz-web/esboot-bundler-vite';
-import pluginDocs from '@dz-web/esboot-plugin-docs';
-import pluginVitest from '@dz-web/esboot-plugin-vitest';
+import type { BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
+import { defineConfig } from '@dz-web/esboot';
+import { BundlerRspack as Bundler } from '@dz-web/esboot-bundler-rspack';
+import pluginTailwind3 from '@dz-web/esboot-plugin-tailwind3';
 
 export default defineConfig<BundlerOptions>({
   plugins: [
-    pluginDocs(),
-    pluginVitest(),
-    definePlugin({
-      key: 'test1',
-      [PluginHooks.afterCompile]: (cfg) => {
-        console.log(cfg.entry);
-      },
-    }),
+    pluginTailwind3(),
   ],
   bundler: Bundler,
   isSP: true,
   bundlerOptions: {},
   sourceMap: false,
-  // publicPath: '/test/',
-  define: {
-    'process.env.test': 'test',
-  },
   alias: {
     '@@': 'src',
   },
   server: {
-    port: 4000,
+    port: 4006,
     http2: false,
-  },
-  css: {
-    modules: {
-      useStyleName: true,
-    },
   },
   // analyze: true,
   // extraBabelIncludes: [

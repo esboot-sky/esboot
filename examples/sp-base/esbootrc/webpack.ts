@@ -6,10 +6,12 @@ import {
   CodeSplittingType,
 } from '@dz-web/esboot-bundler-webpack';
 import pluginDocs from '@dz-web/esboot-plugin-docs';
+import pluginTailwind3 from '@dz-web/esboot-plugin-tailwind3';
 import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
 export default defineConfig<BundlerOptions>({
   plugins: [
+    pluginTailwind3(),
     pluginDocs(),
     pluginVitest(),
     definePlugin({

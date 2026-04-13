@@ -2,10 +2,12 @@ import type { BundlerViteOptions as BundlerOptions } from '@dz-web/esboot-bundle
 import { defineConfig, definePlugin, PluginHooks } from '@dz-web/esboot';
 import { BundlerVite as Bundler } from '@dz-web/esboot-bundler-vite';
 import pluginDocs from '@dz-web/esboot-plugin-docs';
+import pluginTailwind3 from '@dz-web/esboot-plugin-tailwind3';
 import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
 export default defineConfig<BundlerOptions>({
   plugins: [
+    pluginTailwind3(),
     pluginDocs(),
     pluginVitest(),
     definePlugin({

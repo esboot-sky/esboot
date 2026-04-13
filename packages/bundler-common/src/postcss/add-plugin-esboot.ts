@@ -1,12 +1,15 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
+import { resolveTailwindConfig } from '@dz-web/esboot-common/cfg';
 import postcssPluginESBoot from '@dz-web/postcss-plugin-esboot';
 
 export async function addPostcssPluginESBoot(cfg: ConfigurationInstance): Promise<any> {
-  const { useTailwindcss, useSeparateTailwindImports, isDev } = cfg.config;
+  const { enable, separateImports, version } = resolveTailwindConfig(cfg.config);
+  const { isDev } = cfg.config;
 
   return postcssPluginESBoot({
-    useTailwindcss,
-    useSeparateTailwindImports,
+    useTailwindcss: enable,
+    useSeparateTailwindImports: separateImports,
     isDev,
+    tailwindVersion: version,
   });
 };

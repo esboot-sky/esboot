@@ -29,4 +29,24 @@ describe('postcss-plugin-esboot', () => {
     expect(result.css).toContain('.btn { color: red; }');
     expect(result.css).not.toContain('ESBOOT_SIGN_TAILWIND_CSS');
   });
+
+  it('injects tailwind directives for version 3 entries', async () => {
+    const plugin = await createPlugin({
+      useTailwindcss: true,
+      useSeparateTailwindImports: true,
+      isDev: true,
+      tailwindVersion: '3',
+    });
+
+    const result = await postcss([plugin]).process('/* ESBOOT_SIGN_TAILWIND_CSS */\n.btn { color: red; }', {
+      from: '/tmp/app.css',
+    });
+
+    expect(result.css).toContain('@tailwind base;');
+    expect(result.css).toContain('@tailwind components;');
+    expect(result.css).toContain('@tailwind utilities;');
+    expect(result.css).toContain('.btn { color: red; }');
+    expect(result.css).not.toContain('ESBOOT_SIGN_TAILWIND_CSS');
+    expect(result.css).not.toContain('tailwindcss/theme.css');
+  });
 });

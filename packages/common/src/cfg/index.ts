@@ -3,4 +3,5 @@ export { defineConfig } from './define-config';
 // CLI
 export * from './load-env';
 
+export * from './tailwind';
 export * from './types';

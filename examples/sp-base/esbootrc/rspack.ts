@@ -1,8 +1,12 @@
 import type { BundlerRspackOptions as BundlerOptions } from '@dz-web/esboot-bundler-rspack';
 import { defineConfig } from '@dz-web/esboot';
 import { BundlerRspack as Bundler } from '@dz-web/esboot-bundler-rspack';
+import pluginTailwind3 from '@dz-web/esboot-plugin-tailwind3';
 
 export default defineConfig<BundlerOptions>({
+  plugins: [
+    pluginTailwind3(),
+  ],
   bundler: Bundler,
   isSP: true,
   bundlerOptions: {},
