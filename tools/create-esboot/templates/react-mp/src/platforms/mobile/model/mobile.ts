@@ -2,21 +2,20 @@ import type { QuotesUpDownColor, ThemeValues } from '@mobile/constants/config';
 import type { OriginalUserConfig, OriginalUserInfo } from '@mobile/helpers/customize';
 import type { Language } from '@/constants/config';
 import { globalBlocker } from '@dz-web/axios-middlewares';
-
 import { CacheStore } from '@dz-web/cache';
-import { DEFAULT_QUOTES_UP_DOWN_COLOR, DEFAULT_THEME } from '@mobile/constants/config';
+import {
+  DEFAULT_QUOTES_UP_DOWN_COLOR,
+  DEFAULT_THEME,
+  supportedQuotesUpDownColors,
+  supportedThemes,
+} from '@mobile/constants/config';
 import { accessToken } from '@mobile/helpers/customize';
+import { find } from 'lodash-es';
 import { create } from 'zustand';
 import { devtools, subscribeWithSelector } from 'zustand/middleware';
 import { CACHE_KEY_PC_USER_CONFIG, CACHE_KEY_PC_USER_INFO } from '@/constants/caches';
-import { DEFAULT_LANGUAGE, isDev } from '@/constants/config';
-import {
-  getDefaultTheme,
-  initPageQuery,
-  isSupportedLanguage,
-  isSupportedQuotesUpDownColor,
-  isSupportedTheme,
-} from '@/helpers/config';
+import { DEFAULT_LANGUAGE, isDev, supportedLanguage } from '@/constants/config';
+import { initPageQuery } from '@/helpers/init-page-query';
 
 import { isBrowser } from '@/utils/platforms';
 
@@ -42,6 +41,32 @@ interface IState {
   userConfig: StandardUserConfig;
 }
 
+function isSupportedLanguage(lang?: string): boolean {
+  return !!lang && !!find(supportedLanguage, item => item === lang);
+}
+
+function isSupportedTheme(theme?: string): boolean {
+  return !!theme && theme in supportedThemes;
+}
+
+function getDefaultTheme(followSystem: boolean, defaultTheme: ThemeValues) {
+  const { theme } = initPageQuery;
+  // 优先使用url指定的主题初始化
+  if (isSupportedTheme(theme))
+    return theme as ThemeValues;
+
+  // 浏览器模式下，设置了跟随系统设置, 则根据系统设置初始化
+  if (followSystem) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? supportedThemes.dark : supportedThemes.light;
+  }
+
+  return defaultTheme;
+}
+
+function isSupportedQuotesUpDownColor(quotesUpDownColor?: string) {
+  return !!quotesUpDownColor && !!find(supportedQuotesUpDownColors, item => item === quotesUpDownColor);
+}
+
 function createInitializedState(): IState {
   const { lang, quotesUpDownColor } = initPageQuery;
 
@@ -65,7 +90,8 @@ function createInitializedState(): IState {
     userConfig: getValueButIgnoreInNative(() => CacheStore.getItem(CACHE_KEY_PC_USER_CONFIG), {
       theme: DEFAULT_THEME,
       deviceNo: '',
-      followSystemPrefersColorSchemeWhenInBrowser: isBrowser() && !(window as any).__disable_follow_system_theme,
+      followSystemPrefersColorSchemeWhenInBrowser:
+        isBrowser() && !((window as any).__disable_follow_system_theme as boolean),
       language: DEFAULT_LANGUAGE,
       quotesUpDownColor: DEFAULT_QUOTES_UP_DOWN_COLOR,
       raw: {} as OriginalUserConfig,

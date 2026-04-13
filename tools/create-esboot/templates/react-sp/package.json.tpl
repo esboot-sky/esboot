@@ -1,7 +1,7 @@
 {
-  "name": "esboot-react-sp",
+  "name": "ESBoot React SP",
   "version": "1.0.0",
-  "description": "",
+  "description": "Single Platform Application by ESBoot",
   "author": "Roc",
   "license": "ISC",
   "main": "index.js",
@@ -12,42 +12,34 @@
     "prepare": "esboot prepare"
   },
   "dependencies": {
-    "@dz-web/axios": "0.0.6",
-    "@dz-web/axios-middlewares": "1.3.0",
-    "@dz-web/esboot-browser": "^4.0.3",
-    "@dz-web/esboot-browser-react": "4.0.3",
-    "@tanstack/react-query": "5.90.12",
-    "ahooks": "3.9.6",
-    "antd": "6.1.1",
-    "axios": "1.13.2",
-    "lodash-es": "4.17.22",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "react-intl": "8.0.4",
-    "react-router": "7.11.0",
-    "zustand": "5.0.9"
+    "@dz-web/axios": "^0.0.6",
+    "@dz-web/axios-middlewares": "^1.3.0",
+    "@dz-web/esboot-browser": "^4.2.0",
+    "@dz-web/esboot-browser-react": "^4.2.0",
+    "@tanstack/react-query": "^5.99.0",
+    "ahooks": "^3.9.7",
+    "antd": "^6.3.5",
+    "axios": "^1.15.0",
+    "lodash-es": "^4.18.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-intl": "^10.1.1",
+    "react-router": "^7.14.0",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "@dz-web/esboot": "^4.0.3",
-    "@dz-web/esboot-bundler-vite": "^4.0.3",
-    "@dz-web/esboot-plugin-docs": "^4.0.3",
-    "@dz-web/esboot-plugin-vitest": "^4.0.3",
-    "@types/lodash-es": "^4.17.12",
-    "@types/node": "24.10.0",
-    "@types/react": "19.2.7",
-    "@types/react-dom": "19.2.3",
-    "cross-env": "^10.1.0",
-    "eslint": "9.39.2",
-    "stylelint": "16.26.1"
+    "@dz-web/esboot": "^4.2.0",
+    "@dz-web/esboot-bundler-vite": "^4.2.0",
+    "@dz-web/esboot-plugin-vitest": "^4.2.0",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^10.2.0",
+    "stylelint": "^17.7.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint",
     "*.{scss,css}": "stylelint"
-  },
-  "eslintConfig": {
-    "extends": [
-      "./node_modules/.cache/esboot/eslint"
-    ]
   },
   "stylelint": {
     "extends": [
@@ -65,12 +57,12 @@
       "last 1 chrome version"
     ],
     "production": [
-      "Chrome >= 67"
+      "last 1 chrome version"
     ]
   },
   "volta": {
     "node": "22.21.1",
     "pnpm": "10.26.0"
   },
-  "esbootTemplateGitHash": "c7e541f97cfcdff82c9ad0b2c6a7bffb41b5ec83"
+  "esbootTemplateGitHash": "9866e0eb9f8a509a971bd2a9b79c764ac047918d"
 }

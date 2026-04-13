@@ -8,7 +8,7 @@ import { CustomProvider } from 'rsuite';
 import zhCN from 'rsuite/locales/zh_CN';
 import 'rsuite/dist/rsuite-no-reset.min.css';
 
-export function withRSuite(App): any {
+export function withRSuite(App: React.ComponentType<any>): React.ComponentType<any> {
   return function RSuiteApp({ ...rest }) {
     const theme = usePCStore(state => state.userConfig.theme);
 

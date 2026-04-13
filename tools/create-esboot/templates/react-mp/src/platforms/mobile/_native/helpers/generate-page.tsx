@@ -1,7 +1,6 @@
 import type { GeneratePageOptions } from '@/types';
 
-import { bridge } from '@dz-web/bridge';
-import { isDZAppByDS } from '@dz-web/esboot-browser';
+import { bridge, isDzAppDS } from '@dz-web/bridge';
 import wrapNative from '@mobile-native/hoc/native';
 import { TopErrorBoundaryFallback } from '@mobile/components/top-error-boundary-fallback';
 import { subscribeUserAndCache } from '@mobile/model/subscriber';
@@ -21,7 +20,7 @@ export default async function generatePage(App: React.ReactNode, options?: Gener
     const mockbridge = await import('@dz-web/bridge/platforms/mock');
     bridge.init(mockbridge.createBridge());
   }
-  else if (isDZAppByDS) {
+  else if (isDzAppDS) {
     const dsbridge = await import('@dz-web/bridge/platforms/ds');
     bridge.init(dsbridge.createBridge());
   }

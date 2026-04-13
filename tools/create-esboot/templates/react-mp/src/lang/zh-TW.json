@@ -4,12 +4,5 @@
     "boundary_error_title": "哎呀，出錯了！",
     "apologize": "抱歉，應用程序遇到了一些問題。",
     "retry": "重試"
-  },
-  "only-for-test": {},
-  "only-for-test2": {},
-  "only-for-test3": {},
-  "test-router": {},
-  "test": {},
-  "only-for-test1": {},
-  "only-for-test4": {}
+  }
 }
