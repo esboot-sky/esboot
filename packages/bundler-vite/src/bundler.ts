@@ -9,7 +9,11 @@ import { build, createServer as createViteServer } from 'vite';
 import { getCfg } from './cfg/get-cfg';
 import { isHtmlRequest } from './helpers/html-request';
 import { loadHtmlContent } from './helpers/load-html-content';
-import { prerenderSsgPages, renderSsgHtmlForPage } from './helpers/ssg';
+import {
+  hasSsgEnabledPages,
+  prerenderSsgPages,
+  renderSsgHtmlForPage,
+} from './helpers/ssg';
 
 const HTML_PAGE_RE = /\/(.*?)\.html/;
 
@@ -94,11 +98,25 @@ export class BundlerVite extends Bundler {
     });
 
     await build(cfg);
+    if (!hasSsgEnabledPages({
+      pages: cfg.sharedConfig.pages,
+      readSource: id => readFileSync(id, 'utf-8'),
+    })) {
+      this.onAfterCompile();
+      return;
+    }
+
     const vite = await createViteServer({
       ...cfg,
       appType: 'custom',
+      optimizeDeps: {
+        ...cfg.optimizeDeps,
+        noDiscovery: true,
+      },
       server: {
         middlewareMode: true,
+        hmr: false,
+        ws: false,
       },
     });
 

@@ -89,13 +89,11 @@ export default async (opts = {
         }
 
         const updatedCssContent = cssContent.replace(tailwindSignRegex, '');
-        console.warn('Getting Tailwind CSS prelude for version:', tailwindVersion, 'with separate imports:', useSeparateTailwindImports);
-        const { prelude: tailwindPrelude, root: tailwindRoot } = getTailwindPreludeRoot(
+        const { root: tailwindRoot } = getTailwindPreludeRoot(
           tailwindVersion,
           useSeparateTailwindImports,
           filePath || undefined,
         );
-        console.warn('tailwindPrelude', tailwindPrelude);
         const contentRoot = parse(updatedCssContent, {
           from: filePath || undefined,
         });
@@ -119,11 +117,8 @@ export default async (opts = {
                 processedRoot: root.clone(),
               });
             }
-            catch (cacheError: unknown) {
-              console.warn(
-                '⚠️ Update esboot cache failed:',
-                (cacheError as Error).message,
-              );
+            catch {
+              // Cache writes are best-effort.
             }
           }
         }

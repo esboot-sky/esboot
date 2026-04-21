@@ -45,7 +45,6 @@
     "@rollup/pluginutils": "^5.3.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@svgr/plugin-svgo": "^8.1.0",
-    "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-legacy": "^7.2.1",
     "@vitejs/plugin-react": "^5.0.4",
     "express": "^5.1.0",

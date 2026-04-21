@@ -25,6 +25,11 @@ interface PrerenderSsgPagesOptions {
   writeHtml: (id: string, html: string) => void;
 }
 
+interface HasSsgEnabledPagesOptions {
+  pages: SharedConfig['pages'];
+  readSource?: (id: string) => string;
+}
+
 interface RenderSsgHtmlForPageOptions {
   html: string;
   page: SharedConfig['pages'][string];
@@ -98,6 +103,12 @@ function isSsgCandidate(source: string | undefined): boolean {
   }
 
   return SSG_SIGNATURE_RE.test(source);
+}
+
+export function hasSsgEnabledPages(options: HasSsgEnabledPagesOptions): boolean {
+  const { pages, readSource } = options;
+
+  return Object.values(pages).some(page => isSsgCandidate(readSource?.(page.sourceEntry)));
 }
 
 async function resolveRenderedSsgPage(

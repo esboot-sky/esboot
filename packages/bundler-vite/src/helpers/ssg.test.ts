@@ -2,6 +2,7 @@ import { definePage } from '@dz-web/esboot';
 import { describe, expect, it, vi } from 'vitest';
 
 import {
+  hasSsgEnabledPages,
   injectSsgHtml,
   prerenderSsgPages,
   renderSsgHtmlForPage,
@@ -146,6 +147,54 @@ describe('vite ssg helpers', () => {
     expect(readSource).toHaveBeenCalledTimes(2);
     expect(loadModule).toHaveBeenCalledTimes(1);
     expect(loadModule).toHaveBeenCalledWith('/repo/src/docs.entry.tsx');
+  });
+
+  it('detects whether any page appears to enable ssg before creating a server', () => {
+    const readSource = vi.fn((id: string) => {
+      if (id.endsWith('docs.entry.tsx')) {
+        return 'export default { ssg: { enable: true, render: () => "<article>docs</article>" } };';
+      }
+
+      return 'export default { title: "Client page" };';
+    });
+
+    expect(hasSsgEnabledPages({
+      pages: {
+        docs: {
+          entry: '/src/docs.entry.tsx',
+          sourceEntry: '/repo/src/docs.entry.tsx',
+          template: '/repo/config/template/index.html',
+          title: 'Docs',
+        },
+        client: {
+          entry: '/src/client.entry.tsx',
+          sourceEntry: '/repo/src/client.entry.tsx',
+          template: '/repo/config/template/index.html',
+          title: 'Client',
+        },
+      },
+      readSource,
+    })).toBe(true);
+
+    expect(readSource).toHaveBeenCalledTimes(1);
+  });
+
+  it('returns false when no page source looks like ssg', () => {
+    const readSource = vi.fn(() => 'export default { title: "Client page" };');
+
+    expect(hasSsgEnabledPages({
+      pages: {
+        client: {
+          entry: '/src/client.entry.tsx',
+          sourceEntry: '/repo/src/client.entry.tsx',
+          template: '/repo/config/template/index.html',
+          title: 'Client',
+        },
+      },
+      readSource,
+    })).toBe(false);
+
+    expect(readSource).toHaveBeenCalledTimes(1);
   });
 
   it('renders dev html for a hydratable ssg page', async () => {

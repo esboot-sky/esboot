@@ -14,7 +14,6 @@ const addCopyPlugin = vi.fn();
 const addLangJsonPicker = vi.fn();
 const addStyle = vi.fn();
 const addBuildCfg = vi.fn();
-const tailwindcssVite = vi.fn(() => ({ name: '@tailwindcss/vite' }));
 
 vi.mock('@vitejs/plugin-react', () => ({
   default: react,
@@ -60,16 +59,12 @@ vi.mock('./partials/add-style', () => ({
   addStyle,
 }));
 
-vi.mock('@tailwindcss/vite', () => ({
-  default: tailwindcssVite,
-}));
-
 describe('getCfg tailwind integration', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('uses the Vite Tailwind plugin for next and skips the postcss tailwind plugin', async () => {
+  it('uses the postcss Tailwind plugin for next and skips the Vite Tailwind plugin', async () => {
     const { getCfg } = await import('./get-cfg');
 
     const cfg = await getCfg({
@@ -88,9 +83,8 @@ describe('getCfg tailwind integration', () => {
       },
     } as any, 'development');
 
-    expect(tailwindcssVite).toHaveBeenCalledTimes(1);
     expect(cfg.plugins).toEqual(
-      expect.arrayContaining([
+      expect.not.arrayContaining([
         expect.objectContaining({
           name: '@tailwindcss/vite',
         }),
@@ -99,13 +93,13 @@ describe('getCfg tailwind integration', () => {
     expect(cfg.css?.postcss?.plugins).toEqual(
       expect.arrayContaining([
         'postcss-esboot',
+        'postcss-tailwind',
         'postcss-px2rem',
       ]),
     );
-    expect(cfg.css?.postcss?.plugins).not.toContain('postcss-tailwind');
   });
 
-  it('keeps the postcss tailwind plugin for version 3 and skips the Vite Tailwind plugin', async () => {
+  it('keeps the postcss tailwind plugin for version 3', async () => {
     const { getCfg } = await import('./get-cfg');
 
     const cfg = await getCfg({
@@ -124,14 +118,6 @@ describe('getCfg tailwind integration', () => {
       },
     } as any, 'development');
 
-    expect(tailwindcssVite).not.toHaveBeenCalled();
-    expect(cfg.plugins).toEqual(
-      expect.not.arrayContaining([
-        expect.objectContaining({
-          name: '@tailwindcss/vite',
-        }),
-      ]),
-    );
     expect(cfg.css?.postcss?.plugins).toEqual(
       expect.arrayContaining([
         'postcss-esboot',
