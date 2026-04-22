@@ -38,7 +38,6 @@ export function generateTypeScriptCfg(): void {
     cfg.config,
     tsconfigJson,
   );
-
   const folderPath = join(cacheDir, 'typescript');
   const outoutPath = join(folderPath, 'tsconfig.json');
 

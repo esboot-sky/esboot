@@ -1,13 +1,10 @@
+import { PluginHooks } from '@dz-web/esboot-common/plugin';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { patch, getListener, registerCommands, merge } = vi.hoisted(() => ({
+const { patch, getListener, registerCommands } = vi.hoisted(() => ({
   patch: vi.fn(),
   getListener: vi.fn(),
   registerCommands: vi.fn(),
-  merge: vi.fn((target: Record<string, unknown>, source: Record<string, unknown>) => ({
-    ...target,
-    ...source,
-  })),
 }));
 
 vi.mock('@/cfg', () => ({
@@ -24,10 +21,6 @@ vi.mock('./index', () => ({
 
 vi.mock('./register-commands', () => ({
   registerCommands,
-}));
-
-vi.mock('@dz-web/esboot-common/lodash', () => ({
-  merge,
 }));
 
 describe('plugin hook actions', () => {
@@ -82,5 +75,37 @@ describe('plugin hook actions', () => {
 
     expect(listener).toHaveBeenCalledWith({ cwd: '/repo/app' }, { plugins: [] }, 'vite');
     expect(listener).toHaveBeenCalledWith({ cwd: '/repo/app' });
+  });
+
+  it('appends arrays when modifying lint config so existing includes are preserved', async () => {
+    let seenCurrent: Record<string, unknown> | undefined;
+    const listener = vi.fn((_cfg, current) => {
+      seenCurrent = JSON.parse(JSON.stringify(current));
+
+      return {
+        include: ['/repo/app/node_modules/@testing-library/jest-dom'],
+      };
+    });
+
+    getListener.mockReturnValue([listener]);
+
+    const { callPluginHookOfModifyLintConfig } = await import('./hooks-action');
+    const tsconfigJson = {
+      include: ['/repo/app/.esbootrc.ts'],
+    } as any;
+
+    callPluginHookOfModifyLintConfig(
+      PluginHooks.modifyTypescriptConfig,
+      { cwd: '/repo/app' } as any,
+      tsconfigJson,
+    );
+
+    expect(seenCurrent).toEqual({
+      include: ['/repo/app/.esbootrc.ts'],
+    });
+    expect(tsconfigJson.include).toEqual([
+      '/repo/app/.esbootrc.ts',
+      '/repo/app/node_modules/@testing-library/jest-dom',
+    ]);
   });
 });

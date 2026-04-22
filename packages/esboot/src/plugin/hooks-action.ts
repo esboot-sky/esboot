@@ -1,6 +1,6 @@
 import type { Command, Plugin } from '@dz-web/esboot-common/plugin';
 import type { Configuration } from '@/cfg';
-import { merge } from '@dz-web/esboot-common/lodash';
+import { mergeWith } from '@dz-web/esboot-common/lodash';
 import { PluginHooks } from '@dz-web/esboot-common/plugin';
 
 import { cfg } from '@/cfg';
@@ -13,7 +13,15 @@ export function callPluginHookOfModifyLintConfig(
   result: Record<string, any>,
 ): void {
   pluginHooksDict.getListener(hook).forEach((fn) => {
-    result = merge(result, fn(cfg, result));
+    const nextResult = fn(cfg, result);
+    Object.assign(
+      result,
+      mergeWith(result, nextResult, (objValue, srcValue) => {
+        if (Array.isArray(objValue) && Array.isArray(srcValue)) {
+          return [...objValue, ...srcValue];
+        }
+      }),
+    );
   });
 }
 
