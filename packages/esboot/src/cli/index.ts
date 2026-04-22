@@ -20,16 +20,18 @@ import { preview } from './preview';
 
 const cwd = process.cwd();
 
-async function loadCfg(): Promise<void> {
+async function loadCfg(command: string): Promise<void> {
   await cfg.load();
-  preparePlugins(cfg.config);
-  callPluginHookOfModifyConfig(cfg.config);
-  callPluginHookOfRegisterCommands(cfg.config);
+  preparePlugins(cfg.config, command);
+  const pluginContext = pluginHooksDict.state.context;
+
+  callPluginHookOfModifyConfig(cfg.config, pluginContext as any);
+  callPluginHookOfRegisterCommands(cfg.config, pluginContext as any);
 }
 
 async function createBundler(environment: Environment): Promise<Bundler | null> {
   process.env.NODE_ENV = environment;
-  await loadCfg();
+  await loadCfg(environment === Environment.dev ? 'dev' : 'build');
   const { config } = cfg;
 
   if (config.bundler) {
@@ -52,7 +54,7 @@ export async function run(): Promise<void> {
 
   const cmd = process.argv[2];
   if (!['lint', 'exec_git_hooks', 'dev', 'build'].includes(cmd)) {
-    await loadCfg();
+    await loadCfg(cmd || 'config');
   }
 
   program

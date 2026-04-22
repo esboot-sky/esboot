@@ -29,8 +29,12 @@ describe('plugin hook actions', () => {
   });
 
   it('patches config with each modifyConfig hook result', async () => {
+    const seenContexts: any[] = [];
     getListener.mockReturnValue([
-      () => ({ alias: { '@': 'src' } }),
+      (_cfg, ctx) => {
+        seenContexts.push(ctx);
+        return { alias: { '@': 'src' } };
+      },
       () => ({ isSP: true }),
     ]);
 
@@ -40,11 +44,21 @@ describe('plugin hook actions', () => {
 
     expect(patch).toHaveBeenNthCalledWith(1, { alias: { '@': 'src' } });
     expect(patch).toHaveBeenNthCalledWith(2, { isSP: true });
+    expect(seenContexts[0]).toEqual(
+      expect.objectContaining({
+        cfg: { cwd: '/repo/app' },
+        command: 'config',
+      }),
+    );
   });
 
   it('collects registered commands and forwards them to registerCommands', async () => {
+    const seenContexts: any[] = [];
     getListener.mockReturnValue([
-      () => [{ name: 'docs' }],
+      (_cfg, ctx) => {
+        seenContexts.push(ctx);
+        return [{ name: 'docs' }];
+      },
       () => [{ name: 'vitest' }],
     ]);
 
@@ -56,6 +70,12 @@ describe('plugin hook actions', () => {
       { name: 'docs' },
       { name: 'vitest' },
     ]);
+    expect(seenContexts[0]).toEqual(
+      expect.objectContaining({
+        cfg: { cwd: '/repo/app' },
+        command: 'config',
+      }),
+    );
   });
 
   it('calls bundler hooks and only-exec hooks with the provided config', async () => {
@@ -73,8 +93,23 @@ describe('plugin hook actions', () => {
     callPluginHookOfModifyBundlerConfig(dict as any, { cwd: '/repo/app' } as any, { plugins: [] }, 'vite');
     callPluginHookOfOnlyExec('afterCompile' as any, dict as any, { cwd: '/repo/app' } as any);
 
-    expect(listener).toHaveBeenCalledWith({ cwd: '/repo/app' }, { plugins: [] }, 'vite');
-    expect(listener).toHaveBeenCalledWith({ cwd: '/repo/app' });
+    expect(listener).toHaveBeenCalledWith(
+      { cwd: '/repo/app' },
+      { plugins: [] },
+      'vite',
+      expect.objectContaining({
+        cfg: { cwd: '/repo/app' },
+        bundler: 'vite',
+        command: 'config',
+      }),
+    );
+    expect(listener).toHaveBeenCalledWith(
+      { cwd: '/repo/app' },
+      expect.objectContaining({
+        cfg: { cwd: '/repo/app' },
+        command: 'config',
+      }),
+    );
   });
 
   it('appends arrays when modifying lint config so existing includes are preserved', async () => {

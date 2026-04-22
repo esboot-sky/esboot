@@ -4,7 +4,8 @@ import { prepareTailwind3, tailwind3Config } from './prepare';
 
 export default function pluginTailwind3(): Plugin {
   return {
-    key: 'plugin-tailwind3',
+    name: 'plugin-tailwind3',
+    enforce: 'pre',
     [PluginHooks.modifyConfig]: () => ({
       css: {
         tailwind: {

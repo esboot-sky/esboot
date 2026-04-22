@@ -29,7 +29,8 @@ export default (options: PluginVueOptions = {}): Plugin => {
     : null;
 
   return {
-    key: 'plugin-vue',
+    name: 'plugin-vue',
+    enforce: 'pre',
     [PluginHooks.modifyConfig]: (cfg) => {
       const currentPlugins = cfg.svgrOptions.plugins || [];
       cfg.svgrOptions!.plugins = ['@svgr/plugin-svgo', ...currentPlugins];

@@ -10,7 +10,7 @@ describe('plugin-tailwind3', () => {
     const plugin = pluginTailwind3();
     const patch = plugin[PluginHooks.modifyConfig]?.({} as any);
 
-    expect(plugin.key).toBe('plugin-tailwind3');
+    expect(plugin.name).toBe('plugin-tailwind3');
     expect(patch).toEqual({
       css: {
         tailwind: {

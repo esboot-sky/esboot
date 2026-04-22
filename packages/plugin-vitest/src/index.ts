@@ -23,7 +23,7 @@ export const alias = {
 
 export default (): Plugin => {
   return {
-    key: 'plugin-vitest',
+    name: 'plugin-vitest',
     [PluginHooks.registerCommands]: (cfg) => {
       const { cwd } = cfg;
 

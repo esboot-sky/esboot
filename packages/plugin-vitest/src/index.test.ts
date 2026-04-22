@@ -37,7 +37,7 @@ describe('is a plugin', () => {
     const plugin = pluginVitest();
 
     expect(plugin).toBeDefined();
-    expect(plugin.key).toBe('plugin-vitest');
+    expect(plugin.name).toBe('plugin-vitest');
     expect(plugin.registerCommands).toBeDefined();
     expect(plugin.registerCommands).toBeInstanceOf(Function);
 

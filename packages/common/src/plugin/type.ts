@@ -1,5 +1,6 @@
 import type { PluginHooks } from './constants';
 import type { Configuration } from '@/cfg/types';
+import type { Environment } from '@/constants';
 
 export interface Command {
   name: string;
@@ -16,34 +17,65 @@ export interface Command {
 }
 
 type NormalConfig = Record<string, any>;
+
+export interface PluginCommandContext {
+  cfg: Configuration;
+  command: string;
+  bundler?: string;
+  env: Environment;
+}
+
+export interface PluginContext extends PluginCommandContext {
+  logger: {
+    info: (...args: any[]) => void;
+    warn: (...args: any[]) => void;
+    error: (...args: any[]) => void;
+    debug: (...args: any[]) => void;
+  };
+}
+
+export type PluginApply = boolean | 'always' | 'never' | 'dev' | 'build' | 'prepare' | 'preview' | ((ctx: PluginCommandContext) => boolean);
+
 export interface Plugin {
-  key: string;
-  onActivated?: (cfg: Configuration) => void;
+  name?: string;
+  key?: string;
+  enforce?: 'pre' | 'post';
+  apply?: PluginApply;
+  onActivated?: (cfg: Configuration, ctx: PluginContext) => void;
   [PluginHooks.modifyConfig]?: (
-    config: Configuration
+    config: Configuration,
+    ctx: PluginContext,
   ) => Partial<Configuration>;
-  [PluginHooks.registerCommands]?: (cfg: Configuration) => Command[];
+  [PluginHooks.registerCommands]?: (
+    cfg: Configuration,
+    ctx: PluginContext,
+  ) => Command[];
   [PluginHooks.modifyTypescriptConfig]?: (
     cfg: Configuration,
-    tsconfig: NormalConfig
+    tsconfig: NormalConfig,
+    ctx: PluginContext,
   ) => Partial<NormalConfig>;
   [PluginHooks.modifyPrettierConfig]?: (
     cfg: Configuration,
-    prettierConfig: NormalConfig
+    prettierConfig: NormalConfig,
+    ctx: PluginContext,
   ) => Partial<NormalConfig>;
   [PluginHooks.modifyStylelintConfig]?: (
     cfg: Configuration,
-    stylelintConfig: NormalConfig
+    stylelintConfig: NormalConfig,
+    ctx: PluginContext,
   ) => Partial<NormalConfig>;
   [PluginHooks.modifyEslintConfig]?: (
     cfg: Configuration,
-    eslintConfig: NormalConfig
+    eslintConfig: NormalConfig,
+    ctx: PluginContext,
   ) => Partial<NormalConfig>;
   [PluginHooks.modifyBundlerConfig]?: (
     cfg: Configuration,
     bundlerConfig: NormalConfig,
-    bundlerName: string
+    bundlerName: string,
+    ctx: PluginContext,
   ) => void;
-  [PluginHooks.afterCompile]?: (cfg: Configuration) => void;
-  [PluginHooks.prepare]?: (cfg: Configuration) => void;
+  [PluginHooks.afterCompile]?: (cfg: Configuration, ctx: PluginContext) => void;
+  [PluginHooks.prepare]?: (cfg: Configuration, ctx: PluginContext) => void;
 }

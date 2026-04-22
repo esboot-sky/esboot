@@ -14,7 +14,8 @@ const APP_ROOT = './docs';
 
 export default (): Plugin => {
   return {
-    key: 'plugin-docs',
+    name: 'plugin-docs',
+    enforce: 'post',
     [PluginHooks.registerCommands]: () => {
       return [
         {

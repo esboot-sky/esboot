@@ -12,7 +12,7 @@ export default defineConfig<BundlerOptions>({
     pluginDocs(),
     pluginVitest(),
     definePlugin({
-      key: 'test1',
+      name: 'test1',
       onActivated: () => {
         console.log('test plugin onActivated');
       },
@@ -65,7 +65,7 @@ export default defineConfig<BundlerOptions>({
       },
     }),
     definePlugin({
-      key: 'test2',
+      name: 'test2',
       registerCommands: () => {
         return [
           {

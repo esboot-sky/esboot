@@ -28,7 +28,7 @@ describe('is a plugin', () => {
     const plugin = pluginVue();
 
     expect(plugin).toBeDefined();
-    expect(plugin.key).toBe('plugin-vue');
+    expect(plugin.name).toBe('plugin-vue');
   });
 
   it('adds vue-specific plugins and removes react plugins for vite bundler config', () => {
