@@ -1,13 +1,14 @@
 import { describe, expect, it, vi } from 'vitest';
 
-const tailwindPostcssPlugin = vi.fn(() => 'tailwind-next');
 const tailwind3Plugin = vi.fn(() => 'tailwind-3');
+const tailwindPostcssPlugin = vi.fn(() => ({
+  postcssPlugin: '@tailwindcss/postcss',
+  Once() {},
+}));
 
-vi.mock('./resolve-from-cwd', () => ({
-  importModuleFromCwd: vi.fn(async (moduleName: string) => {
-    if (moduleName === 'tailwindcss') {
-      return { default: tailwind3Plugin };
-    }
+vi.mock('./resolve-from-current-package', () => ({
+  importModuleFromCurrentPackage: vi.fn(async (moduleName: string) => {
+    expect(moduleName).toBe('@tailwindcss/postcss');
 
     return { default: tailwindPostcssPlugin };
   }),
@@ -54,14 +55,13 @@ describe('addPostcssPluginTailwindcss', () => {
         },
       },
     } as any)).resolves.toBe(false);
-    expect(tailwindPostcssPlugin).not.toHaveBeenCalled();
     expect(tailwind3Plugin).not.toHaveBeenCalled();
   });
 
   it('uses @tailwindcss/postcss for next', async () => {
     const { addPostcssPluginTailwindcss } = await import('./add-plugin-tailwindcss');
 
-    await expect(addPostcssPluginTailwindcss({
+    const plugin = await addPostcssPluginTailwindcss({
       config: {
         css: {
           tailwind: {
@@ -70,7 +70,11 @@ describe('addPostcssPluginTailwindcss', () => {
           },
         },
       },
-    } as any)).resolves.toBe('tailwind-next');
+    } as any);
+
+    expect(plugin).toEqual(expect.objectContaining({
+      postcssPlugin: '@tailwindcss/postcss',
+    }));
     expect(tailwindPostcssPlugin).toHaveBeenCalledTimes(1);
     expect(tailwind3Plugin).not.toHaveBeenCalled();
   });

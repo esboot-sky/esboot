@@ -1,7 +1,7 @@
 import type { ConfigurationInstance } from '@dz-web/esboot';
 import process from 'node:process';
 import { resolveTailwindConfig } from '@dz-web/esboot-common/cfg';
-import { importModuleFromCwd } from './resolve-from-cwd';
+import { importModuleFromCurrentPackage } from './resolve-from-current-package';
 import { importModuleFromPackage } from './resolve-from-package';
 
 export async function addPostcssPluginTailwindcss(cfg: ConfigurationInstance): Promise<any | false> {
@@ -29,5 +29,7 @@ export async function addPostcssPluginTailwindcss(cfg: ConfigurationInstance): P
     });
   }
 
-  return importModuleFromCwd<{ default: () => any }>('@tailwindcss/postcss', cwd).then(({ default: plugin }) => plugin());
+  return importModuleFromCurrentPackage<{ default: () => any }>('@tailwindcss/postcss').then(
+    ({ default: plugin }) => plugin(),
+  );
 }
