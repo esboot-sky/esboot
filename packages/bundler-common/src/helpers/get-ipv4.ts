@@ -3,7 +3,7 @@ import type { NetworkInterfaceInfo } from 'node:os';
 import { ip } from 'address';
 
 const isPreferredIpv4 = (address: string) =>
-  address.startsWith('172.') || address.startsWith('198.');
+  address.startsWith('172.') || address.startsWith('192.');
 
 export const getIpv4 = () => {
   const interfaces = os.networkInterfaces();
