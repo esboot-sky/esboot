@@ -1,7 +1,7 @@
 import { resolve, join } from 'node:path';
 import { existsSync } from 'node:fs';
 import { exit } from 'node:process';
-import { ip } from 'address';
+import { getIpv4 } from '@dz-web/esboot-common/helpers';
 
 import { isFunction, pick, merge } from '@dz-web/esboot-common/lodash';
 import {
@@ -135,7 +135,7 @@ export default new (class Cfg {
     const isCIBuild = ESBOOT_IS_CI_BUILD === '1';
     const rootPath = resolve(cwd, './src');
     const configRootPath = resolve(cwd, './config');
-    const ipv4 = ip();
+    const ipv4 = getIpv4();
     const cfg = {
       cwd,
       ipv4,

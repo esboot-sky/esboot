@@ -19,6 +19,7 @@ export class BundlerVite extends Bundler {
     const cfg = await getCfg(this.cfg, Environment.dev);
     const {
       server: { port = 3000, host = '0.0.0.0' },
+      ipv4,
     } = this.cfg.config;
 
     const { pages } = cfg.sharedConfig;
@@ -83,7 +84,7 @@ export class BundlerVite extends Bundler {
     });
 
     app.listen(port, host, () => {
-      logDevServer(port, false);
+      logDevServer(port, false, { ipv4 });
       this.onAfterCompile();
     });
   }

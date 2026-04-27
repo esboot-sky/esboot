@@ -1,6 +1,4 @@
 import type { Configuration as DevServerConfiguration } from '@rspack/dev-server';
-import { ready } from '@dz-web/esboot-common/helpers';
-import kleur from '@dz-web/esboot-common/kleur';
 import { logDevServer } from '@dz-web/esboot-bundler-common';
 
 import type { AddFunc } from '@/cfg/types';
@@ -14,6 +12,7 @@ const getServerType = (https: boolean, http2: boolean) => {
 export const addDevServer: AddFunc = async (cfg, rspackCfg) => {
   const {
     isDev,
+    ipv4,
     server: { port, open, host, proxy, http2, https },
   } = cfg.config;
 
@@ -53,7 +52,7 @@ export const addDevServer: AddFunc = async (cfg, rspackCfg) => {
 
       // @ts-ignore
       const port = devServer.server?.address()?.port ?? 0;
-      logDevServer(port, isHttps);
+      logDevServer(port, isHttps, { ipv4 });
     },
   };
   if (proxy) devServer.proxy = proxy;

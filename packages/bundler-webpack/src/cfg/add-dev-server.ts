@@ -17,6 +17,7 @@ export const addDevServer: AddFunc<{ mfsu: MFSU }> = async (
 ) => {
   const {
     isDev,
+    ipv4,
     server: { port, open, host, proxy, http2, https },
   } = cfg.config;
 
@@ -52,7 +53,7 @@ export const addDevServer: AddFunc<{ mfsu: MFSU }> = async (
       }
 
       const { port } = devServerInstance.server?.address() as any;
-      logDevServer(port, isHttps);
+      logDevServer(port, isHttps, { ipv4 });
     },
   };
   if (proxy) devServer.proxy = proxy;
