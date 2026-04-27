@@ -34,7 +34,7 @@ importers:
         version: 8.2.2(@swc/core@1.9.2)(babel-plugin-macros@3.1.0)(encoding@0.1.13)
       prettier:
         specifier: latest
-        version: 3.8.1
+        version: 3.8.3
       tsup:
         specifier: ^8.3.0
         version: 8.5.0(@swc/core@1.9.2)(jiti@1.21.7)(postcss@8.5.4)(typescript@5.8.3)(yaml@2.8.0)
@@ -714,7 +714,7 @@ importers:
     dependencies:
       dumi-theme-lobehub:
         specifier: ^1.8.1
-        version: 1.16.0(@babel/core@7.27.4)(@types/react@19.2.7)(acorn@8.14.1)(antd@5.25.4(date-fns@2.30.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(dumi@2.4.21(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)))(framer-motion@12.15.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(immer@11.1.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(use-sync-external-store@1.5.0(react@19.2.3))
+        version: 1.16.0(@babel/core@7.27.4)(@types/react@19.2.7)(acorn@8.14.1)(antd@5.25.4(date-fns@2.30.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(dumi@2.4.21(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)))(framer-motion@12.15.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(immer@11.1.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(use-sync-external-store@1.5.0(react@19.2.3))
     devDependencies:
       "@dz-web/esboot":
         specifier: workspace:*
@@ -19461,10 +19461,10 @@ packages:
     engines: { node: ">=14" }
     hasBin: true
 
-  prettier@3.8.1:
+  prettier@3.8.3:
     resolution:
       {
-        integrity: sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==,
+        integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==,
       }
     engines: { node: ">=14" }
     hasBin: true
@@ -32590,7 +32590,7 @@ snapshots:
 
   dumi-assets-types@2.4.14: {}
 
-  dumi-theme-lobehub@1.16.0(@babel/core@7.27.4)(@types/react@19.2.7)(acorn@8.14.1)(antd@5.25.4(date-fns@2.30.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(dumi@2.4.21(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)))(framer-motion@12.15.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(immer@11.1.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(use-sync-external-store@1.5.0(react@19.2.3)):
+  dumi-theme-lobehub@1.16.0(@babel/core@7.27.4)(@types/react@19.2.7)(acorn@8.14.1)(antd@5.25.4(date-fns@2.30.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(dumi@2.4.21(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)))(framer-motion@12.15.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(immer@11.1.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(use-sync-external-store@1.5.0(react@19.2.3)):
     dependencies:
       "@floating-ui/react": 0.27.11(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       "@giscus/react": 3.1.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -32600,7 +32600,7 @@ snapshots:
       antd: 5.25.4(date-fns@2.30.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       antd-style: 3.7.1(@types/react@19.2.7)(antd@5.25.4(date-fns@2.30.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       chalk: 4.1.2
-      dumi: 2.4.21(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+      dumi: 2.4.21(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       fast-deep-equal: 3.1.3
       lodash-es: 4.17.21
       lucide-react: 0.469.0(react@19.2.3)
@@ -32623,7 +32623,7 @@ snapshots:
       - supports-color
       - use-sync-external-store
 
-  dumi@2.4.21(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)):
+  dumi@2.4.21(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)):
     dependencies:
       "@ant-design/icons-svg": 4.4.2
       "@makotot/ghostui": 2.0.0(react@19.2.3)
@@ -32688,7 +32688,7 @@ snapshots:
       sass: 1.89.1
       sitemap: 7.1.2
       sucrase: 3.35.0
-      umi: 4.4.11(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(sass@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
+      umi: 4.4.11(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(sass@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5))
       unified: 10.1.2
       unist-util-visit: 4.1.2
       unist-util-visit-parents: 5.1.3
@@ -38587,17 +38587,17 @@ snapshots:
       typescript: 5.8.3
     optional: true
 
-  prettier-plugin-organize-imports@3.2.4(prettier@3.8.1)(typescript@5.8.3):
+  prettier-plugin-organize-imports@3.2.4(prettier@3.8.3)(typescript@5.8.3):
     dependencies:
-      prettier: 3.8.1
+      prettier: 3.8.3
       typescript: 5.8.3
 
-  prettier-plugin-packagejson@2.4.3(prettier@3.8.1):
+  prettier-plugin-packagejson@2.4.3(prettier@3.8.3):
     dependencies:
       sort-package-json: 2.4.1
       synckit: 0.8.5
     optionalDependencies:
-      prettier: 3.8.1
+      prettier: 3.8.3
 
   prettier-plugin-tailwindcss@0.6.12(prettier-plugin-organize-imports@3.2.4(prettier@3.5.3)(typescript@5.8.3))(prettier@3.5.3):
     dependencies:
@@ -38607,7 +38607,7 @@ snapshots:
 
   prettier@3.5.3: {}
 
-  prettier@3.8.1: {}
+  prettier@3.8.3: {}
 
   pretty-error@4.0.0:
     dependencies:
@@ -41786,7 +41786,7 @@ snapshots:
   uglify-js@3.19.3:
     optional: true
 
-  umi@4.4.11(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(sass@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)):
+  umi@4.4.11(@babel/core@7.27.4)(@rspack/core@1.3.13(@swc/helpers@0.5.17))(@types/node@22.19.3)(@types/react@19.2.7)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@3.8.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.29.5)(sass-embedded@1.89.1)(sass@1.89.1)(stylelint@15.11.0(typescript@5.8.3))(terser@5.40.0)(type-fest@1.4.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.9.2)(esbuild@0.25.5)):
     dependencies:
       "@babel/runtime": 7.23.6
       "@umijs/bundler-utils": 4.4.11
@@ -41798,8 +41798,8 @@ snapshots:
       "@umijs/server": 4.4.11
       "@umijs/test": 4.4.11(@babel/core@7.27.4)
       "@umijs/utils": 4.4.11
-      prettier-plugin-organize-imports: 3.2.4(prettier@3.8.1)(typescript@5.8.3)
-      prettier-plugin-packagejson: 2.4.3(prettier@3.8.1)
+      prettier-plugin-organize-imports: 3.2.4(prettier@3.8.3)(typescript@5.8.3)
+      prettier-plugin-packagejson: 2.4.3(prettier@3.8.3)
     transitivePeerDependencies:
       - "@babel/core"
       - "@rspack/core"
