@@ -30,6 +30,7 @@ export class BundlerVite extends Bundler {
       onModifyBundlerConfig: this.onModifyBundlerConfig,
     });
     const {
+      ipv4,
       server: { port = 3000, host = '0.0.0.0' },
     } = this.cfg.config;
 
@@ -87,7 +88,11 @@ export class BundlerVite extends Bundler {
     app.use(vite.middlewares);
 
     app.listen(port, host, () => {
-      logDevServer(port, false);
+      logDevServer({
+        port,
+        isHttps: false,
+        ip: ipv4,
+      });
       this.onAfterCompile();
     });
   };

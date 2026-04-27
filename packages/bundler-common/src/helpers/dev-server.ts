@@ -1,8 +1,15 @@
-import { getIpv4, ready } from '@dz-web/esboot-common/helpers';
+import { ready } from '@dz-web/esboot-common/helpers';
 import kleur from '@dz-web/esboot-common/kleur';
 
-export function logDevServer(port: number, isHttps: boolean): void {
-  const ip = getIpv4();
+interface LogDevServerParams {
+  port: number;
+  isHttps: boolean;
+  ip: string;
+}
+
+export function logDevServer(options: LogDevServerParams): void {
+  const { port, isHttps, ip } = options;
+
   ready(
     `started server on [::]:${port}, url: ${kleur
       .underline()

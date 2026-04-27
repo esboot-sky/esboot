@@ -51,9 +51,13 @@ export const addDevServer: AddFunc = async (cfg, rspackCfg) => {
         throw new Error('@rspack/dev-server is not defined');
       }
 
-      // @ts-ignore
+      // @ts-expect-error -- Rspack's server address type is looser here.
       const port = devServer.server?.address()?.port ?? 0;
-      logDevServer(port, isHttps);
+      logDevServer({
+        port,
+        isHttps,
+        ip: cfg.config.ipv4,
+      });
     },
   };
   if (proxy)
