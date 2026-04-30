@@ -19,8 +19,8 @@
     "@dz-web/axios": "^0.0.6",
     "@dz-web/axios-middlewares": "^1.3.0",
     "@dz-web/cache": "^2.0.0",
-    "@dz-web/esboot-browser": "^4.2.0",
-    "@dz-web/esboot-browser-react": "^4.2.0",
+    "@dz-web/esboot-browser": "^4.3.0",
+    "@dz-web/esboot-browser-react": "^4.3.0",
     "@loadable/component": "^5.16.7",
     "@tanstack/react-query": "^5.91.3",
     "ahooks": "^3.9.7",
@@ -37,9 +37,9 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "@dz-web/esboot": "^4.2.0",
-    "@dz-web/esboot-bundler-vite": "^4.2.0",
-    "@dz-web/esboot-plugin-vitest": "^4.2.0",
+    "@dz-web/esboot": "^4.3.0",
+    "@dz-web/esboot-bundler-vite": "^4.3.0",
+    "@dz-web/esboot-plugin-vitest": "^4.3.0",
     "@types/loadable__component": "^5.13.10",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^25.6.0",
@@ -71,5 +71,5 @@
       "Chrome >= 111"
     ]
   },
-  "esbootTemplateGitHash": "5e050a8be4fe3e16d7fae8fcba009b58059c2a6a"
+  "esbootTemplateGitHash": "7e151ac4515fff25778eff975bdd713379bddcd4"
 }

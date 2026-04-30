@@ -1,6 +1,8 @@
 import type { ETemplate } from '../constant';
 import { existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import process from 'node:process';
+
 import { logger } from '@umijs/utils';
 
 import { $ } from 'bun';
@@ -15,7 +17,7 @@ if (!supportedTemplate.includes(templateName as ETemplate)) {
 
 const repo = `esboot-${templateName}`;
 
-async function sync() {
+async function sync(): Promise<void> {
   const targetDir = './tmp';
   const repoUrl = `https://github.com/${owner}/${repo}.git`;
   const repoDir = join(targetDir, repo);
@@ -54,4 +56,11 @@ async function sync() {
   logger.info('Successfully cleaned up');
 }
 
-sync().then(console.log).catch(console.error);
+sync()
+  .then(() => {
+    logger.info('Sync completed');
+  })
+  .catch((error) => {
+    logger.error('Sync failed', error);
+    process.exit(1);
+  });

@@ -15,21 +15,22 @@ interface IUnpackTemplateOpts {
   registry: ERegistry;
 }
 
-export const unpackTemplate = async (opts: IUnpackTemplateOpts) => {
+export async function unpackTemplate(opts: IUnpackTemplateOpts): Promise<string> {
   const { template, dest, registry } = opts;
 
   logger.info(
     `Init a new project with template ${chalk.blue(template)} from npm ...`,
   );
 
-  const tryDownload = async (name: string) => {
+  const tryDownload = async (name: string): Promise<string | undefined> => {
     const url = await getNpmPkgTarUrl({ registry, name });
     if (!url) {
       return;
     }
     try {
       return await downloadTar({ dest, url });
-    } catch (e) {
+    }
+    catch (e) {
       throw new Error(`Download ${name} failed from ${registry}`, { cause: e });
     }
   };
@@ -42,14 +43,17 @@ export const unpackTemplate = async (opts: IUnpackTemplateOpts) => {
     // @umijs/electron-template
     if (isStartWithUmi) {
       nameList.push(template);
-    } else {
+    }
+    else {
       // electron-template
       nameList.push(`@dz-web/esboot-${template}`);
     }
-  } else if (isStartWithUmi) {
+  }
+  else if (isStartWithUmi) {
     // @umijs/electron
     nameList.push(`${template}-template`);
-  } else {
+  }
+  else {
     // electron
     nameList.push(`@dz-web/esboot-${template}-template`);
   }
@@ -65,12 +69,15 @@ export const unpackTemplate = async (opts: IUnpackTemplateOpts) => {
   // not found
   throw new Error(
     `Template ${nameList
-      .map((i) => chalk.yellow(i))
+      .map(i => chalk.yellow(i))
       .join(', ')} not found from ${registry}`,
   );
-};
+}
 
-async function getNpmPkgTarUrl(opts: { registry: string; name: string }) {
+async function getNpmPkgTarUrl(opts: {
+  registry: string;
+  name: string;
+}): Promise<string | undefined> {
   const { registry, name } = opts;
   const nameWithoutScope = name.startsWith('@') ? name.split('/')[1] : name;
   const latestPkgInfoUrl = `${registry}${name}/latest?date=${Date.now()}`;
@@ -83,26 +90,32 @@ async function getNpmPkgTarUrl(opts: { registry: string; name: string }) {
   return latestTarUrl;
 }
 
-async function downloadTar(opts: { dest: string; url: string }) {
+async function downloadTar(opts: {
+  dest: string;
+  url: string;
+}): Promise<string> {
   const { dest, url } = opts;
-  return new Promise<string>(async (resolve, reject) => {
-    try {
-      const res = await axios.get(url, {
-        responseType: 'stream',
-      });
-      fsExtra.mkdirpSync(dest);
-      res.data.pipe(
-        unpack({
-          C: dest,
-          strip: 1,
-        }),
-      );
-      resolve(dest);
-    } catch (e) {
-      if (fsExtra.existsSync(dest)) {
-        fsExtra.removeSync(dest);
+  return new Promise<string>((resolve, reject) => {
+    void (async () => {
+      try {
+        const res = await axios.get(url, {
+          responseType: 'stream',
+        });
+        fsExtra.mkdirpSync(dest);
+        res.data.pipe(
+          unpack({
+            C: dest,
+            strip: 1,
+          }),
+        );
+        resolve(dest);
       }
-      reject(e);
-    }
+      catch (e) {
+        if (fsExtra.existsSync(dest)) {
+          fsExtra.removeSync(dest);
+        }
+        reject(e);
+      }
+    })();
   });
 }

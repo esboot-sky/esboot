@@ -1,4 +1,8 @@
+import process from 'node:process';
+
 import { chalk, isLocalDev, yParser } from '@umijs/utils';
+import pkg from '../package.json';
+import createEsboot from './index';
 
 const args = yParser(process.argv.slice(2), {
   alias: {
@@ -11,16 +15,15 @@ const args = yParser(process.argv.slice(2), {
 if (args.version && !args._[0]) {
   args._[0] = 'version';
   const local = isLocalDev() ? chalk.cyan('@local') : '';
-  const { name, version } = require('../package.json');
+  const { name, version } = pkg;
   console.log(`${name}@${version}${local}`);
-} else {
-  require('./')
-    .default({
-      cwd: process.cwd(),
-      args,
-    })
-    .catch((err: Error) => {
-      console.error(`Create failed, ${err.message}`);
-      console.error(err);
-    });
+}
+else {
+  createEsboot({
+    cwd: process.cwd(),
+    args,
+  }).catch((err: Error) => {
+    console.error(`Create failed, ${err.message}`);
+    console.error(err);
+  });
 }

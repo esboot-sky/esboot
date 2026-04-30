@@ -2,6 +2,7 @@ import type { yParser } from '@umijs/utils';
 import type { UmiTemplate } from './template';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import process from 'node:process';
 
 import {
   BaseGenerator,
@@ -16,6 +17,7 @@ import {
   pkgUp,
   tryPaths,
 } from '@umijs/utils';
+import pkg from '../package.json';
 import { ERegistry, unpackTemplate } from './template';
 
 interface ITemplateArgs {
@@ -60,7 +62,8 @@ enum ENpmClient {
 export enum ETemplate {
   mp = 'react-mp',
   sp = 'react-sp',
-  reactAdmin = 'react-admin',
+  admin = 'react-admin',
+  adminMain = 'react-admin-main',
   demo = 'react-demo',
 }
 
@@ -68,8 +71,10 @@ export interface IDefaultData extends ITemplateParams {
   appTemplate?: ETemplate;
 }
 
-function getRepoName(url: string) {
-  const projectNameMatch = url.match(/\/([^/]+)\.git$/);
+const repoNamePattern = /\/([^/]+)\.git$/;
+
+function getRepoName(url: string): string {
+  const projectNameMatch = url.match(repoNamePattern);
 
   if (projectNameMatch && projectNameMatch.length > 1) {
     const projectName = projectNameMatch[1];
@@ -77,8 +82,6 @@ function getRepoName(url: string) {
   }
   return 'esboot-react-mp';
 }
-
-const pkg = require('../package');
 
 const DEFAULT_DATA = {
   pluginName: 'umi-plugin-demo',
@@ -99,11 +102,11 @@ interface IGeneratorOpts {
   defaultData?: IDefaultData;
 }
 
-export default async ({
+export default async function createEsboot({
   cwd,
   args,
   defaultData = DEFAULT_DATA,
-}: IGeneratorOpts) => {
+}: IGeneratorOpts): Promise<void> {
   const [name] = args._;
   let npmClient = ENpmClient.pnpm;
   let registry = ERegistry.npm;
@@ -117,24 +120,25 @@ export default async ({
 
   const target = name ? join(cwd, name) : cwd;
 
-  const { isCancel, text, select, intro, outro } = clackPrompts;
-  const exitPrompt = () => {
+  const { isCancel, select, intro, outro } = clackPrompts;
+  const exitPrompt = (): never => {
     outro(chalk.red('Exit create-esboot'));
     process.exit(1);
   };
-  const selectAppTemplate = async () => {
+  const selectAppTemplate = async (): Promise<void> => {
     appTemplate = (await select({
       message: 'Pick ESBoot App Template',
       options: [
         { label: 'React Demo App', value: ETemplate.demo },
         { label: 'React Multiple Platforms App', value: ETemplate.mp },
         { label: 'React Single Platform App', value: ETemplate.sp },
-        { label: 'React Admin App', value: ETemplate.reactAdmin },
+        { label: 'React Admin App', value: ETemplate.admin },
+        { label: 'React Admin Main App', value: ETemplate.adminMain },
       ],
       initialValue: ETemplate.demo,
     })) as ETemplate;
   };
-  const selectNpmClient = async () => {
+  const selectNpmClient = async (): Promise<void> => {
     npmClient = (await select({
       message: 'Pick Npm Client',
       options: [
@@ -147,7 +151,7 @@ export default async ({
       initialValue: ENpmClient.pnpm,
     })) as ENpmClient;
   };
-  const selectRegistry = async () => {
+  const selectRegistry = async (): Promise<void> => {
     registry = (await select({
       message: 'Pick Npm Registry',
       options: [
@@ -169,7 +173,7 @@ export default async ({
       initialValue: ERegistry.dz,
     })) as ERegistry;
   };
-  const internalTemplatePrompts = async () => {
+  const internalTemplatePrompts = async (): Promise<void> => {
     intro(chalk.bgHex('#19BDD2')(' create-esboot '));
 
     await selectAppTemplate();
@@ -199,7 +203,7 @@ export default async ({
   const useUpstreamTemplate = !!args.upstream;
 
   switch (true) {
-    case useUpstreamTemplate:
+    case useUpstreamTemplate: {
       const { url } = args;
       const { isString } = lodash;
 
@@ -243,7 +247,8 @@ export default async ({
         logger.error('Error:', error);
       }
       return;
-    case useExternalTemplate:
+    }
+    case useExternalTemplate: {
       await selectNpmClient();
       if (isCancel(npmClient)) {
         exitPrompt();
@@ -258,6 +263,7 @@ export default async ({
         registry,
       });
       break;
+    }
     // TODO: init template from git
     // case: useGitTemplate
     default:
@@ -291,7 +297,7 @@ export default async ({
     }
   }
 
-  const injectInternalTemplateFiles = async () => {
+  const injectInternalTemplateFiles = async (): Promise<void> => {
     const generator = new BaseGenerator({
       path: join(__dirname, '..', 'templates', appTemplate),
       target,
@@ -388,7 +394,7 @@ async function detectMonorepoRoot(opts: {
   return null;
 }
 
-async function moveNpmrc(opts: IContext) {
+async function moveNpmrc(opts: IContext): Promise<void> {
   const { target, projectRoot } = opts;
   const sourceNpmrc = join(target, './.npmrc');
   const targetNpmrc = join(projectRoot, './.npmrc');
@@ -398,11 +404,12 @@ async function moveNpmrc(opts: IContext) {
   await fsExtra.remove(sourceNpmrc);
 }
 
-async function initGit(opts: IContext) {
+async function initGit(opts: IContext): Promise<void> {
   const { projectRoot } = opts;
   const isGit = existsSync(join(projectRoot, '.git'));
-  if (isGit)
+  if (isGit) {
     return;
+  }
   try {
     await execa.execa('git', ['init'], { cwd: projectRoot });
   }
@@ -411,7 +418,7 @@ async function initGit(opts: IContext) {
   }
 }
 
-async function removeHusky(opts: IContext) {
+async function removeHusky(opts: IContext): Promise<void> {
   const dir = join(opts.target, './.husky');
   if (existsSync(dir)) {
     await fsExtra.remove(dir);
@@ -421,11 +428,11 @@ async function removeHusky(opts: IContext) {
 // pnpm v8 will install minimal version of the dependencies
 // so we upgrade all deps to the latest version
 // https://pnpm.io/npmrc#resolution-mode
-async function installWithPnpm8(cwd: string) {
+async function installWithPnpm8(cwd: string): Promise<void> {
   await execa.execa('pnpm', ['up', '-L'], { cwd, stdio: 'inherit' });
 }
 
-async function getPnpmMajorVersion() {
+async function getPnpmMajorVersion(): Promise<number> {
   try {
     const { stdout } = await execa.execa('pnpm', ['--version']);
     return Number.parseInt(stdout.trim().split('.')[0], 10);

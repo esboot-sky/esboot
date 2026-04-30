@@ -1,21 +1,30 @@
+import type { IMenu } from './model/app';
 import loadable from '@loadable/component';
 import { useEffect } from 'react';
+
 import { createBrowserRouter, Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import Home from '@/modules/home/app';
-
 import App from './app';
 import { useAppStore } from './model/app';
+import { filterRoutesByMenu } from './router-utils';
 import { transformToMenuItems } from './utils/menu';
 
 const Login = loadable(() => import('./modules/login/app'));
 const NotFound = loadable(() => import('./modules/misc/not-found/not-found'));
+const UserManagement = loadable(() => import('./modules/user-management/user-management'));
 const RoleManagement = loadable(() => import('./modules/role-management/role-management'));
 
-interface MenuNode {
-  path?: string;
-  children?: MenuNode[];
-}
+const HOME_CHILD_ROUTE_DEFINITIONS = [
+  {
+    path: 'account-management-center/user-management',
+    element: <UserManagement />,
+  },
+  {
+    path: 'account-management-center/role-management',
+    element: <RoleManagement />,
+  },
+];
 
 // eslint-disable-next-line react-refresh/only-export-components
 function RouterShell() {
@@ -53,33 +62,8 @@ function RouterShell() {
   return <Outlet />;
 }
 
-function getAllPathsFromMenu(menuItems?: MenuNode[]) {
-  let paths: string[] = [];
-
-  menuItems?.forEach((item: MenuNode) => {
-    if (item.path) {
-      paths.push(item.path);
-    }
-    if (item.children && item.children.length > 0) {
-      paths = paths.concat(getAllPathsFromMenu(item.children));
-    }
-  });
-
-  return paths;
-}
-
-function getRouter() {
-  const allHomeChildRoutes = [
-    {
-      path: 'account-management-center/user-management',
-      element: <RoleManagement />,
-    },
-  ];
-
-  const { currentModule } = useAppStore.getState();
-
-  const menuPaths = getAllPathsFromMenu(currentModule?.menu);
-  const HomeChildRoutes = allHomeChildRoutes.filter(route => menuPaths.includes(`/${route.path}`));
+export function getRouter(menuItems?: IMenu[]) {
+  const homeChildRoutes = filterRoutesByMenu(HOME_CHILD_ROUTE_DEFINITIONS, menuItems);
 
   const HomeRoutes = {
     path: '/',
@@ -88,7 +72,7 @@ function getRouter() {
       {
         path: '',
         element: <Home />,
-        children: HomeChildRoutes,
+        children: homeChildRoutes,
       },
     ],
   };

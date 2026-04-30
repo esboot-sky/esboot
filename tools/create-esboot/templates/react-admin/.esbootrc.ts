@@ -1,8 +1,8 @@
+import type { BundlerViteOptions } from '@dz-web/esboot-bundler-vite';
 import { defineConfig } from '@dz-web/esboot';
 import { BundlerVite, CodeSplittingType as CodeSplittingTypeVite } from '@dz-web/esboot-bundler-vite';
-import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
-import type { BundlerViteOptions } from '@dz-web/esboot-bundler-vite';
+import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
 export default defineConfig<BundlerViteOptions>(() => {
   return {
@@ -22,6 +22,7 @@ export default defineConfig<BundlerViteOptions>(() => {
             '@dz-web/axios-middlewares',
             'axios',
             'react-intl',
+            '@dz-web/antd-pro-components',
             '@loadable/component',
           ],
         },

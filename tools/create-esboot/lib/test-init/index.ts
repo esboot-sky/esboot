@@ -1,10 +1,12 @@
-import { mkdirSync, existsSync } from 'node:fs';
+import type { ETemplate } from '../constant';
+import { existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import process from 'node:process';
+
 import { $ } from 'bun';
+import { rootDir, supportedTemplate } from '../constant';
 
-import { rootDir, supportedTemplate, type ETemplate } from '../constant';
-
-async function main() {
+async function main(): Promise<void> {
   const template = process.argv[2];
 
   if (!supportedTemplate.includes(template as ETemplate)) {
