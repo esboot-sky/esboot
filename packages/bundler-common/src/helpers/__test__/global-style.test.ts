@@ -12,6 +12,16 @@ describe('global style helpers', () => {
     expect(isGlobalStyleFile(join(rootPath, 'views/home/app.scss'), paths)).toBe(false);
   });
 
+  it('normalizes windows paths before matching global style files', () => {
+    const rootPath = 'C:\\project\\src';
+    const paths = getGlobalScssPathList(rootPath, true);
+
+    expect(paths).toEqual(['C:/project/src/styles/']);
+    expect(isGlobalStyleFile('C:/project/src/styles/index.scss', paths)).toBe(true);
+    expect(isGlobalStyleFile('C:\\project\\src\\styles\\index.scss', paths)).toBe(true);
+    expect(isGlobalStyleFile('C:/project/src/views/home/app.scss', paths)).toBe(false);
+  });
+
   it('adds platform style folders as globals for MP projects', () => {
     const rootPath = join('/project', 'src');
     const paths = getGlobalScssPathList(rootPath, false);

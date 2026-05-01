@@ -54,6 +54,19 @@ describe('react-style-name vite plugin', () => {
     expect(resolvedId).toBeNull();
   });
 
+  it('does not force windows global scss files into CSS Modules', async () => {
+    const [plugin] = reactStyleNamePlugin({ rootPath: 'C:\\project\\src', isSP: true });
+
+    const resolvedId = await plugin.resolveId?.call(
+      createResolveContext('C:\\project\\src\\styles\\index.scss') as any,
+      '@/styles/index.scss',
+      'C:\\project\\src\\index.entry.tsx',
+      {},
+    );
+
+    expect(resolvedId).toBeNull();
+  });
+
   it('transforms JSX styleName into a className lookup before JSX compilation', () => {
     const code = transform(`
       import styles from './app.scss';
