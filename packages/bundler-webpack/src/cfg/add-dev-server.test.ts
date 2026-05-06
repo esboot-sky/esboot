@@ -41,6 +41,10 @@ describe('webpack dev server config', () => {
         address: () => ({ port: 3000 }),
       },
     });
-    expect(logDevServer).toHaveBeenCalledWith(3000, false);
+    expect(logDevServer).toHaveBeenCalledWith({
+      port: 3000,
+      isHttps: false,
+      ip: undefined,
+    });
   });
 });

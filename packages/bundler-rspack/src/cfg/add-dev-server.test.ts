@@ -40,6 +40,10 @@ describe('rspack dev server config', () => {
         address: () => ({ port: 4000 }),
       },
     });
-    expect(logDevServer).toHaveBeenCalledWith(4000, true);
+    expect(logDevServer).toHaveBeenCalledWith({
+      port: 4000,
+      isHttps: true,
+      ip: undefined,
+    });
   });
 });
