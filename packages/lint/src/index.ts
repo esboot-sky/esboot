@@ -33,7 +33,7 @@ export function huskySetup({ configRootPath }: { configRootPath: string }): void
     copySync(resolve(__dirname, '../config/.husky'), huskyCfgTarget);
   }
 
-  exec(`${_resolveLibPath('husky', './lib/bin.js')} install config/.husky`, {
+  exec(`node ${_resolveLibPath('husky', './lib/bin.js')} install config/.husky`, {
     onError: (err) => {
       error(err.message);
     },

@@ -51,7 +51,7 @@ describe('lint package runtime helpers', () => {
 
     expect(ensureDirSync).toHaveBeenCalledWith('/repo/config/.husky');
     expect(copySync).toHaveBeenCalledWith(expect.stringContaining('/config/.husky'), '/repo/config/.husky');
-    expect(exec).toHaveBeenCalledWith('/libs/husky./lib/bin.js install config/.husky', expect.any(Object));
+    expect(exec).toHaveBeenCalledWith('node /libs/husky./lib/bin.js install config/.husky', expect.any(Object));
   });
 
   it('skips husky setup when no git directory exists', async () => {
