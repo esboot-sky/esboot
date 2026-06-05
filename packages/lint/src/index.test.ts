@@ -74,4 +74,21 @@ describe('lint package runtime helpers', () => {
     expect(exec).toHaveBeenCalledWith('node /resolved/lint-staged/bin --cwd /repo/app', expect.any(Object));
     expect(info).toHaveBeenCalledWith('Checking staged files done.');
   });
+
+  it('pre-commit calls process.exit(1) on failure', async () => {
+    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => undefined as never);
+    const { execGitHooks } = await import('./index');
+
+    exec.mockImplementationOnce((cmd, options) => {
+      if (options && typeof options.onError === 'function') {
+        options.onError(new Error('test error'));
+      }
+      return Promise.resolve();
+    });
+
+    await execGitHooks({ type: 'pre-commit', cwd: '/repo/app' });
+
+    expect(exitSpy).toHaveBeenCalledWith(1);
+    exitSpy.mockRestore();
+  });
 });

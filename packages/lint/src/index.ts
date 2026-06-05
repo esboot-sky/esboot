@@ -48,7 +48,7 @@ export async function execGitHooks(options: { type: string; cwd: string }): Prom
       info('Start checking staged file23s...');
 
       await exec(`node ${resolvePath('lint-staged/bin')} --cwd ${cwd}`, {
-        onError: () => void 0,
+        onError: () => process.exit(1),
       });
       info('Checking staged files done.');
       break;
