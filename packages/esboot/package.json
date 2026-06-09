@@ -45,8 +45,8 @@
     "@dz-web/bridge-mock": "^2.0.0",
     "@dz-web/esboot-common": "workspace:*",
     "@dz-web/esboot-lint": "workspace:*",
-    "commander": "^14.0.2",
-    "zod": "^4.1.12"
+    "commander": "^14.0.3",
+    "zod": "^4.4.3"
   },
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"
 }

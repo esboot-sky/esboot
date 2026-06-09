@@ -22,9 +22,9 @@
     "@dz-web/esboot": "*"
   },
   "dependencies": {
-    "@vitejs/plugin-vue": "^6.0.1",
-    "@vitejs/plugin-vue-jsx": "^5.1.1",
-    "vite-plugin-vue-devtools": "^8.0.0"
+    "@vitejs/plugin-vue": "^6.0.7",
+    "@vitejs/plugin-vue-jsx": "^5.1.5",
+    "vite-plugin-vue-devtools": "^8.1.2"
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",

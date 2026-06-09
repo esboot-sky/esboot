@@ -22,8 +22,8 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lodash-es": "^4.17.21",
-    "tailwind-merge": "^3.3.1"
+    "lodash-es": "^4.18.1",
+    "tailwind-merge": "^3.6.0"
   },
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc",
   "devDependencies": {

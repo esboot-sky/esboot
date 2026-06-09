@@ -31,7 +31,7 @@
     "test:init": "bun run ./lib/test-init/index.ts"
   },
   "dependencies": {
-    "@umijs/utils": "^4.0.75"
+    "@umijs/utils": "^4.6.61"
   },
   "publishConfig": {
     "access": "public"
