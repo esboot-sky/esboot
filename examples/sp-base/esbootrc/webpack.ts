@@ -13,7 +13,9 @@ export default defineConfig<BundlerOptions>({
   plugins: [
     pluginTailwind3(),
     pluginDocs(),
-    pluginVitest(),
+    pluginVitest({
+      customConfig: config => config,
+    }),
     definePlugin({
       name: 'test1',
       // onActivated: () => {

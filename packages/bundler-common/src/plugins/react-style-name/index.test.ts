@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import reactStyleNamePlugin from './index';
+import { reactStyleNamePlugin } from './index';
 
 function transform(source: string) {
   const [plugin] = reactStyleNamePlugin();
@@ -14,7 +14,7 @@ function createResolveContext(resolvedId = '/src/app.scss') {
   };
 }
 
-describe('react-style-name vite plugin', () => {
+describe('react-style-name plugin', () => {
   it('resolves non-global scss imports as CSS Modules', async () => {
     const [plugin] = reactStyleNamePlugin({ rootPath: '/project/src', isSP: true });
 

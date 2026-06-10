@@ -1,13 +1,13 @@
-import type { Plugin } from 'vite';
-
 import type { AddFunc } from '@/cfg/types';
-import reactStyleName from '@/plugins/react-style-name';
+import { reactStyleNamePlugin } from '@dz-web/esboot-bundler-common';
+
+const STYLE_GLOBAL_PATH_RE = /styles/;
 
 export const addStyle: AddFunc = async (cfg, viteCfg) => {
   const { rootPath, isSP } = cfg.config;
   const { localsConvention, useStyleName } = cfg.config.css?.modules || {};
 
-  viteCfg.plugins!.push(reactStyleName({ rootPath, isSP, useStyleName }) as Plugin[]);
+  viteCfg.plugins!.push(...reactStyleNamePlugin({ rootPath, isSP, useStyleName }));
   let viteLocalsConvention: any = localsConvention;
 
   if (localsConvention === 'asIs') {
@@ -16,7 +16,7 @@ export const addStyle: AddFunc = async (cfg, viteCfg) => {
   viteCfg.css!.modules = {
     generateScopedName: '[name]__[local]___[hash:base64:5]',
     hashPrefix: 'prefix',
-    globalModulePaths: [/styles/],
+    globalModulePaths: [STYLE_GLOBAL_PATH_RE],
     scopeBehaviour: 'local',
     exportGlobals: true,
     ...(viteLocalsConvention ? { localsConvention: viteLocalsConvention } : {}),

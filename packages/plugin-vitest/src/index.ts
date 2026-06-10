@@ -1,5 +1,7 @@
 import type { Plugin } from '@dz-web/esboot';
+import type { PluginVitestOptions } from './options';
 import { dirname, join, resolve } from 'node:path';
+import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { PluginHooks } from '@dz-web/esboot';
 import { exec } from '@dz-web/esboot-common/execa';
@@ -7,6 +9,8 @@ import {
   resolveLibPath as baseResolveLibPath,
   searchCommand,
 } from '@dz-web/esboot-common/helpers';
+import { alias } from './alias';
+import { VITEST_PLUGIN_OPTIONS_FIELD } from './options';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,14 +19,8 @@ function resolveLibPath(p: string): string {
   return baseResolveLibPath(p, import.meta.resolve);
 }
 
-export const alias = {
-  'vitest': resolveLibPath('vitest'),
-  '@testing-library/react': resolveLibPath('@testing-library/react'),
-  '@testing-library/user-event': resolveLibPath('@testing-library/user-event'),
-};
-
-export default (): Plugin => {
-  return {
+export default (options: PluginVitestOptions = {}): Plugin => {
+  const plugin: Plugin = {
     name: 'plugin-vitest',
     [PluginHooks.registerCommands]: (cfg) => {
       const { cwd } = cfg;
@@ -36,8 +34,15 @@ export default (): Plugin => {
           allowUnknownOption: true,
           action: async (_, options) => {
             const { passThrough = '' } = options;
-            exec(
+            await exec(
               `${searchCommand(join(__dirname, '../'), 'vitest')} ${passThrough} -r ${cwd} -c ${resolve(__dirname, '../config/vitest.config.ts')}`,
+              {
+                onError: (error) => {
+                  const exitCode = error?.exitCode || 1;
+                  console.error(`Vitest run failed with exit code ${exitCode}`);
+                  process.exit(error?.exitCode || 1);
+                },
+              },
             );
           },
         },
@@ -54,4 +59,12 @@ export default (): Plugin => {
       };
     },
   };
+
+  (plugin as Record<string, unknown>)[VITEST_PLUGIN_OPTIONS_FIELD] = options;
+
+  return plugin;
 };
+
+export { alias };
+export { getPluginVitestOptions, VITEST_PLUGIN_OPTIONS_FIELD } from './options';
+export type { PluginVitestOptions };

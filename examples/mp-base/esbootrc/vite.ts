@@ -5,7 +5,9 @@ import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
 export default defineConfig<BundlerOptions>(cfg => ({
   plugins: [
-    pluginVitest(),
+    pluginVitest({
+      customConfig: config => config,
+    }),
     definePlugin({
       name: 'test1',
       [PluginHooks.afterCompile]: (cfg) => {

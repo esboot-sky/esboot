@@ -12,9 +12,9 @@
       "default": "./dist/index.js"
     },
     "./transformStyleNameCreateElement": {
-      "types": "./dist/plugins/react-style-name/transformStyleNameCreateElement.d.ts",
-      "import": "./dist/plugins/react-style-name/transformStyleNameCreateElement.js",
-      "default": "./dist/plugins/react-style-name/transformStyleNameCreateElement.js"
+      "types": "./dist/transformStyleNameCreateElement.d.ts",
+      "import": "./dist/transformStyleNameCreateElement.js",
+      "default": "./dist/transformStyleNameCreateElement.js"
     },
     "./package.json": "./package.json"
   },

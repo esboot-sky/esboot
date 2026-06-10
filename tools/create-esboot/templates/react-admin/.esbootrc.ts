@@ -7,7 +7,9 @@ import pluginVitest from '@dz-web/esboot-plugin-vitest';
 export default defineConfig<BundlerViteOptions>(() => {
   return {
     isSP: true,
-    plugins: [pluginVitest()],
+    plugins: [pluginVitest({
+      customConfig: config => config,
+    })],
     bundler: BundlerVite,
     bundlerOptions: {
       codeSplitting: {

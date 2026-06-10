@@ -8,7 +8,9 @@ export default defineConfig<BundlerViteOptions>(() => ({
   ...getBundlerViteOptions(),
   isSP: true,
   plugins: [
-    vitestPlugin(),
+    vitestPlugin({
+      customConfig: config => config,
+    }),
   ],
 }));
 

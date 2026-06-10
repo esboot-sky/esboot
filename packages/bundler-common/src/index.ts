@@ -23,8 +23,8 @@ export { mergeFrameworkBundles } from './helpers/framework-bundles';
 export { getGlobalScssPathList, isGlobalStyleFile } from './helpers/global-style';
 export { injectHtml } from './helpers/inject-html';
 export { createResolveIntent } from './helpers/resolve-intent';
-
 export { watchOnFileChange } from './helpers/watch-on-file-change';
+export { reactStyleNamePlugin } from './plugins/react-style-name';
 export { addPostcssPluginESBoot } from './postcss/add-plugin-esboot';
 export { addPostcssPluginPx2rem } from './postcss/add-plugin-px2rem';
 

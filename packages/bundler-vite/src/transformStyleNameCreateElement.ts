@@ -3,13 +3,15 @@ interface StyleProps {
   styleName?: string;
 }
 
+const DASHED_CLASS_NAME_RE = /-(\w)/g;
+
 export function TransformStyleNameCreateElement<Props extends StyleProps>(
   origCreateElement: (name: string, props: any, ...extra: any[]) => any,
   classVariables: { [name: string]: string }[],
   name: string,
   rawProps: Props,
   ...extra: any[]
-) {
+): any {
   const props = { ...rawProps };
 
   if (typeof props.styleName === 'string') {
@@ -22,7 +24,7 @@ export function TransformStyleNameCreateElement<Props extends StyleProps>(
           if (variable[item])
             return variable[item];
           return variable[
-            item.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''))
+            item.replace(DASHED_CLASS_NAME_RE, (_, c) => (c ? c.toUpperCase() : ''))
           ];
         }),
       );

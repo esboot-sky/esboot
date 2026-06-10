@@ -53,7 +53,9 @@ export default defineConfig<BundlerOptions>((cfg) => ({
     rootValue: cfg.isMobile ? 32 : 16,
   },
   plugins: [
-    vitestPlugin(),
+    vitestPlugin({
+      customConfig: config => config,
+    }),
     definePlugin({
       name: 'log',
       [PluginHooks.afterCompile]: (cfg) => {

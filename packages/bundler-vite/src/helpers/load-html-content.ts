@@ -5,8 +5,9 @@ import { isUndefined } from '@dz-web/esboot-common/lodash';
 
 const templateContentCache = new Map<string, string>();
 const entryContentCache = new Map<string, string>();
+const WINDOWS_PATH_RE = /\\/g;
 
-export async function loadHtmlContent(pageName: string, pages: SharedConfig['pages'], { isDev = true }: { isDev?: boolean; } = {}): Promise<string | null> {
+export async function loadHtmlContent(pageName: string, pages: SharedConfig['pages'], { isDev = true }: { isDev?: boolean } = {}): Promise<string | null> {
   const pageEntryInfo = pages[pageName];
   if (!pageEntryInfo)
     return null;
@@ -32,7 +33,7 @@ export async function loadHtmlContent(pageName: string, pages: SharedConfig['pag
 
   htmlContent = htmlContent.replace(
     '</body>',
-    `<script src="${entry.replace(/\\/g, '/')}" type="module"></script></body>`,
+    `<script src="${entry.replace(WINDOWS_PATH_RE, '/')}" type="module"></script></body>`,
   );
   if (!isUndefined(title)) {
     htmlContent = htmlContent.replace(

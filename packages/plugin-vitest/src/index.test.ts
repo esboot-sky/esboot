@@ -1,4 +1,5 @@
-import { describe, expect, it, vi } from 'vitest';
+import process from 'node:process';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import pluginVitest, { alias } from './index';
 
 const { exec, searchCommand } = vi.hoisted(() => ({
@@ -29,6 +30,18 @@ describe('alias', () => {
 });
 
 describe('is a plugin', () => {
+  const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+  const processExit = vi.spyOn(process, 'exit').mockImplementation((() => undefined) as any);
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    consoleError.mockClear();
+    processExit.mockClear();
+  });
+
   it('should be a function', () => {
     expect(pluginVitest).toBeInstanceOf(Function);
   });
@@ -55,6 +68,37 @@ describe('is a plugin', () => {
     await command.action?.('', { passThrough: '--runInBand' });
 
     expect(searchCommand).toHaveBeenCalled();
-    expect(exec).toHaveBeenCalledWith(expect.stringContaining('/resolved/vitest --runInBand -r /repo/app -c '));
+    expect(exec).toHaveBeenCalledWith(
+      expect.stringContaining('/resolved/vitest --runInBand -r /repo/app -c '),
+      expect.objectContaining({
+        onError: expect.any(Function),
+      }),
+    );
+  });
+
+  it('stores plugin options on the plugin instance for the config loader', () => {
+    const customConfig = vi.fn();
+    const plugin = pluginVitest({ customConfig });
+
+    expect((plugin as any).__esbootPluginVitestOptions).toEqual({
+      customConfig,
+    });
+  });
+
+  it('prints a concise error and exits with the child exit code when vitest fails', async () => {
+    exec.mockImplementation(async (_command: string, { onError }: any = {}) => {
+      onError?.({
+        shortMessage: 'Command failed with exit code 1',
+        exitCode: 1,
+      });
+    });
+
+    const plugin = pluginVitest();
+    const [command] = plugin.registerCommands!({ cwd: '/repo/app' } as any);
+
+    await command.action?.('', { passThrough: 'run' });
+
+    expect(consoleError).toHaveBeenCalledWith('Vitest run failed with exit code 1');
+    expect(processExit).toHaveBeenCalledWith(1);
   });
 });

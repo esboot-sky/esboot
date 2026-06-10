@@ -11,8 +11,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "config",
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
     "build": "cross-env NODE_ENV=production tsup",
@@ -21,10 +20,10 @@
     "test": "vitest"
   },
   "peerDependencies": {
-    "@dz-web/esboot": "*",
-    "@dz-web/esboot-bundler-vite": "*"
+    "@dz-web/esboot": "*"
   },
   "dependencies": {
+    "@dz-web/esboot-bundler-common": "workspace:*",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
@@ -35,7 +34,6 @@
   },
   "devDependencies": {
     "@dz-web/esboot": "workspace:*",
-    "@dz-web/esboot-bundler-vite": "workspace:*",
     "@dz-web/esboot-common": "workspace:*"
   },
   "gitHead": "f8b62b156e600e6b58ba5ee67c44c0a9c07326fc"

@@ -24,7 +24,9 @@ export default defineConfig<BundlerWebpackOptions | BundlerViteOptions>(cfg => (
     'process.env.isBrowser': cfg.isBrowser,
   },
   plugins: [
-    vitestPlugin(),
+    vitestPlugin({
+      customConfig: config => config,
+    }),
     definePlugin({
       key: 'log',
       [PluginHooks.afterCompile]: (cfg) => {

@@ -1,47 +1,30 @@
-import type { CustomViteConfiguration } from '@dz-web/esboot-bundler-vite';
-import { join } from 'node:path';
 import process from 'node:process';
 import { cfg, processPrepare } from '@dz-web/esboot';
-import {
-  getCfg,
-} from '@dz-web/esboot-bundler-vite';
 import { loadEnv } from '@dz-web/esboot-common/cfg';
-import { Environment } from '@dz-web/esboot-common/constants';
-import { omit } from '@dz-web/esboot-common/lodash';
-import { configDefaults, defineConfig, mergeConfig } from 'vitest/config';
+import { mergeConfig } from 'vitest/config';
 
-import { alias } from '../src';
+// eslint-disable-next-line antfu/no-import-dist
+import { getPluginVitestOptions } from '../dist/options.js';
+import { createVitestTestConfig, createVitestViteConfig } from './create-vitest-vite-config';
 
 export default async () => {
   const root = process.cwd();
 
   processPrepare();
   loadEnv({ root });
-  cfg.load({ cwd: root });
+  await cfg.load({ cwd: root });
 
-  let viteConfig: CustomViteConfiguration = await getCfg(cfg, Environment.test);
+  const pluginOptions = getPluginVitestOptions(cfg.config.plugins);
 
-  viteConfig.resolve!.alias = {
-    ...viteConfig.resolve!.alias,
-    ...alias,
-  };
+  if (cfg.config.bundler?.name === 'BundlerVite') {
+    const { getCfg } = await import('@dz-web/esboot-bundler-vite');
+    const viteConfig = await getCfg(cfg, 'test');
+    const mergedConfig = mergeConfig(viteConfig, createVitestTestConfig());
 
-  viteConfig = omit(viteConfig, ['configFile', 'build']);
+    return pluginOptions.customConfig
+      ? await pluginOptions.customConfig(mergedConfig as any, cfg.config)
+      : mergedConfig;
+  }
 
-  return mergeConfig(
-    viteConfig,
-    defineConfig({
-      test: {
-        include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
-        forceRerunTriggers: [
-          ...configDefaults.forceRerunTriggers,
-          '**/*.test.{ts,tsx}',
-          '**/*.{ts,tsx}',
-        ],
-        setupFiles: [join(__dirname, './setup.ts')],
-        environment: 'jsdom',
-        // globals: true,
-      },
-    }),
-  );
+  return await createVitestViteConfig(cfg, pluginOptions);
 };
