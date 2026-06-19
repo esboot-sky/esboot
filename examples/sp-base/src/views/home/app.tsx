@@ -3,6 +3,7 @@ import { useErrorBoundary } from '@dz-web/esboot-browser-react';
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import testJson from './test.json';
 
 import { login } from '@/api';
 
@@ -17,6 +18,9 @@ console.log(styles, 'styles');
 
 const a = 1;
 console.log(a);
+console.log(testJson, 'testJson');
+console.log(process.env.test, 'process.env');
+
 function Test() {
   const { showBoundary } = useErrorBoundary();
   const navigate = useNavigate();

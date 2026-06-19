@@ -227,11 +227,19 @@ export default async function createConfig(options?: Options): Promise<Config> {
   const settingsConfig = buildSettingsConfig(settings);
   const globalRulesConfig = buildGlobalRulesConfig(globalRules);
 
+  const srcConfig = {
+    files: ['**/src/**/*.{js,jsx,ts,tsx,vue}'],
+    rules: {
+      'node/prefer-global/process': 'off',
+    },
+  };
+
   const config = antfu(
     baseConfig,
     jsoncConfig as any,
     vueConfigItem as any,
     reactConfigItem as any,
+    srcConfig as any,
     settingsConfig as any,
     globalRulesConfig as any,
     ...extendsConfigs.filter((item): item is any => item !== undefined),
