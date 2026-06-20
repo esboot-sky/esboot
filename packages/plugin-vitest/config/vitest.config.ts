@@ -17,13 +17,22 @@ export default async () => {
   const pluginOptions = getPluginVitestOptions(cfg.config.plugins);
 
   if (cfg.config.bundler?.name === 'BundlerVite') {
-    const { getCfg } = await import('@dz-web/esboot-bundler-vite');
-    const viteConfig = await getCfg(cfg, 'test');
-    const mergedConfig = mergeConfig(viteConfig, createVitestTestConfig());
+    try {
+      const { getCfg } = await import('@dz-web/esboot-bundler-vite');
+      const viteConfig = await getCfg(cfg, 'test');
+      const mergedConfig = mergeConfig(viteConfig, createVitestTestConfig());
 
-    return pluginOptions.customConfig
-      ? await pluginOptions.customConfig(mergedConfig as any, cfg.config)
-      : mergedConfig;
+      return pluginOptions.customConfig
+        ? await pluginOptions.customConfig(mergedConfig as any, cfg.config)
+        : mergedConfig;
+    }
+    catch (error) {
+      if (error instanceof Error && error.message.includes('Duplicate entry chunkName')) {
+        return await createVitestViteConfig(cfg, pluginOptions);
+      }
+
+      throw error;
+    }
   }
 
   return await createVitestViteConfig(cfg, pluginOptions);

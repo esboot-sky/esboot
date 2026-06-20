@@ -159,4 +159,42 @@ describe('plugin vitest config', () => {
       fromPluginOption: true,
     }));
   });
+
+  it('falls back to the standalone vitest vite config when vite bundler config generation fails on duplicate chunk names', async () => {
+    const duplicateChunkError = new Error('Duplicate entry chunkName "index"');
+    viteGetCfg.mockRejectedValue(duplicateChunkError);
+    createVitestViteConfig.mockResolvedValue({
+      resolve: {
+        alias: {
+          standalone: '/standalone',
+        },
+      },
+      test: {
+        environment: 'jsdom',
+      },
+    });
+
+    cfgState.config = {
+      bundler: class BundlerVite {},
+      plugins: [
+        {
+          name: 'plugin-vitest',
+          __esbootPluginVitestOptions: {},
+        },
+      ],
+    };
+
+    const vitestConfigFactory = (await import('./vitest.config')).default;
+    const result = await vitestConfigFactory();
+
+    expect(viteGetCfg).toHaveBeenCalledWith(expect.any(Object), 'test');
+    expect(createVitestViteConfig).toHaveBeenCalledWith(expect.any(Object), {});
+    expect(result).toEqual(expect.objectContaining({
+      resolve: {
+        alias: {
+          standalone: '/standalone',
+        },
+      },
+    }));
+  });
 });
