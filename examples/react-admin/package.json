@@ -15,7 +15,7 @@
   "dependencies": {
     "@ant-design/cssinjs": "^2.1.2",
     "@ant-design/icons": "^6.2.5",
-    "@dz-web/antd-pro-components": "^3.0.13",
+    "@dz-web/antd-pro-components": "^3.0.12",
     "@dz-web/axios": "^0.0.6",
     "@dz-web/axios-middlewares": "^1.3.0",
     "@dz-web/cache": "^2.0.0",

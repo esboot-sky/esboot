@@ -15,7 +15,12 @@ const betterTailwindcssRules = {
     'warn',
     { printWidth: 100 },
   ],
+  'better-tailwindcss/enforce-canonical-classes': 'warn',
+  'better-tailwindcss/enforce-consistent-variant-order': 'warn',
+  'better-tailwindcss/enforce-logical-properties': 'warn',
+  // Keep both names disabled while upstream still exposes the legacy alias.
   'better-tailwindcss/no-unregistered-classes': 'off',
+  'better-tailwindcss/no-unknown-classes': 'off',
 } as any;
 
 type Config = ReturnType<typeof antfu>;
