@@ -23,6 +23,15 @@ export { mergeFrameworkBundles } from './helpers/framework-bundles';
 export { getGlobalScssPathList, isGlobalStyleFile } from './helpers/global-style';
 export { injectHtml } from './helpers/inject-html';
 export { createResolveIntent } from './helpers/resolve-intent';
+export {
+  resolveViteFrameworkPlugins,
+  resolveViteFrameworkProvider,
+  shouldUseReactStyleNamePlugin,
+  transformFrameworkBundles,
+  type ViteBundlerOptionsLike,
+  type ViteFrameworkPluginContext,
+  type ViteFrameworkProvider,
+} from './helpers/vite-framework-provider';
 export { watchOnFileChange } from './helpers/watch-on-file-change';
 export { reactStyleNamePlugin } from './plugins/react-style-name';
 export { addPostcssPluginESBoot } from './postcss/add-plugin-esboot';

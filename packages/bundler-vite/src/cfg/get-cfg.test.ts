@@ -6,6 +6,14 @@ const addPostcssPluginESBoot = vi.fn(() => 'postcss-esboot');
 const addPostcssPluginTailwindcss = vi.fn(() => 'postcss-tailwind');
 const addPostcssPluginPx2rem = vi.fn(() => 'postcss-px2rem');
 const addReactCompiler = vi.fn(() => 'react-compiler');
+const resolveViteFrameworkPlugins = vi.fn(async (
+  options?: {
+    frameworkProvider?: {
+      getPlugins: (context: { target: 'vite' | 'vitest'; isDev: boolean }) => unknown[];
+    };
+  },
+  context?: { target: 'vite' | 'vitest'; isDev: boolean },
+) => options?.frameworkProvider?.getPlugins(context!));
 const addEntry = vi.fn();
 const addDevServer = vi.fn();
 const addResolve = vi.fn();
@@ -25,6 +33,7 @@ vi.mock('@dz-web/esboot-bundler-common', () => ({
   addPostcssPluginTailwindcss,
   addPostcssPluginPx2rem,
   addReactCompiler,
+  resolveViteFrameworkPlugins,
 }));
 
 vi.mock('../plugins/add-plugin-copy', () => ({
@@ -125,5 +134,42 @@ describe('getCfg tailwind integration', () => {
         'postcss-px2rem',
       ]),
     );
+  });
+
+  it('uses a configured framework provider instead of the default react plugin', async () => {
+    const { getCfg } = await import('./get-cfg');
+    const getPlugins = vi.fn(() => [{ name: 'vue' }, { name: 'vue-devtools' }, { name: 'vue-jsx' }]);
+
+    const cfg = await getCfg({
+      config: {
+        cwd: '/repo/app',
+        publicPath: '/',
+        sourceMap: false,
+        isDev: true,
+        bundlerOptions: {
+          frameworkProvider: {
+            getPlugins,
+          },
+        },
+        css: {
+          tailwind: {
+            enable: true,
+            version: 'next',
+            separateImports: false,
+          },
+        },
+      },
+    } as any, 'development');
+
+    expect(react).not.toHaveBeenCalled();
+    expect(getPlugins).toHaveBeenCalledWith({
+      target: 'vite',
+      isDev: true,
+    });
+    expect(cfg.plugins).toEqual(expect.arrayContaining([
+      { name: 'vue' },
+      { name: 'vue-devtools' },
+      { name: 'vue-jsx' },
+    ]));
   });
 });

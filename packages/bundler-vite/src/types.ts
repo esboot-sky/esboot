@@ -1,4 +1,5 @@
 import type { Configuration as ESBootConfiguration } from '@dz-web/esboot';
+import type { ViteFrameworkProvider } from '@dz-web/esboot-bundler-common';
 import type { InlineConfig } from 'vite';
 
 export enum CodeSplittingType {
@@ -34,6 +35,7 @@ export type CustomConfig = (
 
 export interface BundlerViteOptions {
   customConfig?: CustomConfig;
+  frameworkProvider?: ViteFrameworkProvider;
   legacy?: {
     enable?: boolean;
   };

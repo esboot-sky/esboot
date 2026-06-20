@@ -8,6 +8,7 @@ import {
   addPostcssPluginPx2rem,
   addPostcssPluginTailwindcss,
   addReactCompiler,
+  resolveViteFrameworkPlugins,
 } from '@dz-web/esboot-bundler-common';
 import { cacheDir } from '@dz-web/esboot-common';
 import { resolveTailwindConfig } from '@dz-web/esboot-common/cfg';
@@ -28,21 +29,28 @@ export async function getCfg(cfg: ConfigurationInstance, mode: Environment, opti
   const { cwd, bundlerOptions = {}, publicPath, sourceMap, isDev } = cfg.config;
   const { customConfig } = bundlerOptions as BundlerViteOptions;
   const { enable, version: tailwindVersion } = resolveTailwindConfig(cfg.config);
+  const frameworkPlugins = await resolveViteFrameworkPlugins(
+    bundlerOptions as BundlerViteOptions,
+    {
+      target: 'vite',
+      isDev,
+    },
+  ) || [
+    react(
+      {
+        babel: {
+          /**
+           * React Compiler Vite installation docs with "vite-plugin-babel" cause sourcemap issues
+           * @see https://github.com/reactjs/react.dev/issues/8215
+           */
+          plugins: [!isDev && addReactCompiler(cfg)].filter(Boolean) as BabelPlugin[],
+        },
+      },
+    ),
+  ];
 
   let viteCfg: CustomViteConfiguration = {
-    plugins: [
-      react(
-        {
-          babel: {
-            /**
-             * React Compiler Vite installation docs with "vite-plugin-babel" cause sourcemap issues
-             * @see https://github.com/reactjs/react.dev/issues/8215
-             */
-            plugins: [!isDev && addReactCompiler(cfg)].filter(Boolean) as BabelPlugin[],
-          },
-        },
-      ),
-    ],
+    plugins: frameworkPlugins as CustomViteConfiguration['plugins'],
     mode,
     configFile: false,
     publicDir: false,

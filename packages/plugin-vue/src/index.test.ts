@@ -31,40 +31,49 @@ describe('is a plugin', () => {
     expect(plugin.name).toBe('plugin-vue');
   });
 
-  it('adds vue-specific plugins and removes react plugins for vite bundler config', () => {
+  it('registers a framework provider that owns vue-specific bundler behavior', () => {
     const plugin = pluginVue({
       vueDevToolsOptions: { enable: true },
       jsxOptions: { enable: true },
     });
 
-    const bundlerConfig = {
-      plugins: [{ name: 'vite:react-babel' }, { name: 'custom' }],
-      build: {
-        rollupOptions: {
-          output: {
-            manualChunks: {
-              framework: ['react', 'react-dom', 'lodash-es'],
-            },
+    const cfg = {
+      bundlerOptions: {
+        codeSplitting: {
+          jsStrategyOptions: {
+            frameworkBundles: ['react', 'react-dom', 'lodash-es'],
           },
         },
       },
+      svgrOptions: {
+        plugins: [],
+      },
     };
 
-    plugin.modifyBundlerConfig?.({} as any, bundlerConfig as any, 'vite');
+    const nextCfg = plugin.modifyConfig?.(cfg as any, {} as any);
+    const frameworkProvider = nextCfg?.bundlerOptions?.frameworkProvider;
 
-    expect(vue).toHaveBeenCalled();
-    expect(vueDevTools).toHaveBeenCalled();
-    expect(vueJsx).toHaveBeenCalled();
-    expect(bundlerConfig.plugins[0]).toEqual({ name: 'vite:vue' });
-    expect(bundlerConfig.plugins).not.toContainEqual({ name: 'vite:react-babel' });
-    expect(bundlerConfig.build.rollupOptions.output.manualChunks.framework).toEqual(['vue', 'lodash-es']);
-  });
-
-  it('throws for unsupported bundlers', () => {
-    const plugin = pluginVue();
-
-    expect(() => plugin.modifyBundlerConfig?.({} as any, {} as any, 'webpack')).toThrow(
-      'Plugin Vue is not supported for webpack now, please use vite instead.',
-    );
+    expect(nextCfg).toEqual(expect.objectContaining({
+      bundlerOptions: expect.objectContaining({
+        frameworkProvider: expect.any(Object),
+      }),
+    }));
+    expect(frameworkProvider.useReactStyleNamePlugin).toBe(false);
+    expect(frameworkProvider.transformFrameworkBundles(['react', 'react-dom', 'lodash-es'])).toEqual([
+      'vue',
+      'lodash-es',
+    ]);
+    expect(vue).not.toHaveBeenCalled();
+    expect(vueDevTools).not.toHaveBeenCalled();
+    expect(vueJsx).not.toHaveBeenCalled();
+    expect(frameworkProvider.getPlugins({ target: 'vite' })).toEqual([
+      { name: 'vite:vue' },
+      { name: 'vite:vue-devtools' },
+      { name: 'vite:vue-jsx' },
+    ]);
+    expect(frameworkProvider.getPlugins({ target: 'vitest' })).toEqual([
+      { name: 'vite:vue' },
+      { name: 'vite:vue-jsx' },
+    ]);
   });
 });

@@ -7,6 +7,8 @@ const {
   addPostcssPluginTailwindcss,
   addPostcssPluginPx2rem,
   addReactCompiler,
+  resolveViteFrameworkPlugins,
+  shouldUseReactStyleNamePlugin,
 } = vi.hoisted(() => ({
   react: vi.fn(() => 'react-plugin'),
   vitePluginSvgr: vi.fn(() => 'svgr-plugin'),
@@ -14,6 +16,19 @@ const {
   addPostcssPluginTailwindcss: vi.fn(async () => 'postcss-tailwind'),
   addPostcssPluginPx2rem: vi.fn(async () => 'postcss-px2rem'),
   addReactCompiler: vi.fn(() => 'react-compiler'),
+  resolveViteFrameworkPlugins: vi.fn(async (
+    options?: {
+      frameworkProvider?: {
+        getPlugins: (context: { target: 'vite' | 'vitest'; isDev: boolean }) => unknown[];
+      };
+    },
+    context?: { target: 'vite' | 'vitest'; isDev: boolean },
+  ) => options?.frameworkProvider?.getPlugins(context!)),
+  shouldUseReactStyleNamePlugin: vi.fn((options?: {
+    frameworkProvider?: {
+      useReactStyleNamePlugin?: boolean;
+    };
+  }) => options?.frameworkProvider?.useReactStyleNamePlugin !== false),
 }));
 
 vi.mock('@vitejs/plugin-react', () => ({
@@ -38,6 +53,8 @@ vi.mock('@dz-web/esboot-bundler-common', () => ({
   addPostcssPluginTailwindcss,
   addPostcssPluginPx2rem,
   addReactCompiler,
+  resolveViteFrameworkPlugins,
+  shouldUseReactStyleNamePlugin,
   reactStyleNamePlugin: vi.fn(() => ['style-name-plugin']),
 }));
 
@@ -156,5 +173,53 @@ describe('createVitestViteConfig', () => {
         setupFiles: [expect.stringContaining('/packages/plugin-vitest/config/setup.ts')],
       }),
     }));
+  });
+
+  it('uses a configured framework provider instead of the default react plugin', async () => {
+    const { createVitestViteConfig } = await import('./create-vitest-vite-config');
+    const getPlugins = vi.fn(() => ['vue-plugin', 'vue-jsx-plugin']);
+    const result = await createVitestViteConfig({
+      config: {
+        cwd: '/repo/app',
+        publicPath: '/',
+        sourceMap: false,
+        isDev: true,
+        rootPath: '/repo/app/src',
+        isSP: true,
+        alias: {
+          '@': 'src',
+        },
+        bundlerOptions: {
+          frameworkProvider: {
+            getPlugins,
+            useReactStyleNamePlugin: false,
+          },
+        },
+        define: {
+          __DEV__: true,
+        },
+        css: {
+          modules: {
+            useStyleName: false,
+            localsConvention: 'asIs',
+          },
+        },
+        svgr: false,
+        svgrOptions: {},
+      },
+    } as any);
+
+    expect(react).not.toHaveBeenCalled();
+    expect(getPlugins).toHaveBeenCalledWith({
+      target: 'vitest',
+      isDev: true,
+    });
+    expect(result.plugins).toEqual(expect.arrayContaining([
+      'vue-plugin',
+      'vue-jsx-plugin',
+    ]));
+    expect(result.plugins).not.toEqual(expect.arrayContaining([
+      'style-name-plugin',
+    ]));
   });
 });

@@ -11,6 +11,8 @@ import {
   addPostcssPluginTailwindcss,
   addReactCompiler,
   reactStyleNamePlugin,
+  resolveViteFrameworkPlugins,
+  shouldUseReactStyleNamePlugin,
 } from '@dz-web/esboot-bundler-common';
 import { cacheDir } from '@dz-web/esboot-common/constants';
 import react from '@vitejs/plugin-react';
@@ -85,16 +87,25 @@ export async function createVitestViteConfig(
   const { cwd, publicPath, isDev, rootPath, isSP, svgr, svgrOptions = {} } = cfg.config;
   const { useStyleName } = cfg.config.css?.modules || {};
   const { customConfig } = options;
+  const frameworkPlugins = await resolveViteFrameworkPlugins(
+    cfg.config.bundlerOptions as any,
+    {
+      target: 'vitest',
+      isDev,
+    },
+  ) || [
+    react({
+      babel: {
+        plugins: [!isDev && addReactCompiler(cfg)].filter(Boolean),
+      },
+    }),
+    ...(shouldUseReactStyleNamePlugin(cfg.config.bundlerOptions as any)
+      ? reactStyleNamePlugin({ rootPath, isSP, useStyleName })
+      : []),
+  ];
 
   const viteConfig: InlineConfig = {
-    plugins: [
-      react({
-        babel: {
-          plugins: [!isDev && addReactCompiler(cfg)].filter(Boolean),
-        },
-      }),
-      ...reactStyleNamePlugin({ rootPath, isSP, useStyleName }),
-    ],
+    plugins: frameworkPlugins,
     mode: 'test',
     configFile: false,
     publicDir: false,
