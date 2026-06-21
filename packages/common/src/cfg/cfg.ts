@@ -11,6 +11,7 @@ import { getIpv4 } from '@/helpers/get-ipv4';
 import { isFunction, isUndefined, merge, pick } from '@/lodash';
 import pkg from '../../package.json' with { type: 'json' };
 import { defaultCfg } from './default-cfg';
+import { validateUserConfig } from './validate-user-config';
 
 const jiti = createJiti(import.meta.url);
 
@@ -163,7 +164,8 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
     }
 
     const getCfg = await jiti.import(filePath, { default: true });
-    const userCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
+    const rawUserCfg = isFunction(getCfg) ? getCfg(this.#config) : getCfg;
+    const userCfg = validateUserConfig(rawUserCfg, filePath);
 
     const { isDev } = this.#config;
     const defaultPublicPath = isDev ? '/' : './';

@@ -150,4 +150,46 @@ describe('esboot cfg', () => {
       },
     ]);
   });
+
+  it('rejects invalid known user config fields with a readable error', async () => {
+    const cwd = await createProject(`
+      export default {
+        server: { port: '3000' },
+      };
+    `);
+
+    const cfg = new ESBootCfg();
+
+    await expect(cfg.load({ cwd })).rejects.toMatchObject({
+      message: 'esboot config load error',
+      filePath: join(cwd, '.esbootrc.ts'),
+      issues: [
+        {
+          path: 'server.port',
+          message: 'Invalid input: expected number, received string',
+        },
+      ],
+    });
+  });
+
+  it('allows unknown user config fields to support bundler-specific extensions', async () => {
+    const cwd = await createProject(`
+      export default {
+        bundler: null,
+        bundlerOptions: {
+          customConfig: () => ({}),
+        },
+        server: { port: 4001 },
+      };
+    `);
+
+    const cfg = new ESBootCfg<any>();
+
+    await expect(cfg.load({ cwd })).resolves.toBeUndefined();
+    expect(cfg.config.server.port).toBe(4001);
+    expect(cfg.config.bundler).toBeNull();
+    expect(cfg.config.bundlerOptions).toMatchObject({
+      customConfig: expect.any(Function),
+    });
+  });
 });

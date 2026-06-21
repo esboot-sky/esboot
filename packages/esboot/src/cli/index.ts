@@ -1,8 +1,8 @@
 import type { Bundler } from '@/bundler';
 import process from 'node:process';
 import { Environment } from '@dz-web/esboot-common';
-
-import { loadEnv } from '@dz-web/esboot-common/cfg';
+import { ConfigLoadError, loadEnv } from '@dz-web/esboot-common/cfg';
+import kleur from '@dz-web/esboot-common/kleur';
 import { program } from 'commander';
 
 import { cfg } from '@/cfg';
@@ -49,77 +49,95 @@ async function createBundler(environment: Environment): Promise<Bundler | null> 
 }
 
 export async function run(): Promise<void> {
-  processPrepare();
-  loadEnv({ root: cwd });
+  try {
+    processPrepare();
+    loadEnv({ root: cwd });
 
-  const cmd = process.argv[2];
-  if (!['lint', 'exec_git_hooks', 'dev', 'build'].includes(cmd)) {
-    await loadCfg(cmd || 'config');
+    const cmd = process.argv[2];
+    if (!['lint', 'exec_git_hooks', 'dev', 'build'].includes(cmd)) {
+      await loadCfg(cmd || 'config');
+    }
+
+    program
+      .command('dev')
+      .description('Start to develop project')
+      .allowUnknownOption(true)
+      .action(async () => {
+        const bundler = await createBundler(Environment.dev);
+        if (bundler)
+          bundler.dev();
+      });
+
+    program
+      .command('build')
+      .description('Build project')
+      .allowUnknownOption(true)
+      .action(async () => {
+        const bundler = await createBundler(Environment.prod);
+        if (bundler)
+          bundler.build();
+      });
+
+    program
+      .command('prepare')
+      .description('Prepare esboot project')
+      .action(() => {
+        prepare();
+      });
+
+    program
+      .command('preview')
+      .description('Preview the distribution content')
+      .allowUnknownOption(true)
+      .action(async () => {
+        preview(cfg.config);
+      });
+
+    program
+      .command('mock:bridge')
+      .description('Start bridge mock')
+      .option('-f, --file <char>')
+      .option('-s, --sampleFile <char>')
+      .action(async (options) => {
+        mockBridge(options, cfg.config);
+      });
+
+    program
+      .command('lint')
+      .argument('[args...]')
+      .description('Lint project files using ESLint and Stylelint')
+      .allowUnknownOption(true)
+      .action(async (args) => {
+        const { lint } = await import('@dz-web/esboot-lint');
+        lint({ cwd, args: args || [] });
+      });
+
+    program
+      .command('exec_git_hooks')
+      .description('Execute git hooks')
+      .option('-t, --type <type>', 'type of git hooks')
+      .action(async (options) => {
+        const { execGitHooks } = await import('@dz-web/esboot-lint');
+        execGitHooks({ type: options.type, cwd });
+      });
+
+    program.version(pkg.version);
+    await program.parseAsync(process.argv);
   }
+  catch (error) {
+    if (error instanceof ConfigLoadError) {
+      const detail = error.issues[0];
+      const lines = [
+        `${kleur.red('esboot config load error')}`,
+        `${kleur.yellow('field')}: ${kleur.bold().yellow(detail?.path || 'root')}`,
+        `${kleur.cyan('file')}: ${kleur.underline().cyan(error.filePath)}`,
+        `${kleur.red('reason')}: ${detail?.message || 'Invalid configuration'}`,
+      ];
+      console.error(lines.join('\n'));
+      process.exitCode = 1;
+      return;
+    }
 
-  program
-    .command('dev')
-    .description('Start to develop project')
-    .allowUnknownOption(true)
-    .action(async () => {
-      const bundler = await createBundler(Environment.dev);
-      if (bundler)
-        bundler.dev();
-    });
-
-  program
-    .command('build')
-    .description('Build project')
-    .allowUnknownOption(true)
-    .action(async () => {
-      const bundler = await createBundler(Environment.prod);
-      if (bundler)
-        bundler.build();
-    });
-
-  program
-    .command('prepare')
-    .description('Prepare esboot project')
-    .action(() => {
-      prepare();
-    });
-
-  program
-    .command('preview')
-    .description('Preview the distribution content')
-    .allowUnknownOption(true)
-    .action(async () => {
-      preview(cfg.config);
-    });
-
-  program
-    .command('mock:bridge')
-    .description('Start bridge mock')
-    .option('-f, --file <char>')
-    .option('-s, --sampleFile <char>')
-    .action(async (options) => {
-      mockBridge(options, cfg.config);
-    });
-
-  program
-    .command('lint')
-    .argument('[args...]')
-    .description('Lint project files using ESLint and Stylelint')
-    .allowUnknownOption(true)
-    .action(async (args) => {
-      const { lint } = await import('@dz-web/esboot-lint');
-      lint({ cwd, args: args || [] });
-    });
-
-  program
-    .command('exec_git_hooks')
-    .description('Execute git hooks')
-    .option('-t, --type <type>', 'type of git hooks')
-    .action(async (options) => {
-      const { execGitHooks } = await import('@dz-web/esboot-lint');
-      execGitHooks({ type: options.type, cwd });
-    });
-
-  program.version(pkg.version);
-  program.parse(process.argv);
+    throw error;
+  }
 }
