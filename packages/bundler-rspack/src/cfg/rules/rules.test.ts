@@ -5,27 +5,34 @@ vi.mock('@dz-web/esboot-common/helpers', () => ({
 }));
 
 describe('rspack cfg rules', () => {
-  it('adds json lang picker rules when enabled in config', async () => {
+  it('adds json lang picker rules, aliases, and dynamic loaders when enabled', async () => {
     const { addJSONRules } = await import('./add-rules-json');
-    const rspackCfg = {
+    const rspackCfg: any = {
       module: {
         rules: [] as unknown[],
+      },
+      resolve: {
+        alias: {},
       },
     };
 
     await addJSONRules({
       config: {
         useLangJsonPicker: true,
+        rootPath: '/repo/app',
         entry: {
           home: {
             chunkName: 'home',
+            langJsonPicker: ['home.title'],
           },
         },
       },
     } as any, rspackCfg as any);
 
-    expect(rspackCfg.module.rules).toHaveLength(1);
-    expect((rspackCfg.module.rules[0] as any).oneOf[0].issuerLayer).toBe('home');
+    expect(rspackCfg.resolve.alias['lang-zh-CN-home']).toBeDefined();
+    expect(rspackCfg.resolve.alias['lang-zh-CN-home']).toContain('placeholder.json?lang=zh-CN&entry=home');
+    expect(rspackCfg.module.rules).toHaveLength(2); // placeholder.json rule and import-locales rule
+    expect((rspackCfg.module.rules[1] as any).enforce).toBe('pre');
   });
 
   it('adds svgr and asset rules when svgr is enabled', async () => {

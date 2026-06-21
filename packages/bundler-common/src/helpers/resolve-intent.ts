@@ -31,9 +31,18 @@ export function createResolveIntent(options: ResolveIntentOptions): {
     resolvedAlias[key] = join(cwd, `./${alias[key]}/`);
   }
 
-  return {
+  const result: {
+    alias: Record<string, string>;
+    extensions: string[];
+    mainFields?: string[];
+  } = {
     alias: resolvedAlias,
     extensions: DEFAULT_EXTENSIONS,
-    mainFields: includeMainFields ? DEFAULT_MAIN_FIELDS : undefined,
   };
+
+  if (includeMainFields) {
+    result.mainFields = DEFAULT_MAIN_FIELDS;
+  }
+
+  return result;
 }

@@ -49,10 +49,7 @@ describe('rspack addEntry partial', () => {
     } as any, rspackCfg as any);
 
     expect(rspackCfg.entry).toEqual({
-      home: {
-        import: '/repo/app/src/home.entry.tsx',
-        layer: 'home',
-      },
+      home: '/repo/app/src/home.entry.tsx',
     });
     expect(HtmlRspackPlugin).toHaveBeenCalledWith(expect.objectContaining({
       publicPath: '/',

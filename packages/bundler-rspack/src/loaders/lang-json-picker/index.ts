@@ -1,4 +1,5 @@
 import { resolve } from 'node:path';
+import fs from 'node:fs';
 
 interface AnyObject {
   [key: string]: any;
@@ -31,20 +32,27 @@ function langPickFn(obj: AnyObject, paths: string[]): AnyObject {
 }
 
 export default function (this: any, source: string): string {
-  let jsonData = JSON.parse(source);
+  const params = new URLSearchParams(this.resourceQuery);
+  const language = params.get('lang');
+  const entryName = params.get('entry');
+
+  if (!language || !entryName) {
+    return source;
+  }
+
   const options = this.getOptions() || {};
   const { rootPath, entry } = options.config;
-  const module = this._module;
+  const langFile = resolve(rootPath, 'lang', `${language}.json`);
 
-  if (resolve(rootPath, 'lang') === module.context) {
-    try {
-      const chunk = module.layer;
-      const { langJsonPicker } = entry[chunk] || {};
-      if (langJsonPicker) {
-        jsonData = langPickFn(jsonData, langJsonPicker);
-      }
-    } catch (err) {}
-  }
+  let jsonData = {};
+  try {
+    const raw = fs.readFileSync(langFile, 'utf-8');
+    jsonData = JSON.parse(raw);
+    const { langJsonPicker } = entry[entryName] || {};
+    if (langJsonPicker) {
+      jsonData = langPickFn(jsonData, langJsonPicker);
+    }
+  } catch (err) {}
 
   return `export default ${JSON.stringify(jsonData)}`;
 }

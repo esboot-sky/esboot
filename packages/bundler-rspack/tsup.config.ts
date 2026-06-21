@@ -5,6 +5,7 @@ export default defineConfig({
     entry: [
       'src/index.ts',
       'src/loaders/lang-json-picker/index.ts',
+      'src/loaders/import-locales-loader/index.ts',
       // 'src/loaders/stylename/index.ts',
     ],
     target: 'esnext',

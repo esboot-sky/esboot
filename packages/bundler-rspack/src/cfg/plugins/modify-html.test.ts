@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
 
-const beforeEmitTap = vi.fn();
+const beforeEmitTapPromise = vi.fn();
 const getCompilationHooks = vi.fn(() => ({
   beforeEmit: {
-    tap: beforeEmitTap,
+    tapPromise: beforeEmitTapPromise,
   },
 }));
 const injectHtml = vi.fn((html: string, _cfg: unknown, title: string) => `${html}::${title}`);
@@ -41,17 +41,18 @@ describe('rspack html modify plugin', () => {
 
     expect(compilationTap).toHaveBeenCalled();
     expect(getCompilationHooks).toHaveBeenCalled();
-    expect(beforeEmitTap).toHaveBeenCalled();
+    expect(beforeEmitTapPromise).toHaveBeenCalled();
 
-    const hook = beforeEmitTap.mock.calls[0][1];
-    expect(hook({
+    const hook = beforeEmitTapPromise.mock.calls[0][1];
+    const result = await hook({
       html: '<html />',
       plugin: {
         options: {
           title: 'Home',
         },
       },
-    })).toEqual({
+    });
+    expect(result).toEqual({
       html: '<html />::Home',
       plugin: {
         options: {

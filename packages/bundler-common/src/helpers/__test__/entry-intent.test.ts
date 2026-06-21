@@ -28,10 +28,7 @@ describe('entry/html shared intent helpers', () => {
       chunkName: 'home',
       entry: '/repo/app/src/home.entry.tsx',
       enableLangJsonPicker: true,
-    })).toEqual({
-      import: '/repo/app/src/home.entry.tsx',
-      layer: 'home',
-    });
+    })).toBe('/repo/app/src/home.entry.tsx');
 
     expect(createEntryValueIntent({
       chunkName: 'home',

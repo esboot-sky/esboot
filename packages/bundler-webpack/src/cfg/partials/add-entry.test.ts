@@ -47,10 +47,7 @@ describe('webpack addEntry partial', () => {
     } as any, webpackCfg as any, { enableLangJsonPicker: true } as any);
 
     expect(webpackCfg.entry).toEqual({
-      home: {
-        import: '/repo/app/src/home.entry.tsx',
-        layer: 'home',
-      },
+      home: '/repo/app/src/home.entry.tsx',
     });
     expect(HtmlWebpackPlugin).toHaveBeenCalledWith(expect.objectContaining({
       chunks: ['home'],

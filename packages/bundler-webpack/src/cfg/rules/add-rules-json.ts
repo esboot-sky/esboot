@@ -1,19 +1,54 @@
 import type { AddFunc } from '@/cfg/types';
 import { resolve } from 'node:path';
+import fs from 'node:fs';
 
 export const addJSONRules: AddFunc<{ enableLangJsonPicker: boolean }> = async (
   cfg,
   webpackCfg,
   options,
 ) => {
-  const { entry } = cfg.config;
+  const { entry, rootPath } = cfg.config;
   const { enableLangJsonPicker } = options!;
 
   if (!enableLangJsonPicker)
     return;
 
-  const list = Object.values(entry).map(item => ({
-    issuerLayer: item.chunkName,
+  const placeholderPath = resolve(__dirname, 'placeholder.json');
+  if (!fs.existsSync(placeholderPath)) {
+    try {
+      fs.writeFileSync(placeholderPath, '{}');
+    } catch (err) {}
+  }
+
+  if (!webpackCfg.resolve) {
+    webpackCfg.resolve = {};
+  }
+  if (!webpackCfg.resolve.alias) {
+    webpackCfg.resolve.alias = {};
+  }
+
+  const langFolder = resolve(rootPath, 'lang');
+  let languages = ['zh-CN', 'zh-TW', 'en-US'];
+  try {
+    const files = fs.readdirSync(langFolder);
+    languages = files
+      .filter((file: string) => file.endsWith('.json'))
+      .map((file: string) => file.replace('.json', ''));
+  } catch (err) {}
+
+  for (const item of Object.values(entry)) {
+    if (item.langJsonPicker) {
+      for (const lang of languages) {
+        const aliasKey = `lang-${lang}-${item.chunkName}`;
+        webpackCfg.resolve.alias[aliasKey] = `${placeholderPath}?lang=${lang}&entry=${item.chunkName}`;
+      }
+    }
+  }
+
+  // Register loader rule for placeholder.json
+  webpackCfg.module.rules.push({
+    test: /placeholder\.json$/,
+    type: 'javascript/auto',
     use: [
       {
         loader: resolve(__dirname, 'loaders/lang-json-picker/index.js'),
@@ -22,12 +57,20 @@ export const addJSONRules: AddFunc<{ enableLangJsonPicker: boolean }> = async (
         },
       },
     ],
-  }));
+  });
 
-  webpackCfg.experiments.layers = true;
+  // Register loader for import-locales.ts
   webpackCfg.module.rules.push({
-    test: /\.json$/,
-    type: 'javascript/auto',
-    oneOf: list,
+    test: /helpers\/import-locales\.(ts|js)$/,
+    enforce: 'pre',
+    use: [
+      {
+        loader: resolve(__dirname, 'loaders/import-locales-loader/index.js'),
+        options: {
+          config: cfg.config,
+          languages,
+        },
+      },
+    ],
   });
 };
