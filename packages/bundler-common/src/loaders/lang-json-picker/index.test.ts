@@ -7,7 +7,7 @@ vi.mock('node:fs', () => ({
   },
 }));
 
-describe('rspack lang-json-picker loader', () => {
+describe('common lang-json-picker loader', () => {
   it('picks only configured nested keys based on query parameters', async () => {
     const { default: loader } = await import('./index');
     vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify({

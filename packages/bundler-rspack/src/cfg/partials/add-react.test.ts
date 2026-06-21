@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 const ReactRefreshPlugin = vi.fn(function MockReactRefreshPlugin(this: Record<string, unknown>) {});
 
 vi.mock('@rspack/plugin-react-refresh', () => ({
-  default: ReactRefreshPlugin,
+  ReactRefreshRspackPlugin: ReactRefreshPlugin,
 }));
 
 vi.mock('@/cfg/rules/style/utils', () => ({

@@ -43,7 +43,7 @@ export async function getRspackCfg(
     performance: {
       hints: isDev ? false : 'warning',
     },
-    cache: false,
+    cache: isDev,
     entry: {},
     plugins: [],
     devServer: {},

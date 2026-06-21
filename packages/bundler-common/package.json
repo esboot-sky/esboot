@@ -11,6 +11,7 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./dist/loaders/*": "./dist/loaders/*",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",

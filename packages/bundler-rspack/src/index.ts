@@ -30,7 +30,7 @@ export class BundlerRspack extends Bundler {
 
     const compiler = rspack(rspackCfg);
 
-    const devServer = new RspackDevServer(rspackCfg.devServer, compiler);
+    const devServer = new RspackDevServer((rspackCfg.devServer || {}) as any, compiler);
 
     try {
       await devServer.start();

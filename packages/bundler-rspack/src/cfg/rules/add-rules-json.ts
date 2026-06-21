@@ -1,6 +1,9 @@
 import type { AddFunc } from '@/cfg/types';
 import { resolve } from 'node:path';
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
 
 export const addJSONRules: AddFunc = async (cfg, rspack) => {
   const { useLangJsonPicker, entry, rootPath } = cfg.config;
@@ -46,7 +49,7 @@ export const addJSONRules: AddFunc = async (cfg, rspack) => {
     type: 'javascript/auto',
     use: [
       {
-        loader: resolve(__dirname, 'loaders/lang-json-picker/index.js'),
+        loader: require.resolve('@dz-web/esboot-bundler-common/dist/loaders/lang-json-picker/index.js'),
         options: {
           config: cfg.config,
         },
@@ -60,7 +63,7 @@ export const addJSONRules: AddFunc = async (cfg, rspack) => {
     enforce: 'pre',
     use: [
       {
-        loader: resolve(__dirname, 'loaders/import-locales-loader/index.js'),
+        loader: require.resolve('@dz-web/esboot-bundler-common/dist/loaders/import-locales-loader/index.js'),
         options: {
           config: cfg.config,
           languages,
