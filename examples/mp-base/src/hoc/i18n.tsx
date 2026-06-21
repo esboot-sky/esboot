@@ -16,6 +16,7 @@ export default function wrapI18n(App: React.ReactNode, i18n: I18nProps = true): 
     const [loading, setLoading] = useState(true);
     const language = useStore(state => state.userConfig.language);
     const lan = (language?.replace(/_/g, '-') || DEFAULT_LANGUAGE) as keyof i18nMessageDict;
+    const [activeLan, setActiveLan] = useState(lan);
 
     useEffect(() => {
       let cancelled = false;
@@ -25,6 +26,7 @@ export default function wrapI18n(App: React.ReactNode, i18n: I18nProps = true): 
           const dict = await getPageI18n(lan);
           if (!cancelled) {
             setMessageDict({ ...dict, [lan]: dict[lan] });
+            setActiveLan(lan);
             setLoading(false);
           }
         }
@@ -49,7 +51,7 @@ export default function wrapI18n(App: React.ReactNode, i18n: I18nProps = true): 
     }
 
     return (
-      <IntlProvider messages={messageDict?.[lan] || {}} locale={lan}>
+      <IntlProvider messages={messageDict?.[activeLan] || {}} locale={activeLan}>
         {App}
       </IntlProvider>
     );

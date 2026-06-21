@@ -1,6 +1,7 @@
 import { setLanguage, setTheme, usePCStore } from '@pc/model/pc';
 import { Button } from 'antd-mobile';
 import { Link } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 
 function Index() {
   const theme = usePCStore(state => state.userConfig.theme);
@@ -15,13 +16,8 @@ function Index() {
     }
   };
 
-  const changeLanguage = () => {
-    if (language === 'zh-CN') {
-      setLanguage('en-US');
-    }
-    else {
-      setLanguage('zh-CN');
-    }
+  const changeLanguage = (lang: 'zh-CN' | 'en-US' | 'zh-TW') => {
+    setLanguage(lang);
   };
 
   return (
@@ -36,7 +32,13 @@ function Index() {
       </Link>
 
       <Button onClick={changeTheme}>Change Theme</Button>
-      <Button onClick={changeLanguage}>Change Language</Button>
+
+      <div style={{ margin: '10px 0', display: 'flex', gap: '10px' }}>
+        <Button onClick={() => changeLanguage('zh-CN')}>简体中文 (zh-CN)</Button>
+        <Button onClick={() => changeLanguage('en-US')}>English (en-US)</Button>
+        <Button onClick={() => changeLanguage('zh-TW')}>繁體中文 (zh-TW)</Button>
+      </div>
+
       <div className="bg-pink-300 h-[375px] w-[375px]">375 width in 750 design</div>
 
       <p>
@@ -46,6 +48,10 @@ function Index() {
       <p>
         Language:
         {language}
+      </p>
+
+      <p style={{ marginTop: 20, fontSize: 18, fontWeight: 'bold', color: '#1677ff' }}>
+        I18n Custom Text: <FormattedMessage id="test.custom_text" />
       </p>
     </div>
   );

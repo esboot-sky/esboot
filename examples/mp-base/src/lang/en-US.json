@@ -5,5 +5,9 @@
     "apologize": "Sorry, the application encountered some problems.",
     "retry": "Retry"
   },
-  "test": {}
+  "test": {
+    "title": "Test",
+    "custom_text": "This is a test text"
+  },
+  "noise_key": "this noise text should not be bundled"
 }

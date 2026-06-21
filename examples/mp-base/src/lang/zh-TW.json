@@ -5,5 +5,9 @@
     "apologize": "抱歉，應用程序遇到了一些問題。",
     "retry": "重試"
   },
-  "test": {}
+  "test": {
+    "title": "測試",
+    "custom_text": "這是一個測試文本"
+  },
+  "noise_key": "這個是不應該打包進去的擾亂文本"
 }
