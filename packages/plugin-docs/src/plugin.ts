@@ -8,6 +8,7 @@ import { exec } from '@dz-web/esboot-common/execa';
 import { copySync, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { info, resolveLibPath } from '@dz-web/esboot-common/helpers';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const cfgPath = join(__dirname, '../config/.dumirc.ts');
 const targetPath = join(cacheDir, 'dumi/.dumirc.ts');
 const APP_ROOT = './docs';

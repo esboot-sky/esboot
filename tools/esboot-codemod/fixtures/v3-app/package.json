@@ -1,0 +1,38 @@
+{
+  "name": "fixture-v3-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "esboot dev",
+    "build": "esboot build",
+    "prepare": "esboot prepare"
+  },
+  "dependencies": {
+    "@dz-web/esboot-browser": "^3.0.45",
+    "normalize.css": "^8.0.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@dz-web/esboot": "^3.0.45",
+    "@dz-web/esboot-bundler-vite": "^3.0.45",
+    "eslint": "^10.4.1",
+    "stylelint": "^17.13.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/.cache/esboot/eslint"
+    ]
+  },
+  "stylelint": {
+    "extends": [
+      "./node_modules/.cache/esboot/stylelint"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "./node_modules/.cache/esboot/commitlint"
+    ]
+  },
+  "prettier": "./node_modules/.cache/esboot/prettier"
+}
