@@ -6,7 +6,12 @@ import { globalBlocker } from '@dz-web/axios-middlewares';
 
 import { CacheStore } from '@dz-web/cache';
 // import { getRealPCNativeFontSize } from '@pc-native/utils/pc-native-config';
-import { DEFAULT_QUOTES_UP_DOWN_COLOR, DEFAULT_THEME } from '@pc/constants/config';
+import {
+  DEFAULT_QUOTES_UP_DOWN_COLOR,
+  DEFAULT_THEME,
+  supportedQuotesUpDownColors,
+  supportedThemes,
+} from '@pc/constants/config';
 import { accessToken } from '@pc/helpers/customize';
 import { create } from 'zustand';
 import { devtools, subscribeWithSelector } from 'zustand/middleware';
@@ -78,13 +83,17 @@ function createInitializedState(): IState {
     }),
   } as IState;
 
-  const theme = getDefaultTheme(defaultState.userConfig.followSystemPrefersColorSchemeWhenInBrowser, DEFAULT_THEME);
+  const theme = getDefaultTheme(
+    defaultState.userConfig.followSystemPrefersColorSchemeWhenInBrowser,
+    DEFAULT_THEME,
+    supportedThemes
+  );
 
-  if (isSupportedTheme(theme)) {
+  if (isSupportedTheme(theme, supportedThemes)) {
     defaultState.userConfig.theme = theme as ThemeValues;
   }
 
-  if (isSupportedQuotesUpDownColor(quotesUpDownColor)) {
+  if (isSupportedQuotesUpDownColor(quotesUpDownColor, supportedQuotesUpDownColors)) {
     defaultState.userConfig.quotesUpDownColor = quotesUpDownColor as QuotesUpDownColor;
   }
 
