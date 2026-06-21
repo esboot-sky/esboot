@@ -48,7 +48,7 @@ export async function getWebpackCfg(cfg: ConfigurationInstance): Promise<CustomW
   };
 
   const mfsu = createMFSU(cfg);
-  const enableLangJsonPicker = useLangJsonPicker && !mfsu && !isDev;
+  const enableLangJsonPicker = useLangJsonPicker && !mfsu;
 
   // Partial
   await addEntry(cfg, webpackCfg, { enableLangJsonPicker });
