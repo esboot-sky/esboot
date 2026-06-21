@@ -1,37 +1,14 @@
-import { error } from '@dz-web/esboot-common/helpers';
 import { PluginHooks } from '@dz-web/esboot-common/plugin';
-import { huskySetup } from '@dz-web/esboot-lint';
 import { cfg } from '@/cfg';
 import {
   callPluginHookOfOnlyExec,
   pluginHooksDict,
 } from '@/plugin';
-import { generateCommitlintCfg } from './generate-commitlint-cfg';
-import { generatePrettierCfg } from './generate-prettier-cfg';
-import { generateStylelintCfg } from './generate-stylelint-cfg';
-import { generateTypeScriptCfg } from './generate-typescript-cfg';
-import { generateTypeScriptTypes } from './generate-typescript-types';
-import { updateVSCodeSetting } from './update-vscode-setting';
+import { prepareTasks } from './prepare-tasks';
+import { resolvePrepareTasks, runPrepareTasks } from './resolve-prepare-tasks';
 
 export function prepare(): void {
-  const { isCIBuild } = cfg.config;
-
-  generateTypeScriptCfg();
-  generateTypeScriptTypes();
-
-  if (!isCIBuild) {
-    generateStylelintCfg();
-    generatePrettierCfg();
-    generateCommitlintCfg();
-    updateVSCodeSetting();
-
-    try {
-      huskySetup({ configRootPath: cfg.config.configRootPath });
-    }
-    catch (err) {
-      error(`Setup husky failed: ${(err as Error).message}`);
-    }
-  }
+  runPrepareTasks(resolvePrepareTasks(prepareTasks, cfg.config.isCIBuild));
 
   callPluginHookOfOnlyExec(PluginHooks.prepare, pluginHooksDict, cfg.config);
 }
