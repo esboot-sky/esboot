@@ -1,5 +1,5 @@
 {
-  "name": "esboot-codemod",
+  "name": "@dz-web/esboot-codemod",
   "type": "module",
   "version": "4.3.3",
   "description": "ESBoot migration and upgrade codemod tool",

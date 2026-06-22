@@ -32,24 +32,11 @@ function getFilesRecursively(dir: string): string[] {
 }
 
 async function getEsbootVersion(): Promise<string> {
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env['NODE_ENV'] === 'test' || process.env['VITEST']) {
     return 'workspace:*';
   }
 
-  // 1. Try fetching from npm registry directly via HTTP fetch (since node 18+)
-  try {
-    const response = await fetch('https://registry.npmjs.org/@dz-web/esboot/latest');
-    if (response.ok) {
-      const data = (await response.json()) as { version?: string };
-      if (data.version) {
-        return `^${data.version}`;
-      }
-    }
-  } catch (err) {
-    // ignore and fallback
-  }
-
-  // 2. Fallback to npm view CLI command
+  // 1. Try to query using local npm CLI command first because it natively uses the configured registry & auth
   try {
     const { stdout } = await execa('npm', ['view', '@dz-web/esboot', 'version']);
     const version = stdout.trim();
@@ -57,7 +44,27 @@ async function getEsbootVersion(): Promise<string> {
       return `^${version}`;
     }
   } catch (err) {
-    // ignore and fallback
+    // ignore
+  }
+
+  // 2. Try fetching from user's configured registry via HTTP fetch
+  try {
+    const { stdout: registryStdout } = await execa('npm', ['config', 'get', 'registry']);
+    let registry = registryStdout.trim();
+    if (registry) {
+      if (!registry.endsWith('/')) {
+        registry += '/';
+      }
+      const response = await fetch(`${registry}@dz-web/esboot/latest`);
+      if (response.ok) {
+        const data = (await response.json()) as { version?: string };
+        if (data.version) {
+          return `^${data.version}`;
+        }
+      }
+    }
+  } catch (err) {
+    // ignore
   }
 
   // 3. Fallback to the version declared in the codemod package itself

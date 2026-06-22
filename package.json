@@ -22,7 +22,7 @@
     "test": "vitest",
     "test:e2e": "playwright test",
     "test:examples": "pnpm --filter example-* -r exec pnpm run test -- -p run",
-    "pub": "pnpm run test run && lerna publish --force-publish=* --no-private",
+    "pub": "vitest run -c vitest.pub.config.ts && lerna publish --force-publish=* --no-private",
     "biome": "biome",
     "clean:dep": "pnpm -r exec -- rm -rf node_modules && rm -rf node_modules && rm pnpm-lock.yaml",
     "clean:dist": "pnpm -r exec -- rm -rf dist",
