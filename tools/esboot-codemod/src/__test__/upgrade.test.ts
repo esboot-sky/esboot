@@ -2,6 +2,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execa } from 'execa';
 import fs from 'fs-extra';
+import { Project, SyntaxKind } from 'ts-morph';
 import { describe, expect, it } from 'vitest';
 import { upgradeV4 } from '../upgrade-v4.js';
 
@@ -41,19 +42,31 @@ describe('esboot-codemod upgrade-v4', () => {
     fs.writeFileSync(join(testDir, '.esbootrc.ts'), `import { defineConfig } from '@dz-web/esboot';
 import { BundlerVite as Bundler } from '@dz-web/esboot-bundler-vite';
 
-export default defineConfig({
-  bundler: Bundler,
-  isSP: false,
-  alias: {
-    '@@': 'src',
-  },
-  server: {
-    port: '14200',
-    http2: false,
-  },
-  experimental: {
-    someOtherProp: true,
-  },
+const getBundlerViteOptions = (cfg) => {
+  return {
+    bundlerOptions: {
+      codeSplitting: {},
+    },
+  };
+};
+
+export default defineConfig((cfg) => {
+  const config = {
+    bundler: Bundler,
+    ...getBundlerViteOptions(cfg),
+    isSP: false,
+    alias: {
+      '@@': 'src',
+    },
+    server: {
+      port: '14200',
+      http2: false,
+    },
+    experimental: {
+      someOtherProp: true,
+    },
+  };
+  return config;
 });
 `, 'utf-8');
 
@@ -123,11 +136,32 @@ export default defineConfig({
     expect(esbootrcContent).not.toContain('port: \'14200\'');
     expect(esbootrcContent).toContain('import pluginTailwind3 from "@dz-web/esboot-plugin-tailwind3";');
     expect(esbootrcContent).toContain('pluginTailwind3()');
-    expect(esbootrcContent).toContain('experimental: {');
-    expect(esbootrcContent).toContain('someOtherProp: true');
-    expect(esbootrcContent).toContain('reactCompiler: {');
-    expect(esbootrcContent).toContain('enable: false,');
-    expect(esbootrcContent).toContain("target: '18',");
+
+    // Parse the output file and check that the config's experimental block has the reactCompiler
+    const testProject = new Project();
+    const testSf = testProject.addSourceFileAtPath(join(testDir, '.esbootrc.ts'));
+    const defineConfigCall = testSf.getDescendantsOfKind(SyntaxKind.CallExpression).find(call => {
+      return call.getExpression().getText() === 'defineConfig';
+    });
+    expect(defineConfigCall).toBeDefined();
+    const func = defineConfigCall!.getArguments()[0].asKindOrThrow(SyntaxKind.ArrowFunction);
+    const configVar = func.getDescendantsOfKind(SyntaxKind.VariableDeclaration).find(vd => vd.getName() === 'config');
+    expect(configVar).toBeDefined();
+    const init = configVar!.getInitializer().asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+    const experimentalProp = init.getProperty('experimental').asKindOrThrow(SyntaxKind.PropertyAssignment);
+    const experimentalObj = experimentalProp.getInitializer().asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+    
+    // The main config experimental block should have both someOtherProp and reactCompiler
+    expect(experimentalObj.getProperty('someOtherProp')).toBeDefined();
+    expect(experimentalObj.getProperty('reactCompiler')).toBeDefined();
+
+    // The helper function should NOT have any experimental or reactCompiler property
+    const getBundlerViteOptionsFunc = testSf.getDescendantsOfKind(SyntaxKind.VariableDeclaration).find(vd => vd.getName() === 'getBundlerViteOptions');
+    expect(getBundlerViteOptionsFunc).toBeDefined();
+    const helperInit = getBundlerViteOptionsFunc!.getInitializer().asKindOrThrow(SyntaxKind.ArrowFunction);
+    const helperReturn = helperInit.getDescendantsOfKind(SyntaxKind.ReturnStatement)[0];
+    const helperObj = helperReturn.getExpression().asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+    expect(helperObj.getProperty('experimental')).toBeUndefined();
 
     // Cleanup after test
     fs.removeSync(testDir);

@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { execa } from 'execa';
 import fs from 'fs-extra';
 import kleur from 'kleur';
-import { Project, SyntaxKind } from 'ts-morph';
+import { Project, SourceFile, SyntaxKind } from 'ts-morph';
 
 export interface UpgradeOptions {
   cwd: string;
@@ -81,6 +81,70 @@ async function getEsbootVersion(): Promise<string> {
   }
 
   return '^4.0.0'; // final fallback
+}
+
+function getMainConfig(sourceFile: SourceFile) {
+  const defineConfigCall = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression).find(call => {
+    const expr = call.getExpression();
+    return expr.getText() === 'defineConfig';
+  });
+
+  if (!defineConfigCall) {
+    return sourceFile.getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression)[0];
+  }
+
+  const arg = defineConfigCall.getArguments()[0];
+  if (!arg) return undefined;
+
+  if (arg.getKind() === SyntaxKind.ObjectLiteralExpression) {
+    return arg.asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+  }
+
+  if (arg.getKind() === SyntaxKind.ArrowFunction || arg.getKind() === SyntaxKind.FunctionExpression) {
+    const body = arg.getKind() === SyntaxKind.ArrowFunction
+      ? arg.asKindOrThrow(SyntaxKind.ArrowFunction).getBody()
+      : arg.asKindOrThrow(SyntaxKind.FunctionExpression).getBody();
+
+    if (body.getKind() === SyntaxKind.ObjectLiteralExpression) {
+      return body.asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+    }
+    if (body.getKind() === SyntaxKind.Block) {
+      const returnStmt = body.asKindOrThrow(SyntaxKind.Block).getStatements().find(s => s.getKind() === SyntaxKind.ReturnStatement);
+      if (returnStmt) {
+        const expression = returnStmt.asKindOrThrow(SyntaxKind.ReturnStatement).getExpression();
+        if (expression) {
+          if (expression.getKind() === SyntaxKind.ObjectLiteralExpression) {
+            return expression.asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+          }
+          if (expression.getKind() === SyntaxKind.Identifier) {
+            const name = expression.getText();
+            const variableDec = sourceFile.getDescendantsOfKind(SyntaxKind.VariableDeclaration).find(vd => vd.getName() === name);
+            if (variableDec) {
+              const initializer = variableDec.getInitializer();
+              if (initializer && initializer.getKind() === SyntaxKind.ObjectLiteralExpression) {
+                return initializer.asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Fallback: search for object literals containing typical config keys
+  const allObjects = sourceFile.getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression);
+  const bestCandidate = allObjects.find(obj => {
+    const properties = obj.getProperties().map(p => {
+      if (p.getKind() === SyntaxKind.PropertyAssignment) {
+        return p.asKindOrThrow(SyntaxKind.PropertyAssignment).getName();
+      }
+      return '';
+    });
+    return properties.includes('plugins') || properties.includes('px2rem') || properties.includes('server') || properties.includes('isSP');
+  });
+  if (bestCandidate) return bestCandidate;
+
+  return allObjects[0];
 }
 
 export async function upgradeV4(options: UpgradeOptions) {
@@ -361,8 +425,7 @@ export async function upgradeV4(options: UpgradeOptions) {
         }
       }
       else {
-        const objectLiterals = sourceFile.getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression);
-        const mainConfig = objectLiterals[0];
+        const mainConfig = getMainConfig(sourceFile);
         if (mainConfig) {
           mainConfig.addPropertyAssignment({
             name: 'plugins',
@@ -387,8 +450,7 @@ export async function upgradeV4(options: UpgradeOptions) {
     }
 
     if (isReactBelow19) {
-      const objectLiterals = sourceFile.getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression);
-      const mainConfig = objectLiterals[0];
+      const mainConfig = getMainConfig(sourceFile);
       if (mainConfig) {
         const experimentalProp = mainConfig.getProperty('experimental');
         if (!experimentalProp) {
@@ -428,17 +490,17 @@ export async function upgradeV4(options: UpgradeOptions) {
 
   // 6. E2E Verification Runner
   console.log(kleur.blue('\nRunning package dependencies installation (pnpm install)...'));
-  await execa('pnpm', ['install'], { cwd, stdio: 'inherit' });
+  await execa('pnpm', ['install', '--filter', '.'], { cwd, stdio: 'inherit' });
 
-  console.log(kleur.blue('\nGenerating configurations (npx esboot prepare)...'));
-  await execa('npx', ['esboot', 'prepare'], { cwd, stdio: 'inherit' });
+  console.log(kleur.blue('\nGenerating configurations (pnpm exec esboot prepare)...'));
+  await execa('pnpm', ['exec', 'esboot', 'prepare'], { cwd, stdio: 'inherit' });
 
-  console.log(kleur.blue('\nVerifying production build (npx esboot build)...'));
-  await execa('npx', ['esboot', 'build'], { cwd, stdio: 'inherit' });
+  console.log(kleur.blue('\nVerifying production build (pnpm exec esboot build)...'));
+  await execa('pnpm', ['exec', 'esboot', 'build'], { cwd, stdio: 'inherit' });
   console.log(kleur.green('✓ Production build completed successfully.'));
 
-  console.log(kleur.blue('\nVerifying development server (npx esboot dev)...'));
-  const devProcess = execa('npx', ['esboot', 'dev'], { cwd });
+  console.log(kleur.blue('\nVerifying development server (pnpm exec esboot dev)...'));
+  const devProcess = execa('pnpm', ['exec', 'esboot', 'dev'], { cwd });
 
   const devTimeout = new Promise<void>((resolve, reject) => {
     const timer = setTimeout(() => {
