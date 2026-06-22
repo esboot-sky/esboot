@@ -1,7 +1,7 @@
-import fs from 'fs-extra';
-import { join, resolve, dirname, relative } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execa } from 'execa';
+import fs from 'fs-extra';
 import kleur from 'kleur';
 import { Project, SyntaxKind } from 'ts-morph';
 
@@ -13,7 +13,8 @@ export interface UpgradeOptions {
 // Recursively find all files in a folder excluding node_modules and .git
 function getFilesRecursively(dir: string): string[] {
   let results: string[] = [];
-  if (!fs.existsSync(dir)) return [];
+  if (!fs.existsSync(dir))
+    return [];
   const list = fs.readdirSync(dir);
   list.forEach((file) => {
     const fullPath = join(dir, file);
@@ -22,7 +23,8 @@ function getFilesRecursively(dir: string): string[] {
       if (file !== 'node_modules' && file !== '.git') {
         results = results.concat(getFilesRecursively(fullPath));
       }
-    } else {
+    }
+    else {
       results.push(fullPath);
     }
   });
@@ -34,6 +36,20 @@ async function getEsbootVersion(): Promise<string> {
     return 'workspace:*';
   }
 
+  // 1. Try fetching from npm registry directly via HTTP fetch (since node 18+)
+  try {
+    const response = await fetch('https://registry.npmjs.org/@dz-web/esboot/latest');
+    if (response.ok) {
+      const data = (await response.json()) as { version?: string };
+      if (data.version) {
+        return `^${data.version}`;
+      }
+    }
+  } catch (err) {
+    // ignore and fallback
+  }
+
+  // 2. Fallback to npm view CLI command
   try {
     const { stdout } = await execa('npm', ['view', '@dz-web/esboot', 'version']);
     const version = stdout.trim();
@@ -44,7 +60,7 @@ async function getEsbootVersion(): Promise<string> {
     // ignore and fallback
   }
 
-  // Fallback to the version declared in the codemod package itself
+  // 3. Fallback to the version declared in the codemod package itself
   try {
     const selfPkgPath = resolve(dirname(fileURLToPath(import.meta.url)), '../package.json');
     if (fs.existsSync(selfPkgPath)) {
@@ -57,7 +73,7 @@ async function getEsbootVersion(): Promise<string> {
     // ignore
   }
 
-  return '^4.3.3'; // final fallback
+  return '^4.0.0'; // final fallback
 }
 
 export async function upgradeV4(options: UpgradeOptions) {
@@ -72,10 +88,12 @@ export async function upgradeV4(options: UpgradeOptions) {
     if (stdout.trim().length > 0) {
       throw new Error('Your git working directory is not clean. Please commit or stash your changes first.');
     }
-  } catch (err: any) {
+  }
+  catch (err: any) {
     if (err.message.includes('not a git repository')) {
       console.warn(kleur.yellow('⚠️ Warning: Not a git repository. Proceeding without Git status check.'));
-    } else {
+    }
+    else {
       throw err;
     }
   }
@@ -89,7 +107,7 @@ export async function upgradeV4(options: UpgradeOptions) {
   console.log(kleur.blue('Updating package.json dependencies and configurations...'));
   const pkg = fs.readJsonSync(pkgPath);
 
-  // Upgrade ESBoot packages to version 4.3.3 (or ^4.3.3)
+  // Upgrade ESBoot packages to the resolved version
   const esbootVersion = await getEsbootVersion();
   const esbootPackages = [
     '@dz-web/esboot',
@@ -103,7 +121,8 @@ export async function upgradeV4(options: UpgradeOptions) {
   ];
 
   const updateDeps = (depsObj: Record<string, string> | undefined) => {
-    if (!depsObj) return;
+    if (!depsObj)
+      return;
     for (const pkgName of esbootPackages) {
       if (depsObj[pkgName]) {
         depsObj[pkgName] = esbootVersion;
@@ -121,7 +140,8 @@ export async function upgradeV4(options: UpgradeOptions) {
 
   // If keeping Tailwind v3, add compatibility plugin
   if (keepTailwind3) {
-    if (!pkg.devDependencies) pkg.devDependencies = {};
+    if (!pkg.devDependencies)
+      pkg.devDependencies = {};
     pkg.devDependencies['@dz-web/esboot-plugin-tailwind3'] = esbootVersion;
     console.log(kleur.yellow('Added @dz-web/esboot-plugin-tailwind3 dependency for compatibility.'));
   }
@@ -150,7 +170,7 @@ export async function upgradeV4(options: UpgradeOptions) {
   const eslintConfigPath = join(cwd, 'eslint.config.mjs');
   fs.writeFileSync(
     eslintConfigPath,
-    `import { createConfig } from '@dz-web/esboot/eslint';\n\nexport default createConfig();\n`
+    `import { createConfig } from '@dz-web/esboot/eslint';\n\nexport default createConfig();\n`,
   );
 
   // Delete old eslint files
@@ -183,13 +203,16 @@ export async function upgradeV4(options: UpgradeOptions) {
     fs.renameSync(mainScssPath, indexScssPath);
     activeStyleEntry = indexScssPath;
     console.log(kleur.yellow('Renamed src/styles/main.scss -> index.scss'));
-  } else if (fs.existsSync(mainCssPath)) {
+  }
+  else if (fs.existsSync(mainCssPath)) {
     fs.renameSync(mainCssPath, indexCssPath);
     activeStyleEntry = indexCssPath;
     console.log(kleur.yellow('Renamed src/styles/main.css -> index.css'));
-  } else if (fs.existsSync(indexScssPath)) {
+  }
+  else if (fs.existsSync(indexScssPath)) {
     activeStyleEntry = indexScssPath;
-  } else if (fs.existsSync(indexCssPath)) {
+  }
+  else if (fs.existsSync(indexCssPath)) {
     activeStyleEntry = indexCssPath;
   }
 
@@ -229,7 +252,7 @@ export async function upgradeV4(options: UpgradeOptions) {
     const tailwindDirectivesRe = /@tailwind\s+(?:base|components|utilities);?/g;
     if (tailwindDirectivesRe.test(styleContent)) {
       styleContent = styleContent.replace(tailwindDirectivesRe, '');
-      styleContent = `@use '@dz-web/esboot-browser';\n` + styleContent;
+      styleContent = `@use '@dz-web/esboot-browser';\n${styleContent}`;
       console.log(kleur.yellow(`Upgraded Tailwind CSS directives to @use '@dz-web/esboot-browser' in: ${relative(cwd, activeStyleEntry)}`));
     }
 
@@ -254,7 +277,7 @@ export async function upgradeV4(options: UpgradeOptions) {
           const initializer = pa.getInitializer();
           if (initializer && initializer.getKind() === SyntaxKind.StringLiteral) {
             const val = initializer.getText().replace(/['"]/g, '');
-            const numVal = parseInt(val, 10);
+            const numVal = Number.parseInt(val, 10);
             if (!isNaN(numVal)) {
               pa.setInitializer(String(numVal));
               console.log(kleur.yellow(`Converted server.port string '${val}' to number ${numVal}.`));
@@ -267,7 +290,7 @@ export async function upgradeV4(options: UpgradeOptions) {
     // Tailwind v3 compatibility plugin integration
     if (keepTailwind3) {
       const hasImport = sourceFile.getImportDeclarations().some(
-        decl => decl.getModuleSpecifierValue() === '@dz-web/esboot-plugin-tailwind3'
+        decl => decl.getModuleSpecifierValue() === '@dz-web/esboot-plugin-tailwind3',
       );
       if (!hasImport) {
         sourceFile.addImportDeclaration({
@@ -287,7 +310,8 @@ export async function upgradeV4(options: UpgradeOptions) {
             console.log(kleur.yellow('Registered pluginTailwind3() to esbootrc plugins.'));
           }
         }
-      } else {
+      }
+      else {
         const objectLiterals = sourceFile.getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression);
         const mainConfig = objectLiterals[0];
         if (mainConfig) {

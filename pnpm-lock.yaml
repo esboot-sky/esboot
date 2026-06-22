@@ -981,6 +981,34 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0(stylelint@17.13.0(typescript@5.9.3))
 
+  tmp/esboot-codemod-test:
+    dependencies:
+      '@dz-web/esboot-browser':
+        specifier: workspace:*
+        version: link:../../packages/browser
+      react:
+        specifier: ^19.2.7
+        version: 19.2.7
+      react-dom:
+        specifier: ^19.2.7
+        version: 19.2.7(react@19.2.7)
+    devDependencies:
+      '@dz-web/esboot':
+        specifier: workspace:*
+        version: link:../../packages/esboot
+      '@dz-web/esboot-bundler-vite':
+        specifier: workspace:*
+        version: link:../../packages/bundler-vite
+      '@dz-web/esboot-plugin-tailwind3':
+        specifier: workspace:*
+        version: link:../../packages/plugin-tailwind3
+      eslint:
+        specifier: ^10.4.1
+        version: 10.4.1(jiti@2.7.0)
+      stylelint:
+        specifier: ^17.13.0
+        version: 17.13.0(typescript@5.9.3)
+
   tools/create-esboot:
     dependencies:
       '@umijs/utils':

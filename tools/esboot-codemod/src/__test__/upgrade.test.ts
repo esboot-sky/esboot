@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
-import fs from 'fs-extra';
-import { join, resolve, dirname } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execa } from 'execa';
+import fs from 'fs-extra';
+import { describe, expect, it } from 'vitest';
 import { upgradeV4 } from '../upgrade-v4.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -31,7 +31,7 @@ describe('esboot-codemod upgrade-v4', () => {
     const mainScssPath = join(testDir, 'src/styles/main.scss');
     fs.appendFileSync(mainScssPath, '\n/* dirty change */');
     await expect(upgradeV4({ cwd: testDir, keepTailwind3: false })).rejects.toThrow(
-      'Your git working directory is not clean'
+      'Your git working directory is not clean',
     );
 
     // Reset the dirty change
@@ -62,20 +62,20 @@ describe('esboot-codemod upgrade-v4', () => {
     expect(fs.existsSync(mainScssPath)).toBe(false);
 
     const styleContent = fs.readFileSync(indexScssPath, 'utf-8');
-    expect(styleContent).toContain("@use '@dz-web/esboot-browser';");
+    expect(styleContent).toContain('@use \'@dz-web/esboot-browser\';');
     expect(styleContent).not.toContain('@tailwind base;');
-    expect(styleContent).not.toContain("@import 'normalize.css';");
+    expect(styleContent).not.toContain('@import \'normalize.css\';');
 
     // 8. Assert entry file imports update
     const entryPath = join(testDir, 'src/platforms/pc/_browser/modules/test.entry.tsx');
     const entryContent = fs.readFileSync(entryPath, 'utf-8');
-    expect(entryContent).toContain("import '@/styles/index.scss';");
-    expect(entryContent).not.toContain("import '@/styles/main.scss';");
+    expect(entryContent).toContain('import \'@/styles/index.scss\';');
+    expect(entryContent).not.toContain('import \'@/styles/main.scss\';');
 
     // 9. Assert .esbootrc.ts AST modifications
     const esbootrcContent = fs.readFileSync(join(testDir, '.esbootrc.ts'), 'utf-8');
     expect(esbootrcContent).toContain('port: 14200'); // Converted to number
-    expect(esbootrcContent).not.toContain("port: '14200'");
+    expect(esbootrcContent).not.toContain('port: \'14200\'');
     expect(esbootrcContent).toContain('import pluginTailwind3 from "@dz-web/esboot-plugin-tailwind3";');
     expect(esbootrcContent).toContain('pluginTailwind3()');
 
