@@ -9,7 +9,19 @@ export default defineConfig<BundlerOptions>({
   ],
   bundler: Bundler,
   isSP: true,
-  bundlerOptions: {},
+  bundlerOptions: {
+    extraBabelIncludes: [
+      /filter-obj/i,
+      /immer/i,
+      /zustand/i,
+      /query-string/i,
+      /react-intl/i,
+      /d3-/i,
+      /@tanstack/i,
+      /@react-spring/i,
+      /@floating-ui/i,
+    ],
+  },
   sourceMap: false,
   alias: {
     '@@': 'src',
@@ -18,16 +30,4 @@ export default defineConfig<BundlerOptions>({
     port: 4006,
     http2: false,
   },
-  // analyze: true,
-  // extraBabelIncludes: [
-  //   /filter-obj/i,
-  //   /immer/i,
-  //   /zustand/i,
-  //   /query-string/i,
-  //   /react-intl/i,
-  //   /d3-/i,
-  //   /@tanstack/i,
-  //   /@react-spring/i,
-  //   /@floating-ui/i,
-  // ],
 });

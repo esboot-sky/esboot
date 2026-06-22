@@ -20,6 +20,7 @@ export type CustomConfig = (
 
 export interface BundlerRspackOptions {
   customConfig?: CustomConfig;
+  extraBabelIncludes?: Array<string | RegExp>;
   codeSplitting?: {
     jsStrategy?: CodeSplittingType;
     jsStrategyOptions?:
