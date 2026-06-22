@@ -3,13 +3,19 @@ import { fileURLToPath } from 'node:url';
 import { execa } from 'execa';
 import fs from 'fs-extra';
 import { Project, SyntaxKind } from 'ts-morph';
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { upgradeV4 } from '../upgrade-v4.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 describe('esboot-codemod upgrade-v4', () => {
+  beforeAll(() => {
+    fs.removeSync(resolve(__dirname, '../../../../tmp/esboot-codemod-test'));
+    fs.removeSync(resolve(__dirname, '../../../../tmp/esboot-codemod-test-v4'));
+    fs.removeSync(resolve(__dirname, '../../../../tmp/esboot-codemod-test-v2'));
+  });
+
   it('should successfully upgrade a v3 project to v4', async () => {
     const fixtureDir = resolve(__dirname, '../../fixtures/v3-app');
     const testDir = resolve(__dirname, '../../../../tmp/esboot-codemod-test');
