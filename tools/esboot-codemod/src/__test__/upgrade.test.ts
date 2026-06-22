@@ -166,4 +166,49 @@ export default defineConfig((cfg) => {
     // Cleanup after test
     fs.removeSync(testDir);
   }, 120000); // 120s timeout for dependencies installation and build/dev verification
+
+  it('should exit early if the project is already on v4+', async () => {
+    const fixtureDir = resolve(__dirname, '../../fixtures/v3-app');
+    const testDir = resolve(__dirname, '../../../../tmp/esboot-codemod-test-v4');
+
+    if (fs.existsSync(testDir)) {
+      fs.removeSync(testDir);
+    }
+    fs.ensureDirSync(testDir);
+    fs.copySync(fixtureDir, testDir);
+
+    // Write package.json with esboot version v4
+    const pkgJsonPath = join(testDir, 'package.json');
+    const tempPkg = fs.readJsonSync(pkgJsonPath);
+    tempPkg.devDependencies['@dz-web/esboot'] = '^4.0.0';
+    fs.writeJsonSync(pkgJsonPath, tempPkg, { spaces: 2 });
+
+    const result = await upgradeV4({ cwd: testDir });
+    expect(result).toBe('already-latest');
+
+    fs.removeSync(testDir);
+  });
+
+  it('should throw an error if the project is on v2 or lower', async () => {
+    const fixtureDir = resolve(__dirname, '../../fixtures/v3-app');
+    const testDir = resolve(__dirname, '../../../../tmp/esboot-codemod-test-v2');
+
+    if (fs.existsSync(testDir)) {
+      fs.removeSync(testDir);
+    }
+    fs.ensureDirSync(testDir);
+    fs.copySync(fixtureDir, testDir);
+
+    // Write package.json with esboot version v2
+    const pkgJsonPath = join(testDir, 'package.json');
+    const tempPkg = fs.readJsonSync(pkgJsonPath);
+    tempPkg.devDependencies['@dz-web/esboot'] = '^2.1.0';
+    fs.writeJsonSync(pkgJsonPath, tempPkg, { spaces: 2 });
+
+    await expect(upgradeV4({ cwd: testDir })).rejects.toThrow(
+      /only supports upgrading from ESBoot v3 to v4/
+    );
+
+    fs.removeSync(testDir);
+  });
 });

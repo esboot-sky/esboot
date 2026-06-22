@@ -177,6 +177,38 @@ export async function upgradeV4(options: UpgradeOptions) {
 
   console.log(kleur.blue('Updating package.json dependencies and configurations...'));
   const pkg = fs.readJsonSync(pkgPath);
+ 
+  // Check current ESBoot version
+  const currentEsbootVersion = pkg.dependencies?.['@dz-web/esboot'] || pkg.devDependencies?.['@dz-web/esboot'];
+  if (!currentEsbootVersion) {
+    throw new Error('Could not find @dz-web/esboot in package.json dependencies or devDependencies.');
+  }
+ 
+  if (currentEsbootVersion !== 'workspace:*') {
+    const match = currentEsbootVersion.match(/(\d+)\.\d+\.\d+/);
+    if (match) {
+      const major = Number.parseInt(match[1], 10);
+      if (major >= 4) {
+        console.log(kleur.green(`Your project is already running ESBoot v${major} (version: ${currentEsbootVersion}). No upgrade needed.`));
+        return 'already-latest';
+      }
+      if (major < 3) {
+        throw new Error(`Your project is running ESBoot v${major} (version: ${currentEsbootVersion}). This tool only supports upgrading from ESBoot v3 to v4. Please upgrade to ESBoot v3 first.`);
+      }
+    } else {
+      const simpleMatch = currentEsbootVersion.match(/\d+/);
+      if (simpleMatch) {
+        const major = Number.parseInt(simpleMatch[0], 10);
+        if (major >= 4) {
+          console.log(kleur.green(`Your project is already running ESBoot v${major} (version: ${currentEsbootVersion}). No upgrade needed.`));
+          return 'already-latest';
+        }
+        if (major < 3) {
+          throw new Error(`Your project is running ESBoot v${major} (version: ${currentEsbootVersion}). This tool only supports upgrading from ESBoot v3 to v4. Please upgrade to ESBoot v3 first.`);
+        }
+      }
+    }
+  }
 
   // Upgrade pinned node and pnpm versions if they exist
   if (pkg.volta) {

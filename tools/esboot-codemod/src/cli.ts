@@ -16,11 +16,15 @@ program
   .option('--no-tailwind3', 'disable Tailwind v3 compatibility (upgrades to Tailwind v4)')
   .action(async (options) => {
     try {
-      await upgradeV4({
+      const result = await upgradeV4({
         cwd: options.cwd,
         keepTailwind3: options.tailwind3,
       });
-      console.log(kleur.green().bold('\n🎉 Migration completed successfully!'));
+      if (result === 'already-latest') {
+        console.log(kleur.green().bold('\nℹ️ Your project is already on the latest ESBoot version (v4+).'));
+      } else {
+        console.log(kleur.green().bold('\n🎉 Migration completed successfully!'));
+      }
     } catch (err: any) {
       console.error(kleur.red().bold(`\n❌ Migration failed: ${err.message}`));
       process.exit(1);
