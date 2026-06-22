@@ -2,11 +2,10 @@ import type { AddFunc } from '@/cfg/types';
 
 import path from 'node:path';
 
-// @ts-expect-error - no types available
-import pxtorem from '@alitajs/postcss-plugin-px2rem';
 import { getLocalIdent } from '@dz-web/babel-plugin-react-css-modules/utils';
 import {
   addPostcssPluginESBoot,
+  addPostcssPluginPx2rem,
   addPostcssPluginTailwindcss,
 } from '@dz-web/esboot-bundler-common';
 import { createResolvePath } from '@dz-web/esboot-common/helpers';
@@ -33,18 +32,12 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
   const {
     isDev,
     isSP,
-    px2rem: px2remOptions,
     sourceMap,
     publicPath,
     rootPath,
-    isMobile,
   } = cfg.config;
 
   const isSourceMap = isUndefined(sourceMap) ? isDev : sourceMap;
-  const { enable: enablePxToRem, ...pxtoremCustom } = px2remOptions;
-  const enablePxToRemByCompatibility = isUndefined(enablePxToRem)
-    ? isMobile
-    : enablePxToRem;
 
   const globalScssPathList = [path.join(rootPath, './styles/')];
   if (!isSP) {
@@ -65,25 +58,13 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
   };
 
   const postcssPluginESBoot = await addPostcssPluginESBoot(cfg);
+  const postcssPluginPx2rem = await addPostcssPluginPx2rem(cfg);
   const tailwindCSS = await addPostcssPluginTailwindcss(cfg);
 
   const postcssPlugins = [
     postcssPluginESBoot,
     tailwindCSS,
-    enablePxToRemByCompatibility
-    && pxtorem({
-      rootValue: 200,
-      unitPrecision: 5,
-      propWhiteList: [],
-      propBlackList: [],
-      exclude: false,
-      selectorBlackList: [],
-      ignoreIdentifier: false,
-      replace: true,
-      mediaQuery: false,
-      minPixelValue: 0,
-      ...pxtoremCustom,
-    }),
+    postcssPluginPx2rem,
     postcssPresetEnv({
       autoprefixer: {
         flexbox: 'no-2009',

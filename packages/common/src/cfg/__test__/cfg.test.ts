@@ -192,4 +192,20 @@ describe('esboot cfg', () => {
       customConfig: expect.any(Function),
     });
   });
+
+  it('allows px2rem exclude to contain strings, RegExps or arrays of them', async () => {
+    const cwd = await createProject(`
+      export default {
+        isSP: true,
+        px2rem: {
+          exclude: ['node_modules', /src\\/components/],
+        },
+      };
+    `);
+
+    const cfg = new ESBootCfg();
+    await cfg.load({ cwd });
+
+    expect(cfg.config.px2rem.exclude).toEqual(['node_modules', /src\/components/]);
+  });
 });

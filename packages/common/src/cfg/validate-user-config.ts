@@ -33,7 +33,11 @@ const px2remSchema = z.object({
   unitPrecision: z.number().optional(),
   propWhiteList: z.array(z.string()).optional(),
   propBlackList: z.array(z.string()).optional(),
-  exclude: z.array(z.string()).optional(),
+  exclude: z.union([
+    z.string(),
+    z.instanceof(RegExp),
+    z.array(z.union([z.string(), z.instanceof(RegExp)])),
+  ]).optional(),
   selectorBlackList: z.array(z.string()).optional(),
   ignoreIdentifier: z.union([z.boolean(), z.string()]).optional(),
   replace: z.boolean().optional(),

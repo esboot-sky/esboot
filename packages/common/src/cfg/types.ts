@@ -23,7 +23,7 @@ export interface Px2rem {
   unitPrecision?: number;
   propWhiteList?: string[];
   propBlackList?: string[];
-  exclude?: string[];
+  exclude?: string | RegExp | (string | RegExp)[];
   selectorBlackList?: string[];
   ignoreIdentifier?: boolean | string;
   replace?: boolean;
