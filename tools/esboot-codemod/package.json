@@ -1,7 +1,7 @@
 {
   "name": "@dz-web/esboot-codemod",
   "type": "module",
-  "version": "4.3.3",
+  "version": "4.3.4",
   "description": "ESBoot migration and upgrade codemod tool",
   "license": "MIT",
   "main": "dist/cli.js",

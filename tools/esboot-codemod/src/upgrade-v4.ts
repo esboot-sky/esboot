@@ -114,6 +114,48 @@ export async function upgradeV4(options: UpgradeOptions) {
   console.log(kleur.blue('Updating package.json dependencies and configurations...'));
   const pkg = fs.readJsonSync(pkgPath);
 
+  // Upgrade pinned node and pnpm versions if they exist
+  if (pkg.volta) {
+    if (pkg.volta.node) {
+      pkg.volta.node = '22.13.0';
+      console.log(kleur.yellow('Upgraded volta.node config to 22.13.0'));
+    }
+    if (pkg.volta.pnpm) {
+      pkg.volta.pnpm = '10.24.0';
+      console.log(kleur.yellow('Upgraded volta.pnpm config to 10.24.0'));
+    }
+  }
+
+  if (pkg.packageManager) {
+    if (pkg.packageManager.startsWith('pnpm@')) {
+      pkg.packageManager = 'pnpm@10.24.0';
+      console.log(kleur.yellow('Upgraded packageManager config to pnpm@10.24.0'));
+    }
+  }
+
+  if (pkg.engines) {
+    if (pkg.engines.node) {
+      pkg.engines.node = '>=22.13.0';
+      console.log(kleur.yellow('Upgraded engines.node config to >=22.13.0'));
+    }
+    if (pkg.engines.pnpm) {
+      pkg.engines.pnpm = '>=10.24.0';
+      console.log(kleur.yellow('Upgraded engines.pnpm config to >=10.24.0'));
+    }
+  }
+
+  const nvmrcPath = join(cwd, '.nvmrc');
+  if (fs.existsSync(nvmrcPath)) {
+    fs.writeFileSync(nvmrcPath, '22.13.0\n', 'utf-8');
+    console.log(kleur.yellow('Upgraded .nvmrc node version to 22.13.0'));
+  }
+
+  const nodeVersionPath = join(cwd, '.node-version');
+  if (fs.existsSync(nodeVersionPath)) {
+    fs.writeFileSync(nodeVersionPath, '22.13.0\n', 'utf-8');
+    console.log(kleur.yellow('Upgraded .node-version node version to 22.13.0'));
+  }
+
   // Upgrade ESBoot packages to the resolved version
   const esbootVersion = await getEsbootVersion();
   const esbootPackages = [
@@ -327,6 +369,56 @@ export async function upgradeV4(options: UpgradeOptions) {
             initializer: '[pluginTailwind3()]',
           });
           console.log(kleur.yellow('Created plugins property list with pluginTailwind3() in esbootrc.'));
+        }
+      }
+    }
+
+    // React < 19 experimental.reactCompiler config integration
+    let isReactBelow19 = false;
+    const reactVersion = pkg.dependencies?.react || pkg.devDependencies?.react;
+    if (reactVersion) {
+      const match = reactVersion.match(/\d+/);
+      if (match) {
+        const major = Number.parseInt(match[0], 10);
+        if (major < 19) {
+          isReactBelow19 = true;
+        }
+      }
+    }
+
+    if (isReactBelow19) {
+      const objectLiterals = sourceFile.getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression);
+      const mainConfig = objectLiterals[0];
+      if (mainConfig) {
+        const experimentalProp = mainConfig.getProperty('experimental');
+        if (!experimentalProp) {
+          mainConfig.addPropertyAssignment({
+            name: 'experimental',
+            initializer: `{
+    reactCompiler: {
+      enable: false,
+      target: '18',
+    },
+  }`,
+          });
+          console.log(kleur.yellow('Added experimental.reactCompiler config for React version < 19.'));
+        }
+        else if (experimentalProp.getKind() === SyntaxKind.PropertyAssignment) {
+          const pa = experimentalProp.asKindOrThrow(SyntaxKind.PropertyAssignment);
+          const init = pa.getInitializer();
+          if (init && init.getKind() === SyntaxKind.ObjectLiteralExpression) {
+            const obj = init.asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+            if (!obj.getProperty('reactCompiler')) {
+              obj.addPropertyAssignment({
+                name: 'reactCompiler',
+                initializer: `{
+      enable: false,
+      target: '18',
+    }`,
+              });
+              console.log(kleur.yellow('Added reactCompiler config to existing experimental block for React version < 19.'));
+            }
+          }
         }
       }
     }

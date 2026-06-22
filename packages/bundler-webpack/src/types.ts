@@ -1,5 +1,7 @@
-import { CustomWebpackConfiguration } from '@/cfg/types';
 import type { BabelPlugin, Configuration as ESBootConfiguration } from '@dz-web/esboot';
+import type { CustomWebpackConfiguration } from '@/cfg/types';
+
+export type { CustomWebpackConfiguration };
 
 export enum CodeSplittingType {
   bigVendors = 'bigVendors',
@@ -34,10 +36,10 @@ export interface MFSUOpts {
 
 export type CustomConfig = (
   config: CustomWebpackConfiguration,
-  cfg: ESBootConfiguration
+  cfg: ESBootConfiguration,
 ) => CustomWebpackConfiguration;
 
-export type BundlerWebpackOptions = {
+export interface BundlerWebpackOptions {
   mfsu?: boolean;
   buildCache?: boolean;
   mfsuOptions?: (cfg: MFSUOpts) => MFSUOpts;
@@ -51,4 +53,4 @@ export type BundlerWebpackOptions = {
       | jsStrategyForGranularChunksOptions
       | Record<string, any>;
   };
-};
+}

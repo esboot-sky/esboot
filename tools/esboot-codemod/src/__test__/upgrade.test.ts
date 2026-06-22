@@ -20,6 +20,43 @@ describe('esboot-codemod upgrade-v4', () => {
     fs.ensureDirSync(testDir);
     fs.copySync(fixtureDir, testDir);
 
+    // Write pinned versions
+    const pkgJsonPath = join(testDir, 'package.json');
+    const tempPkg = fs.readJsonSync(pkgJsonPath);
+    tempPkg.volta = {
+      node: '18.16.0',
+      pnpm: '8.5.0',
+    };
+    tempPkg.packageManager = 'pnpm@8.5.0';
+    tempPkg.engines = {
+      node: '>=18.16.0',
+      pnpm: '>=8.5.0',
+    };
+    tempPkg.dependencies.react = '^18.2.0';
+    tempPkg.dependencies['react-dom'] = '^18.2.0';
+    fs.writeJsonSync(pkgJsonPath, tempPkg, { spaces: 2 });
+
+    fs.writeFileSync(join(testDir, '.nvmrc'), '18.16.0\n', 'utf-8');
+    fs.writeFileSync(join(testDir, '.node-version'), '18.16.0\n', 'utf-8');
+    fs.writeFileSync(join(testDir, '.esbootrc.ts'), `import { defineConfig } from '@dz-web/esboot';
+import { BundlerVite as Bundler } from '@dz-web/esboot-bundler-vite';
+
+export default defineConfig({
+  bundler: Bundler,
+  isSP: false,
+  alias: {
+    '@@': 'src',
+  },
+  server: {
+    port: '14200',
+    http2: false,
+  },
+  experimental: {
+    someOtherProp: true,
+  },
+});
+`, 'utf-8');
+
     // 2. Initialize a git repository in the test directory to test clean git check
     await execa('git', ['init'], { cwd: testDir });
     await execa('git', ['config', 'user.name', 'Test User'], { cwd: testDir });
@@ -52,6 +89,14 @@ describe('esboot-codemod upgrade-v4', () => {
     expect(pkg.stylelint.extends).toEqual(['./node_modules/.cache/esboot/stylelint']);
     expect(pkg.commitlint.extends).toEqual(['./node_modules/.cache/esboot/commitlint']);
 
+    expect(pkg.volta.node).toBe('22.13.0');
+    expect(pkg.volta.pnpm).toBe('10.24.0');
+    expect(pkg.packageManager).toBe('pnpm@10.24.0');
+    expect(pkg.engines.node).toBe('>=22.13.0');
+    expect(pkg.engines.pnpm).toBe('>=10.24.0');
+    expect(fs.readFileSync(join(testDir, '.nvmrc'), 'utf-8').trim()).toBe('22.13.0');
+    expect(fs.readFileSync(join(testDir, '.node-version'), 'utf-8').trim()).toBe('22.13.0');
+
     // 6. Assert ESLint flat config migration
     expect(fs.existsSync(join(testDir, 'eslint.config.mjs'))).toBe(true);
     expect(fs.existsSync(join(testDir, '.eslintrc'))).toBe(false);
@@ -78,6 +123,11 @@ describe('esboot-codemod upgrade-v4', () => {
     expect(esbootrcContent).not.toContain('port: \'14200\'');
     expect(esbootrcContent).toContain('import pluginTailwind3 from "@dz-web/esboot-plugin-tailwind3";');
     expect(esbootrcContent).toContain('pluginTailwind3()');
+    expect(esbootrcContent).toContain('experimental: {');
+    expect(esbootrcContent).toContain('someOtherProp: true');
+    expect(esbootrcContent).toContain('reactCompiler: {');
+    expect(esbootrcContent).toContain('enable: false,');
+    expect(esbootrcContent).toContain("target: '18',");
 
     // Cleanup after test
     fs.removeSync(testDir);
