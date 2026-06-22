@@ -62,6 +62,25 @@ export const addJSONRules: AddFunc<{ enableLangJsonPicker: boolean }> = async (
     ],
   });
 
+  const langFolderNormalized = langFolder.replace(/\\/g, '/');
+
+  // Register loader rule for direct language JSON imports
+  webpackCfg.module.rules.push({
+    test: (resourcePath: string) => {
+      const normalizedPath = resourcePath.replace(/\\/g, '/');
+      return normalizedPath.startsWith(langFolderNormalized + '/') && normalizedPath.endsWith('.json');
+    },
+    type: 'javascript/auto',
+    use: [
+      {
+        loader: require.resolve('@dz-web/esboot-bundler-common/dist/loaders/lang-json-picker/index.js'),
+        options: {
+          config: cfg.config,
+        },
+      },
+    ],
+  });
+
   // Register loader for import-locales.ts
   webpackCfg.module.rules.push({
     test: /helpers\/import-locales\.(ts|js)$/,

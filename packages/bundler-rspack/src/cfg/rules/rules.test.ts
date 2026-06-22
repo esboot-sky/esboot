@@ -31,8 +31,8 @@ describe('rspack cfg rules', () => {
 
     expect(rspackCfg.resolve.alias['lang-zh-CN-home']).toBeDefined();
     expect(rspackCfg.resolve.alias['lang-zh-CN-home']).toContain('placeholder.json?lang=zh-CN&entry=home');
-    expect(rspackCfg.module.rules).toHaveLength(2); // placeholder.json rule and import-locales rule
-    expect((rspackCfg.module.rules[1] as any).enforce).toBe('pre');
+    expect(rspackCfg.module.rules).toHaveLength(3); // placeholder.json rule, direct json rule, and import-locales rule
+    expect((rspackCfg.module.rules[2] as any).enforce).toBe('pre');
   });
 
   it('adds svgr and asset rules when svgr is enabled', async () => {

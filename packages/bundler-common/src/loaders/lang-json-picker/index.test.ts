@@ -47,4 +47,38 @@ describe('common lang-json-picker loader', () => {
 
     expect(result).toBe(source);
   });
+
+  it('handles direct language JSON imports and returns runtime-picking JS', async () => {
+    const { default: loader } = await import('./index');
+    const source = JSON.stringify({
+      home: {
+        title: 'Hello',
+        subtitle: 'Ignored',
+      },
+      common: {
+        cta: 'Start',
+      },
+      noise_key: 'noise',
+    });
+
+    const result = loader.call({
+      getOptions: () => ({
+        config: {
+          rootPath: '/repo/app',
+          entry: {
+            home: {
+              langJsonPicker: ['home.title', 'common.cta'],
+            },
+          },
+        },
+      }),
+      resourcePath: '/repo/app/lang/zh-CN.json',
+      resourceQuery: '',
+    }, source);
+
+    expect(result).toContain('const rawData = {"home":{"title":"Hello"},"common":{"cta":"Start"}};');
+    expect(result).not.toContain('noise_key');
+    expect(result).toContain("const entryName = (typeof window !== 'undefined' && window['__ESBOOT_ENTRY_NAME__']) || '';");
+    expect(result).toContain('export default keys ? langPickFn(rawData, keys) : rawData;');
+  });
 });

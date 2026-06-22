@@ -46,10 +46,26 @@ export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
 
   const langJsonPickerPlugin: Plugin = {
     name: 'vite-plugin-lang-json-picker',
-    resolveId(id) {
+    enforce: 'pre',
+    async resolveId(id, importer) {
       if (id.startsWith('lang-')) {
         return id;
       }
+      if (id.startsWith('virtual:lang-json-picker:')) {
+        return id;
+      }
+
+      if (id.endsWith('.json') && importer) {
+        const resolved = await this.resolve(id, importer, { skipSelf: true });
+        if (resolved) {
+          const normalizedPath = resolved.id.replace(/\\/g, '/');
+          const langFolderNormalized = langFolder.replace(/\\/g, '/');
+          if (normalizedPath.startsWith(langFolderNormalized + '/') && normalizedPath.endsWith('.json')) {
+            return `virtual:lang-json-picker:${resolved.id.replace(/\.json$/, '')}.js`;
+          }
+        }
+      }
+
       return null;
     },
     async load(id) {
@@ -61,6 +77,63 @@ export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
         const filtered = pick(content, info.langKeys);
         return `export default ${JSON.stringify(filtered)};`;
       }
+
+      if (id.startsWith('virtual:lang-json-picker:')) {
+        const filePath = id
+          .replace('virtual:lang-json-picker:', '')
+          .replace(/\.js$/, '.json');
+        const raw = await fs.readFile(filePath, 'utf-8');
+        const content = JSON.parse(raw);
+
+        const entryConfigs: Record<string, string[]> = {};
+        for (const [name, entryConfig] of Object.entries(entry)) {
+          if (entryConfig.langJsonPicker) {
+            entryConfigs[name] = entryConfig.langJsonPicker;
+          }
+        }
+
+        const allKeys = new Set<string>();
+        for (const keys of Object.values(entryConfigs)) {
+          keys.forEach(k => allKeys.add(k));
+        }
+
+        const compiledFiltered = pick(content, Array.from(allKeys));
+
+        const inlinePickFn = `
+function pick(obj, paths) {
+  const result = {};
+  for (const path of paths) {
+    const keys = path.split('.');
+    let current = obj;
+    let temp = result;
+    keys.forEach((key, index) => {
+      if (index === keys.length - 1) {
+        if (current && current[key] !== undefined) {
+          temp[key] = current[key];
+        }
+      } else {
+        if (!temp[key]) {
+          temp[key] = {};
+        }
+        temp = temp[key];
+        current = current ? current[key] : undefined;
+      }
+    });
+  }
+  return result;
+}
+`.trim();
+
+        return `
+${inlinePickFn}
+const rawData = ${JSON.stringify(compiledFiltered)};
+const entryConfigs = ${JSON.stringify(entryConfigs)};
+const entryName = (typeof window !== 'undefined' && window['__ESBOOT_ENTRY_NAME__']) || '';
+const keys = entryConfigs[entryName];
+export default keys ? pick(rawData, keys) : rawData;
+`;
+      }
+
       return null;
     },
     transformIndexHtml(html, ctx) {

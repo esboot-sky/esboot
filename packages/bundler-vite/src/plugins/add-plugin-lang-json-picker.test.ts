@@ -104,7 +104,7 @@ describe('addLangJsonPicker plugin', () => {
     await addLangJsonPicker(mockCfg, mockViteCfg);
     const plugin = mockViteCfg.plugins![0] as any;
 
-    const resolvedId = plugin.resolveId('lang-zh-CN-test-entry');
+    const resolvedId = await plugin.resolveId('lang-zh-CN-test-entry');
     expect(resolvedId).toBe('lang-zh-CN-test-entry');
 
     const loaded = await plugin.load('lang-zh-CN-test-entry');
@@ -112,5 +112,30 @@ describe('addLangJsonPicker plugin', () => {
     expect(loaded).toContain('halo');
     expect(loaded).toContain('sekai');
     expect(loaded).not.toContain('ignored');
+  });
+
+  it('should resolve and load direct language JSON files with runtime pick logic', async () => {
+    vi.mocked(fs.readdir).mockResolvedValue(['zh-CN.json', 'en-US.json'] as any);
+    vi.mocked(fs.readFile).mockResolvedValue(JSON.stringify({
+      hello: 'halo',
+      world: 'sekai',
+      ignored: 'ignored',
+    }));
+
+    await addLangJsonPicker(mockCfg, mockViteCfg);
+    const plugin = mockViteCfg.plugins![0] as any;
+
+    const mockContext = {
+      resolve: vi.fn().mockResolvedValue({ id: '/mock/root/lang/zh-CN.json' }),
+    };
+
+    const resolvedId = await plugin.resolveId.call(mockContext, '@/lang/zh-CN.json', '/mock/importer.ts');
+    expect(resolvedId).toBe('virtual:lang-json-picker:/mock/root/lang/zh-CN.js');
+
+    const loaded = await plugin.load(resolvedId);
+    expect(loaded).toBeDefined();
+    expect(loaded).toContain('const rawData = {"hello":"halo","world":"sekai"};');
+    expect(loaded).not.toContain('ignored');
+    expect(loaded).toContain("const entryName = (typeof window !== 'undefined' && window['__ESBOOT_ENTRY_NAME__']) || '';");
   });
 });

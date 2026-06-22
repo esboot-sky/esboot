@@ -1,0 +1,151 @@
+🍊 ESBoot v4.3.5  
+
+[get-cfg] plugins: [
+  undefined,
+  'vite-plugin-inject-body',
+  'vite-plugin-custom-html',
+  'vite-plugin-svgr',
+  undefined,
+  'vite-plugin-lang-json-picker',
+  'react-styleName'
+]
+vite v7.1.3-esboot4 building for production...
+transforming...
+[resolveId] JSON call: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src//lang/zh-CN.json importer: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/helpers/import-locales.ts
+[resolveId] JSON call: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src//lang/en-US.json importer: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/helpers/import-locales.ts
+[resolveId] JSON call: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src//lang/zh-CN.json importer: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/helpers/import-locales.ts
+[resolveId] JSON call: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src//lang/zh-TW.json importer: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/helpers/import-locales.ts
+[resolveId] resolved: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/zh-CN.json langFolder: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang
+[resolveId] MATCHED! returning: virtual:lang-json-picker:/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/zh-CN.json
+[resolveId] resolved: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/en-US.json langFolder: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang
+[resolveId] MATCHED! returning: virtual:lang-json-picker:/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/en-US.json
+[resolveId] resolved: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/zh-CN.json langFolder: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang
+[resolveId] MATCHED! returning: virtual:lang-json-picker:/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/zh-CN.json
+[resolveId] resolved: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/zh-TW.json langFolder: /Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang
+[resolveId] MATCHED! returning: virtual:lang-json-picker:/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/zh-TW.json
+✓ 170 modules transformed.
+✗ Build failed in 1.39s
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+[vite:json] [plugin vite:json] virtual:lang-json-picker:/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/zh-CN.json: Failed to parse JSON file.
+file: virtual:lang-json-picker:/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/zh-CN.json
+    at getRollupError (file:///Users/rocsun/Code/esboot-sky/%5Desboot-next/node_modules/.pnpm/rollup@4.61.1/node_modules/rollup/dist/es/shared/parseAst.js:317:41)
+    at error (file:///Users/rocsun/Code/esboot-sky/%5Desboot-next/node_modules/.pnpm/rollup@4.61.1/node_modules/rollup/dist/es/shared/parseAst.js:313:42)
+    at Object.error (file:///Users/rocsun/Code/esboot-sky/%5Desboot-next/node_modules/.pnpm/rollup@4.61.1/node_modules/rollup/dist/es/shared/node-entry.js:22655:20)
+    at Object.error (file:///Users/rocsun/Code/esboot-sky/%5Desboot-next/node_modules/.pnpm/rollup@4.61.1/node_modules/rollup/dist/es/shared/node-entry.js:21707:42)
+    at Object.handler (file:///Users/rocsun/Code/esboot-sky/%5Desboot-next/node_modules/.pnpm/vite@7.1.3-esboot4_@types+node@25.9.2_jiti@2.7.0_less@4.6.4_lightningcss@1.32.0_sass-em_5ec613a340905c5998c55ce2a13be02c/node_modules/vite/dist/node/chunks/dep-Cn0DPVuA.js:8889:11)
+    at Object.handler (file:///Users/rocsun/Code/esboot-sky/%5Desboot-next/node_modules/.pnpm/vite@7.1.3-esboot4_@types+node@25.9.2_jiti@2.7.0_less@4.6.4_lightningcss@1.32.0_sass-em_5ec613a340905c5998c55ce2a13be02c/node_modules/vite/dist/node/chunks/dep-Cn0DPVuA.js:34329:13)
+    at file:///Users/rocsun/Code/esboot-sky/%5Desboot-next/node_modules/.pnpm/rollup@4.61.1/node_modules/rollup/dist/es/shared/node-entry.js:22977:40 {
+  id: 'virtual:lang-json-picker:/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/zh-CN.json',
+  hook: 'transform',
+  code: 'PLUGIN_ERROR',
+  plugin: 'vite:json',
+  watchFiles: [
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/_browser/modules/ssg-demo.entry.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/_browser/modules/test.entry.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/package.json',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/packages/browser-react/package.json',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react@19.2.7/node_modules/react/jsx-runtime.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/packages/browser-react/dist/index.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/styles/index.scss',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/styles/index.scss',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/modules/ssg-demo/index.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/modules/test/index.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/_browser/helpers/generate-page.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react-dom@19.2.7_react@19.2.7/node_modules/react-dom/client.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react@19.2.7/node_modules/react/cjs/react-jsx-runtime.production.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react-error-boundary@6.1.2_react@19.2.7/node_modules/react-error-boundary/dist/react-error-boundary.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react-scan@0.4.3_@types+react@19.2.17_react-dom@19.2.7_react@19.2.7__react-router-dom@7_9b6f47b4d9243cf523914bb18cf77031/node_modules/react-scan/dist/index.mjs',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react@19.2.7/node_modules/react/index.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/components/top-error-boundary-fallback/index.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/model/subscriber.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/hoc/query-client.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/helpers/react.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/_browser/hoc/browser.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/hoc/i18n.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/hoc/top-error-boundary.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/modules/ssg-demo/index.scss',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react@19.2.7/node_modules/react/compiler-runtime.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react-router@7.17.0_react-dom@19.2.7_react@19.2.7__react@19.2.7/node_modules/react-router/dist/development/index.mjs',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/modules/test/router.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/modules/test/index.scss',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/preact@10.29.2/node_modules/preact/jsx-runtime/dist/jsxRuntime.module.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/@preact+signals@1.3.4_preact@10.29.2/node_modules/@preact/signals/dist/signals.module.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/preact@10.29.2/node_modules/preact/hooks/dist/hooks.module.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/preact@10.29.2/node_modules/preact/dist/preact.module.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react-dom@19.2.7_react@19.2.7/node_modules/react-dom/cjs/react-dom-client.production.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/bippy@0.3.34_@types+react@19.2.17_react@19.2.7/node_modules/bippy/dist/index.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/preact@10.29.2/node_modules/preact/compat/dist/compat.module.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react@19.2.7/node_modules/react/cjs/react-compiler-runtime.production.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react@19.2.7/node_modules/react/cjs/react.production.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/scheduler@0.27.0/node_modules/scheduler/index.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react-dom@19.2.7_react@19.2.7/node_modules/react-dom/index.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react-router@7.17.0_react-dom@19.2.7_react@19.2.7__react@19.2.7/node_modules/react-router/dist/development/chunk-ASILSGTR.mjs',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react-router@7.17.0_react-dom@19.2.7_react@19.2.7__react@19.2.7/node_modules/react-router/dist/development/chunk-6CSD65Y2.mjs',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/@dz-web+cache@2.0.0/node_modules/@dz-web/cache/index.esm.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/model/pc.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/utils/platforms.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/helpers/config.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/constants/caches.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/@preact+signals-core@1.14.2/node_modules/@preact/signals-core/dist/signals-core.module.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/bippy@0.3.34_@types+react@19.2.17_react@19.2.7/node_modules/bippy/dist/src-DnJsD_Sy.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/constants/config.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/global-events.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/@tanstack+react-query-devtools@5.101.0_@tanstack+react-query@5.101.0_react@19.2.7__react@19.2.7/node_modules/@tanstack/react-query-devtools/build/modern/index.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/@tanstack+react-query@5.101.0_react@19.2.7/node_modules/@tanstack/react-query/build/modern/index.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/modules/test/pages/not-found/not-found.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/modules/test/pages/index/index.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/modules/test/pages/detail/detail.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/helpers/multi-platforms.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/helpers/import-locales.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/node_modules/.pnpm/react-intl@7.1.14_react@19.2.7_typescript@5.9.3/node_modules/react-intl/lib/index.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/constants/config.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/modules/test/_page-theme.scss',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/packages/browser/index.css',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/_browser/modules/.gitkeep',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/_native/utils/pc-native-config.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/mobile/_browser/modules/.gitkeep',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/config/.husky/commit-msg',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/api/test-api/instance.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/config/mobile/template/index.html',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/mobile/constants/config.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/mobile/model/subscriber.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/utils/disable-follow-system-theme.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/dev/tools/src/create-page/templates/pc/router/pages/index/index.test.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/dev/tools/src/create-page/templates/pc/browser-entry.ejs',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/utils/platfom-indepent/user-config.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/_native/helpers/generate-page.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/dev/tools/src/create-page/templates/pc/no-router/index.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/sync-esbootrc.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/zh-CN.json',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/_native/helpers/register.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/mobile/components/top-error-boundary-fallback/index.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/mobile/_native/helpers/generate-page.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/dev/tools/src/index.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/dev/tools/src/create-page/templates/mobile/browser-entry.ejs',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/mobile/model/mobile.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/mobile/_native/helpers/register.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/config/pc/_browser/config.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/lang/en-US.json',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/_native/helpers/msg.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/hoc/with-rsuite.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/images/.gitkeep',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/dev/tools/src/create-page/templates/mobile/no-router/index.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/helpers/static-config.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/_native/helpers/multi-platforms.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/mobile/_native/helpers/msg.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/hooks/ui/rem-utils.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/pc/helpers/multi-platforms.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/platforms/mobile/_native/helpers/multi-platforms.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/esbootrc/plugin.ts',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/config/mobile/_browser/config.js',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/dev/tools/src/create-page/templates/pc/router/index.tsx',
+    '/Users/rocsun/Code/esboot-sky/]esboot-next/examples/mp-base/src/utils/force-detect-language-on-startup.ts',
+    ... 163 more items
+  ],
+  [Symbol(augmented)]: true
+}
+
+Node.js v23.5.0

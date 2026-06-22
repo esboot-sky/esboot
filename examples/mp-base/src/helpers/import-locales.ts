@@ -1,6 +1,9 @@
 import type { Language } from '@/constants/config';
 import { flattenLangObject } from '@dz-web/esboot-browser';
 import { supportedLanguage } from '@/constants/config';
+import ZHCN from '@/lang/zh-CN.json';
+
+console.log(ZHCN, 'lang ZHCN')
 
 export type i18nMessageDict = Record<Language, Record<string, string> | null>;
 
@@ -30,6 +33,8 @@ export async function getPageI18n(currentLanguage: Language): Promise<i18nMessag
       langData = await import('@/lang/zh-CN.json');
       break;
   }
+
+  console.log(langData, 'langData')
   pageI18nCache[currentLanguage] = flattenLangObject(langData.default);
 
   return pageI18nCache;

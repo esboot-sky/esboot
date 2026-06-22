@@ -32,8 +32,8 @@ describe('webpack cfg rules', () => {
     expect(webpackCfg.experiments.layers).toBeUndefined();
     expect(webpackCfg.resolve.alias['lang-zh-CN-home']).toBeDefined();
     expect(webpackCfg.resolve.alias['lang-zh-CN-home']).toContain('placeholder.json?lang=zh-CN&entry=home');
-    expect(webpackCfg.module.rules).toHaveLength(2); // placeholder.json rule and import-locales rule
-    expect((webpackCfg.module.rules[1] as any).enforce).toBe('pre');
+    expect(webpackCfg.module.rules).toHaveLength(3); // placeholder.json rule, direct json rule, and import-locales rule
+    expect((webpackCfg.module.rules[2] as any).enforce).toBe('pre');
   });
 
   it('adds svgr and asset rules when svgr is enabled', async () => {
