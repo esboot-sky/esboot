@@ -183,6 +183,13 @@ export default defineConfig((cfg) => {
     tempPkg.devDependencies['@dz-web/esboot'] = '^4.0.0';
     fs.writeJsonSync(pkgJsonPath, tempPkg, { spaces: 2 });
 
+    // Initialize git repository to pass cleanliness check
+    await execa('git', ['init'], { cwd: testDir });
+    await execa('git', ['config', 'user.name', 'Test User'], { cwd: testDir });
+    await execa('git', ['config', 'user.email', 'test@example.com'], { cwd: testDir });
+    await execa('git', ['add', '.'], { cwd: testDir });
+    await execa('git', ['commit', '-m', 'initial commit'], { cwd: testDir });
+
     const result = await upgradeV4({ cwd: testDir });
     expect(result).toBe('already-latest');
 
@@ -204,6 +211,13 @@ export default defineConfig((cfg) => {
     const tempPkg = fs.readJsonSync(pkgJsonPath);
     tempPkg.devDependencies['@dz-web/esboot'] = '^2.1.0';
     fs.writeJsonSync(pkgJsonPath, tempPkg, { spaces: 2 });
+
+    // Initialize git repository to pass cleanliness check
+    await execa('git', ['init'], { cwd: testDir });
+    await execa('git', ['config', 'user.name', 'Test User'], { cwd: testDir });
+    await execa('git', ['config', 'user.email', 'test@example.com'], { cwd: testDir });
+    await execa('git', ['add', '.'], { cwd: testDir });
+    await execa('git', ['commit', '-m', 'initial commit'], { cwd: testDir });
 
     await expect(upgradeV4({ cwd: testDir })).rejects.toThrow(
       /only supports upgrading from ESBoot v3 to v4/
