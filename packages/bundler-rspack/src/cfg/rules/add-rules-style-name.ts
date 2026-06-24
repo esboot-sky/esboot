@@ -14,7 +14,7 @@ export const addStyleNameRules: AddFunc = async (cfg, rspackCfg) => {
   const loaderPath = resolve(__dirname, 'loaders/style-name-loader.js');
 
   rspackCfg.module.rules.push({
-    test: /\.tsx?$/,
+    test: /\.tsx$/,
     enforce: 'pre',
     loader: loaderPath,
     type: 'javascript/auto',
