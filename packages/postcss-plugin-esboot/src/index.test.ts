@@ -86,6 +86,25 @@ describe('postcss-plugin-esboot', () => {
     expect(result.css).not.toContain('tailwindcss/theme.css');
   });
 
+  it('injects tailwind directives when the entry marker appears after @charset', async () => {
+    const plugin = await createPlugin({
+      useTailwindcss: true,
+      useSeparateTailwindImports: true,
+      isDev: true,
+      tailwindVersion: '3',
+    });
+
+    const result = await postcss([plugin]).process('@charset "UTF-8";\nESBOOT_SIGN_TAILWIND_CSS\n.btn { color: red; }', {
+      from: '/tmp/app.css',
+    });
+
+    expect(result.css).toContain('@tailwind base;');
+    expect(result.css).toContain('@tailwind components;');
+    expect(result.css).toContain('@tailwind utilities;');
+    expect(result.css).toContain('.btn { color: red; }');
+    expect(result.css).not.toContain('ESBOOT_SIGN_TAILWIND_CSS');
+  });
+
   it('keeps Tailwind 4 prelude content intact for separate imports', async () => {
     const plugin = await createPlugin({
       useTailwindcss: true,

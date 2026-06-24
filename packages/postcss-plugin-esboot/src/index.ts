@@ -52,7 +52,7 @@ export default async (opts = {
 
         if (!isEntryFile) {
           cssContent = root.toString();
-          isEntryFile = cssContent.startsWith('ESBOOT_SIGN_TAILWIND_CSS');
+          isEntryFile = cssContent.includes('ESBOOT_SIGN_TAILWIND_CSS');
         }
 
         if (!isEntryFile) {
