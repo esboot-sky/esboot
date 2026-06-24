@@ -1,6 +1,6 @@
 {
   "name": "@dz-web/rspack-plugin-stylename",
-  "version": "4.3.7",
+  "version": "4.3.8",
   "description": "Rust-based SWC plugin for transforming styleName to className in JSX",
   "author": "Roc",
   "license": "ISC",
