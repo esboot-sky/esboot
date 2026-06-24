@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { execa } from 'execa';
 import fs from 'fs-extra';
 import kleur from 'kleur';
-import { Project, SourceFile, SyntaxKind } from 'ts-morph';
+import { Project, SourceFile, SyntaxKind, VariableDeclarationKind } from 'ts-morph';
 
 export interface UpgradeOptions {
   cwd: string;
@@ -465,6 +465,41 @@ export async function upgradeV4(options: UpgradeOptions) {
     const project = new Project();
     const sourceFile = project.addSourceFileAtPath(esbootrcPath);
     const importDeclarations = sourceFile.getImportDeclarations();
+    const getModuleStatementInsertIndex = (): number => {
+      return sourceFile.getStatements().findIndex(statement => statement.getKind() !== SyntaxKind.ImportDeclaration);
+    };
+    const upsertRegexArrayConstant = (constName: string, valueText: string): void => {
+      const existingDeclaration = sourceFile.getVariableDeclaration(constName);
+      if (existingDeclaration) {
+        existingDeclaration.setInitializer(valueText);
+        return;
+      }
+
+      const statementIndex = getModuleStatementInsertIndex();
+      sourceFile.insertVariableStatement(statementIndex === -1 ? sourceFile.getStatements().length : statementIndex, {
+        declarationKind: VariableDeclarationKind.Const,
+        declarations: [
+          {
+            name: constName,
+            initializer: valueText,
+          },
+        ],
+      });
+    };
+    const hoistRegexArrayProperty = (propertyName: string, constName: string, propertyAssignment: any): void => {
+      const initializer = propertyAssignment?.getInitializerIfKind(SyntaxKind.ArrayLiteralExpression);
+      if (!initializer) {
+        return;
+      }
+
+      const elements = initializer.getElements();
+      if (elements.length === 0 || elements.some(element => element.getKind() !== SyntaxKind.RegularExpressionLiteral)) {
+        return;
+      }
+
+      upsertRegexArrayConstant(constName, initializer.getText());
+      propertyAssignment.setInitializer(constName);
+    };
 
     for (const importDeclaration of importDeclarations) {
       if (importDeclaration.getModuleSpecifierValue() !== '@dz-web/esboot-bundler-webpack') {
@@ -510,6 +545,37 @@ export async function upgradeV4(options: UpgradeOptions) {
     }
 
     const propertyAssignments = sourceFile.getDescendantsOfKind(SyntaxKind.PropertyAssignment);
+    const usesProcess = sourceFile.getFullText().includes('process.');
+    const hasProcessImport = sourceFile.getImportDeclarations().some((declaration) => {
+      return declaration.getModuleSpecifierValue() === 'node:process';
+    });
+
+    if (usesProcess && !hasProcessImport) {
+      const typeImports = sourceFile.getImportDeclarations().filter(declaration => declaration.isTypeOnly());
+      const statementIndex = typeImports.length > 0
+        ? sourceFile.getStatements().indexOf(typeImports.at(-1)!) + 1
+        : 0;
+      sourceFile.insertImportDeclaration(statementIndex, {
+        defaultImport: 'process',
+        moduleSpecifier: 'node:process',
+      });
+    }
+
+    const extraBabelIncludesProperty = propertyAssignments.find((propertyAssignment) => {
+      return propertyAssignment.getName() === 'extraBabelIncludes';
+    });
+    if (extraBabelIncludesProperty) {
+      hoistRegexArrayProperty('extraBabelIncludes', 'EXTRA_BABEL_INCLUDES', extraBabelIncludesProperty);
+    }
+
+    const px2remProperty = propertyAssignments.find((propertyAssignment) => {
+      return propertyAssignment.getName() === 'px2rem';
+    });
+    const px2remObject = px2remProperty?.getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
+    const px2remExcludeProperty = px2remObject?.getProperty('exclude')?.asKind(SyntaxKind.PropertyAssignment);
+    if (px2remExcludeProperty) {
+      hoistRegexArrayProperty('exclude', 'PX2REM_EXCLUDE', px2remExcludeProperty);
+    }
 
     // port string-to-number check
     for (const pa of propertyAssignments) {

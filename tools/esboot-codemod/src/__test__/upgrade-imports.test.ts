@@ -200,4 +200,46 @@ export default defineConfig({
 
     expect(devExited).toBe(true);
   });
+
+  it('fixes common esbootrc lint issues for process imports and inline regex arrays', async () => {
+    const { upgradeV4 } = await import('../upgrade-v4.js');
+
+    fs.writeFileSync(
+      join(testDir, '.esbootrc.ts'),
+      `import type { UserOptions } from '@dz-web/esboot';
+import type { BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
+import { defineConfig } from '@dz-web/esboot';
+
+export default defineConfig<BundlerWebpackOptions>((cfg) => {
+  const bundler = process.env.ESBOOT_BUNDLER;
+
+  return {
+    bundlerOptions: {
+      extraBabelIncludes: [
+        /immer/i,
+        /zustand/i,
+      ],
+    },
+    px2rem: {
+      enable: true,
+      exclude: [/node_modules/],
+    },
+    define: {
+      'process.env.BUNDLER': bundler as any,
+    },
+  } as UserOptions<BundlerWebpackOptions>;
+});
+`,
+      'utf-8',
+    );
+
+    await upgradeV4({ cwd: testDir, keepTailwind3: false });
+
+    const esbootrcContent = fs.readFileSync(join(testDir, '.esbootrc.ts'), 'utf-8');
+    expect(esbootrcContent).toMatch(/import process from ['"]node:process['"];/);
+    expect(esbootrcContent).toContain('const EXTRA_BABEL_INCLUDES = [');
+    expect(esbootrcContent).toContain('const PX2REM_EXCLUDE = [');
+    expect(esbootrcContent).toContain('extraBabelIncludes: EXTRA_BABEL_INCLUDES');
+    expect(esbootrcContent).toContain('exclude: PX2REM_EXCLUDE');
+  });
 });
