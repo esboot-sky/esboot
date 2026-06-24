@@ -214,4 +214,223 @@ describe('bundler vite', () => {
     expect(expressApp.use.mock.calls[1]?.[0]).toEqual(expect.any(Function));
     expect(expressApp.listen).toHaveBeenCalledWith(4000, '127.0.0.1', expect.any(Function));
   });
+
+  it('skips the html handler for static asset requests in dev', async () => {
+    const { BundlerVite } = await import('./bundler');
+    const bundler = new BundlerVite({
+      configuration: {
+        config: {
+          cwd: '/repo/app',
+          outputPath: 'dist',
+          server: {
+            host: '127.0.0.1',
+            port: 4000,
+          },
+        },
+      },
+      pluginHooksDict: {},
+    } as any);
+
+    bundler.onAfterCompile = onAfterCompile;
+
+    await bundler.dev();
+
+    const htmlRouteHandler = expressApp.use.mock.calls[0]?.[1];
+    const next = vi.fn();
+    const res = {
+      status: vi.fn(),
+      send: vi.fn(),
+    };
+
+    await htmlRouteHandler(
+      {
+        originalUrl: '/static/logo.svg',
+        headers: {
+          accept: 'text/html,application/xhtml+xml',
+        },
+      },
+      res,
+      next,
+    );
+
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(res.status).not.toHaveBeenCalled();
+    expect(loadHtmlContent).not.toHaveBeenCalled();
+  });
+
+  it('serves html pages under publicPath in dev', async () => {
+    const { BundlerVite } = await import('./bundler');
+    const bundler = new BundlerVite({
+      configuration: {
+        config: {
+          cwd: '/repo/app',
+          outputPath: 'dist',
+          publicPath: '/public/',
+          server: {
+            host: '127.0.0.1',
+            port: 4000,
+          },
+        },
+      },
+      pluginHooksDict: {},
+    } as any);
+
+    bundler.onAfterCompile = onAfterCompile;
+
+    await bundler.dev();
+
+    const htmlRouteHandler = expressApp.use.mock.calls[0]?.[1];
+    const next = vi.fn();
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      send: vi.fn(),
+    };
+
+    await htmlRouteHandler(
+      {
+        originalUrl: '/public/client.html',
+        headers: {
+          accept: 'text/html,application/xhtml+xml',
+        },
+      },
+      res,
+      next,
+    );
+
+    expect(loadHtmlContent).toHaveBeenCalledWith('client', expect.any(Object));
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  it('skips the html handler for static assets under publicPath in dev', async () => {
+    const { BundlerVite } = await import('./bundler');
+    const bundler = new BundlerVite({
+      configuration: {
+        config: {
+          cwd: '/repo/app',
+          outputPath: 'dist',
+          publicPath: '/public/',
+          server: {
+            host: '127.0.0.1',
+            port: 4000,
+          },
+        },
+      },
+      pluginHooksDict: {},
+    } as any);
+
+    bundler.onAfterCompile = onAfterCompile;
+
+    await bundler.dev();
+
+    const htmlRouteHandler = expressApp.use.mock.calls[0]?.[1];
+    const next = vi.fn();
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      send: vi.fn(),
+    };
+
+    await htmlRouteHandler(
+      {
+        originalUrl: '/public/static/logo.svg',
+        headers: {
+          accept: 'text/html,application/xhtml+xml',
+        },
+      },
+      res,
+      next,
+    );
+
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(res.status).not.toHaveBeenCalled();
+    expect(loadHtmlContent).not.toHaveBeenCalled();
+  });
+
+  it('skips the html handler for html files under static paths in dev', async () => {
+    const { BundlerVite } = await import('./bundler');
+    const bundler = new BundlerVite({
+      configuration: {
+        config: {
+          cwd: '/repo/app',
+          outputPath: 'dist',
+          publicPath: '/public/',
+          server: {
+            host: '127.0.0.1',
+            port: 4000,
+          },
+        },
+      },
+      pluginHooksDict: {},
+    } as any);
+
+    bundler.onAfterCompile = onAfterCompile;
+
+    await bundler.dev();
+
+    const htmlRouteHandler = expressApp.use.mock.calls[0]?.[1];
+    const next = vi.fn();
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      send: vi.fn(),
+    };
+
+    await htmlRouteHandler(
+      {
+        originalUrl: '/public/static/test/index.html',
+        headers: {
+          accept: 'text/html,application/xhtml+xml',
+        },
+      },
+      res,
+      next,
+    );
+
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(res.status).not.toHaveBeenCalled();
+    expect(loadHtmlContent).not.toHaveBeenCalled();
+  });
+
+  it('uses publicPath in the not found page links in dev', async () => {
+    const { BundlerVite } = await import('./bundler');
+    const bundler = new BundlerVite({
+      configuration: {
+        config: {
+          cwd: '/repo/app',
+          outputPath: 'dist',
+          publicPath: '/public/',
+          server: {
+            host: '127.0.0.1',
+            port: 4000,
+          },
+        },
+      },
+      pluginHooksDict: {},
+    } as any);
+
+    bundler.onAfterCompile = onAfterCompile;
+
+    await bundler.dev();
+
+    const htmlRouteHandler = expressApp.use.mock.calls[0]?.[1];
+    const next = vi.fn();
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      send: vi.fn(),
+    };
+
+    await htmlRouteHandler(
+      {
+        originalUrl: '/public/missing.html',
+        headers: {
+          accept: 'text/html,application/xhtml+xml',
+        },
+      },
+      res,
+      next,
+    );
+
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.send).toHaveBeenCalledWith(expect.stringContaining('href="/public/client.html"'));
+    expect(next).not.toHaveBeenCalled();
+  });
 });
