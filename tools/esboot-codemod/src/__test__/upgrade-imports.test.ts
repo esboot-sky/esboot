@@ -158,4 +158,46 @@ export default defineConfig({
     expect(fs.readFileSync(join(testDir, 'src/styles/index.scss'), 'utf-8')).not.toContain(`@use './normalize';`);
     expect(fs.existsSync(join(testDir, 'src/styles/_normalize.scss'))).toBe(false);
   });
+
+  it('waits for the verified dev server process to exit before finishing', async () => {
+    const { upgradeV4 } = await import('../upgrade-v4.js');
+    let devExited = false;
+
+    execaMock.mockImplementation((command: string, args: string[] = []) => {
+      if (command === 'git' && args[0] === 'status') {
+        return Promise.resolve({ stdout: '' });
+      }
+
+      if (command === 'npm' && args[0] === 'view') {
+        return Promise.resolve({ stdout: '4.3.6' });
+      }
+
+      if (command === 'pnpm' && args[0] === 'exec' && args[2] === 'dev') {
+        let resolveProcess: (() => void) | undefined;
+        const childProcess = Object.assign(new Promise((resolve) => {
+          resolveProcess = () => {
+            devExited = true;
+            resolve({ stdout: '' });
+          };
+        }), {
+          kill() {
+            setTimeout(() => resolveProcess?.(), 0);
+          },
+          stdout: {
+            on(_event: string, callback: (data: Buffer) => void) {
+              callback(Buffer.from('ready - started server'));
+            },
+          },
+        });
+
+        return childProcess;
+      }
+
+      return Promise.resolve({ stdout: '' });
+    });
+
+    await upgradeV4({ cwd: testDir, keepTailwind3: false });
+
+    expect(devExited).toBe(true);
+  });
 });

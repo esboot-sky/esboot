@@ -631,11 +631,22 @@ export async function upgradeV4(options: UpgradeOptions) {
 
   console.log(kleur.blue('\nVerifying development server (pnpm exec esboot dev)...'));
   const devProcess = execa('pnpm', ['exec', 'esboot', 'dev'], { cwd });
+  let isStoppingDevProcess = false;
+  const stopDevProcess = async (): Promise<void> => {
+    if (isStoppingDevProcess) {
+      return;
+    }
+
+    isStoppingDevProcess = true;
+    devProcess.kill();
+    await devProcess.catch(() => {});
+  };
 
   const devTimeout = new Promise<void>((resolve, reject) => {
     const timer = setTimeout(() => {
-      devProcess.kill();
-      resolve();
+      stopDevProcess()
+        .then(() => resolve())
+        .catch(reject);
     }, 4000);
 
     devProcess.catch((err) => {
@@ -647,8 +658,9 @@ export async function upgradeV4(options: UpgradeOptions) {
       const output = data.toString();
       if (output.includes('ready - started server') || output.includes('started server')) {
         clearTimeout(timer);
-        devProcess.kill();
-        resolve();
+        stopDevProcess()
+          .then(() => resolve())
+          .catch(reject);
       }
     });
   });
