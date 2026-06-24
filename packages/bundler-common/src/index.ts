@@ -33,7 +33,8 @@ export {
   type ViteFrameworkProvider,
 } from './helpers/vite-framework-provider';
 export { watchOnFileChange } from './helpers/watch-on-file-change';
-export { reactStyleNamePlugin } from './plugins/react-style-name';
+export { reactStyleNamePlugin, transformStyleName } from './plugins/react-style-name';
+export type { TransformStyleNameOptions } from './plugins/react-style-name';
 export { addPostcssPluginESBoot } from './postcss/add-plugin-esboot';
 export { addPostcssPluginPx2rem } from './postcss/add-plugin-px2rem';
 
