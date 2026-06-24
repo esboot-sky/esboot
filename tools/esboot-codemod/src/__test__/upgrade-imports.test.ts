@@ -1,0 +1,85 @@
+import { Buffer } from 'node:buffer';
+import { join, resolve } from 'node:path';
+import fs from 'fs-extra';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+const execaMock = vi.fn();
+
+vi.mock('execa', () => ({
+  execa: execaMock,
+}));
+
+describe('upgrade-v4 import migration', () => {
+  const testDir = resolve(process.cwd(), 'tmp/esboot-codemod-imports-test');
+
+  beforeEach(() => {
+    fs.removeSync(testDir);
+    fs.ensureDirSync(join(testDir, 'src/styles'));
+
+    fs.writeJsonSync(join(testDir, 'package.json'), {
+      name: 'test-app',
+      version: '1.0.0',
+      devDependencies: {
+        '@dz-web/esboot': '^3.0.0',
+        '@dz-web/esboot-bundler-webpack': '^3.0.0',
+      },
+    }, { spaces: 2 });
+
+    fs.writeFileSync(join(testDir, '.esbootrc.ts'), `import { defineConfig } from '@dz-web/esboot';
+import type { BabelPlugin, BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
+
+const webpackOptions: BundlerWebpackOptions = {
+  extraBabelPlugins: [] as BabelPlugin[],
+};
+
+export default defineConfig({
+  bundlerOptions: webpackOptions,
+});
+`, 'utf-8');
+
+    fs.writeFileSync(join(testDir, 'src/styles/index.scss'), '.root {}', 'utf-8');
+
+    execaMock.mockReset();
+    execaMock.mockImplementation((command: string, args: string[] = []) => {
+      if (command === 'git' && args[0] === 'status') {
+        return Promise.resolve({ stdout: '' });
+      }
+
+      if (command === 'npm' && args[0] === 'view') {
+        return Promise.resolve({ stdout: '4.3.6' });
+      }
+
+      if (command === 'pnpm') {
+        if (args[0] === 'exec' && args[2] === 'dev') {
+          return Object.assign(Promise.resolve({ stdout: '' }), {
+            kill() {},
+            stdout: {
+              on(_event: string, callback: (data: Buffer) => void) {
+                callback(Buffer.from('ready - started server'));
+              },
+            },
+          });
+        }
+
+        return Promise.resolve({ stdout: '' });
+      }
+
+      return Promise.resolve({ stdout: '' });
+    });
+  });
+
+  afterEach(() => {
+    fs.removeSync(testDir);
+  });
+
+  it('moves BabelPlugin imports from webpack package to esboot', async () => {
+    const { upgradeV4 } = await import('../upgrade-v4.js');
+
+    await upgradeV4({ cwd: testDir, keepTailwind3: false });
+
+    const esbootrcContent = fs.readFileSync(join(testDir, '.esbootrc.ts'), 'utf-8');
+    expect(esbootrcContent).toMatch(/import type \{ BabelPlugin \} from ['"]@dz-web\/esboot['"];/);
+    expect(esbootrcContent).toMatch(/import type \{ BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
+    expect(esbootrcContent).not.toMatch(/import type \{ BabelPlugin,\s*BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
+  });
+});

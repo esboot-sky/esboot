@@ -410,6 +410,50 @@ export async function upgradeV4(options: UpgradeOptions) {
     console.log(kleur.blue('Parsing and updating .esbootrc.ts configuration...'));
     const project = new Project();
     const sourceFile = project.addSourceFileAtPath(esbootrcPath);
+    const importDeclarations = sourceFile.getImportDeclarations();
+
+    for (const importDeclaration of importDeclarations) {
+      if (importDeclaration.getModuleSpecifierValue() !== '@dz-web/esboot-bundler-webpack') {
+        continue;
+      }
+
+      const babelPluginImport = importDeclaration.getNamedImports().find(namedImport => {
+        return namedImport.getName() === 'BabelPlugin';
+      });
+
+      if (!babelPluginImport) {
+        continue;
+      }
+
+      const esbootTypeImport = sourceFile.getImportDeclarations().find((declaration) => {
+        return declaration.getModuleSpecifierValue() === '@dz-web/esboot' && declaration.isTypeOnly();
+      });
+
+      if (esbootTypeImport) {
+        const hasBabelPlugin = esbootTypeImport.getNamedImports().some((namedImport) => {
+          return namedImport.getName() === 'BabelPlugin';
+        });
+        if (!hasBabelPlugin) {
+          esbootTypeImport.addNamedImport('BabelPlugin');
+        }
+      }
+      else {
+        sourceFile.insertImportDeclaration(1, {
+          isTypeOnly: true,
+          moduleSpecifier: '@dz-web/esboot',
+          namedImports: ['BabelPlugin'],
+        });
+      }
+
+      babelPluginImport.remove();
+      if (
+        importDeclaration.getNamedImports().length === 0
+        && !importDeclaration.getDefaultImport()
+        && !importDeclaration.getNamespaceImport()
+      ) {
+        importDeclaration.remove();
+      }
+    }
 
     const propertyAssignments = sourceFile.getDescendantsOfKind(SyntaxKind.PropertyAssignment);
 

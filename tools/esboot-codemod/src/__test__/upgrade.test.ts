@@ -47,6 +47,7 @@ describe('esboot-codemod upgrade-v4', () => {
     fs.writeFileSync(join(testDir, '.node-version'), '18.16.0\n', 'utf-8');
     fs.writeFileSync(join(testDir, '.esbootrc.ts'), `import { defineConfig } from '@dz-web/esboot';
 import { BundlerVite as Bundler } from '@dz-web/esboot-bundler-vite';
+import type { BabelPlugin, BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
 
 const getBundlerViteOptions = (cfg) => {
   return {
@@ -142,11 +143,14 @@ export default defineConfig((cfg) => {
     expect(esbootrcContent).not.toContain('port: \'14200\'');
     expect(esbootrcContent).toContain('import pluginTailwind3 from "@dz-web/esboot-plugin-tailwind3";');
     expect(esbootrcContent).toContain('pluginTailwind3()');
+    expect(esbootrcContent).toMatch(/import type \{ BabelPlugin \} from ['"]@dz-web\/esboot['"];/);
+    expect(esbootrcContent).toMatch(/import type \{ BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
+    expect(esbootrcContent).not.toMatch(/import type \{ BabelPlugin,\s*BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
 
     // Parse the output file and check that the config's experimental block has the reactCompiler
     const testProject = new Project();
     const testSf = testProject.addSourceFileAtPath(join(testDir, '.esbootrc.ts'));
-    const defineConfigCall = testSf.getDescendantsOfKind(SyntaxKind.CallExpression).find(call => {
+    const defineConfigCall = testSf.getDescendantsOfKind(SyntaxKind.CallExpression).find((call) => {
       return call.getExpression().getText() === 'defineConfig';
     });
     expect(defineConfigCall).toBeDefined();
@@ -156,7 +160,7 @@ export default defineConfig((cfg) => {
     const init = configVar!.getInitializer().asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
     const experimentalProp = init.getProperty('experimental').asKindOrThrow(SyntaxKind.PropertyAssignment);
     const experimentalObj = experimentalProp.getInitializer().asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
-    
+
     // The main config experimental block should have both someOtherProp and reactCompiler
     expect(experimentalObj.getProperty('someOtherProp')).toBeDefined();
     expect(experimentalObj.getProperty('reactCompiler')).toBeDefined();
@@ -226,7 +230,7 @@ export default defineConfig((cfg) => {
     await execa('git', ['commit', '-m', 'initial commit'], { cwd: testDir });
 
     await expect(upgradeV4({ cwd: testDir })).rejects.toThrow(
-      /only supports upgrading from ESBoot v3 to v4/
+      /only supports upgrading from ESBoot v3 to v4/,
     );
 
     fs.removeSync(testDir);
