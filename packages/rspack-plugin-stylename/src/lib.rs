@@ -24,6 +24,8 @@ pub struct StyleNameTransformer {
     style_imports: Vec<StyleImport>,
     /// Hash pattern for generating scoped class names
     hash_pattern: String,
+    /// Counter for generating unique synthetic variable names
+    next_id: usize,
 }
 
 #[derive(Debug, Clone)]
@@ -57,7 +59,15 @@ impl StyleNameTransformer {
         Self {
             style_imports: Vec::new(),
             hash_pattern: config.hash_pattern,
+            next_id: 0,
         }
+    }
+
+    /// Generate a unique synthetic variable name for side-effect imports
+    fn generate_variable_name(&mut self) -> String {
+        let id = self.next_id;
+        self.next_id += 1;
+        format!("__cls_{}", id)
     }
 
     /// Check if an import is a style import (.scss file)
@@ -84,25 +94,38 @@ impl VisitMut for StyleNameTransformer {
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
         if let ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) = node {
             let src = import_decl.src.value.to_string_lossy().to_string();
-            
-            if self.is_style_import(&src) {
-                // Extract variable name if present
-                let variable = import_decl.specifiers.first().and_then(|spec| {
-                    match spec {
-                        ImportSpecifier::Default(default) => {
-                            Some(default.local.sym.to_string())
-                        }
-                        ImportSpecifier::Namespace(ns) => {
-                            Some(ns.local.sym.to_string())
-                        }
-                        _ => None,
-                    }
-                });
 
-                self.style_imports.push(StyleImport {
-                    path: src.clone(),
-                    variable,
-                });
+            if self.is_style_import(&src) {
+                if import_decl.specifiers.is_empty() {
+                    // Side-effect import (`import './x.scss'`) — synthesise a
+                    // default binding so the JSX transform has a variable to use.
+                    let var_name = self.generate_variable_name();
+                    import_decl.specifiers.push(ImportSpecifier::Default(
+                        ImportDefaultSpecifier {
+                            span: DUMMY_SP,
+                            local: Ident::new(
+                                var_name.clone().into(),
+                                DUMMY_SP,
+                                SyntaxContext::empty(),
+                            ),
+                        },
+                    ));
+                    self.style_imports.push(StyleImport {
+                        path: src,
+                        variable: Some(var_name),
+                    });
+                } else {
+                    // Named or namespace import — extract existing variable.
+                    let variable = import_decl.specifiers.first().and_then(|spec| match spec {
+                        ImportSpecifier::Default(default) => Some(default.local.sym.to_string()),
+                        ImportSpecifier::Namespace(ns) => Some(ns.local.sym.to_string()),
+                        _ => None,
+                    });
+                    self.style_imports.push(StyleImport {
+                        path: src,
+                        variable,
+                    });
+                }
             }
         }
 

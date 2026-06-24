@@ -28,7 +28,6 @@ import { addProcessbarPlugin } from './plugins/add-plugin-processbar';
 // Rules
 import { addAssetRules } from './rules/add-rules-assets';
 import { addJavaScriptRules } from './rules/add-rules-javascript';
-import { addStyleNameRules } from './rules/add-rules-style-name';
 
 import { addJSONRules } from './rules/add-rules-json';
 
@@ -64,7 +63,6 @@ export async function getRspackCfg(
 
   // Rules
   await addReact(cfg, rspackCfg);
-  await addStyleNameRules(cfg, rspackCfg);
   await addStyleRules(cfg, rspackCfg);
   await addAssetRules(cfg, rspackCfg);
   await addJSONRules(cfg, rspackCfg);
