@@ -9,7 +9,7 @@ vi.mock('execa', () => ({
   execa: execaMock,
 }));
 
-describe('upgrade-v4 import migration', () => {
+describe('upgrade-v4 migration', () => {
   const testDir = resolve(process.cwd(), 'tmp/esboot-codemod-imports-test');
 
   beforeEach(() => {
@@ -22,6 +22,8 @@ describe('upgrade-v4 import migration', () => {
       devDependencies: {
         '@dz-web/esboot': '^3.0.0',
         '@dz-web/esboot-bundler-webpack': '^3.0.0',
+        'eslint': '^9.0.0',
+        'stylelint': '^16.0.0',
       },
     }, { spaces: 2 });
 
@@ -77,9 +79,41 @@ export default defineConfig({
 
     await upgradeV4({ cwd: testDir, keepTailwind3: false });
 
+    const pkg = fs.readJsonSync(join(testDir, 'package.json'));
     const esbootrcContent = fs.readFileSync(join(testDir, '.esbootrc.ts'), 'utf-8');
+    expect(pkg.devDependencies.eslint).toBe('^10.4.1');
+    expect(pkg.devDependencies.stylelint).toBe('^17.13.0');
     expect(esbootrcContent).toMatch(/import type \{ BabelPlugin \} from ['"]@dz-web\/esboot['"];/);
     expect(esbootrcContent).toMatch(/import type \{ BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
     expect(esbootrcContent).not.toMatch(/import type \{ BabelPlugin,\s*BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
+  });
+
+  it('removes the legacy root husky directory', async () => {
+    const { upgradeV4 } = await import('../upgrade-v4.js');
+
+    fs.ensureDirSync(join(testDir, '.husky'));
+    fs.ensureDirSync(join(testDir, 'config/.husky'));
+    fs.writeFileSync(join(testDir, '.husky/pre-commit'), 'npm test\n', 'utf-8');
+    fs.writeFileSync(join(testDir, 'config/.husky/pre-commit'), 'node hook.js\n', 'utf-8');
+
+    await upgradeV4({ cwd: testDir, keepTailwind3: false });
+
+    expect(fs.existsSync(join(testDir, '.husky'))).toBe(false);
+    expect(fs.readFileSync(join(testDir, 'config/.husky/pre-commit'), 'utf-8')).toBe('node hook.js\n');
+  });
+
+  it('makes config husky hooks executable', async () => {
+    const { upgradeV4 } = await import('../upgrade-v4.js');
+
+    fs.ensureDirSync(join(testDir, 'config/.husky'));
+    fs.writeFileSync(join(testDir, 'config/.husky/pre-commit'), 'node pre-commit.js\n', 'utf-8');
+    fs.writeFileSync(join(testDir, 'config/.husky/commit-msg'), 'node commit-msg.js\n', 'utf-8');
+    fs.chmodSync(join(testDir, 'config/.husky/pre-commit'), 0o644);
+    fs.chmodSync(join(testDir, 'config/.husky/commit-msg'), 0o644);
+
+    await upgradeV4({ cwd: testDir, keepTailwind3: false });
+
+    expect(fs.statSync(join(testDir, 'config/.husky/pre-commit')).mode & 0o111).toBeGreaterThan(0);
+    expect(fs.statSync(join(testDir, 'config/.husky/commit-msg')).mode & 0o111).toBeGreaterThan(0);
   });
 });

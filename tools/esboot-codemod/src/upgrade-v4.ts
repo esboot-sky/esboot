@@ -10,6 +10,9 @@ export interface UpgradeOptions {
   keepTailwind3?: boolean;
 }
 
+const ESLINT_VERSION = '^10.4.1';
+const STYLELINT_VERSION = '^17.13.0';
+
 // Recursively find all files in a folder excluding node_modules and .git
 function getFilesRecursively(dir: string): string[] {
   let results: string[] = [];
@@ -278,6 +281,14 @@ export async function upgradeV4(options: UpgradeOptions) {
       delete depsObj['normalize.css'];
       console.log(kleur.yellow('Removed normalize.css from package.json dependencies (built-in in v4).'));
     }
+    if (depsObj.eslint) {
+      depsObj.eslint = ESLINT_VERSION;
+      console.log(kleur.yellow(`Upgraded eslint dependency to ${ESLINT_VERSION}.`));
+    }
+    if (depsObj.stylelint) {
+      depsObj.stylelint = STYLELINT_VERSION;
+      console.log(kleur.yellow(`Upgraded stylelint dependency to ${STYLELINT_VERSION}.`));
+    }
   };
 
   updateDeps(pkg.dependencies);
@@ -317,6 +328,23 @@ export async function upgradeV4(options: UpgradeOptions) {
     eslintConfigPath,
     `import { createConfig } from '@dz-web/esboot/eslint';\n\nexport default createConfig();\n`,
   );
+
+  const legacyHuskyPath = join(cwd, '.husky');
+  if (fs.existsSync(legacyHuskyPath)) {
+    fs.removeSync(legacyHuskyPath);
+    console.log(kleur.yellow('Removed legacy root .husky directory.'));
+  }
+
+  const configHuskyPath = join(cwd, 'config/.husky');
+  for (const hookName of ['pre-commit', 'commit-msg']) {
+    const hookPath = join(configHuskyPath, hookName);
+    if (!fs.existsSync(hookPath)) {
+      continue;
+    }
+
+    fs.chmodSync(hookPath, 0o755);
+    console.log(kleur.yellow(`Set executable permission on config/.husky/${hookName}.`));
+  }
 
   // Delete old eslint files
   const oldEslintFiles = [
