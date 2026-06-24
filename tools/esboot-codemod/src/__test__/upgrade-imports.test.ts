@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer';
 import { join, resolve } from 'node:path';
 import fs from 'fs-extra';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -52,17 +51,6 @@ export default defineConfig({
       }
 
       if (command === 'pnpm') {
-        if (args[0] === 'exec' && args[2] === 'dev') {
-          return Object.assign(Promise.resolve({ stdout: '' }), {
-            kill() {},
-            stdout: {
-              on(_event: string, callback: (data: Buffer) => void) {
-                callback(Buffer.from('ready - started server'));
-              },
-            },
-          });
-        }
-
         return Promise.resolve({ stdout: '' });
       }
 
@@ -159,9 +147,8 @@ export default defineConfig({
     expect(fs.existsSync(join(testDir, 'src/styles/_normalize.scss'))).toBe(false);
   });
 
-  it('waits for the verified dev server process to exit before finishing', async () => {
+  it('verifies only the production build and does not start the dev server', async () => {
     const { upgradeV4 } = await import('../upgrade-v4.js');
-    let devExited = false;
 
     execaMock.mockImplementation((command: string, args: string[] = []) => {
       if (command === 'git' && args[0] === 'status') {
@@ -172,33 +159,13 @@ export default defineConfig({
         return Promise.resolve({ stdout: '4.3.6' });
       }
 
-      if (command === 'pnpm' && args[0] === 'exec' && args[2] === 'dev') {
-        let resolveProcess: (() => void) | undefined;
-        const childProcess = Object.assign(new Promise((resolve) => {
-          resolveProcess = () => {
-            devExited = true;
-            resolve({ stdout: '' });
-          };
-        }), {
-          kill() {
-            setTimeout(() => resolveProcess?.(), 0);
-          },
-          stdout: {
-            on(_event: string, callback: (data: Buffer) => void) {
-              callback(Buffer.from('ready - started server'));
-            },
-          },
-        });
-
-        return childProcess;
-      }
-
       return Promise.resolve({ stdout: '' });
     });
 
     await upgradeV4({ cwd: testDir, keepTailwind3: false });
 
-    expect(devExited).toBe(true);
+    expect(execaMock).toHaveBeenCalledWith('pnpm', ['exec', 'esboot', 'build'], expect.any(Object));
+    expect(execaMock).not.toHaveBeenCalledWith('pnpm', ['exec', 'esboot', 'dev'], expect.any(Object));
   });
 
   it('fixes common esbootrc lint issues for process imports and inline regex arrays', async () => {
@@ -241,5 +208,28 @@ export default defineConfig<BundlerWebpackOptions>((cfg) => {
     expect(esbootrcContent).toContain('const PX2REM_EXCLUDE = [');
     expect(esbootrcContent).toContain('extraBabelIncludes: EXTRA_BABEL_INCLUDES');
     expect(esbootrcContent).toContain('exclude: PX2REM_EXCLUDE');
+  });
+
+  it('exits early with a prompt when the project is not an esboot project', async () => {
+    const { upgradeV4 } = await import('../upgrade-v4.js');
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+
+    fs.writeJsonSync(join(testDir, 'package.json'), {
+      name: 'non-esboot-app',
+      version: '1.0.0',
+      devDependencies: {
+        eslint: '^9.0.0',
+      },
+    }, { spaces: 2 });
+
+    try {
+      const result = await upgradeV4({ cwd: testDir, keepTailwind3: false });
+      expect(result).toBe('not-esboot-project');
+      expect(logSpy.mock.calls.flat().join('\n')).toContain('This directory does not appear to be an ESBoot project');
+      expect(execaMock).not.toHaveBeenCalledWith('pnpm', ['install', '--filter', '.'], expect.any(Object));
+    }
+    finally {
+      logSpy.mockRestore();
+    }
   });
 });

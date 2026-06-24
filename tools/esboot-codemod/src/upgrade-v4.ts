@@ -190,7 +190,8 @@ export async function upgradeV4(options: UpgradeOptions) {
   // Check current ESBoot version
   const currentEsbootVersion = pkg.dependencies?.['@dz-web/esboot'] || pkg.devDependencies?.['@dz-web/esboot'];
   if (!currentEsbootVersion) {
-    throw new Error('Could not find @dz-web/esboot in package.json dependencies or devDependencies.');
+    console.log(kleur.yellow('This directory does not appear to be an ESBoot project. Skipping migration.'));
+    return 'not-esboot-project';
   }
  
   if (currentEsbootVersion !== 'workspace:*') {
@@ -694,45 +695,6 @@ export async function upgradeV4(options: UpgradeOptions) {
   console.log(kleur.blue('\nVerifying production build (pnpm exec esboot build)...'));
   await execa('pnpm', ['exec', 'esboot', 'build'], { cwd, stdio: 'inherit' });
   console.log(kleur.green('✓ Production build completed successfully.'));
-
-  console.log(kleur.blue('\nVerifying development server (pnpm exec esboot dev)...'));
-  const devProcess = execa('pnpm', ['exec', 'esboot', 'dev'], { cwd });
-  let isStoppingDevProcess = false;
-  const stopDevProcess = async (): Promise<void> => {
-    if (isStoppingDevProcess) {
-      return;
-    }
-
-    isStoppingDevProcess = true;
-    devProcess.kill();
-    await devProcess.catch(() => {});
-  };
-
-  const devTimeout = new Promise<void>((resolve, reject) => {
-    const timer = setTimeout(() => {
-      stopDevProcess()
-        .then(() => resolve())
-        .catch(reject);
-    }, 4000);
-
-    devProcess.catch((err) => {
-      clearTimeout(timer);
-      reject(new Error(`Development server failed to boot: ${err.message}`));
-    });
-
-    devProcess.stdout?.on('data', (data) => {
-      const output = data.toString();
-      if (output.includes('ready - started server') || output.includes('started server')) {
-        clearTimeout(timer);
-        stopDevProcess()
-          .then(() => resolve())
-          .catch(reject);
-      }
-    });
-  });
-
-  await devTimeout;
-  console.log(kleur.green('✓ Development server verified successfully.'));
 
   if (migrationSummary.length > 0) {
     console.log(kleur.cyan('\nMigration summary'));

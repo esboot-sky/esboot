@@ -22,6 +22,8 @@ program
       });
       if (result === 'already-latest') {
         console.log(kleur.green().bold('\nℹ️ Your project is already on the latest ESBoot version (v4+).'));
+      } else if (result === 'not-esboot-project') {
+        console.log(kleur.yellow().bold('\nℹ️ Skipped: current directory is not an ESBoot project.'));
       } else {
         console.log(kleur.green().bold('\n🎉 Migration completed successfully!'));
       }

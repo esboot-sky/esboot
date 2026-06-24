@@ -175,7 +175,7 @@ export default defineConfig((cfg) => {
 
     // Cleanup after test
     fs.removeSync(testDir);
-  }, 120000); // 120s timeout for dependencies installation and build/dev verification
+  }, 120000); // 120s timeout for dependencies installation and build verification
 
   it('should exit early if the project is already on v4+', async () => {
     const fixtureDir = resolve(__dirname, '../../fixtures/v3-app');
