@@ -74,6 +74,25 @@ export default defineConfig({
     fs.removeSync(testDir);
   });
 
+  it('prints a migration summary checklist after a successful upgrade', async () => {
+    const { upgradeV4 } = await import('../upgrade-v4.js');
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    let output = '';
+
+    try {
+      await upgradeV4({ cwd: testDir, keepTailwind3: false });
+      output = logSpy.mock.calls.flat().join('\n');
+    }
+    finally {
+      logSpy.mockRestore();
+    }
+
+    expect(output).toContain('Migration summary');
+    expect(output).toContain('- upgraded @dz-web/esboot to workspace:*');
+    expect(output).toContain('- upgraded eslint to ^10.4.1');
+    expect(output).toContain('- upgraded stylelint to ^17.13.0');
+  });
+
   it('moves BabelPlugin imports from webpack package to esboot', async () => {
     const { upgradeV4 } = await import('../upgrade-v4.js');
 
@@ -115,5 +134,28 @@ export default defineConfig({
 
     expect(fs.statSync(join(testDir, 'config/.husky/pre-commit')).mode & 0o111).toBeGreaterThan(0);
     expect(fs.statSync(join(testDir, 'config/.husky/commit-msg')).mode & 0o111).toBeGreaterThan(0);
+  });
+
+  it('removes legacy local normalize styles that are now built in', async () => {
+    const { upgradeV4 } = await import('../upgrade-v4.js');
+
+    fs.writeFileSync(
+      join(testDir, 'src/styles/index.scss'),
+      `@use './normalize';
+
+.root {}
+`,
+      'utf-8',
+    );
+    fs.writeFileSync(
+      join(testDir, 'src/styles/_normalize.scss'),
+      'html { line-height: 1.15; }\n',
+      'utf-8',
+    );
+
+    await upgradeV4({ cwd: testDir, keepTailwind3: false });
+
+    expect(fs.readFileSync(join(testDir, 'src/styles/index.scss'), 'utf-8')).not.toContain(`@use './normalize';`);
+    expect(fs.existsSync(join(testDir, 'src/styles/_normalize.scss'))).toBe(false);
   });
 });

@@ -153,6 +153,12 @@ function getMainConfig(sourceFile: SourceFile) {
 export async function upgradeV4(options: UpgradeOptions) {
   const cwd = resolve(options.cwd);
   const keepTailwind3 = options.keepTailwind3 ?? true;
+  const migrationSummary: string[] = [];
+  const addSummaryItem = (item: string): void => {
+    if (!migrationSummary.includes(item)) {
+      migrationSummary.push(item);
+    }
+  };
   console.log(kleur.cyan(`\n🚀 Starting upgrade to ESBoot v4 in: ${cwd}`));
 
   // 1. Git workspace cleanliness check
@@ -274,20 +280,24 @@ export async function upgradeV4(options: UpgradeOptions) {
     for (const pkgName of esbootPackages) {
       if (depsObj[pkgName]) {
         depsObj[pkgName] = esbootVersion;
+        addSummaryItem(`upgraded ${pkgName} to ${esbootVersion}`);
       }
     }
     // Remove normalize.css from dependencies
     if (depsObj['normalize.css']) {
       delete depsObj['normalize.css'];
       console.log(kleur.yellow('Removed normalize.css from package.json dependencies (built-in in v4).'));
+      addSummaryItem('removed normalize.css');
     }
     if (depsObj.eslint) {
       depsObj.eslint = ESLINT_VERSION;
       console.log(kleur.yellow(`Upgraded eslint dependency to ${ESLINT_VERSION}.`));
+      addSummaryItem(`upgraded eslint to ${ESLINT_VERSION}`);
     }
     if (depsObj.stylelint) {
       depsObj.stylelint = STYLELINT_VERSION;
       console.log(kleur.yellow(`Upgraded stylelint dependency to ${STYLELINT_VERSION}.`));
+      addSummaryItem(`upgraded stylelint to ${STYLELINT_VERSION}`);
     }
   };
 
@@ -333,6 +343,7 @@ export async function upgradeV4(options: UpgradeOptions) {
   if (fs.existsSync(legacyHuskyPath)) {
     fs.removeSync(legacyHuskyPath);
     console.log(kleur.yellow('Removed legacy root .husky directory.'));
+    addSummaryItem('removed legacy root .husky');
   }
 
   const configHuskyPath = join(cwd, 'config/.husky');
@@ -344,6 +355,7 @@ export async function upgradeV4(options: UpgradeOptions) {
 
     fs.chmodSync(hookPath, 0o755);
     console.log(kleur.yellow(`Set executable permission on config/.husky/${hookName}.`));
+    addSummaryItem(`made config/.husky/${hookName} executable`);
   }
 
   // Delete old eslint files
@@ -421,6 +433,13 @@ export async function upgradeV4(options: UpgradeOptions) {
       console.log(kleur.yellow(`Removed normalize.css import from: ${relative(cwd, activeStyleEntry)}`));
     }
 
+    const localNormalizeUseRe = /@use\s+['"]\.\/normalize['"];?\s*/g;
+    if (localNormalizeUseRe.test(styleContent)) {
+      styleContent = styleContent.replace(localNormalizeUseRe, '');
+      console.log(kleur.yellow(`Removed local normalize style usage from: ${relative(cwd, activeStyleEntry)}`));
+      addSummaryItem('removed local normalize stylesheet usage');
+    }
+
     // Replace Tailwind directives
     const tailwindDirectivesRe = /@tailwind\s+(?:base|components|utilities);?/g;
     if (tailwindDirectivesRe.test(styleContent)) {
@@ -430,6 +449,13 @@ export async function upgradeV4(options: UpgradeOptions) {
     }
 
     fs.writeFileSync(activeStyleEntry, styleContent, 'utf-8');
+  }
+
+  const legacyLocalNormalizePath = join(stylesDir, '_normalize.scss');
+  if (fs.existsSync(legacyLocalNormalizePath)) {
+    fs.removeSync(legacyLocalNormalizePath);
+    console.log(kleur.yellow(`Removed legacy local normalize stylesheet: ${relative(cwd, legacyLocalNormalizePath)}`));
+    addSummaryItem('removed src/styles/_normalize.scss');
   }
 
   // 5. .esbootrc.ts AST Transformation
@@ -629,4 +655,11 @@ export async function upgradeV4(options: UpgradeOptions) {
 
   await devTimeout;
   console.log(kleur.green('✓ Development server verified successfully.'));
+
+  if (migrationSummary.length > 0) {
+    console.log(kleur.cyan('\nMigration summary'));
+    for (const item of migrationSummary) {
+      console.log(`- ${item}`);
+    }
+  }
 }
