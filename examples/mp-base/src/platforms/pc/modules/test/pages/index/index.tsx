@@ -3,6 +3,8 @@ import { Button } from 'antd-mobile';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
+import './index.scss';
+
 function Index() {
   const theme = usePCStore(state => state.userConfig.theme);
   const language = usePCStore(state => state.userConfig.language);
@@ -52,6 +54,10 @@ function Index() {
 
       <p style={{ marginTop: 20, fontSize: 18, fontWeight: 'bold', color: '#1677ff' }}>
         I18n Custom Text: <FormattedMessage id="test.custom_text" />
+      </p>
+
+      <p styleName="test-stylename">
+        I18n Global Text: <FormattedMessage id="global.global_text" />
       </p>
     </div>
   );

@@ -30,6 +30,7 @@ import { addAssetRules } from './rules/add-rules-assets';
 import { addJavaScriptRules } from './rules/add-rules-javascript';
 
 import { addJSONRules } from './rules/add-rules-json';
+import { addStyleNameRules } from './rules/add-rules-style-name';
 
 import { addStyleRules } from './rules/style/add-rules-style';
 
@@ -62,6 +63,7 @@ export async function getRspackCfg(
   await addExternals(cfg, rspackCfg);
 
   // Rules
+  await addStyleNameRules(cfg, rspackCfg);
   await addReact(cfg, rspackCfg);
   await addStyleRules(cfg, rspackCfg);
   await addAssetRules(cfg, rspackCfg);

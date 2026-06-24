@@ -6,10 +6,6 @@ vi.mock('@rspack/plugin-react-refresh', () => ({
   ReactRefreshRspackPlugin: ReactRefreshPlugin,
 }));
 
-vi.mock('@/cfg/rules/style/utils', () => ({
-  getCssHashRule: () => '[local]__[contenthash:base64:8]',
-}));
-
 describe('rspack addReact partial', () => {
   it('adds tsx swc rule and react refresh plugin in development', async () => {
     const { addReact } = await import('./add-react');
@@ -27,9 +23,11 @@ describe('rspack addReact partial', () => {
 
     expect(rspackCfg.module.rules).toHaveLength(1);
     expect((rspackCfg.module.rules[0] as any).use[0].loader).toBe('builtin:swc-loader');
-    expect((rspackCfg.module.rules[0] as any).use[0].options.jsc.experimental.plugins[0][1]).toEqual({
-      hashPattern: '[local]__[contenthash:base64:8]',
+    expect((rspackCfg.module.rules[0] as any).use[0].options.jsc.parser).toEqual({
+      syntax: 'typescript',
+      tsx: true,
     });
+    expect((rspackCfg.module.rules[0] as any).use[0].options.jsc.experimental).toBeUndefined();
     expect(ReactRefreshPlugin).toHaveBeenCalled();
     expect(rspackCfg.plugins).toHaveLength(1);
   });
