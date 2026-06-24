@@ -1,9 +1,11 @@
-import { resolve } from 'node:path';
 import fs from 'node:fs';
+import { resolve } from 'node:path';
 
 interface AnyObject {
   [key: string]: any;
 }
+
+const BACKSLASH_REGEX = /\\/g;
 
 function langPickFn(obj: AnyObject, paths: string[]): AnyObject {
   const result: AnyObject = {};
@@ -18,7 +20,8 @@ function langPickFn(obj: AnyObject, paths: string[]): AnyObject {
         if (current && current[key] !== undefined) {
           temp[key] = current[key];
         }
-      } else {
+      }
+      else {
         if (!temp[key]) {
           temp[key] = {};
         }
@@ -41,18 +44,20 @@ export default function (this: any, source: string): string {
 
   if (!language || !entryName) {
     if (rootPath && this.resourcePath) {
-      const langFolderNormalized = resolve(rootPath, 'lang').replace(/\\/g, '/');
-      const resourcePathNormalized = this.resourcePath.replace(/\\/g, '/');
-      if (resourcePathNormalized.startsWith(langFolderNormalized + '/') && resourcePathNormalized.endsWith('.json')) {
+      const langFolderNormalized = resolve(rootPath, 'lang').replace(BACKSLASH_REGEX, '/');
+      const resourcePathNormalized = this.resourcePath.replace(BACKSLASH_REGEX, '/');
+      if (resourcePathNormalized.startsWith(`${langFolderNormalized}/`) && resourcePathNormalized.endsWith('.json')) {
         const lang = resourcePathNormalized.split('/').pop()?.replace('.json', '');
         if (lang) {
           let content = {};
           try {
             content = JSON.parse(source);
-          } catch (err) {
+          }
+          catch {
             try {
               content = JSON.parse(fs.readFileSync(this.resourcePath, 'utf-8'));
-            } catch (e) {}
+            }
+            catch {}
           }
 
           const entryConfigs: Record<string, string[]> = {};
@@ -111,6 +116,10 @@ export default keys ? langPickFn(rawData, keys) : rawData;
 
   const langFile = resolve(rootPath, 'lang', `${language}.json`);
 
+  if (typeof this.addDependency === 'function') {
+    this.addDependency(langFile);
+  }
+
   let jsonData = {};
   try {
     const raw = fs.readFileSync(langFile, 'utf-8');
@@ -119,7 +128,8 @@ export default keys ? langPickFn(rawData, keys) : rawData;
     if (langJsonPicker) {
       jsonData = langPickFn(jsonData, langJsonPicker);
     }
-  } catch (err) {}
+  }
+  catch {}
 
   return `export default ${JSON.stringify(jsonData)}`;
 }

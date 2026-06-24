@@ -4,6 +4,13 @@ import fs from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pick } from '@dz-web/esboot-common/lodash';
 
+const BACKSLASH_REGEX = /\\/g;
+const JSON_SUFFIX_REGEX = /\.json$/;
+const JS_SUFFIX_REGEX = /\.js$/;
+const HTML_ENTRY_REGEX = /\/([^/]+?)\.html/;
+const LANG_FILE_NAME_REGEX = /\/([^/]+)\.json$/;
+const SWITCH_REGEX = /switch\s*\(\s*currentLanguage\s*\)\s*\{[\s\S]+?\}/;
+
 export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
   const { useLangJsonPicker, rootPath, entry } = cfg.config;
 
@@ -11,57 +18,55 @@ export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
     return;
 
   const langFolder = resolve(rootPath, 'lang');
-  let languages: string[] = ['zh-CN', 'zh-TW', 'en-US'];
-  try {
-    const files = await fs.readdir(langFolder);
-    languages = files
-      .filter(file => file.endsWith('.json'))
-      .map(file => file.replace('.json', ''));
-  } catch (err) {
-    // fallback to defaults if folder is missing
-  }
-
-  const entryLangMapping = new Map<string, string[]>();
-
-  // Create mapping of entries to their langJsonPicker configs
-  for (const [entryName, entryConfig] of Object.entries(entry)) {
-    if (entryConfig.langJsonPicker) {
-      entryLangMapping.set(entryName, entryConfig.langJsonPicker);
+  const getLanguages = async (): Promise<string[]> => {
+    try {
+      const files = await fs.readdir(langFolder);
+      return files
+        .filter(file => file.endsWith('.json'))
+        .map(file => file.replace('.json', ''));
     }
-  }
+    catch {
+      return ['zh-CN', 'zh-TW', 'en-US'];
+    }
+  };
 
-  if (entryLangMapping.size === 0) {
-    console.log('[lang-json-picker] No entries with langJsonPicker found');
+  const hasLangJsonPicker = Object.values(entry).some(
+    entryConfig => entryConfig.langJsonPicker,
+  );
+
+  if (!hasLangJsonPicker) {
+    console.warn('[lang-json-picker] No entries with langJsonPicker found');
     return;
-  }
-
-  // Prepare virtual modules for each entry-language combination
-  const virtualLangModules = new Map<string, { language: string; entryName: string; langKeys: string[] }>();
-  for (const [entryName, langKeys] of entryLangMapping) {
-    for (const language of languages) {
-      const virtualId = `lang-${language}-${entryName}`;
-      virtualLangModules.set(virtualId, { language, entryName, langKeys });
-    }
   }
 
   const langJsonPickerPlugin: Plugin = {
     name: 'vite-plugin-lang-json-picker',
     enforce: 'pre',
     async resolveId(id, importer) {
-      if (id.startsWith('lang-')) {
+      const [baseId] = id.split('?');
+      const cleanId = baseId.split('#')[0];
+
+      if (cleanId.startsWith('lang-')) {
         return id;
       }
-      if (id.startsWith('virtual:lang-json-picker:')) {
+      if (cleanId.startsWith('virtual:lang-json-picker:')) {
         return id;
       }
 
-      if (id.endsWith('.json') && importer) {
+      if (cleanId.endsWith('.json') && importer) {
         const resolved = await this.resolve(id, importer, { skipSelf: true });
         if (resolved) {
-          const normalizedPath = resolved.id.replace(/\\/g, '/');
-          const langFolderNormalized = langFolder.replace(/\\/g, '/');
-          if (normalizedPath.startsWith(langFolderNormalized + '/') && normalizedPath.endsWith('.json')) {
-            return `virtual:lang-json-picker:${resolved.id.replace(/\.json$/, '')}.js`;
+          const resolvedPath = resolved.id.replace(BACKSLASH_REGEX, '/');
+          const [resolvedCleanPath, resolvedQuery] = resolvedPath.split('?');
+          const resolvedClean = resolvedCleanPath.split('#')[0];
+          const decodedResolvedClean = decodeURIComponent(resolvedClean);
+
+          const langFolderNormalized = langFolder.replace(BACKSLASH_REGEX, '/');
+          const decodedLangFolderNormalized = decodeURIComponent(langFolderNormalized);
+
+          if (decodedResolvedClean.startsWith(`${decodedLangFolderNormalized}/`) && decodedResolvedClean.endsWith('.json')) {
+            const virtualId = `virtual:lang-json-picker:${decodedResolvedClean.replace(JSON_SUFFIX_REGEX, '')}.js`;
+            return resolvedQuery ? `${virtualId}?${resolvedQuery}` : virtualId;
           }
         }
       }
@@ -69,19 +74,42 @@ export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
       return null;
     },
     async load(id) {
-      if (id.startsWith('lang-')) {
-        const info = virtualLangModules.get(id);
-        if (!info) return null;
-        const raw = await fs.readFile(resolve(langFolder, `${info.language}.json`), 'utf-8');
+      const [baseId] = id.split('?');
+      const cleanId = baseId.split('#')[0];
+
+      if (cleanId.startsWith('lang-')) {
+        let matchedEntryName = '';
+        let matchedLanguage = '';
+        for (const entryName of Object.keys(entry)) {
+          if (cleanId.endsWith(`-${entryName}`)) {
+            matchedEntryName = entryName;
+            matchedLanguage = cleanId.slice('lang-'.length, -(`-${entryName}`.length));
+            break;
+          }
+        }
+        if (!matchedEntryName)
+          return null;
+
+        const entryConfig = entry[matchedEntryName];
+        const langKeys = entryConfig?.langJsonPicker || [];
+        const filePath = resolve(langFolder, `${matchedLanguage}.json`);
+        if (this?.addWatchFile) {
+          this.addWatchFile(filePath);
+        }
+        const raw = await fs.readFile(filePath, 'utf-8');
         const content = JSON.parse(raw);
-        const filtered = pick(content, info.langKeys);
+        const filtered = pick(content, langKeys);
         return `export default ${JSON.stringify(filtered)};`;
       }
 
-      if (id.startsWith('virtual:lang-json-picker:')) {
-        const filePath = id
+      if (cleanId.startsWith('virtual:lang-json-picker:')) {
+        const decodedId = decodeURIComponent(cleanId);
+        const filePath = decodedId
           .replace('virtual:lang-json-picker:', '')
-          .replace(/\.js$/, '.json');
+          .replace(JS_SUFFIX_REGEX, '.json');
+        if (this?.addWatchFile) {
+          this.addWatchFile(filePath);
+        }
         const raw = await fs.readFile(filePath, 'utf-8');
         const content = JSON.parse(raw);
 
@@ -138,21 +166,72 @@ export default keys ? pick(rawData, keys) : rawData;
     },
     transformIndexHtml(html, ctx) {
       const htmlPath = ctx?.path || '';
-      const match = htmlPath.match(/\/([^/]+?)\.html/);
+      const match = htmlPath.match(HTML_ENTRY_REGEX);
       const entryName = match ? match[1] : '';
       if (entryName) {
         return html.replace('<head>', `<head><script>window.__ESBOOT_ENTRY_NAME__ = "${entryName}";</script>`);
       }
       return html;
     },
+    configureServer(server) {
+      server.watcher.add(langFolder);
+
+      const handleFileChange = (filePath: string): void => {
+        const normalizedPath = filePath.replace(BACKSLASH_REGEX, '/');
+        const langFolderNormalized = langFolder.replace(BACKSLASH_REGEX, '/');
+        const decodedPath = decodeURIComponent(normalizedPath);
+        const decodedLangFolder = decodeURIComponent(langFolderNormalized);
+
+        if (decodedPath.startsWith(`${decodedLangFolder}/`) && decodedPath.endsWith('.json')) {
+          const match = decodedPath.match(LANG_FILE_NAME_REGEX);
+          const changedLang = match ? match[1] : '';
+
+          for (const mod of server.moduleGraph.idToModuleMap.values()) {
+            if (mod.id) {
+              const [baseId] = mod.id.split('?');
+              const cleanId = baseId.split('#')[0].replace(BACKSLASH_REGEX, '/');
+              const decodedCleanId = decodeURIComponent(cleanId);
+
+              const isImportLocales = decodedCleanId.endsWith('helpers/import-locales.ts') || decodedCleanId.endsWith('helpers/import-locales.js');
+
+              let shouldInvalidate = isImportLocales;
+              if (changedLang) {
+                const isVirtualPickerForLang = decodedCleanId.includes('virtual:lang-json-picker:') && decodedCleanId.endsWith(`/${changedLang}.js`);
+                const isLangModuleForLang = mod.id.startsWith(`lang-${changedLang}-`);
+                if (isVirtualPickerForLang || isLangModuleForLang) {
+                  shouldInvalidate = true;
+                }
+              }
+
+              if (shouldInvalidate) {
+                server.moduleGraph.invalidateModule(mod);
+              }
+            }
+          }
+          server.ws.send({ type: 'full-reload' });
+        }
+      };
+
+      server.watcher.on('add', handleFileChange);
+      server.watcher.on('unlink', handleFileChange);
+      server.watcher.on('change', handleFileChange);
+    },
     async transform(code: string, id: string) {
-      const normalizedId = id.replace(/\\/g, '/');
-      if (normalizedId.endsWith('helpers/import-locales.ts') || normalizedId.endsWith('helpers/import-locales.js')) {
-        const langMapEntries = Array.from(virtualLangModules.entries()).map(([virtualId, info]) => {
-          return `'${info.language}-${info.entryName}': () => import('${virtualId}')`;
-        });
-        
-        for (const lang of languages) {
+      const [baseId] = id.split('?');
+      const cleanId = baseId.split('#')[0].replace(BACKSLASH_REGEX, '/');
+      if (cleanId.endsWith('helpers/import-locales.ts') || cleanId.endsWith('helpers/import-locales.js')) {
+        const latestLanguages = await getLanguages();
+
+        const langMapEntries: string[] = [];
+        for (const [entryName, entryConfig] of Object.entries(entry)) {
+          if (entryConfig.langJsonPicker) {
+            for (const language of latestLanguages) {
+              langMapEntries.push(`'${language}-${entryName}': () => import('lang-${language}-${entryName}')`);
+            }
+          }
+        }
+
+        for (const lang of latestLanguages) {
           langMapEntries.push(`'${lang}-fallback': () => import('@/lang/${lang}.json')`);
         }
 
@@ -162,7 +241,6 @@ const __langMap = {
 };
 `;
 
-        const switchRegex = /switch\s*\(\s*currentLanguage\s*\)\s*\{[\s\S]+?\}/;
         const replacement = `
           const entryName = (typeof window !== 'undefined' && window['__ESBOOT_ENTRY_NAME__']) || '';
           const langKey = \`\${currentLanguage}-\${entryName}\`;
@@ -172,8 +250,16 @@ const __langMap = {
           }
         `;
 
-        let newCode = code.replace(switchRegex, replacement);
-        newCode = langMapStr + '\n' + newCode;
+        let newCode = code;
+        const lastImportIndex = code.lastIndexOf('import ');
+        if (lastImportIndex !== -1) {
+          const insertIndex = code.indexOf('\n', lastImportIndex);
+          newCode = `${code.slice(0, insertIndex)}\n${langMapStr}\n${code.slice(insertIndex)}`;
+        }
+        else {
+          newCode = `${langMapStr}\n${code}`;
+        }
+        newCode = newCode.replace(SWITCH_REGEX, replacement);
 
         return { code: newCode, map: null };
       }

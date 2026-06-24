@@ -7,7 +7,12 @@
   },
   "test": {
     "title": "测试",
-    "custom_text": "这是一个测试文本"
+    "custom_text": "这是一个测试文本213",
+    "title2": "这是一个测试",
+    "custom_text2": "这是一个测试文本323",
+    "title3": "这是一个测试",
+    "custom_text3": "这是一个测试文本424"
   },
-  "noise_key": "这个是不应该打包进去的扰乱文本"
+  "noise_key": "这个是不应该打包进去的扰乱文本",
+  "noise_text": "这是一个扰乱文本"
 }
