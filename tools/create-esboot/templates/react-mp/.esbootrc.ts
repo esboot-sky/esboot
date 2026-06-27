@@ -1,32 +1,39 @@
-import type { BabelPlugin, UserOptions } from '@dz-web/esboot';
+import type { UserOptions } from '@dz-web/esboot';
+import type { BundlerRspackOptions } from '@dz-web/esboot-bundler-rspack';
 import type { BundlerViteOptions } from '@dz-web/esboot-bundler-vite';
-import type { BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
 import process from 'node:process';
 import { defineConfig, definePlugin, PluginHooks } from '@dz-web/esboot';
-import { BundlerVite, CodeSplittingType as CodeSplittingTypeVite } from '@dz-web/esboot-bundler-vite';
 import {
-  BundlerWebpack,
-  CodeSplittingType as CodeSplittingTypeWebpack,
-  getImportPluginsOfRsuite,
-} from '@dz-web/esboot-bundler-webpack';
+  BundlerRspack,
+  CodeSplittingType as CodeSplittingTypeRspack,
+} from '@dz-web/esboot-bundler-rspack';
+import { BundlerVite, CodeSplittingType as CodeSplittingTypeVite } from '@dz-web/esboot-bundler-vite';
 import vitestPlugin from '@dz-web/esboot-plugin-vitest';
 
-export default defineConfig<BundlerWebpackOptions | BundlerViteOptions>(cfg => ({
-  ...(process.env.ESBOOT_BUNDLER === 'webpack' ? getBundlerWebpackOptions(cfg) : getBundlerViteOptions()),
+const PX2REM_EXCLUDE = [/node_modules/];
+const EXTRA_BABEL_INCLUDES = [
+  /zustand/i,
+  /query-string/i,
+  /react-intl/i,
+  /@tanstack/i,
+  /@floating-ui/i,
+  /tailwind-merge/i,
+];
+
+export default defineConfig<BundlerRspackOptions | BundlerViteOptions>(cfg => ({
+  ...(process.env.ESBOOT_BUNDLER === 'rspack' ? getBundlerRspackOptions() : getBundlerViteOptions()),
   px2rem: {
     enable: true,
     // 设计稿为默认750, 浏览器以375为基准，16px是为了方便使用tailwindcss, 32px对应750px设计稿中的16px
     rootValue: cfg.isMobile ? 32 : 16,
-    exclude: ['node_modules'],
+    exclude: PX2REM_EXCLUDE,
   },
   define: {
     'process.env.isMobile': cfg.isMobile,
     'process.env.isBrowser': cfg.isBrowser,
   },
   plugins: [
-    vitestPlugin({
-      customConfig: config => config,
-    }),
+    vitestPlugin(),
     definePlugin({
       key: 'log',
       [PluginHooks.afterCompile]: (cfg) => {
@@ -70,27 +77,13 @@ function getBundlerViteOptions(): UserOptions<BundlerViteOptions> {
   };
 }
 
-function getBundlerWebpackOptions(cfg): UserOptions<BundlerWebpackOptions> {
-  const extraBabelPlugins: BabelPlugin[] = [];
-  if (!cfg.isMobile) {
-    extraBabelPlugins.push(getImportPluginsOfRsuite([]));
-  }
-
+function getBundlerRspackOptions(): UserOptions<BundlerRspackOptions> {
   return {
-    bundler: BundlerWebpack,
+    bundler: BundlerRspack,
     bundlerOptions: {
-      mfsu: false,
-      extraBabelPlugins,
-      extraBabelIncludes: [
-        /zustand/i,
-        /query-string/i,
-        /react-intl/i,
-        /@tanstack/i,
-        /@floating-ui/i,
-        /tailwind-merge/i,
-      ],
+      extraBabelIncludes: EXTRA_BABEL_INCLUDES,
       codeSplitting: {
-        jsStrategy: CodeSplittingTypeWebpack.granularChunks,
+        jsStrategy: CodeSplittingTypeRspack.granularChunks,
         jsStrategyOptions: {
           frameworkBundles,
         },
