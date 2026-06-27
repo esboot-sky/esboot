@@ -65,6 +65,6 @@ export default (options: PluginVitestOptions = {}): Plugin => {
   return plugin;
 };
 
-export { alias };
 export { getPluginVitestOptions, VITEST_PLUGIN_OPTIONS_FIELD } from './options';
 export type { PluginVitestOptions };
+export { alias };

@@ -27,6 +27,12 @@ describe('alias', () => {
       '@testing-library/user-event': expect.any(String),
     });
   });
+
+  it('points package aliases at package roots instead of resolved js entry files', () => {
+    expect(alias.vitest).not.toMatch(/\.jsx?$/);
+    expect(alias['@testing-library/react']).not.toMatch(/\.jsx?$/);
+    expect(alias['@testing-library/user-event']).not.toMatch(/\.jsx?$/);
+  });
 });
 
 describe('is a plugin', () => {
@@ -82,6 +88,14 @@ describe('is a plugin', () => {
 
     expect((plugin as any).__esbootPluginVitestOptions).toEqual({
       customConfig,
+    });
+  });
+
+  it('injects vitest package aliases into the shared esboot config', () => {
+    const plugin = pluginVitest();
+
+    expect(plugin.modifyConfig?.({ cwd: '/repo/app' } as any, {} as any)).toEqual({
+      alias,
     });
   });
 
