@@ -10,7 +10,7 @@ export default defineConfig<BundlerOptions>({
     pluginTailwind3(),
     pluginDocs(),
     pluginVitest({
-      customConfig: config => config,
+      customConfig: (config) => config,
     }),
     definePlugin({
       name: 'test1',
@@ -37,6 +37,9 @@ export default defineConfig<BundlerOptions>({
   css: {
     modules: {
       useStyleName: true,
+    },
+    fontZoom: {
+      enable: true,
     },
   },
   // analyze: true,

@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import {
   addDefine,
   addPostcssPluginESBoot,
+  addPostcssPluginFontZoom,
   addPostcssPluginPx2rem,
   addPostcssPluginTailwindcss,
   addReactCompiler,
@@ -72,6 +73,7 @@ export async function getCfg(cfg: ConfigurationInstance, mode: Environment, opti
             ? await addPostcssPluginTailwindcss(cfg)
             : false,
           await addPostcssPluginPx2rem(cfg),
+          await addPostcssPluginFontZoom(cfg),
         ].filter(Boolean),
       },
     },

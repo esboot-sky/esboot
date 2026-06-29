@@ -48,6 +48,14 @@ export type LocalsConvention
     | 'dashesOnly'
     | ((name: string) => string);
 
+export interface FontZoomOptions {
+  enable?: boolean;
+  offsetVar?: string;
+  zoomLineHeight?: boolean;
+  minPixelValue?: number;
+  exclude?: string | RegExp | (string | RegExp)[];
+}
+
 export interface CSSOptions {
   modules?: {
     useStyleName?: boolean;
@@ -58,6 +66,7 @@ export interface CSSOptions {
     version?: TailwindVersion;
     separateImports?: boolean;
   };
+  fontZoom?: FontZoomOptions;
 }
 
 export interface ReactCompiler {

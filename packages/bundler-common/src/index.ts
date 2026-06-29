@@ -39,3 +39,4 @@ export { addPostcssPluginESBoot } from './postcss/add-plugin-esboot';
 export { addPostcssPluginPx2rem } from './postcss/add-plugin-px2rem';
 
 export { addPostcssPluginTailwindcss } from './postcss/add-plugin-tailwindcss';
+export { addPostcssPluginFontZoom } from './postcss/add-plugin-font-zoom';

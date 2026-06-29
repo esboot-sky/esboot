@@ -77,6 +77,17 @@ const userConfigSchema = z.object({
       version: z.enum(['3', 'next']).optional(),
       separateImports: z.boolean().optional(),
     }).passthrough().optional(),
+    fontZoom: z.object({
+      enable: z.boolean().optional(),
+      offsetVar: z.string().optional(),
+      zoomLineHeight: z.boolean().optional(),
+      minPixelValue: z.number().optional(),
+      exclude: z.union([
+        z.string(),
+        z.instanceof(RegExp),
+        z.array(z.union([z.string(), z.instanceof(RegExp)])),
+      ]).optional(),
+    }).passthrough().optional(),
   }).passthrough().optional(),
   px2rem: px2remSchema.optional(),
   svgr: z.boolean().optional(),

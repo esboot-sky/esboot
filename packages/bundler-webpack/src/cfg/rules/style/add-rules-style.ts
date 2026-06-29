@@ -4,6 +4,7 @@ import {
   addPostcssPluginESBoot,
   addPostcssPluginPx2rem,
   addPostcssPluginTailwindcss,
+  addPostcssPluginFontZoom,
   getGlobalScssPathList,
 } from '@dz-web/esboot-bundler-common';
 import { createResolvePath } from '@dz-web/esboot-common/helpers';
@@ -35,6 +36,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
   const postcssPluginESBoot = await addPostcssPluginESBoot(cfg);
   const postcssPluginPx2rem = await addPostcssPluginPx2rem(cfg);
   const postcssPluginTailwindcss = await addPostcssPluginTailwindcss(cfg);
+  const postcssPluginFontZoom = await addPostcssPluginFontZoom(cfg);
 
   const getPostcssLoaderConfig = (): Record<string, any> => ({
     loader: resolvePath('postcss-loader'),
@@ -45,6 +47,7 @@ export const addStyleRules: AddFunc = async (cfg, webpackCfg) => {
           postcssPluginESBoot,
           postcssPluginTailwindcss,
           postcssPluginPx2rem,
+          postcssPluginFontZoom,
           postcssPresetEnv({
             autoprefixer: {
               flexbox: 'no-2009',

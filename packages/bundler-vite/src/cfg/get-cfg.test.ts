@@ -5,6 +5,7 @@ const addDefine = vi.fn(() => ({ __DEV__: true }));
 const addPostcssPluginESBoot = vi.fn(() => 'postcss-esboot');
 const addPostcssPluginTailwindcss = vi.fn(() => 'postcss-tailwind');
 const addPostcssPluginPx2rem = vi.fn(() => 'postcss-px2rem');
+const addPostcssPluginFontZoom = vi.fn((cfg: any) => cfg.config.css?.fontZoom?.enable ? 'postcss-font-zoom' : false);
 const addReactCompiler = vi.fn(() => 'react-compiler');
 const resolveViteFrameworkPlugins = vi.fn(async (
   options?: {
@@ -32,6 +33,7 @@ vi.mock('@dz-web/esboot-bundler-common', () => ({
   addPostcssPluginESBoot,
   addPostcssPluginTailwindcss,
   addPostcssPluginPx2rem,
+  addPostcssPluginFontZoom,
   addReactCompiler,
   resolveViteFrameworkPlugins,
 }));

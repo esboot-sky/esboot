@@ -7,6 +7,7 @@ import {
   addPostcssPluginESBoot,
   addPostcssPluginPx2rem,
   addPostcssPluginTailwindcss,
+  addPostcssPluginFontZoom,
 } from '@dz-web/esboot-bundler-common';
 import { createResolvePath } from '@dz-web/esboot-common/helpers';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
@@ -60,11 +61,13 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
   const postcssPluginESBoot = await addPostcssPluginESBoot(cfg);
   const postcssPluginPx2rem = await addPostcssPluginPx2rem(cfg);
   const tailwindCSS = await addPostcssPluginTailwindcss(cfg);
+  const postcssPluginFontZoom = await addPostcssPluginFontZoom(cfg);
 
   const postcssPlugins = [
     postcssPluginESBoot,
     tailwindCSS,
     postcssPluginPx2rem,
+    postcssPluginFontZoom,
     postcssPresetEnv({
       autoprefixer: {
         flexbox: 'no-2009',

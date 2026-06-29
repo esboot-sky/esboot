@@ -36,6 +36,43 @@ describe('esboot cfg', () => {
     });
   });
 
+  it('defaults fontZoom config under css', () => {
+    const cfg = new ESBootCfg();
+
+    expect(cfg.config.css.fontZoom).toEqual({
+      enable: false,
+      offsetVar: '--font-offset',
+      zoomLineHeight: false,
+      minPixelValue: 0,
+      exclude: undefined,
+    });
+  });
+
+  it('allows fontZoom to be configured and validates correctly', async () => {
+    const cwd = await createProject(`
+      export default {
+        isSP: true,
+        css: {
+          fontZoom: {
+            enable: true,
+            offsetVar: '--my-zoom-offset',
+          },
+        },
+      };
+    `);
+
+    const cfg = new ESBootCfg();
+    await cfg.load({ cwd });
+
+    expect(cfg.config.css.fontZoom).toEqual({
+      enable: true,
+      offsetVar: '--my-zoom-offset',
+      zoomLineHeight: false,
+      minPixelValue: 0,
+      exclude: undefined,
+    });
+  });
+
   it('creates isolated default configuration for each instance', () => {
     const first = new ESBootCfg();
 

@@ -44,6 +44,13 @@ export const defaultCfg: Configuration = {
       version: 'next',
       separateImports: false,
     },
+    fontZoom: {
+      enable: false,
+      offsetVar: '--font-offset',
+      zoomLineHeight: false,
+      minPixelValue: 0,
+      exclude: undefined,
+    },
   },
   px2rem: {},
   svgr: true,

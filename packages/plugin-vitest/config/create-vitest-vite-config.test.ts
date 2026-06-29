@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const {
   react,
   vitePluginSvgr,
   addPostcssPluginESBoot,
   addPostcssPluginTailwindcss,
   addPostcssPluginPx2rem,
+  addPostcssPluginFontZoom,
   addReactCompiler,
   resolveViteFrameworkPlugins,
   shouldUseReactStyleNamePlugin,
@@ -15,6 +15,7 @@ const {
   addPostcssPluginESBoot: vi.fn(async () => 'postcss-esboot'),
   addPostcssPluginTailwindcss: vi.fn(async () => 'postcss-tailwind'),
   addPostcssPluginPx2rem: vi.fn(async () => 'postcss-px2rem'),
+  addPostcssPluginFontZoom: vi.fn(async (cfg: any) => cfg.config.css?.fontZoom?.enable ? 'postcss-font-zoom' : false),
   addReactCompiler: vi.fn(() => 'react-compiler'),
   resolveViteFrameworkPlugins: vi.fn(async (
     options?: {
@@ -52,6 +53,7 @@ vi.mock('@dz-web/esboot-bundler-common', () => ({
   addPostcssPluginESBoot,
   addPostcssPluginTailwindcss,
   addPostcssPluginPx2rem,
+  addPostcssPluginFontZoom,
   addReactCompiler,
   resolveViteFrameworkPlugins,
   shouldUseReactStyleNamePlugin,
