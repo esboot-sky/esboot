@@ -26,15 +26,19 @@ export function addPostcssPluginFontZoom(cfg: ConfigurationInstance): any | fals
           if (typeof exclude === 'string' && filePath.includes(exclude)) return;
         }
 
-        // 1. px
-        if (val.includes('px')) {
+        // 1. var(--...)
+        if (val.includes('var(')) {
+          decl.value = `calc(${val} + var(${offsetVar}, 0px))`;
+        }
+        // 2. px
+        else if (val.includes('px')) {
           decl.value = val.replace(/(\d*\.?\d+)px/g, (match: string, p1: string) => {
             const num = parseFloat(p1);
             if (num < minPixelValue) return match;
             return `calc(${p1}px + var(${offsetVar}, 0px))`;
           });
         }
-        // 2. rem/em
+        // 3. rem/em
         else if (val.includes('rem') || val.includes('em')) {
           decl.value = val.replace(/(\d*\.?\d+)(r?em)/g, (match: string, p1: string, p2: string) => {
             const num = parseFloat(p1);

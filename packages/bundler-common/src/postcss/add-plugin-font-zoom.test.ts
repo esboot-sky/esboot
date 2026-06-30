@@ -32,6 +32,9 @@ describe('addPostcssPluginFontZoom', () => {
       .title { font-size: 14px; }
       .text { font-size: 1rem; }
       .btn { font-size: 1.2em; }
+      .var-text { font-size: var(--basis-font-size); }
+      .important-px { font-size: 14px !important; }
+      .important-var { font-size: var(--basis-font-size) !important; }
       .ignore { font-size: calc(14px + var(--custom-offset, 0px)); }
     `;
 
@@ -39,6 +42,9 @@ describe('addPostcssPluginFontZoom', () => {
     expect(result.css).toContain('.title { font-size: calc(14px + var(--custom-offset, 0px)); }');
     expect(result.css).toContain('.text { font-size: calc(1rem + var(--custom-offset, 0px)); }');
     expect(result.css).toContain('.btn { font-size: calc(1.2em + var(--custom-offset, 0px)); }');
+    expect(result.css).toContain('.var-text { font-size: calc(var(--basis-font-size) + var(--custom-offset, 0px)); }');
+    expect(result.css).toContain('.important-px { font-size: calc(14px + var(--custom-offset, 0px)) !important; }');
+    expect(result.css).toContain('.important-var { font-size: calc(var(--basis-font-size) + var(--custom-offset, 0px)) !important; }');
     expect(result.css).toContain('.ignore { font-size: calc(14px + var(--custom-offset, 0px)); }');
   });
 
