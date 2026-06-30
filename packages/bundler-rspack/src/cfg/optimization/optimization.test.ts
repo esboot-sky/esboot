@@ -51,4 +51,32 @@ describe('rspack optimization', () => {
     });
     expect(addCodeSplitting).toHaveBeenCalled();
   });
+
+  it('respects custom jsMinifierOptions', async () => {
+    const { addOptimization } = await import('./add-optimization');
+    const rspackCfg: Record<string, any> = {};
+
+    await addOptimization({
+      config: {
+        isDev: false,
+        minimize: true,
+        jsMinifierOptions: {
+          compress: {
+            drop_console: false,
+            pure_funcs: [],
+          },
+        },
+      },
+    } as any, rspackCfg);
+
+    expect(SwcJsMinimizerRspackPlugin).toHaveBeenCalledWith({
+      minimizerOptions: expect.objectContaining({
+        compress: {
+          drop_console: false,
+          drop_debugger: true,
+          pure_funcs: [],
+        },
+      }),
+    });
+  });
 });

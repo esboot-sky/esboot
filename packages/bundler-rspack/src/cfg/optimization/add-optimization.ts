@@ -1,4 +1,5 @@
 import type { AddFunc } from '@/cfg/types';
+import { mergeWith } from '@dz-web/esboot-common/lodash';
 
 import {
   LightningCssMinimizerRspackPlugin,
@@ -8,7 +9,7 @@ import {
 import { addCodeSplitting } from './code-splitting/add-code-splitting';
 
 export const addOptimization: AddFunc = async (cfg, rspackCfg) => {
-  const { isDev, minimize } = cfg.config;
+  const { isDev, minimize, jsMinifierOptions = {} } = cfg.config;
 
   if (isDev)
     return;
@@ -28,19 +29,27 @@ export const addOptimization: AddFunc = async (cfg, rspackCfg) => {
   if (!minimize)
     return;
 
+  const defaultSwcMinimizerOptions = {
+    compress: {
+      drop_console: true,
+      drop_debugger: true,
+      pure_funcs: ['console.log'],
+    },
+    mangle: true,
+    format: {
+      comments: false,
+    },
+  };
+
+  const customizer = (objValue: any, srcValue: any) => {
+    if (Array.isArray(srcValue)) {
+      return srcValue;
+    }
+  };
+
   rspackCfg.optimization.minimizer = [
     new SwcJsMinimizerRspackPlugin({
-      minimizerOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-          pure_funcs: ['console.log'],
-        },
-        mangle: true,
-        format: {
-          comments: false,
-        },
-      },
+      minimizerOptions: mergeWith({}, defaultSwcMinimizerOptions, jsMinifierOptions, customizer),
     }),
     new LightningCssMinimizerRspackPlugin({
       minimizerOptions: {
