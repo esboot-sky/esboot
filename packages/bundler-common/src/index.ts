@@ -1,6 +1,7 @@
 export { addReactCompiler } from './babel/add-react-compiler';
 export { defaultTemplate } from './constants/default-template';
 export { addDefine } from './helpers/add-define';
+export { getSvgrOptions } from './helpers/svgr';
 
 export { addEntry, type AddEntryCBParams } from './helpers/add-entry';
 export {

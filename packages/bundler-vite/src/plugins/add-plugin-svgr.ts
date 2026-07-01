@@ -1,4 +1,5 @@
 import type { AddFunc } from '@/cfg/types';
+import { getSvgrOptions } from '@dz-web/esboot-bundler-common';
 
 export const addSvgrPlugin: AddFunc = async (cfg, viteCfg) => {
   const { svgr, svgrOptions = {} } = cfg.config;
@@ -11,13 +12,12 @@ export const addSvgrPlugin: AddFunc = async (cfg, viteCfg) => {
     vitePluginSvgr({
       include: '**/*.svg',
       exclude: '**/*.svg?url',
-      svgrOptions: {
+      svgrOptions: getSvgrOptions(svgrOptions, {
         plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx'],
         svgoConfig: {
           floatPrecision: 2,
         },
-        ...svgrOptions,
-      },
+      }),
     }),
   );
 };

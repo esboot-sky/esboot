@@ -53,6 +53,6 @@ describe('rspack cfg rules', () => {
     expect(rspackCfg.module.rules).toHaveLength(3);
     expect((rspackCfg.module.rules[0] as any).parser.dataUrlCondition.maxSize).toBe(8192);
     expect((rspackCfg.module.rules[2] as any).use[0].loader).toBe('/resolved/@svgr/webpack');
-    expect((rspackCfg.module.rules[2] as any).use[0].options.memo).toBe(true);
+    expect((rspackCfg.module.rules[2] as any).use[0].options.icon).toBe(false);
   });
 });

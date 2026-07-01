@@ -1,7 +1,6 @@
 import type { AddFunc } from '@/cfg/types';
 import { resolvePathFromUrl } from '@dz-web/esboot-common/helpers';
-
-import { merge } from '@dz-web/esboot-common/lodash';
+import { getSvgrOptions } from '@dz-web/esboot-bundler-common';
 
 const filename = 'images/[name].[hash:8][ext]';
 
@@ -41,15 +40,10 @@ export const addAssetRules: AddFunc = async (cfg, webpackCfg) => {
         use: [
           {
             loader: resolvePathFromUrl('@svgr/webpack', import.meta.resolve),
-            options: merge(
-              {
-                icon: true,
-                typescript: true,
-                ext: 'tsx',
-                svgoConfig: {},
-              },
-              svgrOptions,
-            ),
+            options: getSvgrOptions(svgrOptions, {
+              typescript: true,
+              ext: 'tsx',
+            }),
           },
         ],
       },

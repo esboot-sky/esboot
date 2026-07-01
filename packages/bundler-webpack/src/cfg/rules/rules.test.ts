@@ -55,6 +55,6 @@ describe('webpack cfg rules', () => {
     expect(webpackCfg.module.rules).toHaveLength(3);
     expect((webpackCfg.module.rules[0] as any).parser.dataUrlCondition.maxSize).toBe(4096);
     expect((webpackCfg.module.rules[2] as any).use[0].loader).toBe('/resolved/@svgr/webpack');
-    expect((webpackCfg.module.rules[2] as any).use[0].options.memo).toBe(true);
+    expect((webpackCfg.module.rules[2] as any).use[0].options.icon).toBe(false);
   });
 });

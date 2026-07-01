@@ -1,7 +1,7 @@
 import type { AddFunc } from '@/cfg/types';
 
 import { createResolvePath } from '@dz-web/esboot-common/helpers';
-import { merge } from '@dz-web/esboot-common/lodash';
+import { getSvgrOptions } from '@dz-web/esboot-bundler-common';
 
 const resolvePath = createResolvePath(import.meta.resolve);
 
@@ -42,15 +42,10 @@ export const addAssetRules: AddFunc = async (cfg, rspackCfg) => {
         use: [
           {
             loader: resolvePath('@svgr/webpack'),
-            options: merge(
-              {
-                icon: true,
-                typescript: true,
-                ext: 'tsx',
-                svgoConfig: {},
-              },
-              svgrOptions,
-            ),
+            options: getSvgrOptions(svgrOptions, {
+              typescript: true,
+              ext: 'tsx',
+            }),
           },
         ],
       },
