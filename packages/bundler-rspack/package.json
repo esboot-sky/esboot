@@ -1,7 +1,7 @@
 {
   "name": "@dz-web/esboot-bundler-rspack",
   "type": "module",
-  "version": "4.3.12",
+  "version": "4.3.13",
   "description": "",
   "author": "Roc",
   "license": "ISC",
