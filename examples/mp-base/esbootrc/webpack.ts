@@ -1,4 +1,4 @@
-import { defineConfig, PluginHooks, definePlugin } from '@dz-web/esboot';
+import { defineConfig, entryLogPlugin } from '@dz-web/esboot';
 import { BundlerWebpack as Bundler, type BundlerWebpackOptions as BundlerOptions, CodeSplittingType } from '@dz-web/esboot-bundler-webpack';
 import vitestPlugin from '@dz-web/esboot-plugin-vitest';
 
@@ -56,11 +56,6 @@ export default defineConfig<BundlerOptions>((cfg) => ({
     vitestPlugin({
       customConfig: config => config,
     }),
-    definePlugin({
-      name: 'log',
-      [PluginHooks.afterCompile]: (cfg) => {
-        console.log(cfg.entry);
-      },
-    }),
+    entryLogPlugin(),
   ],
 }));

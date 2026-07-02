@@ -1,19 +1,14 @@
 import type { BundlerViteOptions as BundlerOptions } from '@dz-web/esboot-bundler-vite';
-import { defineConfig, definePlugin, PluginHooks } from '@dz-web/esboot';
+import { defineConfig, entryLogPlugin } from '@dz-web/esboot';
 import { BundlerVite as Bundler, CodeSplittingType } from '@dz-web/esboot-bundler-vite';
 import pluginVitest from '@dz-web/esboot-plugin-vitest';
 
-export default defineConfig<BundlerOptions>(cfg => ({
+export default defineConfig<BundlerOptions>((cfg) => ({
   plugins: [
     pluginVitest({
-      customConfig: config => config,
+      customConfig: (config) => config,
     }),
-    definePlugin({
-      name: 'test1',
-      [PluginHooks.afterCompile]: (cfg) => {
-        console.log(cfg.entry);
-      },
-    }),
+    entryLogPlugin(),
   ],
   bundler: Bundler,
   bundlerOptions: {

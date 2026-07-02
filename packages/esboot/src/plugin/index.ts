@@ -176,3 +176,5 @@ export function definePlugin(cfg: Plugin): Plugin {
 }
 
 export * from './hooks-action';
+export * from './builtin/entry-log';
+
