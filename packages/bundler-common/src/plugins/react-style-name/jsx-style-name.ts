@@ -193,51 +193,67 @@ export function transformJSXStyleName(
 ): boolean {
   let transformed = false;
 
-  for (let i = 0; i < source.length; i++) {
-    if (
-      source[i] !== '<'
-      || source[i + 1] === '/'
-      || source[i + 1] === '!'
-      || source[i + 1] === '?'
-      || !isJSXTagNameStart(source[i + 1])
-    ) {
-      continue;
-    }
+  function scanAndTransform(start: number, end: number) {
+    for (let i = start; i < end; i++) {
+      if (
+        source[i] !== '<'
+        || source[i + 1] === '/'
+        || source[i + 1] === '!'
+        || source[i + 1] === '?'
+        || !isJSXTagNameStart(source[i + 1])
+      ) {
+        continue;
+      }
 
-    const tagEnd = findJSXOpeningTagEnd(source, i);
-    if (tagEnd === -1) {
-      break;
-    }
+      const tagEnd = findJSXOpeningTagEnd(source, i);
+      if (tagEnd === -1 || tagEnd > end) {
+        break;
+      }
 
-    const attributes = parseJSXAttributes(source, i, tagEnd);
-    const styleName = attributes.find(attr => attr.name === 'styleName');
-    if (!styleName?.value) {
+      const attributes = parseJSXAttributes(source, i, tagEnd);
+      const styleName = attributes.find(attr => attr.name === 'styleName');
+
+      if (styleName?.value) {
+        const className = attributes.find(attr => attr.name === 'className');
+        const classVariables = `[${variables.join(',')}]`;
+
+        if (className?.value) {
+          s.overwrite(
+            className.start,
+            className.end,
+            `className={__styleName(${classVariables}, ${styleName.value}, ${className.value})}`,
+          );
+          s.overwrite(styleName.start, styleName.end, '');
+        }
+        else {
+          s.overwrite(
+            styleName.start,
+            styleName.end,
+            `className={__styleName(${classVariables}, ${styleName.value})}`,
+          );
+        }
+        transformed = true;
+      }
+
+      for (const attr of attributes) {
+        if (attr.value && source[attr.end - 1] === '}') {
+          const equalIndex = source.indexOf('=', attr.start);
+          if (equalIndex !== -1 && equalIndex < attr.end) {
+            const openBraceIndex = source.indexOf('{', equalIndex);
+            if (openBraceIndex !== -1 && openBraceIndex < attr.end) {
+              const exprStart = openBraceIndex + 1;
+              const exprEnd = attr.end - 1;
+              scanAndTransform(exprStart, exprEnd);
+            }
+          }
+        }
+      }
+
       i = tagEnd - 1;
-      continue;
     }
-
-    const className = attributes.find(attr => attr.name === 'className');
-    const classVariables = `[${variables.join(',')}]`;
-
-    if (className?.value) {
-      s.overwrite(
-        className.start,
-        className.end,
-        `className={__styleName(${classVariables}, ${styleName.value}, ${className.value})}`,
-      );
-      s.overwrite(styleName.start, styleName.end, '');
-    }
-    else {
-      s.overwrite(
-        styleName.start,
-        styleName.end,
-        `className={__styleName(${classVariables}, ${styleName.value})}`,
-      );
-    }
-
-    transformed = true;
-    i = tagEnd - 1;
   }
+
+  scanAndTransform(0, source.length);
 
   if (transformed) {
     s.prepend(`${getStyleNameHelperSource()}\n;\n`);

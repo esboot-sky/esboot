@@ -167,4 +167,26 @@ describe('react-style-name plugin', () => {
     expect(code).toBeUndefined();
     expect(resolvedId).toBe('/src/app.scss?module');
   });
+
+  it('transforms JSX styleName inside attribute curly brace expressions', () => {
+    const code = transform(`
+      import styles from './app.scss';
+
+      export function App() {
+        return (
+          <Modal
+            content={
+              <p styleName="trade-modal-financing-tip">
+                Tip
+              </p>
+            }
+          />
+        );
+      }
+    `);
+
+    expect(code).toContain('className={__styleName([styles], "trade-modal-financing-tip")}');
+    expect(code).not.toContain('styleName="trade-modal-financing-tip"');
+  });
 });
+
