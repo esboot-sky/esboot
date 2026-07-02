@@ -207,7 +207,7 @@ export function transformJSXStyleName(
 
       const tagEnd = findJSXOpeningTagEnd(source, i);
       if (tagEnd === -1 || tagEnd > end) {
-        break;
+        continue;
       }
 
       const attributes = parseJSXAttributes(source, i, tagEnd);

@@ -188,5 +188,23 @@ describe('react-style-name plugin', () => {
     expect(code).toContain('className={__styleName([styles], "trade-modal-financing-tip")}');
     expect(code).not.toContain('styleName="trade-modal-financing-tip"');
   });
+
+  it('continues scanning if a fake tag (like in a regex or string) without a closing > is encountered', () => {
+    const code = transform(`
+      import styles from './app.scss';
+
+      const regex = /<img src="/;
+      if (a) {
+        console.log('test');
+      }
+
+      export function App() {
+        return <div styleName="text2-cls">ok</div>;
+      }
+    `);
+
+    expect(code).toContain('className={__styleName([styles], "text2-cls")}');
+    expect(code).not.toContain('styleName="text2-cls"');
+  });
 });
 
