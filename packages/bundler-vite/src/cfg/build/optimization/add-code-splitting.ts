@@ -23,8 +23,15 @@ export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
       mergeFrameworkBundles(frameworkBundles),
     );
 
-    manualChunks = {
-      framework: _frameworkBundles,
+    manualChunks = (id: string) => {
+      if (id.includes('node_modules')) {
+        const normalizedId = id.replace(/\\/g, '/');
+        for (const dep of _frameworkBundles) {
+          if (normalizedId.includes(`/node_modules/${dep}/`)) {
+            return 'framework';
+          }
+        }
+      }
     };
   }
   else if (jsStrategy === CodeSplittingType.bigVendors) {
