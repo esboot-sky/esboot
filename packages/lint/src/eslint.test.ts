@@ -8,7 +8,7 @@ import createConfig from './eslint';
 describe('createConfig', () => {
   it('uses the Tailwind 4 rule names and keeps new recommended rules enabled', async () => {
     const config = await createConfig();
-    const reactConfig = config.find(item => {
+    const reactConfig = config.find((item) => {
       const files = Array.isArray(item.files) ? item.files : [];
       return files.includes('**/*.{jsx,ts,tsx}');
     });
@@ -26,7 +26,7 @@ describe('createConfig', () => {
 
   it('keeps React display-name checks enabled while avoiding a direct eslint-plugin-react dependency', async () => {
     const config = await createConfig();
-    const reactConfig = config.find(item => {
+    const reactConfig = config.find((item) => {
       const files = Array.isArray(item.files) ? item.files : [];
       return files.includes('**/*.{jsx,ts,tsx}');
     });
@@ -37,6 +37,18 @@ describe('createConfig', () => {
 
     expect(rules['react/no-missing-context-display-name']).toBe('error');
     expect(rules['react/no-missing-component-display-name']).toBe('error');
+  });
+
+  it('disables style/max-len for json, jsonc, and json5 files', async () => {
+    const config = await createConfig();
+    const maxLenOffConfigs = config.filter((item) => {
+      const files = Array.isArray(item.files) ? item.files : (item.files ? [item.files] : []);
+      const matchesJson = files.some(file => file.includes('*.json') || file.includes('**/*.json'));
+      const rules = (item.rules as Record<string, unknown>) || {};
+      return matchesJson && rules['style/max-len'] === 'off';
+    });
+
+    expect(maxLenOffConfigs.length).toBeGreaterThan(0);
   });
 });
 

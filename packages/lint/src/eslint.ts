@@ -247,6 +247,12 @@ export default async function createConfig(options?: Options): Promise<Config> {
     srcConfig as any,
     settingsConfig as any,
     globalRulesConfig as any,
+    {
+      files: ['**/*.json', '**/*.jsonc', '**/*.json5'],
+      rules: {
+        'style/max-len': 'off',
+      },
+    } as any,
     ...extendsConfigs.filter((item): item is any => item !== undefined),
   );
 
