@@ -13,7 +13,9 @@ import pkg from '../../package.json' with { type: 'json' };
 import { defaultCfg } from './default-cfg';
 import { validateUserConfig } from './validate-user-config';
 
-const jiti = createJiti(import.meta.url);
+const jiti = createJiti(import.meta.url, {
+  nativeModules: ['rolldown', 'esbuild'],
+});
 
 export class ESBootCfg<Options extends Configuration = Configuration> {
   #config: Options = structuredClone(defaultCfg) as Options;
