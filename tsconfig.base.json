@@ -5,6 +5,8 @@
     "lib": ["esnext"],
     "module": "Preserve",
     "moduleResolution": "bundler",
+    "ignoreDeprecations": "6.0",
+    "types": ["node"],
     "resolveJsonModule": true,
     "strict": true,
     "noUnusedLocals": true,
