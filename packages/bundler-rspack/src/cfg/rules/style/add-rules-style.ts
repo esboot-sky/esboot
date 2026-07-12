@@ -5,9 +5,9 @@ import path from 'node:path';
 import { getLocalIdent } from '@dz-web/babel-plugin-react-css-modules/utils';
 import {
   addPostcssPluginESBoot,
+  addPostcssPluginFontZoom,
   addPostcssPluginPx2rem,
   addPostcssPluginTailwindcss,
-  addPostcssPluginFontZoom,
 } from '@dz-web/esboot-bundler-common';
 import { createResolvePath } from '@dz-web/esboot-common/helpers';
 import { isUndefined } from '@dz-web/esboot-common/lodash';
@@ -24,6 +24,8 @@ import {
 } from './utils';
 
 const resolvePath = createResolvePath(import.meta.resolve);
+const CSS_RE = /\.css$/;
+const SCSS_RE = /\.scss$/;
 
 interface ParseScssModuleOpts {
   modules?: boolean;
@@ -77,7 +79,10 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
     postcssNormalize(),
   ].filter(Boolean);
 
-  const parseScssModule = (options: ParseScssModuleOpts) => {
+  const { localsConvention } = cfg.config.css?.modules || {};
+  const exportLocalsConvention = localsConvention || 'asIs';
+
+  const parseScssModule = (options: ParseScssModuleOpts): any[] => {
     const { modules = false } = options;
 
     const cssLoaderOptionsCopy = { ...cssLoaderOptions, importLoaders: 2 };
@@ -87,6 +92,7 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
         modules: {
           namedExport: false,
           localIdentContext: rootPath,
+          exportLocalsConvention,
           getLocalIdent,
           localIdentName: getCssHashRule(),
         },
@@ -128,7 +134,7 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
     {
       /* Loads CSS stylesheets. It is assumed that CSS stylesheets come only
        * from dependencies, as we use SCSS inside our own code. */
-      test: /\.css$/,
+      test: CSS_RE,
       use: [
         isDev
           ? styleLoader
@@ -152,7 +158,7 @@ export const addStyleRules: AddFunc = async (cfg, rspackCfg) => {
       ],
     },
     {
-      test: /\.scss$/,
+      test: SCSS_RE,
       oneOf: [
         {
           exclude: globalScssPathList,

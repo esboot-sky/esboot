@@ -79,4 +79,58 @@ describe('rspack optimization', () => {
       }),
     });
   });
+
+  it('skips the js minimizer when jsMinifier is none', async () => {
+    const { addOptimization } = await import('./add-optimization');
+    const rspackCfg: Record<string, any> = {};
+
+    await addOptimization({
+      config: {
+        isDev: false,
+        minimize: true,
+        jsMinifier: 'none',
+      },
+    } as any, rspackCfg);
+
+    expect(SwcJsMinimizerRspackPlugin).not.toHaveBeenCalled();
+    expect(LightningCssMinimizerRspackPlugin).toHaveBeenCalled();
+  });
+
+  it('skips the css minimizer when cssMinifier is none', async () => {
+    const { addOptimization } = await import('./add-optimization');
+    const rspackCfg: Record<string, any> = {};
+
+    await addOptimization({
+      config: {
+        isDev: false,
+        minimize: true,
+        cssMinifier: 'none',
+      },
+    } as any, rspackCfg);
+
+    expect(SwcJsMinimizerRspackPlugin).toHaveBeenCalled();
+    expect(LightningCssMinimizerRspackPlugin).not.toHaveBeenCalled();
+  });
+
+  it('passes cssMinifierOptions to the fixed lightning css minimizer', async () => {
+    const { addOptimization } = await import('./add-optimization');
+    const rspackCfg: Record<string, any> = {};
+
+    await addOptimization({
+      config: {
+        isDev: false,
+        minimize: true,
+        cssMinifierOptions: {
+          targets: ['chrome >= 100'],
+        },
+      },
+    } as any, rspackCfg);
+
+    expect(LightningCssMinimizerRspackPlugin).toHaveBeenCalledWith({
+      minimizerOptions: {
+        errorRecovery: false,
+        targets: ['chrome >= 100'],
+      },
+    });
+  });
 });

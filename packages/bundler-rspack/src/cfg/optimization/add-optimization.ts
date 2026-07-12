@@ -1,4 +1,5 @@
 import type { AddFunc } from '@/cfg/types';
+import { CSSMinifier, JsMinifier } from '@dz-web/esboot-common/constants';
 import { mergeWith } from '@dz-web/esboot-common/lodash';
 
 import {
@@ -9,7 +10,14 @@ import {
 import { addCodeSplitting } from './code-splitting/add-code-splitting';
 
 export const addOptimization: AddFunc = async (cfg, rspackCfg) => {
-  const { isDev, minimize, jsMinifierOptions = {} } = cfg.config;
+  const {
+    isDev,
+    minimize,
+    jsMinifier = JsMinifier.swc,
+    jsMinifierOptions = {},
+    cssMinifier = CSSMinifier.lightningcss,
+    cssMinifierOptions = {},
+  } = cfg.config;
 
   if (isDev)
     return;
@@ -41,22 +49,26 @@ export const addOptimization: AddFunc = async (cfg, rspackCfg) => {
     },
   };
 
-  const customizer = (objValue: any, srcValue: any) => {
+  const customizer = (objValue: any, srcValue: any): any => {
     if (Array.isArray(srcValue)) {
       return srcValue;
     }
   };
 
-  rspackCfg.optimization.minimizer = [
-    new SwcJsMinimizerRspackPlugin({
+  if (jsMinifier !== JsMinifier.none) {
+    rspackCfg.optimization.minimizer.push(new SwcJsMinimizerRspackPlugin({
       minimizerOptions: mergeWith({}, defaultSwcMinimizerOptions, jsMinifierOptions, customizer),
-    }),
-    new LightningCssMinimizerRspackPlugin({
+    }));
+  }
+
+  if (cssMinifier !== CSSMinifier.none) {
+    rspackCfg.optimization.minimizer.push(new LightningCssMinimizerRspackPlugin({
       minimizerOptions: {
         errorRecovery: false,
+        ...cssMinifierOptions,
       },
-    }),
-  ];
+    }));
+  }
 
   await addCodeSplitting(cfg, rspackCfg);
 };
