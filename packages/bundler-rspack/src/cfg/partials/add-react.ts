@@ -4,11 +4,19 @@ import type { AddFunc } from '@/cfg/types';
 
 import { ReactRefreshRspackPlugin } from '@rspack/plugin-react-refresh';
 
+const TSX_RE = /\.tsx$/;
+
 export const addReact: AddFunc = async (cfg, rspackCfg) => {
-  const { isDev } = cfg.config;
+  const { isDev, experimental } = cfg.config;
+  const reactCompiler = experimental?.reactCompiler;
+  const swcReactCompiler = reactCompiler?.enable
+    ? reactCompiler.target === '18'
+      ? { target: '18' as const }
+      : true
+    : undefined;
 
   rspackCfg.module.rules.push({
-    test: /\.tsx$/,
+    test: TSX_RE,
     use: [
       {
         loader: 'builtin:swc-loader',
@@ -24,6 +32,7 @@ export const addReact: AddFunc = async (cfg, rspackCfg) => {
                 development: isDev,
                 refresh: isDev,
               },
+              reactCompiler: swcReactCompiler,
             },
           },
         } satisfies SwcLoaderOptions,
