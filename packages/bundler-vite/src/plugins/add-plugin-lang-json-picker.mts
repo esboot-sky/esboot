@@ -25,8 +25,8 @@ export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
   const langJsonPickerPlugin: Plugin = {
     name: 'vite-plugin-lang-json-picker',
     async load(id) {
-      if (langJsonKeys.size === 0) return;
-      if (!id.startsWith(langFolder) && !id.endsWith('.json')) return;
+      if (langJsonKeys.size === 0) return null;
+      if (!id.startsWith(langFolder) || !id.endsWith('.json')) return null;
       const rawContent = await fs.readFile(id, 'utf-8');
 
       if (rawContent) {
