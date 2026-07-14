@@ -16,8 +16,8 @@ describe('Vite addCodeSplitting', () => {
             jsStrategy: CodeSplittingType.granularChunks,
             jsStrategyOptions: {
               frameworkBundles: ['react', 'react-dom'],
-              customSplitting: {
-                echarts: ['echarts', 'zrender'],
+              customGroups: {
+                echarts: ['echarts', /zrender/],
                 paypal: /@paypal/,
                 customFunc: (id: string) => id.includes('my-custom-module'),
               }
@@ -32,7 +32,7 @@ describe('Vite addCodeSplitting', () => {
     const manualChunks = viteCfg.build.rollupOptions.output.manualChunks;
     expect(manualChunks).toBeTypeOf('function');
 
-    // Test customSplitting rules
+    // Test customGroups rules
     expect(manualChunks('node_modules/echarts/index.js')).toBe('echarts');
     expect(manualChunks('node_modules/zrender/index.js')).toBe('echarts');
     expect(manualChunks('node_modules/@paypal/checkout/index.js')).toBe('paypal');
@@ -58,7 +58,7 @@ describe('Vite addCodeSplitting', () => {
           codeSplitting: {
             jsStrategy: CodeSplittingType.bigVendors,
             jsStrategyOptions: {
-              customSplitting: {
+              customGroups: {
                 echarts: ['echarts'],
               }
             }
@@ -72,7 +72,7 @@ describe('Vite addCodeSplitting', () => {
     const manualChunks = viteCfg.build.rollupOptions.output.manualChunks;
     expect(manualChunks).toBeTypeOf('function');
 
-    // Test customSplitting rules first
+    // Test customGroups rules first
     expect(manualChunks('node_modules/echarts/index.js')).toBe('echarts');
 
     // Test fallback all other node_modules to vendors
@@ -91,7 +91,7 @@ describe('Vite addCodeSplitting', () => {
           jsStrategy: CodeSplittingType.granularChunks,
           jsStrategyOptions: {
             frameworkBundles: ['react'],
-            customSplitting: {
+            customGroups: {
               echarts: ['echarts'],
             }
           }
@@ -100,7 +100,7 @@ describe('Vite addCodeSplitting', () => {
           codeSplitting: {
             jsStrategyOptions: {
               frameworkBundles: ['react', 'react-dom'],
-              customSplitting: {
+              customGroups: {
                 zrender: ['zrender'],
               }
             }
@@ -114,7 +114,7 @@ describe('Vite addCodeSplitting', () => {
     const manualChunks = viteCfg.build.rollupOptions.output.manualChunks;
     expect(manualChunks).toBeTypeOf('function');
 
-    // customSplitting from both top-level and bundler-specific should be merged
+    // customGroups from both top-level and bundler-specific should be merged
     expect(manualChunks('node_modules/echarts/index.js')).toBe('echarts');
     expect(manualChunks('node_modules/zrender/index.js')).toBe('zrender');
 

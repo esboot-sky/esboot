@@ -84,9 +84,9 @@ export enum CodeSplittingType {
 
 export interface jsStrategyForGranularChunksOptions {
   frameworkBundles: string[];
-  customSplitting?: Record<
+  customGroups?: Record<
     string,
-    string[] | RegExp | ((id: string) => boolean)
+    (string | RegExp)[] | RegExp | ((id: string) => boolean)
   >;
 }
 

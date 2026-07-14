@@ -73,7 +73,7 @@ describe('bundler code splitting intent helpers', () => {
     });
   });
 
-  it('supports customSplitting cacheGroups for granularChunks and bigVendors', () => {
+  it('supports customGroups cacheGroups for granularChunks and bigVendors', () => {
     const granularChunksFactory = vi.fn().mockReturnValue({
       cacheGroups: {
         framework: {
@@ -82,8 +82,8 @@ describe('bundler code splitting intent helpers', () => {
       },
     });
 
-    const customSplitting = {
-      echarts: ['echarts', 'zrender'],
+    const customGroups = {
+      echarts: ['echarts', /zrender/],
       paypal: /@paypal/,
       customFunc: (id: string) => id.includes('custom'),
     };
@@ -92,7 +92,7 @@ describe('bundler code splitting intent helpers', () => {
       jsStrategy: 'granularChunks',
       jsStrategyOptions: {
         frameworkBundles: ['react'],
-        customSplitting,
+        customGroups,
       },
       granularChunksFactory,
     });
@@ -102,12 +102,12 @@ describe('bundler code splitting intent helpers', () => {
     expect(splitChunks.cacheGroups.paypal).toBeDefined();
     expect(splitChunks.cacheGroups.customFunc).toBeDefined();
 
-    // Verify the test function of customSplitting
+    // Verify the test function of customGroups
     const echartsTest = splitChunks.cacheGroups.echarts.test;
     const paypalTest = splitChunks.cacheGroups.paypal.test;
     const customFuncTest = splitChunks.cacheGroups.customFunc.test;
 
-    // Test package name array matching
+    // Test package name array matching (with string and RegExp)
     const mockEchartsModule = { nameForCondition: () => 'node_modules/echarts/index.js' };
     const mockZrenderModule = { nameForCondition: () => 'node_modules/zrender/index.js' };
     const mockLodashModule = { nameForCondition: () => 'node_modules/lodash/index.js' };

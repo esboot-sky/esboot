@@ -19,7 +19,7 @@ export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
   let manualChunks: Record<string, any> | ((id: string) => string) = {};
 
   if (jsStrategy === CodeSplittingType.granularChunks) {
-    const { frameworkBundles = [], customSplitting } = jsStrategyOptions;
+    const { frameworkBundles = [], customGroups } = jsStrategyOptions;
     const _frameworkBundles = transformFrameworkBundles(
       bundlerOptions as BundlerViteOptions,
       mergeFrameworkBundles(frameworkBundles),
@@ -28,11 +28,15 @@ export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
     manualChunks = (id: string) => {
       const normalizedId = id.replace(/\\/g, '/');
 
-      if (customSplitting) {
-        for (const [chunkName, rule] of Object.entries(customSplitting)) {
+      if (customGroups) {
+        for (const [chunkName, rule] of Object.entries(customGroups)) {
           if (Array.isArray(rule)) {
             for (const pkg of rule) {
-              if (normalizedId.includes(`node_modules/${pkg}/`)) {
+              if (pkg instanceof RegExp) {
+                if (pkg.test(normalizedId)) {
+                  return chunkName;
+                }
+              } else if (normalizedId.includes(`node_modules/${pkg}/`)) {
                 return chunkName;
               }
             }
@@ -58,15 +62,19 @@ export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
     };
   }
   else if (jsStrategy === CodeSplittingType.bigVendors) {
-    const { customSplitting } = jsStrategyOptions;
+    const { customGroups } = jsStrategyOptions;
     manualChunks = (id: string) => {
       const normalizedId = id.replace(/\\/g, '/');
 
-      if (customSplitting) {
-        for (const [chunkName, rule] of Object.entries(customSplitting)) {
+      if (customGroups) {
+        for (const [chunkName, rule] of Object.entries(customGroups)) {
           if (Array.isArray(rule)) {
             for (const pkg of rule) {
-              if (normalizedId.includes(`node_modules/${pkg}/`)) {
+              if (pkg instanceof RegExp) {
+                if (pkg.test(normalizedId)) {
+                  return chunkName;
+                }
+              } else if (normalizedId.includes(`node_modules/${pkg}/`)) {
                 return chunkName;
               }
             }

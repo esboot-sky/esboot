@@ -14,8 +14,8 @@ describe('Rspack addCodeSplitting', () => {
             jsStrategy: CodeSplittingType.granularChunks,
             jsStrategyOptions: {
               frameworkBundles: ['react'],
-              customSplitting: {
-                echarts: ['echarts'],
+              customGroups: {
+                echarts: ['echarts', /zrender/],
               },
             },
           },
@@ -30,11 +30,13 @@ describe('Rspack addCodeSplitting', () => {
     expect(splitChunks.cacheGroups).toBeDefined();
     expect(splitChunks.cacheGroups.echarts).toBeDefined();
 
-    // Verify Custom Cache Group test method behaves correctly
+    // Verify Custom Cache Group test method behaves correctly (both string and RegExp items)
     const echartsTest = splitChunks.cacheGroups.echarts.test;
     const mockEchartsModule = { nameForCondition: () => 'node_modules/echarts/index.js' };
+    const mockZrenderModule = { nameForCondition: () => 'node_modules/zrender/index.js' };
     const mockLodashModule = { nameForCondition: () => 'node_modules/lodash/index.js' };
     expect(echartsTest(mockEchartsModule)).toBe(true);
+    expect(echartsTest(mockZrenderModule)).toBe(true);
     expect(echartsTest(mockLodashModule)).toBe(false);
   });
 
@@ -48,7 +50,7 @@ describe('Rspack addCodeSplitting', () => {
           jsStrategy: CodeSplittingType.granularChunks,
           jsStrategyOptions: {
             frameworkBundles: ['react'],
-            customSplitting: {
+            customGroups: {
               echarts: ['echarts'],
             },
           },
@@ -57,7 +59,7 @@ describe('Rspack addCodeSplitting', () => {
           codeSplitting: {
             jsStrategyOptions: {
               frameworkBundles: ['react', 'react-dom'],
-              customSplitting: {
+              customGroups: {
                 zrender: ['zrender'],
               },
             },
@@ -75,8 +77,8 @@ describe('Rspack addCodeSplitting', () => {
     expect(splitChunks.cacheGroups.zrender).toBeDefined();
 
     // Verify Custom Cache Group test method behaves correctly
-    const echartsTest = splitChunks.cacheGroups.echarts.test;
-    const zrenderTest = splitChunks.cacheGroups.zrender.test;
+    const echartsTest = rspackCfg.optimization.splitChunks.cacheGroups.echarts.test;
+    const zrenderTest = rspackCfg.optimization.splitChunks.cacheGroups.zrender.test;
     const mockEchartsModule = { nameForCondition: () => 'node_modules/echarts/index.js' };
     const mockZrenderModule = { nameForCondition: () => 'node_modules/zrender/index.js' };
     const mockLodashModule = { nameForCondition: () => 'node_modules/lodash/index.js' };

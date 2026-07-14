@@ -84,12 +84,12 @@ export function createSplitChunksIntent<TOptions extends Record<string, any>>(
       break;
   }
 
-  const { customSplitting } = jsStrategyOptions;
-  if (customSplitting) {
+  const { customGroups } = jsStrategyOptions;
+  if (customGroups) {
     if (!intent.cacheGroups) {
       intent.cacheGroups = {} as any;
     }
-    for (const [chunkName, rule] of Object.entries(customSplitting)) {
+    for (const [chunkName, rule] of Object.entries(customGroups)) {
       intent.cacheGroups[chunkName] = {
         name: chunkName,
         test(module: any) {
@@ -98,7 +98,12 @@ export function createSplitChunksIntent<TOptions extends Record<string, any>>(
           const normalizedResource = resource.replace(/\\/g, '/');
 
           if (Array.isArray(rule)) {
-            return rule.some((pkg) => normalizedResource.includes(`node_modules/${pkg}/`));
+            return rule.some((item) => {
+              if (item instanceof RegExp) {
+                return item.test(normalizedResource);
+              }
+              return normalizedResource.includes(`node_modules/${item}/`);
+            });
           }
           if (rule instanceof RegExp) {
             return rule.test(normalizedResource);
