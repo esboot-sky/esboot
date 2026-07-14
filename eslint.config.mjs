@@ -11,4 +11,9 @@ export default antfu({
     trailingComma: 'all',
     arrowParens: 'always',
   },
+}, {
+  rules: {
+    'antfu/if-newline': 'off',
+    'style/if-newline': 'off',
+  },
 });

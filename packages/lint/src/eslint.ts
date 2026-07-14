@@ -153,7 +153,7 @@ function buildReactConfig(customReact?: Partial<FlatConfigItem>): AntfuConfigIte
     languageOptions: {
       parserOptions: {
         // Enable type-aware services without requiring every consumer to wire parserOptions.project manually.
-        projectService: true,
+        // projectService: true,
       },
     },
     plugins: {
@@ -206,6 +206,8 @@ function buildSettingsConfig(customSettings?: Record<string, unknown>): AntfuCon
 function buildGlobalRulesConfig(customGlobalRules?: Record<string, unknown>): AntfuConfigItem {
   const defaultRules: Record<string, unknown> = {
     'no-console': 'off',
+    'antfu/if-newline': 'off',
+    'style/if-newline': 'off',
   };
 
   return {

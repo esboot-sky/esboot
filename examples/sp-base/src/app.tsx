@@ -6,4 +6,10 @@ function App() {
   );
 }
 
+function test(a: string) {
+  if (a === '123') return '123';
+}
+
+test('123');
+
 export default App;
