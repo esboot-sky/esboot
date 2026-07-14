@@ -54,6 +54,10 @@ export const addLangJsonPicker: AddFunc = async (cfg, viteCfg) => {
       }
 
       if (cleanId.endsWith('.json') && importer) {
+        if (!cleanId.includes('lang') && !importer.replace(BACKSLASH_REGEX, '/').includes('/lang/')) {
+          return null;
+        }
+
         const resolved = await this.resolve(id, importer, { skipSelf: true });
         if (resolved) {
           const resolvedPath = resolved.id.replace(BACKSLASH_REGEX, '/');

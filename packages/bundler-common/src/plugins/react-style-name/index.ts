@@ -31,6 +31,9 @@ export function transformStyleName(
   if (!id.endsWith('.tsx'))
     return null;
 
+  if (!source.includes('styleName'))
+    return null;
+
   const { reactVariableName = 'React' } = options;
   const { imports } = findStyleImports(source);
 

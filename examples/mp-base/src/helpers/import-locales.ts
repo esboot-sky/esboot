@@ -1,10 +1,6 @@
 import type { Language } from '@/constants/config';
-import { flattenLangObject } from '@dz-web/esboot-browser';
 import { supportedLanguage } from '@/constants/config';
-import ZHCN from '@/lang/zh-CN.json';
-
-console.log(ZHCN, 'lang ZHCN')
-
+import { flattenLangObject } from '@dz-web/esboot-browser';
 export type i18nMessageDict = Record<Language, Record<string, string> | null>;
 
 const defaultI18nCache: i18nMessageDict = {
