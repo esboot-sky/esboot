@@ -11,6 +11,10 @@ export enum CodeSplittingType {
 
 export interface jsStrategyForGranularChunksOptions {
   frameworkBundles?: string[];
+  customSplitting?: Record<
+    string,
+    string[] | RegExp | ((id: string) => boolean)
+  >;
 }
 
 export type CustomConfig = (

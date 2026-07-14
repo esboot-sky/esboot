@@ -17,7 +17,8 @@ interface SplitChunksIntent {
   name?: string;
   minChunks?: number;
   cacheGroups: {
-    vendors: VendorsCacheGroup;
+    vendors?: VendorsCacheGroup;
+    [key: string]: any;
   };
   [key: string]: any;
 }
@@ -69,13 +70,50 @@ export function createSplitChunksIntent<TOptions extends Record<string, any>>(
   options: CreateSplitChunksIntentOptions<TOptions>,
 ): SplitChunksIntent {
   const { jsStrategy, jsStrategyOptions, granularChunksFactory } = options;
+  let intent: SplitChunksIntent;
 
   switch (jsStrategy) {
     case 'granularChunks':
-      return granularChunksFactory(jsStrategyOptions);
+      intent = granularChunksFactory(jsStrategyOptions);
+      break;
     case 'depPerChunk':
-      return createDepPerChunkIntent();
+      intent = createDepPerChunkIntent();
+      break;
     default:
-      return createBigVendorsIntent(jsStrategyOptions);
+      intent = createBigVendorsIntent(jsStrategyOptions);
+      break;
   }
+
+  const { customSplitting } = jsStrategyOptions;
+  if (customSplitting) {
+    if (!intent.cacheGroups) {
+      intent.cacheGroups = {} as any;
+    }
+    for (const [chunkName, rule] of Object.entries(customSplitting)) {
+      intent.cacheGroups[chunkName] = {
+        name: chunkName,
+        test(module: any) {
+          const resource = module.nameForCondition?.();
+          if (!resource) return false;
+          const normalizedResource = resource.replace(/\\/g, '/');
+
+          if (Array.isArray(rule)) {
+            return rule.some((pkg) => normalizedResource.includes(`node_modules/${pkg}/`));
+          }
+          if (rule instanceof RegExp) {
+            return rule.test(normalizedResource);
+          }
+          if (typeof rule === 'function') {
+            return rule(resource);
+          }
+          return false;
+        },
+        chunks: 'all',
+        priority: 50,
+        enforce: true,
+      };
+    }
+  }
+
+  return intent;
 }
