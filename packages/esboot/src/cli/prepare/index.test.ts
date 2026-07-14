@@ -22,6 +22,10 @@ vi.mock('@/plugin', () => ({
   pluginHooksDict: { hooks: true },
 }));
 
+vi.mock('./check-pnpm', () => ({
+  checkPnpmVersion: vi.fn(),
+}));
+
 vi.mock('./generate-typescript-cfg', () => ({
   generateTypeScriptCfg: () => {
     calls.push('tsconfig');
