@@ -83,7 +83,11 @@ describe('bundler code splitting intent helpers', () => {
     });
 
     const customGroups = {
-      echarts: ['echarts', /zrender/],
+      echarts: {
+        match: ['echarts', /zrender/],
+        priority: 70,
+        enforce: false,
+      },
       paypal: /@paypal/,
       customFunc: (id: string) => id.includes('custom'),
     };
@@ -99,7 +103,10 @@ describe('bundler code splitting intent helpers', () => {
 
     // Check custom cache groups exist
     expect(splitChunks.cacheGroups.echarts).toBeDefined();
+    expect(splitChunks.cacheGroups.echarts.priority).toBe(70);
+    expect(splitChunks.cacheGroups.echarts.enforce).toBe(false);
     expect(splitChunks.cacheGroups.paypal).toBeDefined();
+    expect(splitChunks.cacheGroups.paypal.priority).toBe(50); // default fallback
     expect(splitChunks.cacheGroups.customFunc).toBeDefined();
 
     // Verify the test function of customGroups

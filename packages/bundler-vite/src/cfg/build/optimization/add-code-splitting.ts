@@ -30,8 +30,18 @@ export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
 
       if (customGroups) {
         for (const [chunkName, rule] of Object.entries(customGroups)) {
-          if (Array.isArray(rule)) {
-            for (const pkg of rule) {
+          let matchRule = rule;
+          if (
+            rule &&
+            typeof rule === 'object' &&
+            !Array.isArray(rule) &&
+            !(rule instanceof RegExp)
+          ) {
+            matchRule = (rule as any).match;
+          }
+
+          if (Array.isArray(matchRule)) {
+            for (const pkg of matchRule) {
               if (pkg instanceof RegExp) {
                 if (pkg.test(normalizedId)) {
                   return chunkName;
@@ -40,12 +50,12 @@ export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
                 return chunkName;
               }
             }
-          } else if (rule instanceof RegExp) {
-            if (rule.test(normalizedId)) {
+          } else if (matchRule instanceof RegExp) {
+            if (matchRule.test(normalizedId)) {
               return chunkName;
             }
-          } else if (typeof rule === 'function') {
-            if (rule(id)) {
+          } else if (typeof matchRule === 'function') {
+            if (matchRule(id)) {
               return chunkName;
             }
           }
@@ -68,8 +78,18 @@ export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
 
       if (customGroups) {
         for (const [chunkName, rule] of Object.entries(customGroups)) {
-          if (Array.isArray(rule)) {
-            for (const pkg of rule) {
+          let matchRule = rule;
+          if (
+            rule &&
+            typeof rule === 'object' &&
+            !Array.isArray(rule) &&
+            !(rule instanceof RegExp)
+          ) {
+            matchRule = (rule as any).match;
+          }
+
+          if (Array.isArray(matchRule)) {
+            for (const pkg of matchRule) {
               if (pkg instanceof RegExp) {
                 if (pkg.test(normalizedId)) {
                   return chunkName;
@@ -78,12 +98,12 @@ export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
                 return chunkName;
               }
             }
-          } else if (rule instanceof RegExp) {
-            if (rule.test(normalizedId)) {
+          } else if (matchRule instanceof RegExp) {
+            if (matchRule.test(normalizedId)) {
               return chunkName;
             }
-          } else if (typeof rule === 'function') {
-            if (rule(id)) {
+          } else if (typeof matchRule === 'function') {
+            if (matchRule(id)) {
               return chunkName;
             }
           }

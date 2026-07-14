@@ -17,7 +17,11 @@ describe('Vite addCodeSplitting', () => {
             jsStrategyOptions: {
               frameworkBundles: ['react', 'react-dom'],
               customGroups: {
-                echarts: ['echarts', /zrender/],
+                echarts: {
+                  match: ['echarts', /zrender/],
+                  priority: 80,
+                  enforce: true,
+                },
                 paypal: /@paypal/,
                 customFunc: (id: string) => id.includes('my-custom-module'),
               }

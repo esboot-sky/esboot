@@ -90,6 +90,20 @@ export function createSplitChunksIntent<TOptions extends Record<string, any>>(
       intent.cacheGroups = {} as any;
     }
     for (const [chunkName, rule] of Object.entries(customGroups)) {
+      let matchRule = rule;
+      let extraOptions: Record<string, any> = {};
+
+      if (
+        rule &&
+        typeof rule === 'object' &&
+        !Array.isArray(rule) &&
+        !(rule instanceof RegExp)
+      ) {
+        const { match, ...rest } = rule as any;
+        matchRule = match;
+        extraOptions = rest;
+      }
+
       intent.cacheGroups[chunkName] = {
         name: chunkName,
         test(module: any) {
@@ -97,25 +111,26 @@ export function createSplitChunksIntent<TOptions extends Record<string, any>>(
           if (!resource) return false;
           const normalizedResource = resource.replace(/\\/g, '/');
 
-          if (Array.isArray(rule)) {
-            return rule.some((item) => {
+          if (Array.isArray(matchRule)) {
+            return matchRule.some((item) => {
               if (item instanceof RegExp) {
                 return item.test(normalizedResource);
               }
               return normalizedResource.includes(`node_modules/${item}/`);
             });
           }
-          if (rule instanceof RegExp) {
-            return rule.test(normalizedResource);
+          if (matchRule instanceof RegExp) {
+            return matchRule.test(normalizedResource);
           }
-          if (typeof rule === 'function') {
-            return rule(resource);
+          if (typeof matchRule === 'function') {
+            return matchRule(resource);
           }
           return false;
         },
         chunks: 'all',
         priority: 50,
         enforce: true,
+        ...extraOptions,
       };
     }
   }

@@ -21,6 +21,7 @@ export type {
   ReactCompiler,
   CodeSplitting,
   jsStrategyForGranularChunksOptions,
+  CustomGroupConfig,
 } from '@dz-web/esboot-common/cfg';
 export { CodeSplittingType } from '@dz-web/esboot-common/cfg';
 

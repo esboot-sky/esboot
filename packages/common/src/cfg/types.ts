@@ -82,11 +82,19 @@ export enum CodeSplittingType {
   granularChunks = 'granularChunks',
 }
 
+export interface CustomGroupConfig {
+  match: (string | RegExp)[] | RegExp | ((id: string) => boolean);
+  priority?: number;
+  enforce?: boolean;
+  chunks?: 'all' | 'async' | 'initial';
+  [key: string]: any;
+}
+
 export interface jsStrategyForGranularChunksOptions {
   frameworkBundles: string[];
   customGroups?: Record<
     string,
-    (string | RegExp)[] | RegExp | ((id: string) => boolean)
+    (string | RegExp)[] | RegExp | ((id: string) => boolean) | CustomGroupConfig
   >;
 }
 

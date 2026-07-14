@@ -15,7 +15,11 @@ describe('Webpack addCodeSplitting', () => {
             jsStrategyOptions: {
               frameworkBundles: ['react'],
               customGroups: {
-                echarts: ['echarts', /zrender/],
+                echarts: {
+                  match: ['echarts', /zrender/],
+                  priority: 80,
+                  enforce: true,
+                },
               },
             },
           },
@@ -29,6 +33,8 @@ describe('Webpack addCodeSplitting', () => {
     expect(splitChunks).toBeDefined();
     expect(splitChunks.cacheGroups).toBeDefined();
     expect(splitChunks.cacheGroups.echarts).toBeDefined();
+    expect(splitChunks.cacheGroups.echarts.priority).toBe(80);
+    expect(splitChunks.cacheGroups.echarts.enforce).toBe(true);
 
     // Verify Custom Cache Group test method behaves correctly (both string and RegExp items)
     const echartsTest = splitChunks.cacheGroups.echarts.test;
