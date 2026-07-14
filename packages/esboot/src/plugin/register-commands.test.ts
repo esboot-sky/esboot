@@ -6,6 +6,7 @@ const argument = vi.fn().mockReturnThis();
 const description = vi.fn().mockReturnThis();
 const allowUnknownOption = vi.fn().mockReturnThis();
 const passThroughOptions = vi.fn().mockReturnThis();
+const helpOption = vi.fn().mockReturnThis();
 const actionMethod = vi.fn().mockReturnThis();
 const command = vi.fn(() => ({
   option,
@@ -13,6 +14,7 @@ const command = vi.fn(() => ({
   description,
   allowUnknownOption,
   passThroughOptions,
+  helpOption,
   action: actionMethod,
 }));
 
@@ -40,6 +42,7 @@ describe('registerCommands', () => {
         options: ['-p, --port <port>'],
         allowUnknownOption: true,
         passThroughOptions: true,
+        helpOption: false,
         action,
       },
     ]);
@@ -47,6 +50,7 @@ describe('registerCommands', () => {
     expect(command).toHaveBeenCalledWith('docs');
     expect(allowUnknownOption).toHaveBeenCalledWith(true);
     expect(passThroughOptions).toHaveBeenCalledWith(true);
+    expect(helpOption).toHaveBeenCalledWith(false);
     expect(argument).toHaveBeenCalledWith('[subCommand]', 'the sub command', 'dev');
     expect(option).toHaveBeenCalledWith('-p, --port <port>');
     expect(description).toHaveBeenCalledWith('Start docs');

@@ -22,7 +22,7 @@ function resolveLibPath(p: string): string {
 export default (options: PluginVitestOptions = {}): Plugin => {
   const plugin: Plugin = {
     name: 'plugin-vitest',
-    [PluginHooks.registerCommands]: (cfg) => {
+    [PluginHooks.registerCommands]: (cfg: any) => {
       const { cwd } = cfg;
 
       return [
@@ -32,12 +32,20 @@ export default (options: PluginVitestOptions = {}): Plugin => {
           arguments: [{ name: '[subCommand]', description: 'the sub command' }],
           options: ['-p, --passThrough <passThrough>'],
           allowUnknownOption: true,
-          action: async (_, options) => {
+          helpOption: false,
+          action: async (_: any, options: any, cmd: any) => {
             const { passThrough = '' } = options;
+            const extraArgs = cmd?.args || [];
+            const passThroughParts = [
+              passThrough,
+              ...extraArgs,
+            ].filter(Boolean);
+            const passThroughStr = passThroughParts.join(' ');
+
             await exec(
-              `${searchCommand(join(__dirname, '../'), 'vitest')} ${passThrough} -r ${cwd} -c ${resolve(__dirname, '../config/vitest.config.ts')}`,
+              `${searchCommand(join(__dirname, '../'), 'vitest')} ${passThroughStr} -r ${cwd} -c ${resolve(__dirname, '../config/vitest.config.ts')}`,
               {
-                onError: (error) => {
+                onError: (error: any) => {
                   const exitCode = error?.exitCode || 1;
                   console.error(`Vitest run failed with exit code ${exitCode}`);
                   process.exit(error?.exitCode || 1);

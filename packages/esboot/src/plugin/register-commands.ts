@@ -10,6 +10,7 @@ export function registerCommands(commands: Command[]): void {
       options,
       allowUnknownOption,
       passThroughOptions,
+      helpOption,
       action,
     } = command;
 
@@ -20,6 +21,12 @@ export function registerCommands(commands: Command[]): void {
 
     if (passThroughOptions)
       cmd.passThroughOptions(true);
+
+    if (helpOption === false) {
+      cmd.helpOption(false);
+    } else if (typeof helpOption === 'string') {
+      cmd.helpOption(helpOption);
+    }
 
     if (Array.isArray(args)) {
       for (const argument of args) {

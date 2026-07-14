@@ -82,6 +82,21 @@ describe('is a plugin', () => {
     );
   });
 
+  it('registers a vitest command that forwards passThrough and extraArgs together', async () => {
+    const plugin = pluginVitest();
+    const [command] = plugin.registerCommands!({ cwd: '/repo/app' } as any);
+
+    await command.action?.('', { passThrough: '--runInBand' }, { args: ['-h', '--ui'] } as any);
+
+    expect(searchCommand).toHaveBeenCalled();
+    expect(exec).toHaveBeenCalledWith(
+      expect.stringContaining('/resolved/vitest --runInBand -h --ui -r /repo/app -c '),
+      expect.objectContaining({
+        onError: expect.any(Function),
+      }),
+    );
+  });
+
   it('stores plugin options on the plugin instance for the config loader', () => {
     const customConfig = vi.fn();
     const plugin = pluginVitest({ customConfig });

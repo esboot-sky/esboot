@@ -12,6 +12,7 @@ export interface Command {
   description?: string;
   allowUnknownOption?: boolean;
   passThroughOptions?: boolean;
+  helpOption?: boolean | string;
   options?: string[];
   action: (...args: any[]) => void;
 }
