@@ -138,6 +138,17 @@ export default defineConfig((cfg) => {
     expect(entryContent).toContain('import \'@/styles/index.scss\';');
     expect(entryContent).not.toContain('import \'@/styles/main.scss\';');
 
+    // 8.5. Assert platform helper placeholder creation
+    const platformHelperPath = join(testDir, 'src/platforms/pc/helpers/multi-platforms.ts');
+    expect(fs.existsSync(platformHelperPath)).toBe(true);
+    const platformHelperContent = fs.readFileSync(platformHelperPath, 'utf-8');
+    expect(platformHelperContent).toContain('Placeholder module for shared pc exports');
+
+    // 8.6. Assert missing translation JSON files creation
+    expect(fs.existsSync(join(testDir, 'src/lang/en-US.json'))).toBe(true);
+    expect(fs.existsSync(join(testDir, 'src/platforms/pc/lang/en-US.json'))).toBe(true);
+    expect(fs.existsSync(join(testDir, 'src/platforms/pc/_browser/lang/en-US.json'))).toBe(true);
+
     // 9. Assert .esbootrc.ts AST modifications
     const esbootrcContent = fs.readFileSync(join(testDir, '.esbootrc.ts'), 'utf-8');
     expect(esbootrcContent).toContain('port: 14200'); // Converted to number

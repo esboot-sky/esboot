@@ -459,6 +459,77 @@ export async function upgradeV4(options: UpgradeOptions) {
     addSummaryItem('removed src/styles/_normalize.scss');
   }
 
+  // 4.5. Check and create platform-specific helper placeholder files for MP projects
+  const platformsDir = join(cwd, 'src/platforms');
+  if (fs.existsSync(platformsDir)) {
+    console.log(kleur.blue('Checking and creating platform helper placeholder files for MP projects...'));
+    const platforms = fs.readdirSync(platformsDir);
+    for (const platformName of platforms) {
+      const platformPath = join(platformsDir, platformName);
+      if (fs.statSync(platformPath).isDirectory()) {
+        if (platformName.startsWith('.') || platformName.startsWith('_')) {
+          continue;
+        }
+
+        const platformHelpersDir = join(platformPath, 'helpers');
+        const multiPlatformFile = join(platformHelpersDir, 'multi-platforms.ts');
+        if (!fs.existsSync(multiPlatformFile)) {
+          fs.ensureDirSync(platformHelpersDir);
+          fs.writeFileSync(
+            multiPlatformFile,
+            `// Placeholder module for shared ${platformName} exports.\n// Native-specific implementations are re-exported from \`@${platformName}-native/helpers/multi-platforms\`.\n`,
+            'utf-8',
+          );
+          console.log(kleur.yellow(`Created placeholder helper for platform '${platformName}': src/platforms/${platformName}/helpers/multi-platforms.ts`));
+          addSummaryItem(`created missing platform helper placeholder for ${platformName}`);
+        }
+      }
+    }
+  }
+
+  // 4.6. Fill in missing lang/locales files (zh-CN.json, zh-TW.json, en-US.json) in existing platforms/pageTypes directories
+  const i18nLanguages = ['zh-CN', 'zh-TW', 'en-US'];
+  const isLocales = fs.existsSync(join(cwd, 'src/locales'));
+  const langFolderName = isLocales ? 'locales' : 'lang';
+
+  const ensureLangFiles = (dir: string) => {
+    fs.ensureDirSync(dir);
+    for (const lang of i18nLanguages) {
+      const file = join(dir, `${lang}.json`);
+      if (!fs.existsSync(file)) {
+        fs.writeJsonSync(file, {}, { spaces: 2 });
+        console.log(kleur.yellow(`Created missing translation file: ${relative(cwd, file)}`));
+        addSummaryItem(`created missing translation file ${lang}.json in ${relative(cwd, dir)}`);
+      }
+    }
+  };
+
+  ensureLangFiles(join(cwd, 'src', langFolderName));
+
+  if (fs.existsSync(platformsDir)) {
+    const platforms = fs.readdirSync(platformsDir);
+    for (const platformName of platforms) {
+      const platformPath = join(platformsDir, platformName);
+      if (fs.statSync(platformPath).isDirectory()) {
+        if (platformName.startsWith('.') || platformName.startsWith('_')) {
+          continue;
+        }
+
+        ensureLangFiles(join(platformPath, langFolderName));
+
+        const platformSubdirs = fs.readdirSync(platformPath);
+        for (const subDir of platformSubdirs) {
+          if (subDir.startsWith('_')) {
+            const pageTypePath = join(platformPath, subDir);
+            if (fs.statSync(pageTypePath).isDirectory()) {
+              ensureLangFiles(join(pageTypePath, langFolderName));
+            }
+          }
+        }
+      }
+    }
+  }
+
   // 5. .esbootrc.ts AST Transformation
   const esbootrcPath = join(cwd, '.esbootrc.ts');
   if (fs.existsSync(esbootrcPath)) {
