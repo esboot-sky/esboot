@@ -2,7 +2,13 @@ import type { Plugin } from '@dz-web/esboot-common/plugin';
 import { PluginHooks } from '@dz-web/esboot-common/plugin';
 import { prepareTailwind3, tailwind3Config } from './prepare';
 
-export default function pluginTailwind3(): Plugin {
+export interface PluginTailwind3Options {
+  tailwindcssOptions?: Record<string, any> | ((config: any) => Record<string, any>);
+}
+
+export default function pluginTailwind3(
+  options?: PluginTailwind3Options | ((config: any) => Record<string, any>),
+): Plugin {
   return {
     name: 'plugin-tailwind3',
     enforce: 'pre',
@@ -15,8 +21,9 @@ export default function pluginTailwind3(): Plugin {
         },
       },
     }) as any,
-    [PluginHooks.prepare]: prepareTailwind3,
+    [PluginHooks.prepare]: (cfg) => prepareTailwind3(cfg, options),
   };
 }
 
 export { tailwind3Config };
+

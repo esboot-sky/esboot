@@ -8,6 +8,10 @@ export async function importModuleFromPackage<T = any>(
   cwd: string,
 ): Promise<T> {
   const require = createRequire(resolve(cwd, 'package.json'));
+  if (moduleName === packageName) {
+    const modulePath = require.resolve(moduleName);
+    return import(pathToFileURL(modulePath).href) as Promise<T>;
+  }
   const packageJsonPath = require.resolve(`${packageName}/package.json`);
   const packageRequire = createRequire(packageJsonPath);
   const modulePath = packageRequire.resolve(moduleName);

@@ -609,14 +609,27 @@ export async function upgradeV4(options: UpgradeOptions) {
         });
       }
 
-      const pluginsPa = propertyAssignments.find(pa => pa.getName() === 'plugins');
+      let initializerText = 'pluginTailwind3()';
+      const tailwindcssOptionsPa = propertyAssignments.find(pa => pa.getName() === 'tailwindcssOptions');
+      if (tailwindcssOptionsPa) {
+        const optionsText = tailwindcssOptionsPa.getInitializer()?.getText();
+        if (optionsText) {
+          initializerText = `pluginTailwind3({
+      tailwindcssOptions: ${optionsText}
+    })`;
+        }
+        tailwindcssOptionsPa.remove();
+        console.log(kleur.yellow('Migrated tailwindcssOptions to pluginTailwind3 parameters.'));
+      }
+
+      const pluginsPa = sourceFile.getDescendantsOfKind(SyntaxKind.PropertyAssignment).find(pa => pa.getName() === 'plugins');
       if (pluginsPa) {
         const init = pluginsPa.getInitializer();
         if (init && init.getKind() === SyntaxKind.ArrayLiteralExpression) {
           const arr = init.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
           const hasPlugin = arr.getElements().some(el => el.getText().includes('pluginTailwind3'));
           if (!hasPlugin) {
-            arr.addElement('pluginTailwind3()');
+            arr.addElement(initializerText);
             console.log(kleur.yellow('Registered pluginTailwind3() to esbootrc plugins.'));
           }
         }
@@ -626,7 +639,7 @@ export async function upgradeV4(options: UpgradeOptions) {
         if (mainConfig) {
           mainConfig.addPropertyAssignment({
             name: 'plugins',
-            initializer: '[pluginTailwind3()]',
+            initializer: `[${initializerText}]`,
           });
           console.log(kleur.yellow('Created plugins property list with pluginTailwind3() in esbootrc.'));
         }

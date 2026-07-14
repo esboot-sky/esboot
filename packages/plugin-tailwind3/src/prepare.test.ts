@@ -70,4 +70,70 @@ describe('plugin-tailwind3 prepare', () => {
 
     onceSpy.mockRestore();
   });
+
+  it('supports custom tailwindcssOptions object and callback', async () => {
+    let exitListener: (() => void) | undefined;
+    const onceSpy = vi.spyOn(process, 'once').mockImplementation(((
+      event: string,
+      listener: () => void,
+    ) => {
+      if (event === 'exit') {
+        exitListener = listener;
+      }
+      return process;
+    }) as typeof process.once);
+
+    const { default: pluginTailwind3 } = await import('./index');
+    
+    // 1. Test with callback options
+    const customConfigFn = vi.fn((config) => ({
+      ...config,
+      theme: {
+        extend: {
+          colors: { primary: '#2E79F8' }
+        }
+      }
+    }));
+    const plugin = pluginTailwind3({
+      tailwindcssOptions: customConfigFn
+    });
+    
+    plugin.prepare?.({
+      cwd: '/repo/app',
+    } as any);
+
+    exitListener?.();
+
+    expect(writeFileSync).toHaveBeenCalledWith(
+      '/repo/app/node_modules/.cache/esboot/tailwindcss.config.js',
+      expect.stringContaining('"primary": "#2E79F8"'),
+    );
+    expect(customConfigFn).toHaveBeenCalled();
+
+    // Reset mock
+    writeFileSync.mockClear();
+
+    // 2. Test with object options
+    const pluginObj = pluginTailwind3({
+      tailwindcssOptions: {
+        theme: {
+          extend: {
+            colors: { secondary: '#ff0000' }
+          }
+        }
+      }
+    });
+    pluginObj.prepare?.({
+      cwd: '/repo/app',
+    } as any);
+    exitListener?.();
+
+    expect(writeFileSync).toHaveBeenCalledWith(
+      '/repo/app/node_modules/.cache/esboot/tailwindcss.config.js',
+      expect.stringContaining('"secondary": "#ff0000"'),
+    );
+
+    onceSpy.mockRestore();
+  });
 });
+

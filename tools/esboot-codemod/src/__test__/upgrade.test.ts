@@ -69,6 +69,7 @@ export default defineConfig((cfg) => {
       port: '14200',
       http2: false,
     },
+    tailwindcssOptions: (c) => ({ ...c, content: [] }),
     experimental: {
       someOtherProp: true,
     },
@@ -142,7 +143,9 @@ export default defineConfig((cfg) => {
     expect(esbootrcContent).toContain('port: 14200'); // Converted to number
     expect(esbootrcContent).not.toContain('port: \'14200\'');
     expect(esbootrcContent).toContain('import pluginTailwind3 from "@dz-web/esboot-plugin-tailwind3";');
-    expect(esbootrcContent).toContain('pluginTailwind3()');
+    expect(esbootrcContent).toContain('pluginTailwind3({');
+    expect(esbootrcContent).toContain('tailwindcssOptions: (c) => ({ ...c, content: [] })');
+    expect(esbootrcContent).not.toContain('tailwindcssOptions: (c) => ({ ...c, content: [] }),');
     expect(esbootrcContent).toMatch(/import type \{ BabelPlugin \} from ['"]@dz-web\/esboot['"];/);
     expect(esbootrcContent).toMatch(/import type \{ BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
     expect(esbootrcContent).not.toMatch(/import type \{ BabelPlugin,\s*BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);

@@ -6,6 +6,8 @@ import { cacheDir } from '@dz-web/esboot-common/constants';
 import { error, info } from '@dz-web/esboot-common/helpers';
 import { merge } from '@dz-web/esboot-common/lodash';
 
+import type { PluginTailwind3Options } from './index';
+
 export const tailwind3Config = {
   darkMode: ['selector', '.dz-theme-dark'],
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -15,15 +17,32 @@ export const tailwind3Config = {
   plugins: [],
 };
 
-function writeTailwind3Artifacts(): void {
+function writeTailwind3Artifacts(
+  options?: PluginTailwind3Options | ((config: any) => Record<string, any>),
+): void {
   const tailwind3ConfigPath = join(cacheDir, 'tailwindcss.config.js');
 
   mkdirSync(cacheDir, { recursive: true });
 
+  let finalConfig: Record<string, any> = { ...tailwind3Config };
+
+  if (options) {
+    if (typeof options === 'function') {
+      finalConfig = options(finalConfig);
+    } else if (typeof options === 'object') {
+      const tailwindcssOptions = options.tailwindcssOptions;
+      if (typeof tailwindcssOptions === 'function') {
+        finalConfig = tailwindcssOptions(finalConfig);
+      } else if (typeof tailwindcssOptions === 'object' && tailwindcssOptions !== null) {
+        finalConfig = merge({}, finalConfig, tailwindcssOptions);
+      }
+    }
+  }
+
   try {
     writeFileSync(
       tailwind3ConfigPath,
-      `module.exports = ${JSON.stringify(tailwind3Config, null, 2)};\n`,
+      `module.exports = ${JSON.stringify(finalConfig, null, 2)};\n`,
     );
     info(`Created Tailwind CSS Config: ${tailwind3ConfigPath}.`);
   }
@@ -65,9 +84,12 @@ function updateTailwind3VSCodeSetting(cfg: Configuration): void {
   }
 }
 
-export function prepareTailwind3(cfg: Configuration): void {
+export function prepareTailwind3(
+  cfg: Configuration,
+  options?: PluginTailwind3Options | ((config: any) => Record<string, any>),
+): void {
   process.once('exit', () => {
-    writeTailwind3Artifacts();
+    writeTailwind3Artifacts(options);
     updateTailwind3VSCodeSetting(cfg);
   });
 }
