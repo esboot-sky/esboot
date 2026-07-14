@@ -2,18 +2,13 @@ import type { Configuration as ESBootConfiguration } from '@dz-web/esboot';
 import type { ViteFrameworkProvider } from '@dz-web/esboot-bundler-common';
 import type { InlineConfig } from 'vite';
 
-export enum CodeSplittingType {
-  bigVendors = 'bigVendors',
-  granularChunks = 'granularChunks',
-}
+import {
+  CodeSplittingType,
+  type jsStrategyForGranularChunksOptions,
+  type CodeSplitting,
+} from '@dz-web/esboot-common/cfg';
 
-export interface jsStrategyForGranularChunksOptions {
-  frameworkBundles: string[];
-  customSplitting?: Record<
-    string,
-    string[] | RegExp | ((id: string) => boolean)
-  >;
-}
+export { CodeSplittingType, type jsStrategyForGranularChunksOptions, type CodeSplitting };
 
 export interface SharedConfig {
   pages: Record<

@@ -78,4 +78,48 @@ describe('Vite addCodeSplitting', () => {
     // Test fallback all other node_modules to vendors
     expect(manualChunks('node_modules/lodash/index.js')).toBe('vendors');
   });
+
+  it('should support top-level codeSplitting merged with bundlerOptions', async () => {
+    const viteCfg: any = {
+      build: {
+        rollupOptions: {}
+      }
+    };
+    const cfg: any = {
+      config: {
+        codeSplitting: {
+          jsStrategy: CodeSplittingType.granularChunks,
+          jsStrategyOptions: {
+            frameworkBundles: ['react'],
+            customSplitting: {
+              echarts: ['echarts'],
+            }
+          }
+        },
+        bundlerOptions: {
+          codeSplitting: {
+            jsStrategyOptions: {
+              frameworkBundles: ['react', 'react-dom'],
+              customSplitting: {
+                zrender: ['zrender'],
+              }
+            }
+          }
+        }
+      }
+    };
+
+    await addCodeSplitting(cfg, viteCfg);
+
+    const manualChunks = viteCfg.build.rollupOptions.output.manualChunks;
+    expect(manualChunks).toBeTypeOf('function');
+
+    // customSplitting from both top-level and bundler-specific should be merged
+    expect(manualChunks('node_modules/echarts/index.js')).toBe('echarts');
+    expect(manualChunks('node_modules/zrender/index.js')).toBe('zrender');
+
+    // frameworkBundles from both should be merged / overridden
+    expect(manualChunks('node_modules/react/index.js')).toBe('framework');
+    expect(manualChunks('node_modules/react-dom/index.js')).toBe('framework');
+  });
 });

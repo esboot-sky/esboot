@@ -4,11 +4,13 @@ import {
   mergeFrameworkBundles,
   transformFrameworkBundles,
 } from '@dz-web/esboot-bundler-common';
+import { merge } from '@dz-web/esboot-common/lodash';
 import { CodeSplittingType } from '../../../types';
 
 export const addCodeSplitting: AddFunc = async (cfg, viteCfg) => {
-  const { bundlerOptions = {} } = cfg.config;
-  const { codeSplitting } = bundlerOptions as BundlerViteOptions;
+  const { codeSplitting: topLevelCodeSplitting, bundlerOptions = {} } = cfg.config;
+  const { codeSplitting: bundlerCodeSplitting } = bundlerOptions as BundlerViteOptions;
+  const codeSplitting = merge({}, topLevelCodeSplitting, bundlerCodeSplitting);
   const {
     jsStrategy = CodeSplittingType.granularChunks,
     jsStrategyOptions = {},

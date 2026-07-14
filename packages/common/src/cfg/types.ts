@@ -76,6 +76,27 @@ export interface ReactCompiler {
 
 export type TailwindVersion = '3' | 'next';
 
+export enum CodeSplittingType {
+  bigVendors = 'bigVendors',
+  depPerChunk = 'depPerChunk',
+  granularChunks = 'granularChunks',
+}
+
+export interface jsStrategyForGranularChunksOptions {
+  frameworkBundles: string[];
+  customSplitting?: Record<
+    string,
+    string[] | RegExp | ((id: string) => boolean)
+  >;
+}
+
+export interface CodeSplitting {
+  jsStrategy: CodeSplittingType | `${CodeSplittingType}`;
+  jsStrategyOptions?:
+    | jsStrategyForGranularChunksOptions
+    | Record<string, any>;
+}
+
 export interface UserOptions {
   isSP?: boolean;
   outputPath?: string;
@@ -107,6 +128,7 @@ export interface UserOptions {
   legacy?: boolean;
   externals?: Record<string, string>;
   plugins?: Plugin[];
+  codeSplitting?: CodeSplitting;
   experimental?: {
     reactCompiler?: ReactCompiler;
   };

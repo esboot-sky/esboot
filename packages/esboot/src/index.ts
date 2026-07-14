@@ -14,7 +14,15 @@ export * from './plugin/hooks-action';
 // Scripts
 export * from './scripts/write-multi-platform';
 
-export type { BabelPlugin, Proxy, Px2rem, ReactCompiler } from '@dz-web/esboot-common/cfg';
+export type {
+  BabelPlugin,
+  Proxy,
+  Px2rem,
+  ReactCompiler,
+  CodeSplitting,
+  jsStrategyForGranularChunksOptions,
+} from '@dz-web/esboot-common/cfg';
+export { CodeSplittingType } from '@dz-web/esboot-common/cfg';
 
 // Constants
 export {
