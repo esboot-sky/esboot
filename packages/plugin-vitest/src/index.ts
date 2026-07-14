@@ -29,18 +29,27 @@ export default (options: PluginVitestOptions = {}): Plugin => {
         {
           name: 'vitest',
           description: 'Start vitest',
-          arguments: [{ name: '[subCommand]', description: 'the sub command' }],
-          options: ['-p, --passThrough <passThrough>'],
+          arguments: [{ name: '[args...]', description: 'arguments to forward to vitest' }],
           allowUnknownOption: true,
           helpOption: false,
-          action: async (_: any, options: any, cmd: any) => {
-            const { passThrough = '' } = options;
-            const extraArgs = cmd?.args || [];
-            const passThroughParts = [
-              passThrough,
-              ...extraArgs,
-            ].filter(Boolean);
-            const passThroughStr = passThroughParts.join(' ');
+          action: async (...actionArgs: any[]) => {
+            let passThroughStr = '';
+
+            const cmd = actionArgs[actionArgs.length - 1];
+            if (cmd && typeof cmd === 'object' && Array.isArray(cmd.args)) {
+              const options = actionArgs[actionArgs.length - 2] || {};
+              const passThrough = options.passThrough || '';
+              const passThroughParts = [
+                passThrough,
+                ...cmd.args,
+              ].filter(Boolean);
+              passThroughStr = passThroughParts.join(' ');
+            } else {
+              const subCommand = typeof actionArgs[0] === 'string' ? actionArgs[0] : '';
+              const options = actionArgs[1] || {};
+              const passThrough = options.passThrough || '';
+              passThroughStr = [subCommand, passThrough].filter(Boolean).join(' ');
+            }
 
             await exec(
               `${searchCommand(join(__dirname, '../'), 'vitest')} ${passThroughStr} -r ${cwd} -c ${resolve(__dirname, '../config/vitest.config.ts')}`,

@@ -1,4 +1,7 @@
 import process from 'node:process';
+import { createRequire } from 'node:module';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { cfg, processPrepare } from '@dz-web/esboot';
 import { loadEnv } from '@dz-web/esboot-common/cfg';
 import { mergeConfig } from 'vitest/config';
@@ -18,7 +21,19 @@ export default async () => {
 
   if (cfg.config.bundler?.name === 'BundlerVite') {
     try {
-      const { getCfg } = await import('@dz-web/esboot-bundler-vite');
+      let getCfg;
+      const isOwnTest = process.env.VITEST === 'true' && !process.cwd().includes('examples') && !process.cwd().includes('tmp');
+
+      if (isOwnTest) {
+        const bundlerVite = await import('@dz-web/esboot-bundler-vite');
+        getCfg = bundlerVite.getCfg;
+      } else {
+        const requireFromCwd = createRequire(join(root, 'package.json'));
+        const packagePath = requireFromCwd.resolve('@dz-web/esboot-bundler-vite');
+        const bundlerVite = await import(pathToFileURL(packagePath).href);
+        getCfg = bundlerVite.getCfg;
+      }
+
       const viteConfig = await getCfg(cfg, 'test');
       const mergedConfig = mergeConfig(viteConfig, createVitestTestConfig());
 

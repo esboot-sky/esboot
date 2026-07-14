@@ -1,4 +1,4 @@
-import { join } from 'node:path';
+import { isAbsolute, join } from 'node:path';
 import process from 'node:process';
 
 interface ResolveIntentOptions {
@@ -28,7 +28,8 @@ export function createResolveIntent(options: ResolveIntentOptions): {
   const resolvedAlias: Record<string, string> = {};
 
   for (const key in alias) {
-    resolvedAlias[key] = join(cwd, `./${alias[key]}/`);
+    const val = alias[key];
+    resolvedAlias[key] = isAbsolute(val) ? val : join(cwd, `./${val}/`);
   }
 
   const result: {
