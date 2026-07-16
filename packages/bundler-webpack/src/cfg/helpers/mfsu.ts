@@ -10,7 +10,7 @@ import webpack from 'webpack';
 export type MFSU = _MFSU | null;
 const mfsuCacheDir = join(cacheDir, './mfsu');
 export function createMFSU(cfg: ConfigurationInstance): MFSU {
-  const { bundlerOptions, isDev, cwd } = cfg.config;
+  const { bundlerOptions = {}, isDev, cwd } = cfg.config;
   const { mfsu = true, mfsuOptions } = bundlerOptions as BundlerWebpackOptions;
 
   let mfsuInstance: MFSU = null;

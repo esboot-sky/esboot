@@ -99,4 +99,25 @@ describe('mfsu helpers', () => {
     });
     expect(result).toBe(webpackCfg);
   });
+
+  it('does not throw when bundlerOptions is missing', async () => {
+    const { createMFSU } = await import('./mfsu');
+
+    expect(
+      createMFSU({
+        config: {
+          cwd: '/repo/app',
+          isDev: false,
+        },
+      } as any),
+    ).toBeNull();
+
+    const mfsu = createMFSU({
+      config: {
+        cwd: '/repo/app',
+        isDev: true,
+      },
+    } as any);
+    expect(mfsu).toBeTruthy();
+  });
 });
