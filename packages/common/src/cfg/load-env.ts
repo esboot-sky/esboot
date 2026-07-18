@@ -1,26 +1,33 @@
-import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import process from 'node:process';
 import dotEnv from 'dotenv';
 import dotEnvExpand from 'dotenv-expand';
 
 export function loadEnv({ root }: { root: string }): void {
-  const load = (dotenvFile: string): void => {
-    if (existsSync(dotenvFile)) {
-      dotEnvExpand.expand(
-        dotEnv.config({
-          override: true,
-          quiet: true,
-          path: dotenvFile,
-        }),
-      );
-    }
-  };
-
   const envFile = join(root, '.env');
+  const envPaths = [envFile];
+  if (process.env.NODE_ENV)
+    envPaths.push(`${envFile}.${process.env.NODE_ENV}`);
+  envPaths.push(`${envFile}.local`);
 
-  const willLoadEnvs = [envFile, `${envFile}.local`];
+  const fileEnv: Record<string, string> = {};
+  const { parsed = {} } = dotEnv.config({
+    override: true,
+    path: envPaths,
+    processEnv: fileEnv,
+    quiet: true,
+  });
+  const shellEnv = process.env as Record<string, string>;
+  const fileEnvToInject = Object.fromEntries(
+    Object.entries(parsed).filter(([key]) => !Object.hasOwn(shellEnv, key)),
+  );
+  const { parsed: expanded = {} } = dotEnvExpand.expand({
+    parsed: fileEnvToInject,
+    processEnv: {
+      ...parsed,
+      ...shellEnv,
+    },
+  });
 
-  for (const envFilePath of willLoadEnvs) {
-    load(envFilePath);
-  }
+  Object.assign(process.env, expanded);
 }
