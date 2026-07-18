@@ -5,9 +5,9 @@ import { exit } from 'node:process';
 import { createJiti } from 'jiti';
 import { DEFAULT_CONFIG_FOLDER, DEFAULT_SRC_FOLDER, Environment, getUserConfigFile, PAGE_TYPE, PLATFORMS } from '@/constants';
 
+import { shellEnv } from '@/environment';
 import { error } from '@/helpers';
 import { getIpv4 } from '@/helpers/get-ipv4';
-import { shellEnv } from '@/environment';
 
 import { isFunction, isUndefined, merge, pick } from '@/lodash';
 import pkg from '../../package.json' with { type: 'json' };

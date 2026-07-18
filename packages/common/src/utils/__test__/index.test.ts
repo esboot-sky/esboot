@@ -3,7 +3,7 @@ import {
   createRecordEnvProvider,
   setShellEnvProvider,
 } from '../../environment';
-import { isTestEnv, isDevEnv, isProdEnv } from '../environment';
+import { isDevEnv, isProdEnv, isTestEnv } from '../environment';
 
 it('reads environment predicates from the active provider', () => {
   const previous = setShellEnvProvider(createRecordEnvProvider({
