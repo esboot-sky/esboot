@@ -26,4 +26,18 @@ describe('webpack customConfig helper', () => {
       plugins: ['custom-plugin'],
     });
   });
+
+  it('does not throw when bundlerOptions is missing', async () => {
+    const { customConfig } = await import('./custom-config');
+    const webpackCfg = {
+      mode: 'production',
+      plugins: [],
+    };
+
+    await expect(
+      customConfig({
+        config: {},
+      } as any, webpackCfg as any),
+    ).resolves.not.toThrow();
+  });
 });
