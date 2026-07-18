@@ -2,7 +2,7 @@ import type { Configuration, ConfigurationInstance } from '@dz-web/esboot';
 import { readFileSync } from 'node:fs';
 
 import { join } from 'node:path';
-import process from 'node:process';
+import { shellEnv } from '@dz-web/esboot-common/environment';
 import { getExportProps } from '@umijs/ast';
 import { glob } from 'tinyglobby';
 
@@ -43,19 +43,17 @@ export async function addEntry(cfg: ConfigurationInstance, cb?: (params: AddEntr
   }
 
   const { pattern, contentPath, ignore = '' } = options;
-  const {
-    ESBOOT_CONTENT_PATH = '',
-    ESBOOT_CONTENT_PATTERN = '*',
-    ESBOOT_CONTENT_IGNORE = ignore,
-  } = process.env;
+  const contentPathFromEnv = shellEnv.get('ESBOOT_CONTENT_PATH', '');
+  const patternFromEnv = shellEnv.get('ESBOOT_CONTENT_PATTERN', '*');
+  const ignoreFromEnv = shellEnv.get('ESBOOT_CONTENT_IGNORE', ignore);
 
-  const ignoreList = ESBOOT_CONTENT_IGNORE
-    ? ESBOOT_CONTENT_IGNORE.split(',').map(v => `**/${v}.entry.ts?(x)`)
+  const ignoreList = ignoreFromEnv
+    ? ignoreFromEnv.split(',').map(v => `**/${v}.entry.ts?(x)`)
     : [];
 
-  const cwd = join(contentRootPath, contentPath || ESBOOT_CONTENT_PATH);
+  const cwd = join(contentRootPath, contentPath || contentPathFromEnv);
   const files = await glob(
-    `**/${pattern || ESBOOT_CONTENT_PATTERN}.entry.ts?(x)`,
+    `**/${pattern || patternFromEnv}.entry.ts?(x)`,
     {
       cwd,
       ignore: ['**/node_modules/**', '**/test/**', ...ignoreList],

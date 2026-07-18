@@ -1,4 +1,10 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { EnvProvider } from '@dz-web/esboot-common/environment';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+  shellEnv,
+} from '@dz-web/esboot-common/environment';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const BundleAnalyzerPlugin = vi.fn(function MockBundleAnalyzerPlugin(this: Record<string, unknown>, options: unknown) {
   this.options = options;
@@ -9,13 +15,19 @@ vi.mock('webpack-bundle-analyzer', () => ({
 }));
 
 describe('webpack bundle analyzer plugin', () => {
+  let previousProvider: EnvProvider;
+
   beforeEach(() => {
     vi.clearAllMocks();
-    delete process.env.ANALYZE_PORT;
+    previousProvider = setShellEnvProvider(createRecordEnvProvider({}));
+  });
+
+  afterEach(() => {
+    setShellEnvProvider(previousProvider);
   });
 
   it('adds bundle analyzer only for production analyze builds', async () => {
-    process.env.ANALYZE_PORT = '9001';
+    shellEnv.set('ANALYZE_PORT', '9001');
     const { addBundleAnalyzerPlugin } = await import('./add-plugin-bundle-analyzer');
     const webpackCfg = { plugins: [] as unknown[] };
 

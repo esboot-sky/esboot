@@ -1,10 +1,17 @@
+import type { EnvProvider } from '@dz-web/esboot-common/environment';
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { afterEach, describe, expect, it } from 'vitest';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+  shellEnv,
+} from '@dz-web/esboot-common/environment';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { addEntry } from '../add-entry';
 
 const tmpRoots: string[] = [];
+let previousProvider: EnvProvider;
 
 function createCfg(rootPath: string, isSP = true) {
   const cfg = {
@@ -43,11 +50,13 @@ async function writeEntry(filePath: string, content: string) {
   await writeFile(filePath, content);
 }
 
+beforeEach(() => {
+  previousProvider = setShellEnvProvider(createRecordEnvProvider({}));
+});
+
 afterEach(async () => {
   await Promise.all(tmpRoots.splice(0).map(root => rm(root, { recursive: true, force: true })));
-  delete process.env.ESBOOT_CONTENT_PATH;
-  delete process.env.ESBOOT_CONTENT_PATTERN;
-  delete process.env.ESBOOT_CONTENT_IGNORE;
+  setShellEnvProvider(previousProvider);
 });
 
 describe('addEntry', () => {
@@ -118,8 +127,8 @@ describe('addEntry', () => {
     await writeEntry(join(rootPath, 'skip.entry.ts'), `export default { title: 'Skip' };`);
     await writeEntry(join(rootPath, 'other.entry.ts'), `export default { title: 'Other' };`);
 
-    process.env.ESBOOT_CONTENT_PATTERN = '*';
-    process.env.ESBOOT_CONTENT_IGNORE = 'skip,other';
+    shellEnv.set('ESBOOT_CONTENT_PATTERN', '*');
+    shellEnv.set('ESBOOT_CONTENT_IGNORE', 'skip,other');
 
     const cfg = createCfg(rootPath);
     await addEntry(cfg);
