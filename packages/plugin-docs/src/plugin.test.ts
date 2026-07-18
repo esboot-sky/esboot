@@ -1,4 +1,10 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { EnvProvider } from '@dz-web/esboot-common/environment';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+  shellEnv,
+} from '@dz-web/esboot-common/environment';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const exec = vi.fn();
 const copySync = vi.fn();
@@ -21,11 +27,18 @@ vi.mock('@dz-web/esboot-common/helpers', () => ({
 }));
 
 describe('plugin-docs', () => {
+  let previousProvider: EnvProvider;
+
   beforeEach(() => {
     vi.clearAllMocks();
+    previousProvider = setShellEnvProvider(createRecordEnvProvider({}));
     delete process.env.APP_ROOT;
     delete process.env.DUMI_THEME;
     delete process.env.port;
+  });
+
+  afterEach(() => {
+    setShellEnvProvider(previousProvider);
   });
 
   it('registers a docs command that runs dumi with the generated config', async () => {
@@ -36,8 +49,10 @@ describe('plugin-docs', () => {
     await command.action?.('dev', { port: '9000' });
 
     expect(command.name).toBe('docs');
-    expect(process.env.APP_ROOT).toBe('./docs');
-    expect(process.env.port).toBe('9000');
+    expect(shellEnv.get('APP_ROOT')).toBe('./docs');
+    expect(shellEnv.get('DUMI_THEME')).toContain('dumi-theme-lobehub');
+    expect(shellEnv.get('port')).toBe('9000');
+    expect(process.env.APP_ROOT).toBeUndefined();
     expect(exec).toHaveBeenCalledWith(
       expect.stringContaining('node /mocked/dumi/bin/dumi.js dev --config'),
       {

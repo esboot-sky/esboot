@@ -3,6 +3,7 @@ import { join } from 'path';
 import { addEntry } from '@dz-web/esboot-bundler-common';
 import { cfg } from '@dz-web/esboot';
 import { PLATFORMS, PAGE_TYPE } from '@dz-web/esboot-common';
+import { shellEnv } from '@dz-web/esboot-common/environment';
 import { refreshInfo, modifyEnv } from '../utils';
 import { TreeItemType } from './constants';
 
@@ -77,9 +78,10 @@ export class ESBootSidebarProvider
     this.fullPages.length = 0;
     this.pageDict = {};
 
-    const { ESBOOT_CONTENT_PATTERN = '*', ESBOOT_CONTENT_PATH = '', ESBOOT_CONTENT_IGNORE = '' } =
-      process.env;
-    const isFull = ESBOOT_CONTENT_PATTERN === '*';
+    const contentPattern = shellEnv.get('ESBOOT_CONTENT_PATTERN', '*');
+    const contentPathFromEnv = shellEnv.get('ESBOOT_CONTENT_PATH', '');
+    const contentIgnore = shellEnv.get('ESBOOT_CONTENT_IGNORE', '');
+    const isFull = contentPattern === '*';
     const contentPath = this.isSP
       ? ''
       : join(
@@ -100,7 +102,7 @@ export class ESBootSidebarProvider
       {
         contentPath,
         pattern: '*',
-        ignore: ESBOOT_CONTENT_IGNORE,
+        ignore: contentIgnore,
       }
     );
 
@@ -111,9 +113,9 @@ export class ESBootSidebarProvider
           this.selectedPages.push(params.chunkName);
         },
         {
-          contentPath: join(contentPath, ESBOOT_CONTENT_PATH),
-          pattern: ESBOOT_CONTENT_PATTERN,
-          ignore: ESBOOT_CONTENT_IGNORE,
+          contentPath: join(contentPath, contentPathFromEnv),
+          pattern: contentPattern,
+          ignore: contentIgnore,
         }
       );
     }

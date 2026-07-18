@@ -1,9 +1,9 @@
 import type { Plugin } from '@dz-web/esboot';
 import { dirname, join, relative } from 'node:path';
-import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { PluginHooks } from '@dz-web/esboot';
 import { getCacheDir } from '@dz-web/esboot-common';
+import { shellEnv } from '@dz-web/esboot-common/environment';
 import { exec } from '@dz-web/esboot-common/execa';
 import { copySync, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { info, resolveLibPath } from '@dz-web/esboot-common/helpers';
@@ -37,18 +37,18 @@ export default (): Plugin => {
           allowUnknownOption: true,
           action: async (subCommand, options) => {
             const { port } = options;
-            process.env.APP_ROOT = APP_ROOT;
-            process.env.DUMI_THEME = dirname(
+            shellEnv.set('APP_ROOT', APP_ROOT);
+            shellEnv.set('DUMI_THEME', dirname(
               fileURLToPath(
                 import.meta.resolve('dumi-theme-lobehub/package.json'),
               ),
-            );
+            ));
 
             const dumiPath = resolveLibPath('dumi', import.meta.resolve);
             const relativePath = relative(join(cfg.cwd, APP_ROOT), targetPath);
             let cmd = `node ${dumiPath}/bin/dumi.js ${subCommand} --config ${relativePath}`;
             if (port) {
-              process.env.port = port;
+              shellEnv.set('port', String(port));
               cmd += ` --port ${port}`;
             }
 

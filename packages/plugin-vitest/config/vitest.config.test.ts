@@ -1,4 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { EnvProvider } from '@dz-web/esboot-common/environment';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+} from '@dz-web/esboot-common/environment';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const {
   cfgState,
@@ -56,10 +61,16 @@ vi.mock('@dz-web/esboot-bundler-vite', () => ({
 }));
 
 describe('plugin vitest config', () => {
+  const originalVitestEnv = process.env.VITEST;
+  let previousProvider: EnvProvider;
+
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.resetModules();
     cfgState.config = {};
+    process.env.VITEST = 'false';
+    previousProvider = setShellEnvProvider(createRecordEnvProvider({
+      VITEST: 'true',
+    }));
 
     createVitestViteConfig.mockResolvedValue({
       resolve: {
@@ -71,6 +82,14 @@ describe('plugin vitest config', () => {
         environment: 'jsdom',
       },
     });
+  });
+
+  afterEach(() => {
+    setShellEnvProvider(previousProvider);
+    if (originalVitestEnv === undefined)
+      delete process.env.VITEST;
+    else
+      process.env.VITEST = originalVitestEnv;
   });
 
   it('delegates to the standalone vitest builder for non-vite bundlers', async () => {

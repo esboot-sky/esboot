@@ -1,9 +1,10 @@
-import process from 'node:process';
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
+import process from 'node:process';
 import { pathToFileURL } from 'node:url';
 import { cfg, processPrepare } from '@dz-web/esboot';
 import { loadEnv } from '@dz-web/esboot-common/cfg';
+import { shellEnv } from '@dz-web/esboot-common/environment';
 import { mergeConfig } from 'vitest/config';
 
 // eslint-disable-next-line antfu/no-import-dist
@@ -22,12 +23,13 @@ export default async () => {
   if (cfg.config.bundler?.name === 'BundlerVite') {
     try {
       let getCfg;
-      const isOwnTest = process.env.VITEST === 'true' && !process.cwd().includes('examples') && !process.cwd().includes('tmp');
+      const isOwnTest = shellEnv.get('VITEST') === 'true' && !process.cwd().includes('examples') && !process.cwd().includes('tmp');
 
       if (isOwnTest) {
         const bundlerVite = await import('@dz-web/esboot-bundler-vite');
         getCfg = bundlerVite.getCfg;
-      } else {
+      }
+      else {
         const requireFromCwd = createRequire(join(root, 'package.json'));
         const packagePath = requireFromCwd.resolve('@dz-web/esboot-bundler-vite');
         const bundlerVite = await import(pathToFileURL(packagePath).href);
