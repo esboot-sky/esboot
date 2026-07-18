@@ -1,10 +1,17 @@
+import type { EnvProvider } from '@dz-web/esboot-common/environment';
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { afterEach, describe, expect, it } from 'vitest';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+  shellEnv,
+} from '@dz-web/esboot-common/environment';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { injectHtml } from '../inject-html';
 
 const tmpRoots: string[] = [];
+let previousProvider: EnvProvider;
 
 async function createProject(version = '1.2.3') {
   const cwd = await mkdtemp(join(tmpdir(), 'esboot-inject-html-'));
@@ -32,11 +39,13 @@ function createCfg(cwd: string, configJSPath: string) {
   } as any;
 }
 
+beforeEach(() => {
+  previousProvider = setShellEnvProvider(createRecordEnvProvider({}));
+});
+
 afterEach(async () => {
   await Promise.all(tmpRoots.splice(0).map(root => rm(root, { recursive: true, force: true })));
-  delete process.env.BRIDGE_MOCK_HOST;
-  delete process.env.BRIDGE_MOCK_PORT;
-  delete process.env.BUILD_VERSION;
+  setShellEnvProvider(previousProvider);
 });
 
 describe('injectHtml', () => {
@@ -62,8 +71,8 @@ describe('injectHtml', () => {
     const cfg = createCfg(cwd, join(cwd, 'missing-config.js'));
     cfg.config.isBrowser = false;
     cfg.config.isDev = true;
-    process.env.BRIDGE_MOCK_HOST = 'localhost';
-    process.env.BRIDGE_MOCK_PORT = '3100';
+    shellEnv.set('BRIDGE_MOCK_HOST', 'localhost');
+    shellEnv.set('BRIDGE_MOCK_PORT', '3100');
 
     const html = await injectHtml('<html><head></head><body></body></html>', cfg);
 
