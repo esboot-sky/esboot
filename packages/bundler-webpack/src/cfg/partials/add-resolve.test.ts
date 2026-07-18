@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
 describe('webpack addResolve partial', () => {
-  it('resolves aliases from process cwd and preserves mainFields/extensions', async () => {
+  it('resolves aliases from configured cwd and preserves mainFields/extensions', async () => {
     const { addResolve } = await import('./add-resolve');
     const webpackCfg: Record<string, any> = {};
 
     await addResolve({
       config: {
+        cwd: '/repo/app',
         alias: {
           '@': 'src',
           '@shared': 'shared',
@@ -14,8 +15,10 @@ describe('webpack addResolve partial', () => {
       },
     } as any, webpackCfg);
 
-    expect(webpackCfg.resolve.alias['@']).toContain('/src/');
-    expect(webpackCfg.resolve.alias['@shared']).toContain('/shared/');
+    expect(webpackCfg.resolve.alias).toEqual({
+      '@': '/repo/app/src/',
+      '@shared': '/repo/app/shared/',
+    });
     expect(webpackCfg.resolve.mainFields).toEqual(['module', 'browser', 'main']);
     expect(webpackCfg.resolve.extensions).toContain('.tsx');
   });

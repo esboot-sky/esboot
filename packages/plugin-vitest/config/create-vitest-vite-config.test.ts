@@ -163,6 +163,7 @@ describe('createVitestViteConfig', () => {
       mode: 'test',
       configFile: false,
       publicDir: false,
+      cacheDir: '/repo/app/node_modules/.cache/esboot/.vite',
       resolve: {
         alias: expect.objectContaining({
           '@': '/repo/app/src/',

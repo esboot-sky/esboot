@@ -3,21 +3,26 @@ import { dirname, join, relative } from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { PluginHooks } from '@dz-web/esboot';
-import { cacheDir } from '@dz-web/esboot-common';
+import { getCacheDir } from '@dz-web/esboot-common';
 import { exec } from '@dz-web/esboot-common/execa';
 import { copySync, ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { info, resolveLibPath } from '@dz-web/esboot-common/helpers';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const cfgPath = join(__dirname, '../config/.dumirc.ts');
-const targetPath = join(cacheDir, 'dumi/.dumirc.ts');
 const APP_ROOT = './docs';
+
+function getTargetPath(cwd: string): string {
+  return join(getCacheDir(cwd), 'dumi/.dumirc.ts');
+}
 
 export default (): Plugin => {
   return {
     name: 'plugin-docs',
     enforce: 'post',
-    [PluginHooks.registerCommands]: () => {
+    [PluginHooks.registerCommands]: (cfg) => {
+      const targetPath = getTargetPath(cfg.cwd);
+
       return [
         {
           name: 'docs',
@@ -40,19 +45,24 @@ export default (): Plugin => {
             );
 
             const dumiPath = resolveLibPath('dumi', import.meta.resolve);
-            const relativePath = relative(APP_ROOT, targetPath);
+            const relativePath = relative(join(cfg.cwd, APP_ROOT), targetPath);
             let cmd = `node ${dumiPath}/bin/dumi.js ${subCommand} --config ${relativePath}`;
             if (port) {
               process.env.port = port;
               cmd += ` --port ${port}`;
             }
 
-            exec(cmd);
+            exec(cmd, {
+              options: {
+                cwd: cfg.cwd,
+              },
+            });
           },
         },
       ];
     },
-    [PluginHooks.prepare]: () => {
+    [PluginHooks.prepare]: (cfg) => {
+      const targetPath = getTargetPath(cfg.cwd);
       ensureFileSync(targetPath);
       copySync(cfgPath, targetPath);
 

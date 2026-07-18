@@ -26,14 +26,23 @@ describe('generateCommitlintCfg', () => {
   });
 
   it('writes commitlint config into the cache directory', async () => {
+    vi.resetModules();
+    vi.doMock('@/cfg', () => ({
+      cfg: {
+        config: {
+          cwd: '/repo/app',
+        },
+      },
+    }));
+
     const { generateCommitlintCfg } = await import('./generate-commitlint-cfg');
 
     generateCommitlintCfg();
     await Promise.resolve();
 
-    expect(ensureFileSync).toHaveBeenCalledWith(expect.stringContaining('/commitlint/index.js'));
+    expect(ensureFileSync).toHaveBeenCalledWith('/repo/app/node_modules/.cache/esboot/commitlint/index.js');
     expect(writeFile).toHaveBeenCalledWith(
-      expect.stringContaining('/commitlint/index.js'),
+      '/repo/app/node_modules/.cache/esboot/commitlint/index.js',
       expect.stringContaining('module.exports='),
     );
     expect(error).not.toHaveBeenCalled();

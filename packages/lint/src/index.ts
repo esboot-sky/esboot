@@ -25,8 +25,8 @@ export async function lint({ cwd, args = [] }: { cwd: string; args: string[] }):
   });
 }
 
-export function huskySetup({ configRootPath }: { configRootPath: string }): void {
-  if (!pathExistsSync(resolve(process.cwd(), '.git'))) {
+export function huskySetup({ cwd = process.cwd(), configRootPath }: { cwd?: string; configRootPath: string }): void {
+  if (!pathExistsSync(resolve(cwd, '.git'))) {
     return;
   }
 
@@ -85,6 +85,11 @@ export async function execGitHooks(options: { type: string; cwd: string }): Prom
         );
 
         await exec(`node ${resolvePath('lint-staged/bin')} --cwd ${cwd} --config ${eslintConfigPath}`, {
+          options: {
+            env: {
+              ESBOOT_ESLINT_PROJECT_SERVICE: '0',
+            },
+          },
           onError: () => process.exit(1),
         });
         info('ESLint check passed.');

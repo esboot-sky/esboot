@@ -11,7 +11,7 @@ import {
   addReactCompiler,
   resolveViteFrameworkPlugins,
 } from '@dz-web/esboot-bundler-common';
-import { cacheDir } from '@dz-web/esboot-common';
+import { getCacheDir } from '@dz-web/esboot-common';
 import { resolveTailwindConfig } from '@dz-web/esboot-common/cfg';
 import react from '@vitejs/plugin-react';
 import { addCopyPlugin } from '../plugins/add-plugin-copy';
@@ -57,7 +57,7 @@ export async function getCfg(cfg: ConfigurationInstance, mode: Environment, opti
     publicDir: false,
     base: publicPath,
     root: cwd,
-    cacheDir: join(cacheDir, '.vite'),
+    cacheDir: join(getCacheDir(cwd), '.vite'),
     define: {
       ...addDefine(cfg),
     },

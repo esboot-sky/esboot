@@ -65,9 +65,9 @@ describe('generateTypeScriptCfg', () => {
 
     expect(absListPath).toHaveBeenCalledTimes(2);
     expect(callPluginHookOfModifyLintConfig).toHaveBeenCalled();
-    expect(ensureDirSync).toHaveBeenCalledWith(expect.stringContaining('/typescript'));
+    expect(ensureDirSync).toHaveBeenCalledWith('/repo/app/node_modules/.cache/esboot/typescript');
     expect(writeJSON).toHaveBeenCalledWith(
-      expect.stringContaining('/typescript/tsconfig.json'),
+      '/repo/app/node_modules/.cache/esboot/typescript/tsconfig.json',
       expect.objectContaining({
         compilerOptions: expect.objectContaining({
           baseUrl: '/repo/app',

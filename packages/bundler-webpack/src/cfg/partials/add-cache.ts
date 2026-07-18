@@ -7,7 +7,7 @@ import {
 } from '@dz-web/esboot-bundler-common';
 import {
   getUserConfigFile,
-  webpackCacheDir,
+  getWebpackCacheDir,
 } from '@dz-web/esboot-common/constants';
 
 export const addCache: AddFunc = async (cfg, webpackCfg) => {
@@ -22,7 +22,7 @@ export const addCache: AddFunc = async (cfg, webpackCfg) => {
 
   webpackCfg.cache = {
     type: 'filesystem',
-    cacheDirectory: webpackCacheDir,
+    cacheDirectory: getWebpackCacheDir(cwd),
     buildDependencies: {
       config: [
         getUserConfigFile(cwd),

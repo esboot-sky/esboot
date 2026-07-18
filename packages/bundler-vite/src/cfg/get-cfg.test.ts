@@ -101,6 +101,7 @@ describe('getCfg tailwind integration', () => {
         }),
       ]),
     );
+    expect(cfg.cacheDir).toBe('/repo/app/node_modules/.cache/esboot/.vite');
     expect(cfg.css?.postcss?.plugins).toEqual(
       expect.arrayContaining([
         'postcss-esboot',

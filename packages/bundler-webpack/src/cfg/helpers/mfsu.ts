@@ -2,15 +2,15 @@ import type { ConfigurationInstance } from '@dz-web/esboot';
 import type { AddFunc, CustomWebpackConfiguration } from '@/cfg/types';
 import type { BundlerWebpackOptions } from '@/types';
 import { join } from 'node:path';
-import { cacheDir } from '@dz-web/esboot-common/constants';
+import { getCacheDir } from '@dz-web/esboot-common/constants';
 import { isFunction, noop } from '@dz-web/esboot-common/lodash';
 import { MFSU as _MFSU } from '@umijs/mfsu';
 import webpack from 'webpack';
 
 export type MFSU = _MFSU | null;
-const mfsuCacheDir = join(cacheDir, './mfsu');
 export function createMFSU(cfg: ConfigurationInstance): MFSU {
   const { bundlerOptions = {}, isDev, cwd } = cfg.config;
+  const mfsuCacheDir = join(getCacheDir(cwd), './mfsu');
   const { mfsu = true, mfsuOptions } = bundlerOptions as BundlerWebpackOptions;
 
   let mfsuInstance: MFSU = null;

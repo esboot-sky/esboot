@@ -1,12 +1,12 @@
 import type { Configuration } from '@dz-web/esboot-common/cfg';
+import type { PluginTailwind3Options } from './index';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import process from 'node:process';
-import { cacheDir } from '@dz-web/esboot-common/constants';
+import { getCacheDir } from '@dz-web/esboot-common/constants';
 import { error, info } from '@dz-web/esboot-common/helpers';
-import { merge } from '@dz-web/esboot-common/lodash';
 
-import type { PluginTailwind3Options } from './index';
+import { merge } from '@dz-web/esboot-common/lodash';
 
 export const tailwind3Config = {
   darkMode: ['selector', '.dz-theme-dark'],
@@ -18,8 +18,10 @@ export const tailwind3Config = {
 };
 
 function writeTailwind3Artifacts(
+  cfg: Configuration,
   options?: PluginTailwind3Options | ((config: any) => Record<string, any>),
 ): void {
+  const cacheDir = getCacheDir(cfg.cwd);
   const tailwind3ConfigPath = join(cacheDir, 'tailwindcss.config.js');
 
   mkdirSync(cacheDir, { recursive: true });
@@ -29,11 +31,13 @@ function writeTailwind3Artifacts(
   if (options) {
     if (typeof options === 'function') {
       finalConfig = options(finalConfig);
-    } else if (typeof options === 'object') {
+    }
+    else if (typeof options === 'object') {
       const tailwindcssOptions = options.tailwindcssOptions;
       if (typeof tailwindcssOptions === 'function') {
         finalConfig = tailwindcssOptions(finalConfig);
-      } else if (typeof tailwindcssOptions === 'object' && tailwindcssOptions !== null) {
+      }
+      else if (typeof tailwindcssOptions === 'object' && tailwindcssOptions !== null) {
         finalConfig = merge({}, finalConfig, tailwindcssOptions);
       }
     }
@@ -89,7 +93,7 @@ export function prepareTailwind3(
   options?: PluginTailwind3Options | ((config: any) => Record<string, any>),
 ): void {
   process.once('exit', () => {
-    writeTailwind3Artifacts(options);
+    writeTailwind3Artifacts(cfg, options);
     updateTailwind3VSCodeSetting(cfg);
   });
 }
