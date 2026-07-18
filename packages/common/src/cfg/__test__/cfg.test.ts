@@ -2,6 +2,11 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+  shellEnv,
+} from '../../environment';
 import { ESBootCfg } from '../cfg';
 
 const tmpRoots: string[] = [];
@@ -186,6 +191,35 @@ describe('esboot cfg', () => {
         to: './static',
       },
     ]);
+  });
+
+  it('derives MP config from the active environment provider', async () => {
+    const previous = setShellEnvProvider(createRecordEnvProvider({
+      NODE_ENV: 'production',
+      ESBOOT_PLATFORM: 'mobile',
+      ESBOOT_PAGE_TYPE: 'native',
+      ESBOOT_IS_CI_BUILD: '1',
+    }));
+    const cwd = await createProject('export default {};');
+
+    try {
+      const cfg = new ESBootCfg();
+      await cfg.load({ cwd });
+
+      expect(cfg.config).toMatchObject({
+        isDev: false,
+        isMobile: true,
+        isBrowser: false,
+        isCIBuild: true,
+      });
+      expect(shellEnv.get('BROWSERSLIST_ENV')).toBe(
+        'mobile-native-production',
+      );
+      expect(process.env.BROWSERSLIST_ENV).toBeUndefined();
+    }
+    finally {
+      setShellEnvProvider(previous);
+    }
   });
 
   it('rejects invalid known user config fields with a readable error', async () => {

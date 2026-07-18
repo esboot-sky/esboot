@@ -1,4 +1,5 @@
 import kleur from 'kleur';
+import { shellEnv } from '../environment';
 
 const prefixes = {
   wait: `${kleur.cyan('wait')}  -`,
@@ -35,7 +36,7 @@ export function event(...message: string[]) {
 }
 
 export function debug(...message: string[]) {
-  if (process.env.DEBUG) {
+  if (shellEnv.get('DEBUG')) {
     console.log(prefixes.debug, ...message);
   }
 }
