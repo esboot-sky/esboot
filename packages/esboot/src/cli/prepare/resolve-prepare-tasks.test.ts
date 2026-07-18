@@ -1,4 +1,8 @@
-import process from 'node:process';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+  shellEnv,
+} from '@dz-web/esboot-common/environment';
 import { describe, expect, it, vi } from 'vitest';
 
 describe('resolvePrepareTasks', () => {
@@ -34,28 +38,26 @@ describe('resolvePrepareTasks', () => {
   it('logs task execution only when debug mode is enabled', async () => {
     const { runPrepareTasks } = await import('./resolve-prepare-tasks');
     const logs: string[] = [];
-    const originalEnv = process.env.ESBOOT_PREPARE_DEBUG;
+    const previousProvider = setShellEnvProvider(createRecordEnvProvider({}));
     const logSpy = vi.spyOn(console, 'log').mockImplementation((message: string) => {
       logs.push(message);
     });
 
-    process.env.ESBOOT_PREPARE_DEBUG = '1';
-    runPrepareTasks([
-      { name: 'tsconfig', stage: 'base', run: () => {} },
-      { name: 'stylelint', stage: 'local', run: () => {} },
-    ]);
+    try {
+      shellEnv.set('ESBOOT_PREPARE_DEBUG', '1');
+      runPrepareTasks([
+        { name: 'tsconfig', stage: 'base', run: () => {} },
+        { name: 'stylelint', stage: 'local', run: () => {} },
+      ]);
 
-    expect(logs).toEqual([
-      '[prepare] stage=base task=tsconfig',
-      '[prepare] stage=local task=stylelint',
-    ]);
-
-    logSpy.mockRestore();
-    if (originalEnv === undefined) {
-      delete process.env.ESBOOT_PREPARE_DEBUG;
+      expect(logs).toEqual([
+        '[prepare] stage=base task=tsconfig',
+        '[prepare] stage=local task=stylelint',
+      ]);
     }
-    else {
-      process.env.ESBOOT_PREPARE_DEBUG = originalEnv;
+    finally {
+      logSpy.mockRestore();
+      setShellEnvProvider(previousProvider);
     }
   });
 });

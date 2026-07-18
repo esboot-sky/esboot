@@ -2,6 +2,7 @@ import type { Bundler } from '@/bundler';
 import process from 'node:process';
 import { Environment } from '@dz-web/esboot-common';
 import { ConfigLoadError, loadEnv } from '@dz-web/esboot-common/cfg';
+import { shellEnv } from '@dz-web/esboot-common/environment';
 import kleur from '@dz-web/esboot-common/kleur';
 import { program } from 'commander';
 
@@ -30,7 +31,7 @@ async function loadCfg(command: string): Promise<void> {
 }
 
 async function createBundler(environment: Environment): Promise<Bundler | null> {
-  process.env.NODE_ENV = environment;
+  shellEnv.set('NODE_ENV', environment);
   await loadCfg(environment === Environment.dev ? 'dev' : 'build');
   const { config } = cfg;
 

@@ -1,5 +1,5 @@
 import type { PrepareTask, PrepareTaskStage } from './prepare-tasks';
-import process from 'node:process';
+import { shellEnv } from '@dz-web/esboot-common/environment';
 
 export function resolvePrepareTaskStages(isCIBuild: boolean): PrepareTaskStage[] {
   return isCIBuild ? ['base'] : ['base', 'local'];
@@ -15,7 +15,7 @@ export function resolvePrepareTasks(
 }
 
 export function runPrepareTasks(tasks: PrepareTask[]): void {
-  const isDebug = process.env.ESBOOT_PREPARE_DEBUG === '1';
+  const isDebug = shellEnv.get('ESBOOT_PREPARE_DEBUG') === '1';
 
   tasks.forEach((task) => {
     if (isDebug) {

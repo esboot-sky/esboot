@@ -1,7 +1,8 @@
-import { PluginHooks } from '@dz-web/esboot-common/plugin';
 import type { Plugin } from '@dz-web/esboot-common/plugin';
-import kleur from '@dz-web/esboot-common/kleur';
 import path from 'node:path';
+import { shellEnv } from '@dz-web/esboot-common/environment';
+import kleur from '@dz-web/esboot-common/kleur';
+import { PluginHooks } from '@dz-web/esboot-common/plugin';
 import { definePlugin } from '../index';
 
 export interface EntryLogPluginOptions {
@@ -30,8 +31,8 @@ export function entryLogPlugin(options: EntryLogPluginOptions = {}): Plugin {
       }
 
       const totalPages = entries.length;
-      const platform = process.env.ESBOOT_PLATFORM;
-      const pageType = process.env.ESBOOT_PAGE_TYPE;
+      const platform = shellEnv.get('ESBOOT_PLATFORM');
+      const pageType = shellEnv.get('ESBOOT_PAGE_TYPE');
 
       let modeInfo = `${kleur.gray('Total: ')}${kleur.bold().white(`${totalPages} page${totalPages > 1 ? 's' : ''}`)}`;
       if (platform) {
@@ -42,7 +43,7 @@ export function entryLogPlugin(options: EntryLogPluginOptions = {}): Plugin {
       }
 
       let output = '\n' + `${kleur.bold().green('Compile Entry Details')} ${kleur.gray('(')}${modeInfo}${kleur.gray(')')}:` + '\n';
-      output += kleur.gray('==================================================') + '\n';
+      output += `${kleur.gray('==================================================')}\n`;
 
       entries.forEach(([name, entryInfo], index) => {
         const relativeEntry = path.relative(cfg.cwd, entryInfo.entry);
@@ -60,15 +61,16 @@ export function entryLogPlugin(options: EntryLogPluginOptions = {}): Plugin {
 
         // Print separator if it's not the last page
         if (index < totalPages - 1) {
-          output += '\n' + kleur.gray('--------------------------------------------------') + '\n\n';
-        } else {
+          output += `\n${kleur.gray('--------------------------------------------------')}\n\n`;
+        }
+        else {
           output += '\n';
         }
       });
 
       output += kleur.gray('==================================================');
 
-      console.log(output);
+      console.log(output); // eslint-disable-line no-console
     },
   });
 }
