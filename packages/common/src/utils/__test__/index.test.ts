@@ -1,5 +1,24 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+} from '../../environment';
 import { isTestEnv, isDevEnv, isProdEnv } from '../environment';
+
+it('reads environment predicates from the active provider', () => {
+  const previous = setShellEnvProvider(createRecordEnvProvider({
+    NODE_ENV: 'production',
+  }));
+
+  try {
+    expect(isTestEnv()).toBe(false);
+    expect(isDevEnv()).toBe(false);
+    expect(isProdEnv()).toBe(true);
+  }
+  finally {
+    setShellEnvProvider(previous);
+  }
+});
 
 describe('isTestEnv', () => {
   it('should return true if the environment is test', () => {

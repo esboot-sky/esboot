@@ -2,6 +2,11 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+  shellEnv,
+} from '../../environment';
 import { loadEnv } from '../load-env';
 
 const ENV_KEYS = [
@@ -95,6 +100,29 @@ describe('loadEnv', () => {
 
     expect(process.env.ESBOOT_TEST_HOST).toBe('shell.example.com');
     expect(process.env.ESBOOT_TEST_URL).toBe('https://shell.example.com/api');
+  });
+
+  it('loads and expands values through the active environment provider', async () => {
+    const previous = setShellEnvProvider(createRecordEnvProvider({
+      NODE_ENV: 'test',
+      ESBOOT_TEST_HOST: 'provider.example.com',
+    }));
+    const root = await createEnvProject({
+      '.env': 'ESBOOT_TEST_HOST=file.example.com\n',
+      '.env.local': `ESBOOT_TEST_URL=https://\${ESBOOT_TEST_HOST}/api\n`,
+    });
+
+    try {
+      loadEnv({ root });
+      expect(shellEnv.get('ESBOOT_TEST_HOST')).toBe('provider.example.com');
+      expect(shellEnv.get('ESBOOT_TEST_URL')).toBe(
+        'https://provider.example.com/api',
+      );
+      expect(process.env.ESBOOT_TEST_URL).toBeUndefined();
+    }
+    finally {
+      setShellEnvProvider(previous);
+    }
   });
 
   it('preserves an explicitly empty shell or CI value', async () => {

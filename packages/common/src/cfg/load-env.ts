@@ -1,13 +1,14 @@
 import { join } from 'node:path';
-import process from 'node:process';
 import dotEnv from 'dotenv';
 import dotEnvExpand from 'dotenv-expand';
+import { shellEnv } from '../environment';
 
 export function loadEnv({ root }: { root: string }): void {
   const envFile = join(root, '.env');
   const envPaths = [envFile];
-  if (process.env.NODE_ENV)
-    envPaths.push(`${envFile}.${process.env.NODE_ENV}`);
+  const nodeEnv = shellEnv.get('NODE_ENV');
+  if (nodeEnv)
+    envPaths.push(`${envFile}.${nodeEnv}`);
   envPaths.push(`${envFile}.local`);
 
   const fileEnv: Record<string, string> = {};
@@ -17,17 +18,17 @@ export function loadEnv({ root }: { root: string }): void {
     processEnv: fileEnv,
     quiet: true,
   });
-  const shellEnv = process.env as Record<string, string>;
+  const providerEnv = shellEnv.toObject();
   const fileEnvToInject = Object.fromEntries(
-    Object.entries(parsed).filter(([key]) => !Object.hasOwn(shellEnv, key)),
+    Object.entries(parsed).filter(([key]) => !shellEnv.has(key)),
   );
   const { parsed: expanded = {} } = dotEnvExpand.expand({
     parsed: fileEnvToInject,
     processEnv: {
       ...parsed,
-      ...shellEnv,
+      ...providerEnv,
     },
   });
 
-  Object.assign(process.env, expanded);
+  shellEnv.assign(expanded);
 }

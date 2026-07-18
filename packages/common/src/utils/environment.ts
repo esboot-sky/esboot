@@ -1,17 +1,18 @@
 import { Environment } from '../constants/environment';
+import { shellEnv } from '../environment';
 
 export const isTestEnv = () => {
-  return process.env.NODE_ENV === Environment.test;
+  return shellEnv.get('NODE_ENV') === Environment.test;
 };
 
 export const isDebug = () => {
-  return process.env.DEBUG === 'true';
+  return shellEnv.get('DEBUG') === 'true';
 };
 
 export const isDevEnv = () => {
-  return process.env.NODE_ENV === Environment.dev;
+  return shellEnv.get('NODE_ENV') === Environment.dev;
 };
 
 export const isProdEnv = () => {
-  return process.env.NODE_ENV === Environment.prod;
+  return shellEnv.get('NODE_ENV') === Environment.prod;
 };

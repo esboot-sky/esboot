@@ -1,12 +1,13 @@
 import type { Configuration, ConfigurationForMP } from './types';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import process, { exit } from 'node:process';
+import { exit } from 'node:process';
 import { createJiti } from 'jiti';
 import { DEFAULT_CONFIG_FOLDER, DEFAULT_SRC_FOLDER, Environment, getUserConfigFile, PAGE_TYPE, PLATFORMS } from '@/constants';
 
 import { error } from '@/helpers';
 import { getIpv4 } from '@/helpers/get-ipv4';
+import { shellEnv } from '@/environment';
 
 import { isFunction, isUndefined, merge, pick } from '@/lodash';
 import pkg from '../../package.json' with { type: 'json' };
@@ -58,18 +59,17 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
   };
 
   #generateMPCfg = (): void => {
-    const {
-      NODE_ENV,
-      ESBOOT_PLATFORM = PLATFORMS.PC,
-      ESBOOT_PAGE_TYPE = PAGE_TYPE.browser,
-    } = process.env;
-    const platform = ESBOOT_PLATFORM;
-    const pageType = ESBOOT_PAGE_TYPE;
+    const nodeEnv = shellEnv.get('NODE_ENV');
+    const platform = shellEnv.get('ESBOOT_PLATFORM', PLATFORMS.PC);
+    const pageType = shellEnv.get('ESBOOT_PAGE_TYPE', PAGE_TYPE.browser);
 
     const { configRootPath, rootPath } = this.#config;
 
-    if (NODE_ENV === Environment.prod) {
-      process.env.BROWSERSLIST_ENV = `${platform}-${pageType}-${Environment.prod}`;
+    if (nodeEnv === Environment.prod) {
+      shellEnv.set(
+        'BROWSERSLIST_ENV',
+        `${platform}-${pageType}-${Environment.prod}`,
+      );
     }
 
     const configRootPathOfPlatfrom = join(configRootPath, platform);
@@ -126,19 +126,16 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
   };
 
   loadEnv = (options: { cwd?: string } = {}): void => {
-    const {
-      NODE_ENV,
-      ESBOOT_PLATFORM = PLATFORMS.PC,
-      ESBOOT_PAGE_TYPE = PAGE_TYPE.browser,
-      ESBOOT_IS_CI_BUILD = '0',
-    } = process.env;
+    const nodeEnv = shellEnv.get('NODE_ENV');
+    const platform = shellEnv.get('ESBOOT_PLATFORM', PLATFORMS.PC);
+    const pageType = shellEnv.get('ESBOOT_PAGE_TYPE', PAGE_TYPE.browser);
+    const isCIBuild = shellEnv.get('ESBOOT_IS_CI_BUILD', '0') === '1';
 
     if (options.cwd) {
       this.#config.cwd = options.cwd;
     }
 
     const { cwd } = this.#config;
-    const isCIBuild = ESBOOT_IS_CI_BUILD === '1';
     const rootPath = resolve(cwd, DEFAULT_SRC_FOLDER);
     const configRootPath = resolve(cwd, DEFAULT_CONFIG_FOLDER);
     const ipv4 = getIpv4();
@@ -148,9 +145,9 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
       isCIBuild,
       rootPath,
       configRootPath,
-      isDev: NODE_ENV === Environment.dev,
-      isMobile: ESBOOT_PLATFORM === PLATFORMS.MOBILE,
-      isBrowser: ESBOOT_PAGE_TYPE === PAGE_TYPE.browser,
+      isDev: nodeEnv === Environment.dev,
+      isMobile: platform === PLATFORMS.MOBILE,
+      isBrowser: pageType === PAGE_TYPE.browser,
       entry: {},
       ...pick(pkg, ['version']),
     } satisfies Partial<Configuration>;
@@ -173,7 +170,7 @@ export class ESBootCfg<Options extends Configuration = Configuration> {
     const defaultPublicPath = isDev ? '/' : './';
     const defaultDefine = {
       'process.env.VERSION': pkg.version,
-      'process.env.NODE_ENV': process.env.NODE_ENV,
+      'process.env.NODE_ENV': shellEnv.get('NODE_ENV'),
       'process.env.isMobile': this.#config.isMobile,
       'process.env.isBrowser': this.#config.isBrowser,
       'process.env.publicPath': userCfg.publicPath || defaultPublicPath,
