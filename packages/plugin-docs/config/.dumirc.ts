@@ -1,4 +1,10 @@
+// eslint-disable-next-line ts/no-require-imports
 const { resolve } = require('node:path');
+// eslint-disable-next-line ts/no-require-imports
+const process = require('node:process');
+// eslint-disable-next-line ts/no-require-imports
+const { shellEnv } = require('@dz-web/esboot-common/environment');
+
 const isWin = process.platform === 'win32';
 const themeConfig = {
   actions: [
@@ -46,7 +52,7 @@ exports.default = {
     jsStrategy: 'granularChunks',
   },
   define: {
-    'process.env': process.env,
+    'process.env': shellEnv.toObject(),
   },
   favicons: ['http://esboot.dzfe.net/img/logo.svg'],
   locales: [{ id: 'en-US', name: 'English' }],
