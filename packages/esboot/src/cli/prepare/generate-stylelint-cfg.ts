@@ -1,7 +1,7 @@
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import { cacheDir } from '@dz-web/esboot-common/constants';
+import { getCacheDir } from '@dz-web/esboot-common/constants';
 import { ensureFileSync } from '@dz-web/esboot-common/fs-extra';
 import { error, info } from '@dz-web/esboot-common/helpers';
 import { PluginHooks } from '@dz-web/esboot-common/plugin';
@@ -11,6 +11,7 @@ import { cfg } from '@/cfg';
 import { callPluginHookOfModifyLintConfig } from '@/plugin';
 
 export function generateStylelintCfg(): void {
+  const cacheDir = getCacheDir(cfg.config.cwd);
   const outoutPath = join(cacheDir, 'stylelint/index.js');
 
   callPluginHookOfModifyLintConfig(

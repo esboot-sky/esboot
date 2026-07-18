@@ -52,7 +52,10 @@ export const prepareTasks: PrepareTask[] = [
     stage: 'local',
     run: () => {
       try {
-        huskySetup({ configRootPath: cfg.config.configRootPath });
+        huskySetup({
+          cwd: cfg.config.cwd,
+          configRootPath: cfg.config.configRootPath,
+        });
       }
       catch (err) {
         error(`Setup husky failed: ${(err as Error).message}`);

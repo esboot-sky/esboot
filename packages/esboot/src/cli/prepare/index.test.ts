@@ -74,6 +74,7 @@ describe('prepare', () => {
     vi.doMock('@/cfg', () => ({
       cfg: {
         config: {
+          cwd: '/repo/app',
           isCIBuild: false,
           configRootPath: '/repo/app/config',
         },
@@ -85,7 +86,10 @@ describe('prepare', () => {
     prepare();
 
     expect(calls).toEqual(['tsconfig', 'types', 'stylelint', 'prettier', 'commitlint', 'vscode']);
-    expect(huskySetup).toHaveBeenCalledWith({ configRootPath: '/repo/app/config' });
+    expect(huskySetup).toHaveBeenCalledWith({
+      cwd: '/repo/app',
+      configRootPath: '/repo/app/config',
+    });
     expect(callPluginHookOfOnlyExec).toHaveBeenCalled();
   });
 
@@ -94,6 +98,7 @@ describe('prepare', () => {
     vi.doMock('@/cfg', () => ({
       cfg: {
         config: {
+          cwd: '/repo/app',
           isCIBuild: true,
           configRootPath: '/repo/app/config',
         },
@@ -124,6 +129,7 @@ describe('prepare', () => {
     vi.doMock('@/cfg', () => ({
       cfg: {
         config: {
+          cwd: '/repo/app',
           isCIBuild: false,
           configRootPath: '/repo/app/config',
         },

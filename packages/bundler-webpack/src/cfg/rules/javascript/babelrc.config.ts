@@ -1,6 +1,5 @@
 import type { Configuration, ConfigurationInstance } from '@dz-web/esboot';
 import path from 'node:path';
-import process from 'node:process';
 import { generateScopedNameFactory } from '@dz-web/babel-plugin-react-css-modules/utils';
 import { addReactCompiler } from '@dz-web/esboot-bundler-common';
 import { createResolvePath } from '@dz-web/esboot-common/helpers';
@@ -26,10 +25,10 @@ export const presets = [
 
 export function getPlugins(cfg: ConfigurationInstance, alias: Configuration['alias'], legacy: boolean) {
   const customAlias: Configuration['alias'] = {};
-  const { isDev } = cfg.config;
+  const { cwd, isDev } = cfg.config;
 
   for (const k in alias) {
-    const value = path.resolve(process.cwd(), `./${alias[k]}/`);
+    const value = path.resolve(cwd, `./${alias[k]}/`);
 
     customAlias[k] = value;
   }

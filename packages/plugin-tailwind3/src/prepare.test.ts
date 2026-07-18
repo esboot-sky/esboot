@@ -14,10 +14,6 @@ vi.mock('node:fs', () => ({
   readFileSync,
   writeFileSync,
 }));
-vi.mock('@dz-web/esboot-common/constants', () => ({
-  cacheDir: '/repo/app/node_modules/.cache/esboot',
-}));
-
 vi.mock('@dz-web/esboot-common/helpers', () => ({
   info,
   error,
@@ -84,20 +80,20 @@ describe('plugin-tailwind3 prepare', () => {
     }) as typeof process.once);
 
     const { default: pluginTailwind3 } = await import('./index');
-    
+
     // 1. Test with callback options
-    const customConfigFn = vi.fn((config) => ({
+    const customConfigFn = vi.fn(config => ({
       ...config,
       theme: {
         extend: {
-          colors: { primary: '#2E79F8' }
-        }
-      }
+          colors: { primary: '#2E79F8' },
+        },
+      },
     }));
     const plugin = pluginTailwind3({
-      tailwindcssOptions: customConfigFn
+      tailwindcssOptions: customConfigFn,
     });
-    
+
     plugin.prepare?.({
       cwd: '/repo/app',
     } as any);
@@ -118,10 +114,10 @@ describe('plugin-tailwind3 prepare', () => {
       tailwindcssOptions: {
         theme: {
           extend: {
-            colors: { secondary: '#ff0000' }
-          }
-        }
-      }
+            colors: { secondary: '#ff0000' },
+          },
+        },
+      },
     });
     pluginObj.prepare?.({
       cwd: '/repo/app',
@@ -136,4 +132,3 @@ describe('plugin-tailwind3 prepare', () => {
     onceSpy.mockRestore();
   });
 });
-

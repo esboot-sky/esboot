@@ -1,11 +1,94 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import process from 'node:process';
 
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import createConfig from './eslint';
 
+const originalProjectService = process.env.ESBOOT_ESLINT_PROJECT_SERVICE;
+
 describe('createConfig', () => {
+  beforeEach(() => {
+    delete process.env.ESBOOT_ESLINT_PROJECT_SERVICE;
+  });
+
+  afterEach(() => {
+    if (originalProjectService === undefined) {
+      delete process.env.ESBOOT_ESLINT_PROJECT_SERVICE;
+    }
+    else {
+      process.env.ESBOOT_ESLINT_PROJECT_SERVICE = originalProjectService;
+    }
+  });
+
+  it('enables the TypeScript project service by default for consuming projects', async () => {
+    const config = await createConfig();
+    const reactConfig = config.find((item) => {
+      const files = Array.isArray(item.files) ? item.files : [];
+      return files.includes('**/*.{jsx,ts,tsx}');
+    });
+    const parserOptions = reactConfig?.languageOptions?.parserOptions as Record<string, unknown> | undefined;
+
+    expect(parserOptions).toMatchObject({
+      projectService: true,
+      tsconfigRootDir: process.cwd(),
+    });
+  });
+
+  it('disables the TypeScript project service when explicitly requested', async () => {
+    process.env.ESBOOT_ESLINT_PROJECT_SERVICE = '0';
+
+    const config = await createConfig();
+    const reactConfig = config.find((item) => {
+      const files = Array.isArray(item.files) ? item.files : [];
+      return files.includes('**/*.{jsx,ts,tsx}');
+    });
+    const parserOptions = reactConfig?.languageOptions?.parserOptions as Record<string, unknown> | undefined;
+
+    expect(parserOptions).not.toHaveProperty('projectService');
+    expect(parserOptions).not.toHaveProperty('tsconfigRootDir');
+  });
+
+  it('keeps the environment override authoritative over custom React parser options', async () => {
+    process.env.ESBOOT_ESLINT_PROJECT_SERVICE = '0';
+
+    const config = await createConfig({
+      reactConfig: {
+        languageOptions: {
+          parserOptions: {
+            projectService: true,
+            tsconfigRootDir: '/custom/project',
+          },
+        },
+      },
+    });
+    const reactConfig = config.find((item) => {
+      const files = Array.isArray(item.files) ? item.files : [];
+      return files.includes('**/*.{jsx,ts,tsx}');
+    });
+    const parserOptions = reactConfig?.languageOptions?.parserOptions as Record<string, unknown> | undefined;
+
+    expect(parserOptions).not.toHaveProperty('projectService');
+    expect(parserOptions).not.toHaveProperty('tsconfigRootDir');
+  });
+
+  it('enables the TypeScript project service when explicitly requested', async () => {
+    process.env.ESBOOT_ESLINT_PROJECT_SERVICE = '1';
+
+    const config = await createConfig();
+    const reactConfig = config.find((item) => {
+      const files = Array.isArray(item.files) ? item.files : [];
+      return files.includes('**/*.{jsx,ts,tsx}');
+    });
+    const parserOptions = reactConfig?.languageOptions?.parserOptions as Record<string, unknown> | undefined;
+
+    expect(parserOptions).toMatchObject({
+      projectService: true,
+      tsconfigRootDir: process.cwd(),
+    });
+  });
+
   it('uses the Tailwind 4 rule names and keeps new recommended rules enabled', async () => {
     const config = await createConfig();
     const reactConfig = config.find((item) => {

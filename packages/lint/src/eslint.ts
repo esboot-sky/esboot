@@ -1,3 +1,5 @@
+import process from 'node:process';
+
 import antfu from '@antfu/eslint-config';
 import { merge } from '@dz-web/esboot-common/lodash';
 // @ts-expect-error - esbootPlugin may not have type definitions
@@ -148,13 +150,17 @@ function buildVueConfig(customVue?: Partial<FlatConfigItem>): AntfuConfigItem {
 }
 
 function buildReactConfig(customReact?: Partial<FlatConfigItem>): AntfuConfigItem {
+  const { ESBOOT_ESLINT_PROJECT_SERVICE = '1' } = process.env;
+  const useProjectService = ESBOOT_ESLINT_PROJECT_SERVICE === '1';
   const defaultConfig: FlatConfigItem = {
     files: ['**/*.{jsx,ts,tsx}'],
     languageOptions: {
-      parserOptions: {
-        // Enable type-aware services without requiring every consumer to wire parserOptions.project manually.
-        // projectService: true,
-      },
+      parserOptions: useProjectService
+        ? {
+            projectService: true,
+            tsconfigRootDir: process.cwd(),
+          }
+        : {},
     },
     plugins: {
       'better-tailwindcss': eslintPluginBetterTailwindcss,
@@ -187,7 +193,15 @@ function buildReactConfig(customReact?: Partial<FlatConfigItem>): AntfuConfigIte
     merged.rules = merge({}, defaultConfig.rules || {}, customReact.rules) as Record<string, unknown>;
   }
 
-  return merge({}, merged, customReact) as AntfuConfigItem;
+  const result = merge({}, merged, customReact) as FlatConfigItem;
+
+  if (!useProjectService) {
+    const languageOptions = result.languageOptions as { parserOptions?: Record<string, unknown> } | undefined;
+    delete languageOptions?.parserOptions?.projectService;
+    delete languageOptions?.parserOptions?.tsconfigRootDir;
+  }
+
+  return result as AntfuConfigItem;
 }
 
 function buildSettingsConfig(customSettings?: Record<string, unknown>): AntfuConfigItem {

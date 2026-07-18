@@ -17,8 +17,13 @@ export const DEFAULT_PREVIEW_PORT = 8102;
 export const DEFAULT_CONFIG_FOLDER = 'config';
 export const DEFAULT_SRC_FOLDER = 'src';
 
-export const cacheDir = resolve(process.cwd(), 'node_modules/.cache/esboot');
-export const webpackCacheDir = join(cacheDir, 'webpack-cache');
+export function getCacheDir(cwd: string): string {
+  return resolve(cwd, 'node_modules/.cache/esboot');
+}
+
+export function getWebpackCacheDir(cwd: string): string {
+  return join(getCacheDir(cwd), 'webpack-cache');
+}
 
 export enum PLATFORMS {
   MOBILE = 'mobile',

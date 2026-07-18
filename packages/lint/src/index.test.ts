@@ -52,8 +52,9 @@ describe('lint package runtime helpers', () => {
 
     const { huskySetup } = await import('./index');
 
-    huskySetup({ configRootPath: '/repo/config' });
+    huskySetup({ cwd: '/repo/app', configRootPath: '/repo/config' });
 
+    expect(pathExistsSync).toHaveBeenNthCalledWith(1, '/repo/app/.git');
     expect(ensureDirSync).toHaveBeenCalledWith('/repo/config/.husky');
     expect(copySync).toHaveBeenCalledWith(expect.stringContaining('/config/.husky'), '/repo/config/.husky');
     expect(exec).toHaveBeenCalledWith('node /libs/husky./lib/bin.js install config/.husky', expect.any(Object));
@@ -66,6 +67,7 @@ describe('lint package runtime helpers', () => {
 
     huskySetup({ configRootPath: '/repo/config' });
 
+    expect(pathExistsSync).toHaveBeenCalledWith(expect.stringContaining('/.git'));
     expect(ensureDirSync).not.toHaveBeenCalled();
     expect(exec).not.toHaveBeenCalled();
   });
@@ -83,7 +85,16 @@ describe('lint package runtime helpers', () => {
 
     expect(info).toHaveBeenCalledWith('Start checking staged files...');
     expect(info).toHaveBeenCalledWith('Start ESLint check...');
-    expect(exec).toHaveBeenCalledWith('node /resolved/lint-staged/bin --cwd /repo/app --config /repo/app/node_modules/.cache/esboot/.lintstagedrc-eslint.json', expect.any(Object));
+    expect(exec).toHaveBeenCalledWith(
+      'node /resolved/lint-staged/bin --cwd /repo/app --config /repo/app/node_modules/.cache/esboot/.lintstagedrc-eslint.json',
+      expect.objectContaining({
+        options: {
+          env: {
+            ESBOOT_ESLINT_PROJECT_SERVICE: '0',
+          },
+        },
+      }),
+    );
     expect(info).toHaveBeenCalledWith('ESLint check passed.');
     expect(info).toHaveBeenCalledWith('Start Stylelint check...');
     expect(exec).toHaveBeenCalledWith('node /resolved/lint-staged/bin --cwd /repo/app --config /repo/app/node_modules/.cache/esboot/.lintstagedrc-stylelint.json', expect.any(Object));

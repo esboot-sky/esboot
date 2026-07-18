@@ -41,6 +41,7 @@ describe('mfsu helpers', () => {
     expect(mfsu).toBeTruthy();
     expect(MFSUMock).toHaveBeenCalledWith(expect.objectContaining({
       cwd: '/repo/app',
+      tmpBase: '/repo/app/node_modules/.cache/esboot/mfsu',
       strategy: 'normal',
       customFlag: true,
     }));

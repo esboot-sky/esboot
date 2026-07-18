@@ -43,9 +43,9 @@ describe('generatePrettierCfg', () => {
     await Promise.resolve();
 
     expect(callPluginHookOfModifyLintConfig).toHaveBeenCalled();
-    expect(ensureFileSync).toHaveBeenCalledWith(expect.stringContaining('/prettier/index.json'));
+    expect(ensureFileSync).toHaveBeenCalledWith('/repo/app/node_modules/.cache/esboot/prettier/index.json');
     expect(writeJSON).toHaveBeenCalledWith(
-      expect.stringContaining('/prettier/index.json'),
+      '/repo/app/node_modules/.cache/esboot/prettier/index.json',
       expect.any(Object),
       { spaces: 2 },
     );

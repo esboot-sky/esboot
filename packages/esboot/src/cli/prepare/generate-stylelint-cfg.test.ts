@@ -46,9 +46,9 @@ describe('generateStylelintCfg', () => {
     await Promise.resolve();
 
     expect(callPluginHookOfModifyLintConfig).toHaveBeenCalled();
-    expect(ensureFileSync).toHaveBeenCalledWith(expect.stringContaining('/stylelint/index.js'));
+    expect(ensureFileSync).toHaveBeenCalledWith('/repo/app/node_modules/.cache/esboot/stylelint/index.js');
     expect(writeFile).toHaveBeenCalledWith(
-      expect.stringContaining('/stylelint/index.js'),
+      '/repo/app/node_modules/.cache/esboot/stylelint/index.js',
       expect.stringContaining('export default'),
     );
     expect(error).not.toHaveBeenCalled();

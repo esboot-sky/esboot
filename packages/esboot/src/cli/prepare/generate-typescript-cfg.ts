@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { isAbsolute, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { cacheDir } from '@dz-web/esboot-common/constants';
+import { getCacheDir } from '@dz-web/esboot-common/constants';
 import { ensureDirSync, writeJSON } from '@dz-web/esboot-common/fs-extra';
 import { error, info } from '@dz-web/esboot-common/helpers';
 import { PluginHooks } from '@dz-web/esboot-common/plugin';
@@ -17,6 +17,7 @@ const tsconfigJson = JSON.parse(readFileSync(tsconfigPath, 'utf-8'));
 
 export function generateTypeScriptCfg(): void {
   const { cwd, alias } = cfg.config;
+  const cacheDir = getCacheDir(cwd);
   const _alias: Record<string, string[]> = {};
 
   for (const k in alias) {

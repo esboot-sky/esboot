@@ -9,9 +9,9 @@ while keeping ESBoot's lint-staged pre-commit check fast.
 
 ESBoot exposes the `ESBOOT_ESLINT_PROJECT_SERVICE` environment variable.
 
-- When the variable is absent, `projectService` is enabled.
-- When the variable is exactly `false`, `projectService` is disabled.
-- Other values retain the enabled default.
+- When the variable is absent, it defaults to `1` and `projectService` is enabled.
+- When the variable is `1`, `projectService` is enabled.
+- When the variable is `0`, `projectService` is disabled.
 
 This preserves a simple opt-out contract and lets ESBoot disable the expensive
 TypeScript project initialization only for pre-commit checks.
@@ -43,12 +43,12 @@ rather than passing false-like parser settings.
 ## Pre-commit Data Flow
 
 `execGitHooks()` starts lint-staged with
-`ESBOOT_ESLINT_PROJECT_SERVICE=false` in the child process environment. The
+`ESBOOT_ESLINT_PROJECT_SERVICE=0` in the child process environment. The
 variable is inherited by lint-staged's ESLint processes:
 
 ```text
 ESBoot pre-commit
-  -> lint-staged (ESBOOT_ESLINT_PROJECT_SERVICE=false)
+  -> lint-staged (ESBOOT_ESLINT_PROJECT_SERVICE=0)
     -> eslint
       -> shared ESBoot config without projectService
 ```
@@ -71,7 +71,7 @@ Focused tests will verify:
 
 1. The generated React config enables `projectService` by default.
 2. The enabled config uses `process.cwd()` as `tsconfigRootDir`.
-3. Setting `ESBOOT_ESLINT_PROJECT_SERVICE=false` omits both parser options.
+3. Setting `ESBOOT_ESLINT_PROJECT_SERVICE=0` omits both parser options.
 4. `execGitHooks()` passes the disabling environment variable to lint-staged.
 5. Existing lint package tests, lint, and package build remain successful.
 

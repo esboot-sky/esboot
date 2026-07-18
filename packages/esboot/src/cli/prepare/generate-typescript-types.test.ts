@@ -25,6 +25,7 @@ describe('generateTypeScriptTypes', () => {
     vi.doMock('@/cfg', () => ({
       cfg: {
         config: {
+          cwd: '/repo/app',
           svgr: true,
           css: {
             modules: {
@@ -41,11 +42,11 @@ describe('generateTypeScriptTypes', () => {
     await Promise.resolve();
 
     expect(writeFile).toHaveBeenCalledWith(
-      expect.stringContaining('/typescript/esboot.d.ts'),
+      '/repo/app/node_modules/.cache/esboot/typescript/esboot.d.ts',
       expect.stringContaining('styleName?: string | undefined;'),
     );
     expect(writeFile).toHaveBeenCalledWith(
-      expect.stringContaining('/typescript/esboot.d.ts'),
+      '/repo/app/node_modules/.cache/esboot/typescript/esboot.d.ts',
       expect.stringContaining('const ReactComponent: React.FunctionComponent'),
     );
   });
@@ -55,6 +56,7 @@ describe('generateTypeScriptTypes', () => {
     vi.doMock('@/cfg', () => ({
       cfg: {
         config: {
+          cwd: '/repo/app',
           svgr: false,
           css: {
             modules: {
@@ -72,7 +74,7 @@ describe('generateTypeScriptTypes', () => {
 
     expect(writeFile).toHaveBeenCalledWith(
       expect.any(String),
-      expect.stringContaining("declare module '*.svg' {\n      const value: string;"),
+      expect.stringContaining('declare module \'*.svg\' {\n      const value: string;'),
     );
     expect(writeFile).not.toHaveBeenCalledWith(
       expect.any(String),

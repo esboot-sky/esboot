@@ -14,7 +14,7 @@ import {
   resolveViteFrameworkPlugins,
   shouldUseReactStyleNamePlugin,
 } from '@dz-web/esboot-bundler-common';
-import { cacheDir } from '@dz-web/esboot-common/constants';
+import { getCacheDir } from '@dz-web/esboot-common/constants';
 import react from '@vitejs/plugin-react';
 import vitePluginSvgr from 'vite-plugin-svgr';
 
@@ -111,7 +111,7 @@ export async function createVitestViteConfig(
     publicDir: false,
     base: publicPath,
     root: cwd,
-    cacheDir: join(cacheDir, '.vite'),
+    cacheDir: join(getCacheDir(cwd), '.vite'),
     define: {
       ...addDefine(cfg),
     },
