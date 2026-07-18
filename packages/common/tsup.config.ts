@@ -12,6 +12,7 @@ export default defineConfig({
       'src/plugin/index.ts',
       'src/cfg/index.ts',
       'src/constants/index.ts',
+      'src/environment/index.ts',
     ],
   },
 });
