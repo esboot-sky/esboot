@@ -1,17 +1,23 @@
+import type { EnvProvider } from '@dz-web/esboot-common/environment';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+  shellEnv,
+} from '@dz-web/esboot-common/environment';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { entryLogPlugin } from './entry-log';
 
 describe('entryLogPlugin', () => {
   const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-  const originalEnv = { ...process.env };
+  let previousProvider: EnvProvider;
 
   beforeEach(() => {
-    process.env = { ...originalEnv };
+    previousProvider = setShellEnvProvider(createRecordEnvProvider({}));
   });
 
   afterEach(() => {
     logSpy.mockClear();
-    process.env = originalEnv;
+    setShellEnvProvider(previousProvider);
   });
 
   it('defines a plugin with correct name/key and hooks', () => {
@@ -22,8 +28,8 @@ describe('entryLogPlugin', () => {
   });
 
   it('logs entry details in dev mode via afterCompile with correct separators, spacing, and colored env info', () => {
-    process.env.ESBOOT_PLATFORM = 'pc';
-    process.env.ESBOOT_PAGE_TYPE = '_browser';
+    shellEnv.set('ESBOOT_PLATFORM', 'pc');
+    shellEnv.set('ESBOOT_PAGE_TYPE', '_browser');
 
     const plugin = entryLogPlugin();
     const ctx = {

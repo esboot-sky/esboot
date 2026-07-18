@@ -1,6 +1,7 @@
 import process from 'node:process';
 
 import antfu from '@antfu/eslint-config';
+import { shellEnv } from '@dz-web/esboot-common/environment';
 import { merge } from '@dz-web/esboot-common/lodash';
 // @ts-expect-error - esbootPlugin may not have type definitions
 import esbootPlugin from '@dz-web/eslint-plugin-esboot';
@@ -150,8 +151,10 @@ function buildVueConfig(customVue?: Partial<FlatConfigItem>): AntfuConfigItem {
 }
 
 function buildReactConfig(customReact?: Partial<FlatConfigItem>): AntfuConfigItem {
-  const { ESBOOT_ESLINT_PROJECT_SERVICE = '1' } = process.env;
-  const useProjectService = ESBOOT_ESLINT_PROJECT_SERVICE === '1';
+  const useProjectService = shellEnv.get(
+    'ESBOOT_ESLINT_PROJECT_SERVICE',
+    '1',
+  ) === '1';
   const defaultConfig: FlatConfigItem = {
     files: ['**/*.{jsx,ts,tsx}'],
     languageOptions: {

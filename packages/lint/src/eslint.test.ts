@@ -1,25 +1,26 @@
+import type { EnvProvider } from '@dz-web/esboot-common/environment';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import process from 'node:process';
 
+import process from 'node:process';
+import {
+  createRecordEnvProvider,
+  setShellEnvProvider,
+  shellEnv,
+} from '@dz-web/esboot-common/environment';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import createConfig from './eslint';
 
-const originalProjectService = process.env.ESBOOT_ESLINT_PROJECT_SERVICE;
+let previousProvider: EnvProvider;
 
 describe('createConfig', () => {
   beforeEach(() => {
-    delete process.env.ESBOOT_ESLINT_PROJECT_SERVICE;
+    previousProvider = setShellEnvProvider(createRecordEnvProvider({}));
   });
 
   afterEach(() => {
-    if (originalProjectService === undefined) {
-      delete process.env.ESBOOT_ESLINT_PROJECT_SERVICE;
-    }
-    else {
-      process.env.ESBOOT_ESLINT_PROJECT_SERVICE = originalProjectService;
-    }
+    setShellEnvProvider(previousProvider);
   });
 
   it('enables the TypeScript project service by default for consuming projects', async () => {
@@ -37,7 +38,7 @@ describe('createConfig', () => {
   });
 
   it('disables the TypeScript project service when explicitly requested', async () => {
-    process.env.ESBOOT_ESLINT_PROJECT_SERVICE = '0';
+    shellEnv.set('ESBOOT_ESLINT_PROJECT_SERVICE', '0');
 
     const config = await createConfig();
     const reactConfig = config.find((item) => {
@@ -51,7 +52,7 @@ describe('createConfig', () => {
   });
 
   it('keeps the environment override authoritative over custom React parser options', async () => {
-    process.env.ESBOOT_ESLINT_PROJECT_SERVICE = '0';
+    shellEnv.set('ESBOOT_ESLINT_PROJECT_SERVICE', '0');
 
     const config = await createConfig({
       reactConfig: {
@@ -74,7 +75,7 @@ describe('createConfig', () => {
   });
 
   it('enables the TypeScript project service when explicitly requested', async () => {
-    process.env.ESBOOT_ESLINT_PROJECT_SERVICE = '1';
+    shellEnv.set('ESBOOT_ESLINT_PROJECT_SERVICE', '1');
 
     const config = await createConfig();
     const reactConfig = config.find((item) => {
