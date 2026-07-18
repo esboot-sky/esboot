@@ -38,10 +38,14 @@ export function createRecordEnvProvider(source: EnvRecord): EnvProvider {
 
 let provider: EnvProvider = createRecordEnvProvider(process.env);
 
+function getEnv(key: string): string | undefined;
+function getEnv(key: string, fallback: string): string;
+function getEnv(key: string, fallback?: string): string | undefined {
+  return provider.get(key) ?? fallback;
+}
+
 export const shellEnv: ShellEnv = {
-  get(key: string, fallback?: string): string | undefined {
-    return provider.get(key) ?? fallback;
-  },
+  get: getEnv,
   set(key: string, value: string): void {
     provider.set(key, value);
   },

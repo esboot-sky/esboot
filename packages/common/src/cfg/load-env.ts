@@ -18,7 +18,11 @@ export function loadEnv({ root }: { root: string }): void {
     processEnv: fileEnv,
     quiet: true,
   });
-  const providerEnv = shellEnv.toObject();
+  const providerEnv = Object.fromEntries(
+    Object.entries(shellEnv.toObject()).filter(
+      (entry): entry is [string, string] => entry[1] !== undefined,
+    ),
+  );
   const fileEnvToInject = Object.fromEntries(
     Object.entries(parsed).filter(([key]) => !shellEnv.has(key)),
   );
