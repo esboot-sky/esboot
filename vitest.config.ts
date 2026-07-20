@@ -5,6 +5,13 @@ export default defineConfig({
     name: 'node',
     environment: 'node',
     projects: ['packages/*', 'tools/*'],
-    exclude: ['**/node_modules/**', '**/dist/**', '**/templates/**', '**/fixtures/**'],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/templates/**',
+      '**/fixtures/**',
+      '**/vscode-extension-esboot/**',
+      '**/create-esboot/lib/sync/**',
+    ],
   },
 });
