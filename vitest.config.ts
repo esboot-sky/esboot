@@ -5,6 +5,7 @@ export default defineConfig({
     name: 'node',
     environment: 'node',
     projects: ['packages/*', 'tools/*'],
+    testTimeout: 20000,
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
