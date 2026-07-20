@@ -1,40 +1,29 @@
 import { describe, expect, it } from 'vitest';
 import { addBuildCfg } from './add-build-cfg';
 
-describe('Vite addBuildCfg', () => {
-  it('should add treeshake.moduleSideEffects configuration to rollupOptions for css/scss/sass/less files', async () => {
+describe('addBuildCfg treeshake configuration', () => {
+  it('adds treeshake.moduleSideEffects array with css rule', async () => {
     const viteCfg: any = {
-      plugins: [],
-    };
-    const cfg: any = {
-      config: {
-        sourceMap: false,
-        outputPath: 'dist',
-        isDev: false,
-        minimize: false,
-        assetsInlineLimit: 4096,
-        bundlerOptions: {},
-      },
+      build: {},
     };
 
-    await addBuildCfg(cfg, viteCfg);
+    await addBuildCfg(
+      {
+        config: {
+          isDev: false,
+          minimize: false,
+        },
+      } as any,
+      viteCfg
+    );
 
-    expect(viteCfg.build.rollupOptions).toBeDefined();
-    expect(viteCfg.build.rollupOptions.treeshake).toBeDefined();
-    
-    const moduleSideEffects = viteCfg.build.rollupOptions.treeshake.moduleSideEffects;
-    expect(moduleSideEffects).toBeTypeOf('function');
-
-    // Test CSS matching
-    expect(moduleSideEffects('style.css')).toBe(true);
-    expect(moduleSideEffects('style.scss')).toBe(true);
-    expect(moduleSideEffects('style.sass')).toBe(true);
-    expect(moduleSideEffects('style.less')).toBe(true);
-    expect(moduleSideEffects('style.scss?module')).toBe(true);
-    expect(moduleSideEffects('style.scss?used')).toBe(true);
-
-    // Test non-CSS matching
-    expect(moduleSideEffects('index.js')).toBeUndefined();
-    expect(moduleSideEffects('index.tsx')).toBeUndefined();
+    expect(viteCfg.build.rollupOptions.treeshake).toEqual({
+      moduleSideEffects: [
+        {
+          test: /\.(css|scss|sass|less)(\?.*)?$/,
+          sideEffects: true,
+        },
+      ],
+    });
   });
 });
