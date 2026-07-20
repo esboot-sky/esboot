@@ -50,8 +50,39 @@ export async function getCfg(cfg: ConfigurationInstance, mode: Environment, opti
     ),
   ];
 
+  const forceCssSideEffectsPlugin = {
+    name: 'esboot-force-css-side-effects',
+    configResolved(resolvedConfig: any) {
+      const cssPostPlugin = resolvedConfig.plugins.find((p: any) => p?.name === 'vite:css-post');
+      const originalTransform = cssPostPlugin?.transform?.handler || cssPostPlugin?.transform;
+      if (typeof originalTransform !== 'function') return;
+
+      const newTransform = async function(this: any, code: string, id: string, ...args: any[]) {
+        const result = await originalTransform.call(this, code, id, ...args);
+        if (!result || !/\.(css|scss|sass|less)(\?.*)?$/.test(id)) return result;
+
+        const isObject = typeof result === 'object';
+        const originalCode = isObject ? result.code : result;
+        const patchedCode = `${originalCode}\n;if(typeof window!=="undefined")window.__css_side_effect_marker__=true;`;
+
+        return isObject
+          ? { ...result, code: patchedCode, moduleSideEffects: true }
+          : { code: patchedCode, moduleSideEffects: true };
+      };
+
+      if (cssPostPlugin.transform.handler) {
+        cssPostPlugin.transform.handler = newTransform;
+      } else {
+        cssPostPlugin.transform = newTransform;
+      }
+    },
+  };
+
   let viteCfg: CustomViteConfiguration = {
-    plugins: frameworkPlugins as CustomViteConfiguration['plugins'],
+    plugins: [
+      forceCssSideEffectsPlugin,
+      ...(frameworkPlugins as CustomViteConfiguration['plugins'] || []),
+    ],
     mode,
     configFile: false,
     publicDir: false,

@@ -20,11 +20,12 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
     viteCfg.build.rollupOptions = {};
 
   viteCfg.build.rollupOptions.treeshake = {
-    moduleSideEffects: (id) => {
-      if (/\.(css|scss|sass|less)(\?.*)?$/.test(id)) {
-        return true;
-      }
-    },
+    moduleSideEffects: [
+      {
+        test: /\.(css|scss|sass|less)(\?.*)?$/,
+        sideEffects: true,
+      },
+    ] as any,
   };
 
   Object.assign(viteCfg.build, {

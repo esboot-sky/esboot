@@ -175,4 +175,59 @@ describe('getCfg tailwind integration', () => {
       { name: 'vue-jsx' },
     ]));
   });
+
+  it('includes the forceCssSideEffectsPlugin which forces moduleSideEffects: true on css/scss/sass/less files', async () => {
+    const { getCfg } = await import('./get-cfg');
+
+    const cfg = await getCfg({
+      config: {
+        cwd: '/repo/app',
+        publicPath: '/',
+        sourceMap: false,
+        isDev: true,
+      },
+    } as any, 'development');
+
+    const forcePlugin = cfg.plugins.find((p: any) => p && p.name === 'esboot-force-css-side-effects');
+    expect(forcePlugin).toBeDefined();
+    expect(forcePlugin.enforce).toBeUndefined();
+    expect(forcePlugin.configResolved).toBeTypeOf('function');
+
+    const mockCssPostPlugin = {
+      name: 'vite:css-post',
+      transform: {
+        handler: vi.fn(async (code, id) => {
+          if (id === 'style.css') return 'body {}';
+          if (id === 'style.scss?module') return { code: '.test {}', map: null };
+          if (id === 'index.js') return 'console.log()';
+          return null;
+        }),
+      },
+    };
+
+    forcePlugin.configResolved({
+      plugins: [mockCssPostPlugin],
+    });
+
+    const context = {};
+
+    // Test patched transform on CSS string
+    const result1 = await mockCssPostPlugin.transform.handler.call(context, 'body {}', 'style.css');
+    expect(result1).toEqual({
+      code: 'body {}\n;if(typeof window!=="undefined")window.__css_side_effect_marker__=true;',
+      moduleSideEffects: true,
+    });
+
+    // Test patched transform on CSS object
+    const result2 = await mockCssPostPlugin.transform.handler.call(context, '.test {}', 'style.scss?module');
+    expect(result2).toEqual({
+      code: '.test {}\n;if(typeof window!=="undefined")window.__css_side_effect_marker__=true;',
+      map: null,
+      moduleSideEffects: true,
+    });
+
+    // Test patched transform on JS string (should not modify moduleSideEffects)
+    const result3 = await mockCssPostPlugin.transform.handler.call(context, 'console.log()', 'index.js');
+    expect(result3).toBe('console.log()');
+  });
 });
