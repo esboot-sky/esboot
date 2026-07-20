@@ -16,6 +16,17 @@ export const addBuildCfg: AddFunc = async (cfg, viteCfg) => {
   if (!viteCfg.build)
     viteCfg.build = {};
 
+  if (!viteCfg.build.rollupOptions)
+    viteCfg.build.rollupOptions = {};
+
+  viteCfg.build.rollupOptions.treeshake = {
+    moduleSideEffects: (id) => {
+      if (/\.(css|scss|sass|less)(\?.*)?$/.test(id)) {
+        return true;
+      }
+    },
+  };
+
   Object.assign(viteCfg.build, {
     emptyOutDir: true,
     copyPublicDir: false,
