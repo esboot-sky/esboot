@@ -496,11 +496,22 @@ export async function upgradeV4(options: UpgradeOptions) {
   for (const f of allFiles) {
     if (f.endsWith('.scss') || f.endsWith('.css')) {
       let content = fs.readFileSync(f, 'utf-8');
-      if (content.includes('@import')) {
-        content = content.replace(/@import\s+/g, '@use ');
-        fs.writeFileSync(f, content, 'utf-8');
+      let changed = false;
+
+      const newContent = content.replace(/^[ \t]*@import\s+['"]([^'"]+)['"]/gm, (match, path) => {
+        if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('//')) {
+          return match;
+        }
+        changed = true;
+        return match.replace('@import', '@use');
+      });
+
+      if (changed) {
+        fs.writeFileSync(f, newContent, 'utf-8');
         console.log(kleur.yellow(`Updated @import to @use in: ${relative(cwd, f)}`));
+        console.log(kleur.yellow(`⚠️ Warning: Sass @use introduces namespaces. Variables/mixins imported in ${relative(cwd, f)} must now be accessed via namespace (e.g. if you imported './var', access $color as var.$color).`));
         addSummaryItem(`replaced @import with @use in ${relative(cwd, f)}`);
+        addSummaryItem(`⚠️ [Manual verification required] check variables/mixins namespaces in ${relative(cwd, f)}`);
       }
     }
   }
