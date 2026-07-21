@@ -278,6 +278,12 @@ export async function upgradeV4(options: UpgradeOptions) {
   const updateDeps = (depsObj: Record<string, string> | undefined) => {
     if (!depsObj)
       return;
+    if (depsObj['@dz-web/esboot-bundler-webpack']) {
+      delete depsObj['@dz-web/esboot-bundler-webpack'];
+      depsObj['@dz-web/esboot-bundler-rspack'] = esbootVersion;
+      addSummaryItem(`replaced @dz-web/esboot-bundler-webpack with @dz-web/esboot-bundler-rspack`);
+      console.log(kleur.yellow('Replaced @dz-web/esboot-bundler-webpack with @dz-web/esboot-bundler-rspack in package.json.'));
+    }
     for (const pkgName of esbootPackages) {
       if (depsObj[pkgName]) {
         depsObj[pkgName] = esbootVersion;
@@ -304,6 +310,40 @@ export async function upgradeV4(options: UpgradeOptions) {
 
   updateDeps(pkg.dependencies);
   updateDeps(pkg.devDependencies);
+
+  // Upgrade scripts containing webpack to rspack
+  if (pkg.scripts) {
+    for (const key of Object.keys(pkg.scripts)) {
+      let val = pkg.scripts[key];
+      let newKey = key;
+      let changed = false;
+
+      if (key.includes('webpack')) {
+        newKey = key.replace(/webpack/g, 'rspack');
+        changed = true;
+      } else if (key.includes('Webpack')) {
+        newKey = key.replace(/Webpack/g, 'Rspack');
+        changed = true;
+      }
+
+      if (val.includes('webpack')) {
+        val = val.replace(/webpack/g, 'rspack');
+        changed = true;
+      }
+      if (val.includes('Webpack')) {
+        val = val.replace(/Webpack/g, 'Rspack');
+        changed = true;
+      }
+
+      if (changed) {
+        delete pkg.scripts[key];
+        pkg.scripts[newKey] = val;
+        console.log(kleur.yellow(`Updated script: ${key} -> ${newKey}: ${val}`));
+        addSummaryItem(`updated script ${key} to ${newKey}`);
+      }
+    }
+  }
+
 
   // If keeping Tailwind v3, add compatibility plugin
   if (keepTailwind3) {
@@ -450,6 +490,19 @@ export async function upgradeV4(options: UpgradeOptions) {
     }
 
     fs.writeFileSync(activeStyleEntry, styleContent, 'utf-8');
+  }
+
+  // Convert @import to @use in all .scss and .css files under src
+  for (const f of allFiles) {
+    if (f.endsWith('.scss') || f.endsWith('.css')) {
+      let content = fs.readFileSync(f, 'utf-8');
+      if (content.includes('@import')) {
+        content = content.replace(/@import\s+/g, '@use ');
+        fs.writeFileSync(f, content, 'utf-8');
+        console.log(kleur.yellow(`Updated @import to @use in: ${relative(cwd, f)}`));
+        addSummaryItem(`replaced @import with @use in ${relative(cwd, f)}`);
+      }
+    }
   }
 
   const legacyLocalNormalizePath = join(stylesDir, '_normalize.scss');
@@ -766,7 +819,52 @@ export async function upgradeV4(options: UpgradeOptions) {
       }
     }
 
+    // Add default svgrOptions: { icon: true }
+    const mainConfig = getMainConfig(sourceFile);
+    if (mainConfig) {
+      const svgrOptionsProp = mainConfig.getProperty('svgrOptions');
+      if (!svgrOptionsProp) {
+        mainConfig.addPropertyAssignment({
+          name: 'svgrOptions',
+          initializer: `{
+    icon: true,
+  }`,
+        });
+        console.log(kleur.yellow('Added default svgrOptions: { icon: true } to esbootrc.'));
+        addSummaryItem('added default svgrOptions: { icon: true }');
+      } else if (svgrOptionsProp.getKind() === SyntaxKind.PropertyAssignment) {
+        const pa = svgrOptionsProp.asKindOrThrow(SyntaxKind.PropertyAssignment);
+        const init = pa.getInitializer();
+        if (init && init.getKind() === SyntaxKind.ObjectLiteralExpression) {
+          const obj = init.asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+          if (!obj.getProperty('icon')) {
+            obj.addPropertyAssignment({
+              name: 'icon',
+              initializer: 'true',
+            });
+            console.log(kleur.yellow('Added icon: true to existing svgrOptions in esbootrc.'));
+            addSummaryItem('added icon: true to existing svgrOptions');
+          }
+        }
+      }
+    }
+
     sourceFile.saveSync();
+
+    // Webpack to Rspack text migration in .esbootrc.ts
+    let rcContent = fs.readFileSync(esbootrcPath, 'utf-8');
+    let rcChanged = false;
+    if (rcContent.includes('webpack') || rcContent.includes('Webpack') || rcContent.includes('WEBPACK')) {
+      rcContent = rcContent.replace(/webpack/g, 'rspack');
+      rcContent = rcContent.replace(/Webpack/g, 'Rspack');
+      rcContent = rcContent.replace(/WEBPACK/g, 'RSPACK');
+      rcChanged = true;
+      console.log(kleur.yellow('Migrated Webpack references to Rspack in .esbootrc.ts'));
+      addSummaryItem('migrated Webpack references to Rspack in .esbootrc.ts');
+    }
+    if (rcChanged) {
+      fs.writeFileSync(esbootrcPath, rcContent, 'utf-8');
+    }
   }
 
   // 6. E2E Verification Runner

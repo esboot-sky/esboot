@@ -158,8 +158,9 @@ export default defineConfig((cfg) => {
     expect(esbootrcContent).toContain('tailwindcssOptions: (c) => ({ ...c, content: [] })');
     expect(esbootrcContent).not.toContain('tailwindcssOptions: (c) => ({ ...c, content: [] }),');
     expect(esbootrcContent).toMatch(/import type \{ BabelPlugin \} from ['"]@dz-web\/esboot['"];/);
-    expect(esbootrcContent).toMatch(/import type \{ BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
-    expect(esbootrcContent).not.toMatch(/import type \{ BabelPlugin,\s*BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
+    expect(esbootrcContent).toMatch(/import type \{ BundlerRspackOptions \} from ['"]@dz-web\/esboot-bundler-rspack['"];/);
+    expect(esbootrcContent).not.toMatch(/import type \{ BabelPlugin,\s*BundlerRspackOptions \} from ['"]@dz-web\/esboot-bundler-rspack['"];/);
+    expect(esbootrcContent).toContain('svgrOptions: {\n              icon: true,\n            }');
 
     // Parse the output file and check that the config's experimental block has the reactCompiler
     const testProject = new Project();

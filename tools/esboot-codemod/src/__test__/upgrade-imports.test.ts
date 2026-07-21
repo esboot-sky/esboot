@@ -91,8 +91,8 @@ export default defineConfig({
     expect(pkg.devDependencies.eslint).toBe('^10.4.1');
     expect(pkg.devDependencies.stylelint).toBe('^17.13.0');
     expect(esbootrcContent).toMatch(/import type \{ BabelPlugin \} from ['"]@dz-web\/esboot['"];/);
-    expect(esbootrcContent).toMatch(/import type \{ BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
-    expect(esbootrcContent).not.toMatch(/import type \{ BabelPlugin,\s*BundlerWebpackOptions \} from ['"]@dz-web\/esboot-bundler-webpack['"];/);
+    expect(esbootrcContent).toMatch(/import type \{ BundlerRspackOptions \} from ['"]@dz-web\/esboot-bundler-rspack['"];/);
+    expect(esbootrcContent).not.toMatch(/import type \{ BabelPlugin,\s*BundlerRspackOptions \} from ['"]@dz-web\/esboot-bundler-rspack['"];/);
   });
 
   it('removes the legacy root husky directory', async () => {
@@ -208,6 +208,93 @@ export default defineConfig<BundlerWebpackOptions>((cfg) => {
     expect(esbootrcContent).toContain('const PX2REM_EXCLUDE = [');
     expect(esbootrcContent).toContain('extraBabelIncludes: EXTRA_BABEL_INCLUDES');
     expect(esbootrcContent).toContain('exclude: PX2REM_EXCLUDE');
+    expect(esbootrcContent).toContain('BundlerRspackOptions');
+    expect(esbootrcContent).not.toContain('BundlerWebpackOptions');
+    expect(esbootrcContent).toContain('svgrOptions');
+    expect(esbootrcContent).toContain('icon: true');
+  });
+
+  it('migrates webpack to rspack, @import to @use, and adds default svgrOptions', async () => {
+    const { upgradeV4 } = await import('../upgrade-v4.js');
+
+    // 1. Prepare package.json with webpack scripts and dependency
+    const pkgPath = join(testDir, 'package.json');
+    const pkg = fs.readJsonSync(pkgPath);
+    pkg.scripts = {
+      'dev:webpack': 'ESBOOT_BUNDLER=webpack esboot dev',
+      'build:webpack': 'ESBOOT_BUNDLER=webpack esboot build',
+    };
+    pkg.devDependencies['@dz-web/esboot-bundler-webpack'] = '^3.0.0';
+    fs.writeJsonSync(pkgPath, pkg, { spaces: 2 });
+
+    // 2. Prepare a .scss file using @import
+    fs.writeFileSync(
+      join(testDir, 'src/styles/index.scss'),
+      `@import './var';
+@import './mixins';
+.body { color: red; }
+`,
+      'utf-8',
+    );
+
+    // 3. Prepare .esbootrc.ts with webpack configurations but no svgrOptions
+    fs.writeFileSync(
+      join(testDir, '.esbootrc.ts'),
+      `import { defineConfig } from '@dz-web/esboot';
+import { BundlerWebpack as Bundler } from '@dz-web/esboot-bundler-webpack';
+import type { BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
+
+const getBundlerWebpackOptions = (cfg) => {
+  return {
+    bundlerOptions: {
+      codeSplitting: {},
+    },
+  };
+};
+
+export default defineConfig<BundlerWebpackOptions>((cfg) => {
+  const config = {
+    bundler: Bundler,
+    ...getBundlerWebpackOptions(cfg),
+    isSP: false,
+  };
+  return config;
+});
+`,
+      'utf-8',
+    );
+
+    // Run the migration
+    await upgradeV4({ cwd: testDir, keepTailwind3: false });
+
+    // Verify package.json script and dependency migration
+    const updatedPkg = fs.readJsonSync(pkgPath);
+    expect(updatedPkg.devDependencies['@dz-web/esboot-bundler-webpack']).toBeUndefined();
+    expect(updatedPkg.devDependencies['@dz-web/esboot-bundler-rspack']).toBe('workspace:*');
+    expect(updatedPkg.scripts['dev:rspack']).toBe('ESBOOT_BUNDLER=rspack esboot dev');
+    expect(updatedPkg.scripts['build:rspack']).toBe('ESBOOT_BUNDLER=rspack esboot build');
+    expect(updatedPkg.scripts['dev:webpack']).toBeUndefined();
+    expect(updatedPkg.scripts['build:webpack']).toBeUndefined();
+
+    // Verify @import to @use conversion
+    const styleContent = fs.readFileSync(join(testDir, 'src/styles/index.scss'), 'utf-8');
+    expect(styleContent).toContain("@use './var';");
+    expect(styleContent).toContain("@use './mixins';");
+    expect(styleContent).not.toContain('@import');
+
+    // Verify .esbootrc.ts AST and webpack -> rspack text replacements
+    const esbootrcContent = fs.readFileSync(join(testDir, '.esbootrc.ts'), 'utf-8');
+    expect(esbootrcContent).toContain("import { BundlerRspack as Bundler } from '@dz-web/esboot-bundler-rspack';");
+    expect(esbootrcContent).toContain("import type { BundlerRspackOptions } from '@dz-web/esboot-bundler-rspack';");
+    expect(esbootrcContent).toContain("const getBundlerRspackOptions = (cfg) => {");
+    expect(esbootrcContent).toContain("defineConfig<BundlerRspackOptions>");
+    expect(esbootrcContent).toContain("...getBundlerRspackOptions(cfg)");
+    expect(esbootrcContent).not.toContain('webpack');
+    expect(esbootrcContent).not.toContain('Webpack');
+
+    // Verify svgrOptions default injection
+    expect(esbootrcContent).toContain('svgrOptions: {');
+    expect(esbootrcContent).toContain('icon: true,');
   });
 
   it('exits early with a prompt when the project is not an esboot project', async () => {
