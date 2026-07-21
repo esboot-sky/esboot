@@ -20,22 +20,13 @@ describe('upgrade-v4 migration', () => {
       version: '1.0.0',
       devDependencies: {
         '@dz-web/esboot': '^3.0.0',
-        '@dz-web/esboot-bundler-webpack': '^3.0.0',
         'eslint': '^9.0.0',
         'stylelint': '^16.0.0',
       },
     }, { spaces: 2 });
 
     fs.writeFileSync(join(testDir, '.esbootrc.ts'), `import { defineConfig } from '@dz-web/esboot';
-import type { BabelPlugin, BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
-
-const webpackOptions: BundlerWebpackOptions = {
-  extraBabelPlugins: [] as BabelPlugin[],
-};
-
-export default defineConfig({
-  bundlerOptions: webpackOptions,
-});
+export default defineConfig({});
 `, 'utf-8');
 
     fs.writeFileSync(join(testDir, 'src/styles/index.scss'), '.root {}', 'utf-8');
@@ -84,12 +75,33 @@ export default defineConfig({
   it('moves BabelPlugin imports from webpack package to esboot', async () => {
     const { upgradeV4 } = await import('../upgrade-v4.js');
 
+    const pkgPath = join(testDir, 'package.json');
+    const pkg = fs.readJsonSync(pkgPath);
+    pkg.devDependencies['@dz-web/esboot-bundler-webpack'] = '^3.0.0';
+    fs.writeJsonSync(pkgPath, pkg, { spaces: 2 });
+
+    fs.writeFileSync(
+      join(testDir, '.esbootrc.ts'),
+      `import { defineConfig } from '@dz-web/esboot';
+import type { BabelPlugin, BundlerWebpackOptions } from '@dz-web/esboot-bundler-webpack';
+
+const webpackOptions: BundlerWebpackOptions = {
+  extraBabelPlugins: [] as BabelPlugin[],
+};
+
+export default defineConfig({
+  bundlerOptions: webpackOptions,
+});
+`,
+      'utf-8',
+    );
+
     await upgradeV4({ cwd: testDir, keepTailwind3: false });
 
-    const pkg = fs.readJsonSync(join(testDir, 'package.json'));
+    const updatedPkg = fs.readJsonSync(pkgPath);
     const esbootrcContent = fs.readFileSync(join(testDir, '.esbootrc.ts'), 'utf-8');
-    expect(pkg.devDependencies.eslint).toBe('^10.4.1');
-    expect(pkg.devDependencies.stylelint).toBe('^17.13.0');
+    expect(updatedPkg.devDependencies.eslint).toBe('^10.4.1');
+    expect(updatedPkg.devDependencies.stylelint).toBe('^17.13.0');
     expect(esbootrcContent).toMatch(/import type \{ BabelPlugin \} from ['"]@dz-web\/esboot['"];/);
     expect(esbootrcContent).toMatch(/import type \{ BundlerRspackOptions \} from ['"]@dz-web\/esboot-bundler-rspack['"];/);
     expect(esbootrcContent).not.toMatch(/import type \{ BabelPlugin,\s*BundlerRspackOptions \} from ['"]@dz-web\/esboot-bundler-rspack['"];/);

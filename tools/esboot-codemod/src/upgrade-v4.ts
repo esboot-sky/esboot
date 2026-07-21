@@ -267,8 +267,6 @@ export async function upgradeV4(options: UpgradeOptions) {
   const esbootPackages = [
     '@dz-web/esboot',
     '@dz-web/esboot-bundler-vite',
-    '@dz-web/esboot-bundler-webpack',
-    '@dz-web/esboot-bundler-rspack',
     '@dz-web/esboot-browser',
     '@dz-web/esboot-browser-react',
     '@dz-web/esboot-plugin-docs',
@@ -283,6 +281,9 @@ export async function upgradeV4(options: UpgradeOptions) {
       depsObj['@dz-web/esboot-bundler-rspack'] = esbootVersion;
       addSummaryItem(`replaced @dz-web/esboot-bundler-webpack with @dz-web/esboot-bundler-rspack`);
       console.log(kleur.yellow('Replaced @dz-web/esboot-bundler-webpack with @dz-web/esboot-bundler-rspack in package.json.'));
+    } else if (depsObj['@dz-web/esboot-bundler-rspack']) {
+      depsObj['@dz-web/esboot-bundler-rspack'] = esbootVersion;
+      addSummaryItem(`upgraded @dz-web/esboot-bundler-rspack to ${esbootVersion}`);
     }
     for (const pkgName of esbootPackages) {
       if (depsObj[pkgName]) {
@@ -313,38 +314,27 @@ export async function upgradeV4(options: UpgradeOptions) {
 
   // Upgrade scripts containing webpack to rspack
   if (pkg.scripts) {
+    const replaceWebpackWithRspack = (str: string): string => {
+      return str.replace(/webpack/gi, (match) => {
+        if (match === 'Webpack') return 'Rspack';
+        if (match === 'WEBPACK') return 'RSPACK';
+        return 'rspack';
+      });
+    };
+
     for (const key of Object.keys(pkg.scripts)) {
-      let val = pkg.scripts[key];
-      let newKey = key;
-      let changed = false;
+      const scriptValue = pkg.scripts[key];
+      const renamedKey = replaceWebpackWithRspack(key);
+      const renamedValue = replaceWebpackWithRspack(scriptValue);
 
-      if (key.includes('webpack')) {
-        newKey = key.replace(/webpack/g, 'rspack');
-        changed = true;
-      } else if (key.includes('Webpack')) {
-        newKey = key.replace(/Webpack/g, 'Rspack');
-        changed = true;
-      }
-
-      if (val.includes('webpack')) {
-        val = val.replace(/webpack/g, 'rspack');
-        changed = true;
-      }
-      if (val.includes('Webpack')) {
-        val = val.replace(/Webpack/g, 'Rspack');
-        changed = true;
-      }
-
-      if (changed) {
+      if (renamedKey !== key || renamedValue !== scriptValue) {
         delete pkg.scripts[key];
-        pkg.scripts[newKey] = val;
-        console.log(kleur.yellow(`Updated script: ${key} -> ${newKey}: ${val}`));
-        addSummaryItem(`updated script ${key} to ${newKey}`);
+        pkg.scripts[renamedKey] = renamedValue;
+        console.log(kleur.yellow(`Updated script: ${key} -> ${renamedKey}: ${renamedValue}`));
+        addSummaryItem(`updated script ${key} to ${renamedKey}`);
       }
     }
   }
-
-
   // If keeping Tailwind v3, add compatibility plugin
   if (keepTailwind3) {
     if (!pkg.devDependencies)
@@ -860,22 +850,79 @@ export async function upgradeV4(options: UpgradeOptions) {
       }
     }
 
-    sourceFile.saveSync();
+    // Migrate Webpack to Rspack via AST operations
+    let hasWebpackRefs = false;
+    for (const importDeclaration of sourceFile.getImportDeclarations()) {
+      const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
+      if (moduleSpecifier === '@dz-web/esboot-bundler-webpack') {
+        importDeclaration.setModuleSpecifier('@dz-web/esboot-bundler-rspack');
+        hasWebpackRefs = true;
+      }
 
-    // Webpack to Rspack text migration in .esbootrc.ts
-    let rcContent = fs.readFileSync(esbootrcPath, 'utf-8');
-    let rcChanged = false;
-    if (rcContent.includes('webpack') || rcContent.includes('Webpack') || rcContent.includes('WEBPACK')) {
-      rcContent = rcContent.replace(/webpack/g, 'rspack');
-      rcContent = rcContent.replace(/Webpack/g, 'Rspack');
-      rcContent = rcContent.replace(/WEBPACK/g, 'RSPACK');
-      rcChanged = true;
-      console.log(kleur.yellow('Migrated Webpack references to Rspack in .esbootrc.ts'));
+      const updatedSpecifier = importDeclaration.getModuleSpecifierValue();
+      if (updatedSpecifier === '@dz-web/esboot-bundler-rspack') {
+        for (const namedImport of importDeclaration.getNamedImports()) {
+          const name = namedImport.getName();
+          if (name === 'BundlerWebpack') {
+            if (namedImport.getAliasNode()) {
+              namedImport.setName('BundlerRspack');
+            } else {
+              namedImport.getNameNode().rename('BundlerRspack');
+            }
+            hasWebpackRefs = true;
+          } else if (name === 'BundlerWebpackOptions') {
+            if (namedImport.getAliasNode()) {
+              namedImport.setName('BundlerRspackOptions');
+            } else {
+              namedImport.getNameNode().rename('BundlerRspackOptions');
+            }
+            hasWebpackRefs = true;
+          }
+        }
+      }
+    }
+
+    for (const vd of sourceFile.getDescendantsOfKind(SyntaxKind.VariableDeclaration)) {
+      const name = vd.getName();
+      if (name.includes('Webpack')) {
+        vd.rename(name.replace(/Webpack/g, 'Rspack'));
+        hasWebpackRefs = true;
+      } else if (name.includes('webpack')) {
+        vd.rename(name.replace(/webpack/g, 'rspack'));
+        hasWebpackRefs = true;
+      }
+    }
+
+    for (const fd of sourceFile.getDescendantsOfKind(SyntaxKind.FunctionDeclaration)) {
+      const name = fd.getName();
+      if (name) {
+        if (name.includes('Webpack')) {
+          fd.rename(name.replace(/Webpack/g, 'Rspack'));
+          hasWebpackRefs = true;
+        } else if (name.includes('webpack')) {
+          fd.rename(name.replace(/webpack/g, 'rspack'));
+          hasWebpackRefs = true;
+        }
+      }
+    }
+
+    for (const sl of sourceFile.getDescendantsOfKind(SyntaxKind.StringLiteral)) {
+      const text = sl.getLiteralValue();
+      if (text === 'webpack') {
+        sl.setLiteralValue('rspack');
+        hasWebpackRefs = true;
+      } else if (text === 'Webpack') {
+        sl.setLiteralValue('Rspack');
+        hasWebpackRefs = true;
+      }
+    }
+
+    if (hasWebpackRefs) {
+      console.log(kleur.yellow('Migrated Webpack references to Rspack in .esbootrc.ts (AST)'));
       addSummaryItem('migrated Webpack references to Rspack in .esbootrc.ts');
     }
-    if (rcChanged) {
-      fs.writeFileSync(esbootrcPath, rcContent, 'utf-8');
-    }
+
+    sourceFile.saveSync();
   }
 
   // 6. E2E Verification Runner
