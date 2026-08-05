@@ -16,7 +16,23 @@ export function getAllPathsFromMenu(menuItems?: IMenu[]) {
 }
 
 export function filterRoutesByMenu<T extends { path: string }>(routes: T[], menuItems?: IMenu[]) {
-  const menuPaths = new Set(getAllPathsFromMenu(menuItems));
+  if (!menuItems || menuItems.length === 0) {
+    return routes;
+  }
 
-  return routes.filter(route => menuPaths.has(`/${route.path}`));
+  const menuPaths = getAllPathsFromMenu(menuItems);
+
+  return routes.filter((route) => {
+    const targetPath = route.path.startsWith('/') ? route.path : `/${route.path}`;
+    return menuPaths.some((menuPath) => {
+      if (!menuPath) return false;
+      const normalizedMenuPath = menuPath.startsWith('/') ? menuPath : `/${menuPath}`;
+
+      return (
+        normalizedMenuPath === targetPath
+        || normalizedMenuPath.endsWith(targetPath)
+        || normalizedMenuPath.endsWith(route.path)
+      );
+    });
+  });
 }

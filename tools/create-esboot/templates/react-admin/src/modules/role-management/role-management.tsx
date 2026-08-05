@@ -125,7 +125,7 @@ function RoleManagement() {
   }, [queryRoleList]);
 
   return (
-    <div className="flex h-full flex-1 flex-col">
+    <div className="flex flex-1 flex-col block-full">
       <div className="flex flex-1 flex-col p-[20px]">
         <ProTable<DataType>
           columns={columns}

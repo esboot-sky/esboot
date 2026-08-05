@@ -30,7 +30,7 @@ export default defineConfig<BundlerViteOptions>(() => {
       },
     },
     server: {
-      port: 11101,
+      port: 11100,
     },
   };
 });

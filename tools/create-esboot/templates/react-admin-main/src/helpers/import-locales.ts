@@ -1,10 +1,10 @@
+import type { i18nMessageDict } from '@/types';
 import { supportedLanguage } from '@/constants/config';
 import enUS from '@/lang/en-US';
 import zhCN from '@/lang/zh-CN';
 import zhTW from '@/lang/zh-TW';
-import { i18nMessageDict } from '@/types';
 
-type NestedObject = { [key: string]: any };
+interface NestedObject { [key: string]: any }
 function flattenObject(obj: NestedObject): NestedObject {
   const result: NestedObject = {};
 
@@ -13,7 +13,8 @@ function flattenObject(obj: NestedObject): NestedObject {
       const newPath = currentPath ? `${currentPath}.${key}` : key;
       if (typeof currentObj[key] === 'object' && currentObj[key] !== null && !Array.isArray(currentObj[key])) {
         recurse(currentObj[key], newPath);
-      } else {
+      }
+      else {
         result[newPath] = currentObj[key];
       }
     });

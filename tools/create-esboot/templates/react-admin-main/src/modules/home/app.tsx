@@ -1,35 +1,30 @@
-import { UserOutlined } from '@ant-design/icons';
+import { useEffect } from 'react';
 
-import Navigation from '@/containers/navigation/navigation';
-import { cn } from '@/utils/cn';
+import Header from '@/components/header/header';
+import Sidebar from '@/components/sidebar/sidebar';
+import { useLoginStore } from '@/model';
+import { fetchSystemLoginInfo } from '../login/api/login';
 
 function Home() {
+  const setAccountInfo = useLoginStore(state => state.setAccountInfo);
+
+  useEffect(() => {
+    fetchSystemLoginInfo()
+      .then((res: any) => {
+        if (res?.result?.user) {
+          setAccountInfo(res.result.user);
+        }
+      })
+      .catch(() => {});
+  }, [setAccountInfo]);
+
   return (
-    <div className="flex h-full flex-col">
-      <div
-        className={cn(
-          'static z-10 h-[64px] shadow-[0_2px_20px_0px_rgba(102,102,102,0.2)]',
-          'flex items-center px-[25px]',
-        )}
-      >
-        <img src="/static/logo.svg" alt="" />
-
-        <div className="ml-[auto] flex">
-          <UserOutlined className="mr-[8px] text-[30px]" />
-
-          <div>
-            <p className="mb-[2px] text-base">RRROOOCCCC</p>
-            <p className="text-sm text-[#999]">超级管理员43232</p>
-          </div>
-        </div>
-      </div>
+    <div className="flex flex-col overflow-hidden bg-[#f8fafc] block-full">
+      <Header />
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-[200px] overflow-auto bg-[#f5f6f8]">
-          <Navigation />
-        </div>
-
-        <div className="flex-1 overflow-auto p-[20px]" id="subapp-viewport" />
+        <Sidebar />
+        <div className="flex-1 overflow-auto bg-[#f8fafc]" id="subapp-viewport" />
       </div>
     </div>
   );

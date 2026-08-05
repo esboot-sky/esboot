@@ -42,18 +42,18 @@ function UserInfo() {
   return (
     <Popover
       content={(
-        <div className="w-[338px]">
+        <div className="inline-[338px]">
           <div className={`
-            flex border-b-2 border-dotted border-[var(--color-divider-light)] pt-[10px] pb-[20px]
+            flex border-be-2 border-dotted border-(--color-divider-light) pbs-[10px] pbe-[20px]
           `}
           >
-            <UserOutlined className="mr-[12px] text-[40px]" />
+            <UserOutlined className="me-[12px] text-[40px]" />
             <div>
-              <p className="text-base mb-[2px]">{userInfo?.nickname}</p>
-              <p className="text-sm text-[var(--color-text-secondary)]">{userInfo?.roleName}</p>
+              <p className="text-base mbe-[2px]">{userInfo?.nickname}</p>
+              <p className="text-sm text-(--color-text-secondary)">{userInfo?.roleName}</p>
             </div>
           </div>
-          <div className="flex justify-center pt-[10px]">
+          <div className="flex justify-center pbs-[10px]">
             <Button
               type="primary"
               onClick={() => {
@@ -69,12 +69,12 @@ function UserInfo() {
       trigger="hover"
       placement="bottomRight"
     >
-      <div className="ml-[auto] flex">
-        <UserOutlined className="mr-[12px] text-[40px]" />
+      <div className="ms-auto flex">
+        <UserOutlined className="me-[12px] text-[40px]" />
 
         <div>
-          <p className="text-base mb-[2px]">{userInfo?.nickname}</p>
-          <p className="text-sm text-[var(--color-text-secondary)]">{userInfo?.roleName}</p>
+          <p className="text-base mbe-[2px]">{userInfo?.nickname}</p>
+          <p className="text-sm text-(--color-text-secondary)">{userInfo?.roleName}</p>
         </div>
       </div>
     </Popover>

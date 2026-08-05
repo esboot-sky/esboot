@@ -7,15 +7,15 @@ interface IProps {
 
 function BaseFormItem({ children, label, errMsg = '', required = false }: IProps) {
   return (
-    <div className="flex items-center pb-[20px]">
-      <div className="mr-[12px] w-[100px] text-right">
-        {required && <span className="mr-[5px] text-[var(--color-danger)]">*</span>}
+    <div className="flex items-center pbe-[20px]">
+      <div className="me-[12px] text-end inline-[100px]">
+        {required && <span className="me-[5px] text-(--color-danger)">*</span>}
         {label}
       </div>
       <div className="relative flex-1">
         {children}
         {errMsg && (
-          <span className="left-0 absolute bottom-[-20px] text-[14px] text-[var(--color-danger)]">
+          <span className="left-0 absolute inset-be-[-20px] text-[14px] text-(--color-danger)">
             {errMsg}
           </span>
         )}

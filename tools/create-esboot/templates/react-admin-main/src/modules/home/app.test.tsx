@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
-import { test, expect } from 'vitest';
+import { expect, it } from 'vitest';
 
 import App from './app';
 
-test('Demo', () => {
+it('demo', () => {
   const { container } = render(<App />);
 
   expect(container.querySelector('p')?.textContent).toBe('close');

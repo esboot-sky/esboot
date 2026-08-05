@@ -36,7 +36,7 @@ function LanguageBtns() {
   }, [lang, setLang]);
 
   return (
-    <div className="flex rounded-[4px] bg-[var(--color-bg-soft)] p-[2px]">
+    <div className="flex rounded-[4px] bg-(--color-bg-soft) p-[2px]">
       {langList.map(item => (
         <span
           key={item.value}

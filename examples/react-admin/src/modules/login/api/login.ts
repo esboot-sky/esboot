@@ -4,9 +4,9 @@ interface LOGIN_GET_CODE {
   sid: string;
 }
 
-export const queryGetCode = (data: LOGIN_GET_CODE) => {
+export function queryGetCode(data: LOGIN_GET_CODE) {
   return axiosInst.post('/uc/login/getCode', data);
-};
+}
 
 interface LOGIN_BY_PWD {
   sid: string;
@@ -15,18 +15,18 @@ interface LOGIN_BY_PWD {
   password: string;
 }
 
-export const login = (data: LOGIN_BY_PWD) => {
+export function login(data: LOGIN_BY_PWD) {
   return axiosInst.post('/uc/login/byPwd', data);
-};
+}
 
 interface DICT_LANG {
   types: string[];
 }
 
-export const queryDictLang = (data: DICT_LANG) => {
+export function queryDictLang(data: DICT_LANG) {
   return axiosInst.post('/uc/common/dictLang', data);
-};
+}
 
-export const queryModuleList = () => {
+export function queryModuleList() {
   return authedAxiosInst.post('/uc/home/moduleList');
-};
+}

@@ -1,28 +1,31 @@
+import type { Control, UseFormRegisterReturn } from 'react-hook-form';
 import { Input } from 'antd';
-import { UseFormRegisterReturn, Controller, Control } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
-import './from-input-item.scss';
-
-type InputProps = {
+interface InputProps {
   placeholder: string;
   register: UseFormRegisterReturn<string>;
   control: Control;
-};
+}
 
-const InputPassword = ({ register, placeholder, control }: InputProps) => {
+function InputPassword({ register, placeholder, control }: InputProps) {
   return (
     <Controller
       render={({ field }) => (
         <Input.Password
           {...field}
           placeholder={placeholder}
-          className="h-[30px] flex-1 border-none text-[18px] focus-within:shadow-none "
+          className="
+            flex-1 border-none text-[18px] block-[30px]
+            placeholder:text-[#a8abb2]
+            focus-within:shadow-none
+          "
         />
       )}
       name={register.name}
       control={control}
     />
   );
-};
+}
 
 export default InputPassword;

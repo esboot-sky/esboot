@@ -24,7 +24,7 @@ function DeleteRoleConfirm({ id, subSuccess }: { id: number; subSuccess: () => v
         okText={formatMessage({ id: 'confirm' })}
         cancelText={formatMessage({ id: 'cancel' })}
       >
-        <Button type="link" className="!py-0 !h-full !px-[5px]">
+        <Button type="link" className="!py-0 px-[5px]! block-full!">
           {formatMessage({ id: 'rolemanagement.delete' })}
         </Button>
       </Popconfirm>

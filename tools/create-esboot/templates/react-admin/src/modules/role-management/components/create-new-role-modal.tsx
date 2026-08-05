@@ -36,7 +36,7 @@ function CreateNewRoleModal({ subSuccess }: IProps) {
   return (
     <>
       {contextHolder}
-      <Button type="primary" className="mr-[12px]" onClick={() => setIsModalOpen(true)}>
+      <Button type="primary" className="me-[12px]" onClick={() => setIsModalOpen(true)}>
         {formatMessage({ id: 'create_new' })}
       </Button>
 

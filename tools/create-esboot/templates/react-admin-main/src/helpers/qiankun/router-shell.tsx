@@ -3,15 +3,15 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { useLoginStore } from '../../model';
 
-const QiankunRouterShell = () => {
+function QiankunRouterShell() {
   const navigate = useNavigate();
   const location = useLocation();
   const lastPathRef = useRef(location.pathname);
 
-  const token = useLoginStore((state) => state.token);
-  const currentModulePath = useLoginStore((state) => state.currentModulePath);
-  const subRouteIntercept = useLoginStore((state) => state.subRouteIntercept);
-  const setSubRouteIntercept = useLoginStore((state) => state.setSubRouteIntercept);
+  const token = useLoginStore(state => state.token);
+  const currentModulePath = useLoginStore(state => state.currentModulePath);
+  const subRouteIntercept = useLoginStore(state => state.subRouteIntercept);
+  const setSubRouteIntercept = useLoginStore(state => state.setSubRouteIntercept);
 
   useEffect(() => {
     let active = true;
@@ -39,7 +39,8 @@ const QiankunRouterShell = () => {
         let isSkip = false;
         try {
           isSkip = await subRouteIntercept.callback();
-        } catch (error) {
+        }
+        catch (error) {
           console.error('[qiankun] sub route intercept callback failed', error);
         }
 
@@ -83,13 +84,12 @@ const QiankunRouterShell = () => {
     token,
     location.pathname,
     currentModulePath,
-    subRouteIntercept.isIntercept,
-    subRouteIntercept.callback,
+    subRouteIntercept,
     navigate,
     setSubRouteIntercept,
   ]);
 
   return <Outlet />;
-};
+}
 
 export default QiankunRouterShell;

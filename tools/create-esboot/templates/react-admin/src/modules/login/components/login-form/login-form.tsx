@@ -110,11 +110,15 @@ function LoginForm() {
 
   return (
     <section className={`
-      box-border flex h-full w-[560px] flex-col items-center px-[100px] pt-[40px] pb-[83px]
+      box-border flex flex-col items-center px-[100px] pbs-[40px] pbe-[83px] block-full
+      inline-[560px]
     `}
     >
-      <h2 className="font-medium text-[30px] text-[var(--color-text-title)]">{formatMessage({ id: 'login.login' })}</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-[60px] mb-[22px] w-full text-[18px]">
+      <h2 className="font-medium text-[30px] text-(--color-text-title)">{formatMessage({ id: 'login.login' })}</h2>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mbs-[60px] mbe-[22px] text-[18px] inline-full"
+      >
         <LoginFormItem error={errors.username?.message} icon={LoginAccount}>
           <input
             {...register('username', {
@@ -140,23 +144,23 @@ function LoginForm() {
             placeholder={formatMessage({ id: 'login.please_enter_the_verification_code' })}
             className={cn(formInputClassName)}
           />
-          <img src={codeUrl} alt="" className="mr-[11px] h-[27px] w-[70px]" />
+          <img src={codeUrl} alt="" className="me-[11px] block-[27px] inline-[70px]" />
           <RedoOutlined onClick={() => queryCode()} />
         </LoginFormItem>
 
         <button
           type="submit"
           className={`
-            mt-[40px] flex h-[50px] w-full items-center justify-center rounded-[7px] bg-[#0e67ff]
-            text-[18px] text-[var(--color-white)]
+            mbs-[40px] flex items-center justify-center rounded-[7px] bg-[#0e67ff] text-[18px]
+            text-(--color-white) block-[50px] inline-full
             disabled:opacity-50
           `}
           disabled={loading}
         >
-          {loading ? <LoadingOutlined className="mr-[10px]" /> : formatMessage({ id: 'login.login' })}
+          {loading ? <LoadingOutlined className="me-[10px]" /> : formatMessage({ id: 'login.login' })}
         </button>
       </form>
-      <div className="flex w-full justify-end">
+      <div className="flex justify-end inline-full">
         <LanguageBtns />
       </div>
     </section>

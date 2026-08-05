@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 const queryClient = new QueryClient();
 
-const App = () => {
+function App() {
   return (
     <ConfigProvider prefixCls="mainapp">
       <QueryClientProvider client={queryClient}>
@@ -12,6 +12,6 @@ const App = () => {
       </QueryClientProvider>
     </ConfigProvider>
   );
-};
+}
 
 export default App;

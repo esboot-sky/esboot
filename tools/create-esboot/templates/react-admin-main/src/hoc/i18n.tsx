@@ -1,15 +1,15 @@
-import { IntlProvider } from 'react-intl';
+import type { i18nMessageDict } from '@/types';
 
+import { IntlProvider } from 'react-intl';
 import { getPageI18n } from '@/helpers/import-locales';
 import { useLoginStore } from '@/model';
-import { i18nMessageDict } from '@/types';
 
 export default function wrapI18n(App: any, i18n = true): React.ReactNode {
   if (!i18n) return App;
   const messageDict: i18nMessageDict = getPageI18n();
 
   function I18nApp() {
-    const language = useLoginStore((state) => state.lang);
+    const language = useLoginStore(state => state.lang);
 
     return (
       <IntlProvider messages={messageDict[language]} locale={language}>

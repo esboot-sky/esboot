@@ -8,7 +8,7 @@ export default new (class StaticConfig {
   config: Record<string, any>;
 
   constructor() {
-    this.config = window?.GLOBAL_CONFIG ?? {};
+    this.config = typeof window !== 'undefined' ? (window?.GLOBAL_CONFIG ?? window?.APP_CONFIG ?? {}) : {};
   }
 
   getRawConfig() {
@@ -20,6 +20,9 @@ export default new (class StaticConfig {
   }
 
   getCommonServer(path = 'base', defaultValue = '') {
+    if (path === 'base' && typeof window !== 'undefined' && window?.BASE_URL) {
+      return window.BASE_URL;
+    }
     return this.getConfig(`COMMON_SERVERS.${path}`, defaultValue);
   }
 })();

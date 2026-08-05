@@ -27,7 +27,7 @@ function BatchDeleteRole({ ids, subSuccess }: { ids: React.Key[]; subSuccess: ()
         cancelText={formatMessage({ id: 'cancel' })}
       >
         <Button
-          className="mr-[12px]"
+          className="me-[12px]"
           onClick={() => {
             if (!ids.length) {
               messageApi.warning(formatMessage({ id: 'rolemanagement.please_select_role_to_delete' }));

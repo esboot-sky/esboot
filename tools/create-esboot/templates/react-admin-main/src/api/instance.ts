@@ -40,7 +40,7 @@ export const authedAxiosInst = createDZAxiosInstance(
         }
       },
       // 非2xx请求，或网络错误
-      onFatalError(error, res) {
+      onFatalError(_error, res) {
         if (res.status === 401) {
           console.log(24332);
         }

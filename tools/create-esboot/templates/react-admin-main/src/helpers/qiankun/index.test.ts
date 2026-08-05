@@ -1,8 +1,8 @@
-import { expect, test } from 'vitest';
+import { expect, it } from 'vitest';
 
 import { buildMicroApps, resolveEntryUrl } from './shared';
 
-test('buildMicroApps filters hidden apps and uses dev entry in development', () => {
+it('buildMicroApps filters hidden apps and uses dev entry in development', () => {
   const microApps = buildMicroApps(
     {
       visible: {
@@ -44,6 +44,6 @@ test('buildMicroApps filters hidden apps and uses dev entry in development', () 
   });
 });
 
-test('resolveEntryUrl returns prod path outside development', () => {
+it('resolveEntryUrl returns prod path outside development', () => {
   expect(resolveEntryUrl('//localhost:11111', '/visible/', 'production')).toBe('/visible/');
 });

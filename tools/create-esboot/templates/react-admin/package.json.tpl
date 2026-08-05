@@ -14,39 +14,39 @@
   },
   "dependencies": {
     "@ant-design/cssinjs": "^2.1.2",
-    "@ant-design/icons": "^6.2.2",
+    "@ant-design/icons": "^6.3.2",
     "@dz-web/antd-pro-components": "^3.0.13",
     "@dz-web/axios": "^0.0.6",
     "@dz-web/axios-middlewares": "^1.3.0",
     "@dz-web/cache": "^2.0.0",
-    "@dz-web/esboot-browser": "^4.3.10",
-    "@dz-web/esboot-browser-react": "^4.3.10",
+    "@dz-web/esboot-browser": "^4.4.7",
+    "@dz-web/esboot-browser-react": "^4.4.7",
     "@loadable/component": "^5.16.7",
-    "@tanstack/react-query": "^5.100.5",
+    "@tanstack/react-query": "^5.101.4",
     "ahooks": "^3.9.7",
-    "antd": "^6.3.7",
-    "axios": "^1.15.2",
+    "antd": "^6.5.3",
+    "axios": "^1.19.0",
     "crypto-js": "^4.2.0",
-    "dayjs": "^1.11.20",
+    "dayjs": "^1.11.21",
     "lodash-es": "^4.18.1",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "react-hook-form": "^7.74.0",
-    "react-intl": "^10.1.3",
-    "react-router-dom": "^7.14.2",
-    "zustand": "^5.0.12"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-hook-form": "^7.84.0",
+    "react-intl": "^10.1.20",
+    "react-router-dom": "^7.18.2",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
-    "@dz-web/esboot": "^4.3.10",
-    "@dz-web/esboot-bundler-vite": "^4.3.10",
-    "@dz-web/esboot-plugin-vitest": "^4.3.10",
+    "@dz-web/esboot": "^4.4.7",
+    "@dz-web/esboot-bundler-vite": "^4.4.7",
+    "@dz-web/esboot-plugin-vitest": "^4.4.7",
     "@types/loadable__component": "^5.13.10",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^25.6.0",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "eslint": "^10.2.1",
-    "stylelint": "^17.9.1"
+    "@types/node": "^26.1.2",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "eslint": "^10.8.0",
+    "stylelint": "^17.14.1"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint",
@@ -71,5 +71,5 @@
       "Chrome >= 111"
     ]
   },
-  "esbootTemplateGitHash": "681fb8ed6d6f6926e8afbe8ca6f62572e91939bf"
+  "esbootTemplateGitHash": "c721ac5f289a2650675531a0131fc5f405409400"
 }

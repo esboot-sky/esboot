@@ -1,13 +1,15 @@
-import { initGlobalState, registerMicroApps, start, type MicroAppStateActions } from 'qiankun';
+import type { MicroAppStateActions } from 'qiankun';
 
+import type { MicroAppDict, QiankunGlobalState } from './shared';
+import { initGlobalState, registerMicroApps, start } from 'qiankun';
 import { useLoginStore } from '../../model';
-import staticConfig from '../static-config';
 
-import { buildMicroApps, type MicroAppDict, type QiankunGlobalState } from './shared';
+import staticConfig from '../static-config';
+import { buildMicroApps } from './shared';
 
 const microAppDict = staticConfig.getConfig('subModuleList', {}) as MicroAppDict;
 
-export const getCurrentGlobalState = () => {
+export function getCurrentGlobalState() {
   const store = useLoginStore.getState();
 
   return {
@@ -17,9 +19,9 @@ export const getCurrentGlobalState = () => {
     languageList: [],
     simpleModulesList: [],
   };
-};
+}
 
-const createJumpLoginHandler = (onJumpLogin?: () => void) => {
+function createJumpLoginHandler(onJumpLogin?: () => void) {
   return () => {
     useLoginStore.getState().reset();
     window.setQianKunGlobalState = undefined;
@@ -30,7 +32,7 @@ const createJumpLoginHandler = (onJumpLogin?: () => void) => {
 
     onJumpLogin?.();
   };
-};
+}
 
 export function bootstrapQiankun(options?: { onJumpLogin?: () => void }) {
   const actions: MicroAppStateActions = initGlobalState<QiankunGlobalState>({
@@ -82,11 +84,24 @@ export function bootstrapQiankun(options?: { onJumpLogin?: () => void }) {
     ],
   });
 
+  const customFetch = (url: RequestInfo | URL, init?: RequestInit) => {
+    const defaultHeaders = {
+      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    };
+    return window.fetch(url, {
+      ...init,
+      headers: {
+        ...defaultHeaders,
+        ...init?.headers,
+      },
+    });
+  };
+
   start({
     prefetch: true,
+    fetch: customFetch as any,
     sandbox: {
-      strictStyleIsolation: true,
-      experimentalStyleIsolation: true,
+      experimentalStyleIsolation: false,
     },
   });
 

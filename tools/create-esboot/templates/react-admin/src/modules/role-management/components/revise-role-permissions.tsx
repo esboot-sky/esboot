@@ -25,7 +25,7 @@ function ReviseRolePermissions({ rowItem, subSuccess }) {
   };
   return (
     <>
-      <Button type="link" className="!py-0 !h-full !px-[5px]" onClick={() => setIsModalOpen(true)}>
+      <Button type="link" className="!py-0 px-[5px]! block-full!" onClick={() => setIsModalOpen(true)}>
         {formatMessage({ id: 'rolemanagement.permissions' })}
       </Button>
       <SelectPermissionsModal

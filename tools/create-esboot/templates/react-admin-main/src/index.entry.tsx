@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
 import { bootstrapQiankun } from '@/helpers/qiankun';
-import '@/styles/index.scss';
-
 import wrapI18n from './hoc/i18n';
+
 import router from './router';
+import '@/styles/index.scss';
 
 const app = wrapI18n(<RouterProvider router={router} fallbackElement={<div>*</div>} />, true);
 

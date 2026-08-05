@@ -2,14 +2,14 @@ import { cva } from '@dz-web/esboot-browser';
 
 export const langBtn = cva(
   `
-    pointer flex h-[32px] w-[36px] items-center justify-center rounded-[4px] text-[14px]
-    text-[var(--color-text-secondary)]
+    pointer flex items-center justify-center rounded-[4px] text-[14px] text-(--color-text-secondary)
+    block-[32px] inline-[36px]
   `,
   {
     variants: {
       isChosen: {
         false: '',
-        true: 'bg-[var(--color-white)] shadow-[0_0_8px_0_#d8d8d8]',
+        true: 'bg-(--color-white) shadow-[0_0_8px_0_#d8d8d8]',
       },
     },
     defaultVariants: {

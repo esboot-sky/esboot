@@ -1,25 +1,25 @@
-type MicroAppEntry = {
+interface MicroAppEntry {
   dev: string;
   prod: string;
-};
+}
 
-export type QiankunGlobalState = {
+export interface QiankunGlobalState {
   jumpLogin?: boolean;
   isInterceptRoute?: boolean;
   interceptRouteCallback?: null | (() => boolean | Promise<boolean>);
-};
+}
 
-export type MicroAppConfig = {
+export interface MicroAppConfig {
   entryUrl: MicroAppEntry;
   routerBase: string;
   icon: string;
   activeIcon: string;
   isHidden?: boolean;
-};
+}
 
 export type MicroAppDict = Record<string, MicroAppConfig>;
 
-export type RegisterMicroApp = {
+export interface RegisterMicroApp {
   name: string;
   entry: string;
   activeRule: (location: Pick<Location, 'pathname'>) => boolean;
@@ -28,17 +28,19 @@ export type RegisterMicroApp = {
     routerBase: string;
     getCurrentGlobalState: () => Record<string, unknown>;
   };
-};
+}
 
-export const resolveEntryUrl = (devUrl: string, prodUrl: string, env = process.env.NODE_ENV) => {
-  return env === 'development' ? devUrl : prodUrl;
-};
+export function resolveEntryUrl(devUrl: string, prodUrl: string, env = process.env.NODE_ENV) {
+  if (env !== 'development') return prodUrl;
+  const currentHost = typeof window !== 'undefined' ? window.location.hostname || 'localhost' : 'localhost';
+  return devUrl.replace('localhost', currentHost);
+}
 
-export const buildMicroApps = (
+export function buildMicroApps(
   dict: MicroAppDict,
   getCurrentGlobalState: () => Record<string, unknown>,
   env = process.env.NODE_ENV,
-) => {
+) {
   return Object.keys(dict)
     .map((key) => {
       const targetModule = dict[key];
@@ -63,4 +65,4 @@ export const buildMicroApps = (
       } satisfies RegisterMicroApp;
     })
     .filter((item): item is RegisterMicroApp => Boolean(item));
-};
+}

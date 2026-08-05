@@ -1,25 +1,35 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { fetchGetCode } from '../api/login';
 
-const useGetCode = () => {
+function useGetCode() {
   const [codeUrl, setCodeUrl] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const queryCode = () => {
-    fetchGetCode({ sid: sessionStorage.getItem('codeSid') || '' })
-      .then((res) => {
-        setCodeUrl(`data:image/jpeg;base64,${res?.result?.image}`);
-        sessionStorage.setItem('codeSid', res?.result?.sid);
-      })
-      .catch((err) => {
-        console.log(err, '--> err');
-      });
-  };
+  const queryCode = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res: any = await fetchGetCode({ sid: sessionStorage.getItem('codeSid') || '' });
+      if (res?.result?.image) {
+        setCodeUrl(`data:image/jpeg;base64,${res.result.image}`);
+      }
+      if (res?.result?.sid) {
+        sessionStorage.setItem('codeSid', res.result.sid);
+      }
+    }
+    catch (err) {
+      console.error('[Login] fetchGetCode error:', err);
+    }
+    finally {
+      setLoading(false);
+    }
+  }, []);
 
   return {
     queryCode,
     codeUrl,
+    loading,
   };
-};
+}
 
 export default useGetCode;

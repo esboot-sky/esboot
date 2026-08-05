@@ -62,7 +62,7 @@ function RouterShell() {
   return <Outlet />;
 }
 
-export function getRouter(menuItems?: IMenu[]) {
+export function getRouter(menuItems?: IMenu[], basename?: string) {
   const homeChildRoutes = filterRoutesByMenu(HOME_CHILD_ROUTE_DEFINITIONS, menuItems);
 
   const HomeRoutes = {
@@ -77,23 +77,26 @@ export function getRouter(menuItems?: IMenu[]) {
     ],
   };
 
-  return createBrowserRouter([
-    {
-      path: '/',
-      element: <RouterShell />,
-      children: [
-        {
-          path: 'login',
-          element: <Login />,
-        },
-        HomeRoutes,
-        {
-          path: '*',
-          element: <NotFound />,
-        },
-      ],
-    },
-  ]);
+  return createBrowserRouter(
+    [
+      {
+        path: '/',
+        element: <RouterShell />,
+        children: [
+          {
+            path: 'login',
+            element: <Login />,
+          },
+          HomeRoutes,
+          {
+            path: '*',
+            element: <NotFound />,
+          },
+        ],
+      },
+    ],
+    { basename },
+  );
 }
 
 export default getRouter;

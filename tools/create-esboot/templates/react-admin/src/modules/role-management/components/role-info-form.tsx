@@ -79,7 +79,7 @@ function RoleInfoForm(props: IProps) {
               <Select
                 {...field}
                 options={roleList}
-                className="w-full"
+                className="inline-full"
                 allowClear
                 showSearch={false}
                 placeholder={formatMessage({ id: 'rolemanagement.please_select_parent_role' })}
@@ -127,7 +127,7 @@ function RoleInfoForm(props: IProps) {
         </BaseFormItem>
 
         <div className="text-center">
-          <Button className="mr-[12px]" onClick={onCancel}>
+          <Button className="me-[12px]" onClick={onCancel}>
             {formatMessage({ id: 'cancel' })}
           </Button>
           <Button type="primary" htmlType="submit" loading={isSubLoading}>

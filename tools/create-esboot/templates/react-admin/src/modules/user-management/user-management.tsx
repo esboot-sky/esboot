@@ -1,6 +1,6 @@
 function UserManagement() {
   return (
-    <div className="flex h-full items-center justify-center">
+    <div className="flex items-center justify-center block-full">
       user-management
     </div>
   );

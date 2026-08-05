@@ -29,7 +29,8 @@ describe('filterRoutesByMenu', () => {
     ]);
   });
 
-  it('should return an empty list when no menu is available', () => {
-    expect(filterRoutesByMenu([{ path: 'account-management-center/user-management', element: 'user' }])).toEqual([]);
+  it('should return full routes when menu is not provided', () => {
+    const routes = [{ path: 'account-management-center/user-management', element: 'user' }];
+    expect(filterRoutesByMenu(routes)).toEqual(routes);
   });
 });

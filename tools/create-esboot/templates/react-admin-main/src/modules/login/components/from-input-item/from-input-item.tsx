@@ -1,51 +1,52 @@
-import { useMemo } from 'react';
-import { Control, UseFormRegisterReturn } from 'react-hook-form';
+import type { Control, UseFormRegisterReturn } from 'react-hook-form';
 
 import InputCode from './input-code';
 import InputPassword from './input-password';
+import { INPUT_TYPE } from './types';
 
-export enum INPUT_TYPE {
-  PASSWORD = 'password',
-  CODE = 'code',
-}
-
-type InputProps = {
+interface InputProps {
   name: string;
   placeholder: string;
   icon: string;
   register: UseFormRegisterReturn<string>;
   error?: string;
-  type?: INPUT_TYPE | undefined;
+  type?: INPUT_TYPE;
   control?: Control<any, any>;
-};
+}
 
-const inputComponentsDict = {
+const inputComponentsDict: Record<INPUT_TYPE, React.ComponentType<any>> = {
   [INPUT_TYPE.PASSWORD]: InputPassword,
   [INPUT_TYPE.CODE]: InputCode,
 };
 
-const FromInputItem = ({ register, error, icon, placeholder, type, control }: InputProps) => {
-  const Component = useMemo(() => inputComponentsDict[type as INPUT_TYPE], []);
+function FormInputItem({ register, error, icon, placeholder, type, control }: InputProps) {
+  const Component = type ? inputComponentsDict[type] : null;
 
   return (
-    <div
-      className="relative mb-[18px] flex flex-1 flex-wrap items-center
-        border-b-[1px] border-[#ebebeb] pb-[18px]"
+    <div className="
+      relative mbe-[18px] flex flex-1 flex-wrap items-center border-be border-[#ebebeb] pbe-[18px]
+    "
     >
-      <img src={icon} alt="" className="h-[22px] w-[22px]" />
-      {Component ? (
-        <Component register={register} placeholder={placeholder} control={control as Control} />
-      ) : (
-        <input
-          {...register}
-          placeholder={placeholder}
-          className="h-[30px]  flex-1 px-[11px] placeholder:text-[#a8abb2] focus-visible:outline-none "
-        />
-      )}
+      <img src={icon} alt="" className="block-[22px] inline-[22px]" />
+      {Component
+        ? (
+            <Component register={register} placeholder={placeholder} control={control} />
+          )
+        : (
+            <input
+              {...register}
+              placeholder={placeholder}
+              className="
+                flex-1 px-[11px] block-[30px]
+                placeholder:text-[#a8abb2]
+                focus-visible:outline-none
+              "
+            />
+          )}
 
-      {error && <span className="absolute bottom-[-3px] left-0 text-[14px] text-[#f56c6c]">{error}</span>}
+      {error && <span className="left-0 absolute inset-be-[-3px] text-[14px] text-[#f56c6c]">{error}</span>}
     </div>
   );
-};
+}
 
-export default FromInputItem;
+export default FormInputItem;

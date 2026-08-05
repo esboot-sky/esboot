@@ -104,7 +104,9 @@ function SelectPermissionsModal({ isModalOpen, setIsModalOpen, getValues, onConf
       })
       .catch(() => {})
       .finally(() => {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 0);
       });
   }, [getValues, id, moduleCode, onCheck]);
 
@@ -118,7 +120,7 @@ function SelectPermissionsModal({ isModalOpen, setIsModalOpen, getValues, onConf
     if (!isModalOpen)
       return;
     const parentId = getValues('parentId');
-    const timer = setTimeout(setLoading, 0, true);
+    queueMicrotask(() => setLoading(true));
     queryPermissionModules({ id: parentId })
       .then((res) => {
         const { result } = res;
@@ -156,7 +158,7 @@ function SelectPermissionsModal({ isModalOpen, setIsModalOpen, getValues, onConf
         className: 'min-w-[520px] !max-w-fit ',
       }}
     >
-      <div className="w-full overflow-x-auto">
+      <div className="overflow-x-auto inline-full">
         <Segmented
           value={activeKey}
           style={{ marginBottom: 8 }}
