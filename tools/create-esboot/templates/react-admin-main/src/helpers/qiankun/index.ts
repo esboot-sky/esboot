@@ -5,7 +5,9 @@ import { initGlobalState, registerMicroApps, start } from 'qiankun';
 import { useLoginStore } from '../../model';
 
 import staticConfig from '../static-config';
-import { buildMicroApps } from './shared';
+import { buildMicroApps, getRouterBasename } from './shared';
+
+export { getRouterBasename };
 
 const microAppDict = staticConfig.getConfig('subModuleList', {}) as MicroAppDict;
 

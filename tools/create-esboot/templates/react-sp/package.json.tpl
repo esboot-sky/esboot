@@ -14,28 +14,28 @@
   "dependencies": {
     "@dz-web/axios": "^0.0.6",
     "@dz-web/axios-middlewares": "^1.3.0",
-    "@dz-web/esboot-browser": "^4.3.10",
-    "@dz-web/esboot-browser-react": "^4.3.10",
-    "@tanstack/react-query": "^5.99.0",
+    "@dz-web/esboot-browser": "^4.4.6",
+    "@dz-web/esboot-browser-react": "^4.4.6",
+    "@tanstack/react-query": "^5.101.2",
     "ahooks": "^3.9.7",
-    "antd": "^6.3.5",
-    "axios": "^1.15.0",
+    "antd": "^6.5.1",
+    "axios": "^1.18.1",
     "lodash-es": "^4.18.1",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "react-intl": "^10.1.1",
-    "react-router": "^7.14.0",
-    "zustand": "^5.0.12"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-intl": "^10.1.16",
+    "react-router": "^7.18.1",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
-    "@dz-web/esboot": "^4.3.10",
-    "@dz-web/esboot-bundler-vite": "^4.3.10",
-    "@dz-web/esboot-plugin-vitest": "^4.3.10",
-    "@types/node": "^25.6.0",
-    "@types/react": "^19.2.14",
+    "@dz-web/esboot": "^4.4.6",
+    "@dz-web/esboot-bundler-vite": "^4.4.6",
+    "@dz-web/esboot-plugin-vitest": "^4.4.6",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^10.2.0",
-    "stylelint": "^17.7.0"
+    "eslint": "^10.7.0",
+    "stylelint": "^17.14.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint",
@@ -60,9 +60,5 @@
       "last 1 chrome version"
     ]
   },
-  "volta": {
-    "node": "22.21.1",
-    "pnpm": "10.26.0"
-  },
-  "esbootTemplateGitHash": "fa7e32fad22acbe3da4b80974594eb591ece76b9"
+  "esbootTemplateGitHash": "206664df7507f4327d29a574197943555e20994c"
 }

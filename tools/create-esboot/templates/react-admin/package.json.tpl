@@ -71,5 +71,5 @@
       "Chrome >= 111"
     ]
   },
-  "esbootTemplateGitHash": "c721ac5f289a2650675531a0131fc5f405409400"
+  "esbootTemplateGitHash": "07771bb6dbf7cdc4db47aa7e03e741bc89089798"
 }

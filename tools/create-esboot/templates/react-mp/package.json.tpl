@@ -22,17 +22,17 @@
   "dependencies": {
     "@dz-web/axios": "^0.0.6",
     "@dz-web/axios-middlewares": "^1.3.0",
-    "@dz-web/bridge": "^3.4.1",
+    "@dz-web/bridge": "^3.4.4",
     "@dz-web/cache": "^2.0.0",
-    "@dz-web/esboot-browser": "^4.3.10",
-    "@dz-web/esboot-browser-react": "^4.3.10",
+    "@dz-web/esboot-browser": "^4.4.6",
+    "@dz-web/esboot-browser-react": "^4.4.6",
     "@dz-web/o-orange": "^4.6.5",
-    "@tanstack/react-query": "^5.100.14",
-    "@tanstack/react-query-devtools": "^5.100.14",
+    "@tanstack/react-query": "^5.101.2",
+    "@tanstack/react-query-devtools": "^5.101.2",
     "@websaber/string-utils": "^1.0.0",
     "ahooks": "^3.9.7",
     "antd-mobile": "^5.42.3",
-    "axios": "^1.16.1",
+    "axios": "^1.18.1",
     "dayjs": "^1.11.21",
     "deepmerge": "^4.3.1",
     "eventemitter3": "^5.0.4",
@@ -42,22 +42,22 @@
     "react-fast-compare": "^3.2.2",
     "react-intl": "^10.1.9",
     "react-router": "^7.15.1",
-    "rsuite": "^6.1.3",
-    "zustand": "^5.0.13"
+    "rsuite": "^6.2.1",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
-    "@dz-web/esboot": "^4.3.10",
-    "@dz-web/esboot-bundler-rspack": "^4.3.10",
-    "@dz-web/esboot-bundler-vite": "^4.3.10",
-    "@dz-web/esboot-plugin-vitest": "^4.3.10",
+    "@dz-web/esboot": "^4.4.6",
+    "@dz-web/esboot-bundler-rspack": "^4.4.6",
+    "@dz-web/esboot-bundler-vite": "^4.4.6",
+    "@dz-web/esboot-plugin-vitest": "^4.4.6",
     "@dz-web/esboot-react-mp-tools": "file:./dev/tools",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^25.6.0",
     "@types/react": "19.2.15",
     "@types/react-dom": "^19.2.3",
     "cross-env": "^10.1.0",
-    "eslint": "^10.4.0",
-    "stylelint": "^17.12.0"
+    "eslint": "^10.7.0",
+    "stylelint": "^17.14.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint",
@@ -76,7 +76,7 @@
   "prettier": "./node_modules/.cache/esboot/prettier",
   "browserslist": {
     "development": [
-      "Chrome >= 100"
+      "last 2 versions"
     ],
     "pc-native-production": [
       "Chrome >= 67"
@@ -97,5 +97,5 @@
     "node": "22.12.0",
     "pnpm": "10.28.1"
   },
-  "esbootTemplateGitHash": "379859a700c6c5911e82209478088b4da6161234"
+  "esbootTemplateGitHash": "33cb1fbc0229042e6f7a52869f1f524b97df2824"
 }

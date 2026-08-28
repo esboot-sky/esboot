@@ -98,13 +98,17 @@ function createInitializedState(): IState {
     }),
   } as IState;
 
-  const theme = getDefaultTheme(defaultState.userConfig.followSystemPrefersColorSchemeWhenInBrowser, DEFAULT_THEME);
+  const theme = getDefaultTheme(
+    defaultState.userConfig.followSystemPrefersColorSchemeWhenInBrowser,
+    DEFAULT_THEME,
+    supportedThemes
+  );
 
-  if (isSupportedTheme(theme)) {
+  if (isSupportedTheme(theme, supportedThemes)) {
     defaultState.userConfig.theme = theme as ThemeValues;
   }
 
-  if (isSupportedQuotesUpDownColor(quotesUpDownColor)) {
+  if (isSupportedQuotesUpDownColor(quotesUpDownColor, supportedQuotesUpDownColors)) {
     defaultState.userConfig.quotesUpDownColor = quotesUpDownColor as QuotesUpDownColor;
   }
 

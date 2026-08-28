@@ -14,29 +14,37 @@ function LanguageBtns() {
   const [langList, setLangList] = useState<LANG_CONFIG[]>(DEFAULT_LANG_LIST);
 
   useEffect(() => {
+    let isMounted = true;
     fetchDictLang({ types: ['lang'] })
       .then((res) => {
-        const result = res.result.lang;
-        const list = result.map((item: string[]) => {
-          return {
-            label: item[1],
-            value: item[0],
-          };
-        });
+        if (!isMounted) return;
+        const result = res?.result?.lang;
+        if (!Array.isArray(result)) return;
 
-        setLangList(list);
+        const list = result.map((item: string[]) => ({
+          label: item[1],
+          value: item[0],
+        }));
 
-        const _currentLang = list.find(item => item.value === lang);
+        if (list.length > 0) {
+          setLangList(list);
+          const currentLang = useLoginStore.getState().lang;
+          const _currentLang = list.find(item => item.value === currentLang);
 
-        if (!_currentLang) {
-          setLang(list[0]?.value || DEFAULT_LANG.value);
+          if (!_currentLang) {
+            setLang(list[0]?.value || DEFAULT_LANG.value);
+          }
         }
-        // setLang(_currentLang.value);
       })
       .catch((err) => {
-        console.log(err, '---> err');
+        console.log('[LanguageBtns] fetchDictLang error:', err);
       });
-  }, [lang, setLang]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [setLang]);
+
 
   return (
     <div className="flex rounded-[4px] bg-[#f5f5f5] p-[2px]">

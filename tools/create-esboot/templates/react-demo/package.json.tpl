@@ -11,19 +11,19 @@
     "prepare": "esboot prepare"
   },
   "dependencies": {
-    "@dz-web/esboot-browser": "latest",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "react-router": "7.11.0"
+    "@dz-web/esboot-browser": "^4.4.6",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "react-router": "^8.2.0"
   },
   "devDependencies": {
-    "@dz-web/esboot": "latest",
-    "@dz-web/esboot-bundler-vite": "latest",
+    "@dz-web/esboot": "^4.4.6",
+    "@dz-web/esboot-bundler-vite": "^4.4.6",
     "@types/node": "24.10.4",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
-    "eslint": "9.39.2",
-    "stylelint": "16.26.1"
+    "eslint": "^10.7.0",
+    "stylelint": "^17.14.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint",
@@ -48,5 +48,5 @@
       "last 1 chrome version"
     ]
   },
-  "esbootTemplateGitHash": "440c9afb96253cc79627067748ed15312c52e2e0"
+  "esbootTemplateGitHash": "0556f9e4f03a98c9d0306c7a2f805f40e468d479"
 }

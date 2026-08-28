@@ -101,7 +101,9 @@ export default function LoginForm() {
 
   useEffect(() => {
     queryCode();
-  }, [queryCode]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   return (
     <section className="

@@ -66,3 +66,15 @@ export function buildMicroApps(
     })
     .filter((item): item is RegisterMicroApp => Boolean(item));
 }
+
+export function getRouterBasename(propsRouterBase?: string, fallbackBase = '/'): string {
+  if (propsRouterBase) return propsRouterBase;
+
+  if (typeof window !== 'undefined' && (window as any).__POWERED_BY_QIANKUN__) {
+    const pathMatch = window.location.pathname.match(/^(\/[^/]+)/);
+    return pathMatch ? pathMatch[1] : fallbackBase;
+  }
+
+  return fallbackBase;
+}
+

@@ -1,8 +1,9 @@
 import { expect, it } from 'vitest';
 
-import { buildMicroApps, resolveEntryUrl } from './shared';
+import { buildMicroApps, getRouterBasename, resolveEntryUrl } from './shared';
 
 it('buildMicroApps filters hidden apps and uses dev entry in development', () => {
+
   const microApps = buildMicroApps(
     {
       visible: {
@@ -47,3 +48,16 @@ it('buildMicroApps filters hidden apps and uses dev entry in development', () =>
 it('resolveEntryUrl returns prod path outside development', () => {
   expect(resolveEntryUrl('//localhost:11111', '/visible/', 'production')).toBe('/visible/');
 });
+
+it('getRouterBasename resolves dynamically without hardcoding', () => {
+  expect(getRouterBasename('/custom-base')).toBe('/custom-base');
+  expect(getRouterBasename(undefined)).toBe('/');
+
+  (window as any).__POWERED_BY_QIANKUN__ = true;
+  delete (window as any).location;
+  (window as any).location = { pathname: '/child-trade/order/list' };
+  expect(getRouterBasename()).toBe('/child-trade');
+
+  delete (window as any).__POWERED_BY_QIANKUN__;
+});
+

@@ -1,13 +1,17 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { fetchGetCode } from '../api/login';
 
 function useGetCode() {
   const [codeUrl, setCodeUrl] = useState('');
   const [loading, setLoading] = useState(false);
+  const isFetchingRef = useRef(false);
 
   const queryCode = useCallback(async () => {
+    if (isFetchingRef.current) return;
+    isFetchingRef.current = true;
     setLoading(true);
+
     try {
       const res: any = await fetchGetCode({ sid: sessionStorage.getItem('codeSid') || '' });
       if (res?.result?.image) {
@@ -21,6 +25,7 @@ function useGetCode() {
       console.error('[Login] fetchGetCode error:', err);
     }
     finally {
+      isFetchingRef.current = false;
       setLoading(false);
     }
   }, []);
@@ -33,3 +38,4 @@ function useGetCode() {
 }
 
 export default useGetCode;
+
