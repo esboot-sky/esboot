@@ -15,9 +15,14 @@ export function loadEnv({ root }: { root: string }) {
     }
   };
 
+  const { mode } = process.env;
   const envFile = join(root, '.env');
 
-  const willLoadEnvs = [envFile, `${envFile}.local`];
+  const willLoadEnvs = [
+    envFile,
+    mode && `${envFile}.${mode}`,
+    `${envFile}.local`,
+  ].filter(Boolean) as string[];
 
   for (const envFilePath of willLoadEnvs) {
     load(envFilePath);
