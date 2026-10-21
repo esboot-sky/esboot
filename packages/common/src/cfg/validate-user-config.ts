@@ -78,6 +78,7 @@ const userConfigSchema = z.object({
       separateImports: z.boolean().optional(),
     }).passthrough().optional(),
     fontZoom: z.object({
+      mode: z.enum(['offset', 'scale']).optional(),
       enable: z.boolean().optional(),
       offsetVar: z.string().optional(),
       zoomLineHeight: z.boolean().optional(),

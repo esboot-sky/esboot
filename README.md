@@ -59,6 +59,32 @@ ESBoot includes the pieces most teams end up wiring together by hand:
 - Global style handling for SP and MP apps
 - Optional `px2rem` processing for mobile-oriented projects
 
+### Font zoom
+
+Fixed offsets remain the default with `css.fontZoom.enable: true` and
+`--font-offset: 2px`. To use a multiplier with the same CSS variable:
+
+```ts
+css: {
+  fontZoom: {
+    enable: true,
+    mode: 'scale',
+  },
+}
+```
+
+```css
+:root {
+  --font-offset: 1.1;
+}
+```
+
+Scale mode generates `calc(14px * var(--font-offset, 1))` for a `14px`
+font size. Use unitless multipliers such as `1.1` or `1.2`. Set
+`mode: 'offset'` (or omit it) for addition with a `0px` fallback.
+The existing `offsetVar`, `zoomLineHeight`, `minPixelValue`, and `exclude`
+options apply in both modes.
+
 ### Project Workflow
 
 ESBoot is more than a bundler wrapper. It also helps with the surrounding
@@ -192,4 +218,3 @@ Changes that affect config, bundler behavior, or styling should be backed by:
 
 Keep SP and MP behavior distinct where the config says they differ, and verify
 Windows behavior when working on path-sensitive code.
-

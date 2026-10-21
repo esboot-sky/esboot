@@ -137,3 +137,23 @@ describe('addPostcssPluginFontZoom', () => {
     expect(resSkip.css).toContain('.test { font-size: 14px; }');
   });
 });
+
+describe('font zoom scale mode', () => {
+  it.each([undefined, '--custom-offset'])('scales lengths and variables using %s', async (offsetVar) => {
+    const plugin = addPostcssPluginFontZoom({
+      config: { css: { fontZoom: { enable: true, mode: 'scale', offsetVar, zoomLineHeight: true, minPixelValue: 14 } } },
+    } as any);
+    const variable = offsetVar || '--font-offset';
+    const input = '.a { font-size: 14px !important; line-height: 20px; } .b { font-size: 1rem; } .c { font-size: 1.2em; } .d { font-size: var(--base); } .small { font-size: 12px; } .relative { line-height: 1.5; }';
+    const result = await postcss([plugin]).process(input, { from: undefined });
+    expect(result.css).toContain(`font-size: calc(14px * var(${variable}, 1)) !important`);
+    expect(result.css).toContain(`line-height: calc(20px * var(${variable}, 1))`);
+    expect(result.css).toContain(`font-size: calc(1rem * var(${variable}, 1))`);
+    expect(result.css).toContain(`font-size: calc(1.2em * var(${variable}, 1))`);
+    expect(result.css).toContain(`font-size: calc(var(--base) * var(${variable}, 1))`);
+    expect(result.css).toContain('font-size: 12px');
+    expect(result.css).toContain('line-height: 1.5');
+    const second = await postcss([plugin]).process(result.css, { from: undefined });
+    expect(second.css).toBe(result.css);
+  });
+});

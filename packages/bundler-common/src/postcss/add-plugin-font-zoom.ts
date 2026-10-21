@@ -8,6 +8,10 @@ export function addPostcssPluginFontZoom(cfg: ConfigurationInstance): any | fals
   }
 
   const offsetVar = fontZoom.offsetVar || '--font-offset';
+  const scale = fontZoom.mode === 'scale';
+  const operator = scale ? '*' : '+';
+  const fallback = scale ? '1' : '0px';
+  const transform = (value: string): string => `calc(${value} ${operator} var(${offsetVar}, ${fallback}))`;
   const zoomLineHeight = fontZoom.zoomLineHeight || false;
   const minPixelValue = fontZoom.minPixelValue || 0;
   const exclude = normalizeExclude(fontZoom.exclude);
@@ -28,14 +32,14 @@ export function addPostcssPluginFontZoom(cfg: ConfigurationInstance): any | fals
 
         // 1. var(--...)
         if (val.includes('var(')) {
-          decl.value = `calc(${val} + var(${offsetVar}, 0px))`;
+          decl.value = transform(val);
         }
         // 2. px
         else if (val.includes('px')) {
           decl.value = val.replace(/(\d*\.?\d+)px/g, (match: string, p1: string) => {
             const num = parseFloat(p1);
             if (num < minPixelValue) return match;
-            return `calc(${p1}px + var(${offsetVar}, 0px))`;
+            return transform(`${p1}px`);
           });
         }
         // 3. rem/em
@@ -44,7 +48,7 @@ export function addPostcssPluginFontZoom(cfg: ConfigurationInstance): any | fals
             const num = parseFloat(p1);
             const approxPx = num * 16; // Assume 1rem/em = 16px base for check
             if (approxPx < minPixelValue) return match;
-            return `calc(${p1}${p2} + var(${offsetVar}, 0px))`;
+            return transform(`${p1}${p2}`);
           });
         }
       }

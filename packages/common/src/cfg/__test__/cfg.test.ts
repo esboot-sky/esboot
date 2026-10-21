@@ -78,6 +78,16 @@ describe('esboot cfg', () => {
     });
   });
 
+  it('accepts scale mode for fontZoom', async () => {
+    const cwd = await createProject(`
+      export default { css: { fontZoom: { enable: true, mode: 'scale' } } };
+    `);
+    const cfg = new ESBootCfg();
+    await cfg.load({ cwd });
+    expect(cfg.config.css.fontZoom.mode).toBe('scale');
+    expect(cfg.config.css.fontZoom.offsetVar).toBe('--font-offset');
+  });
+
   it('creates isolated default configuration for each instance', () => {
     const first = new ESBootCfg();
 

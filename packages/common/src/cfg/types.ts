@@ -49,6 +49,8 @@ export type LocalsConvention
     | ((name: string) => string);
 
 export interface FontZoomOptions {
+  /** Use addition (default) or multiplication with offsetVar. */
+  mode?: 'offset' | 'scale';
   enable?: boolean;
   offsetVar?: string;
   zoomLineHeight?: boolean;
